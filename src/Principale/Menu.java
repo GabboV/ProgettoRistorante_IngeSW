@@ -45,9 +45,9 @@ public class Menu {
 	public void addPiatto(Piatto p) {
 		this.elencoPiatti.add(p);
 	}
-	
+
 	public void removePiatto(Piatto p) {
-		if(this.presentePiatto(p)) {
+		if (this.presentePiatto(p)) {
 			int pos = posPiatto(p);
 			elencoPiatti.remove(pos);
 		}
@@ -55,12 +55,13 @@ public class Menu {
 
 	public boolean presentePiatto(Piatto p) {
 		String pName = p.getNomePiatto();
-		for(int i = 0; i < this.elencoPiatti.size(); i++) {
-			if(this.elencoPiatti.get(i).equals(pName)) return true;
+		for (int i = 0; i < this.elencoPiatti.size(); i++) {
+			if (this.elencoPiatti.get(i).equals(pName))
+				return true;
 		}
 		return false;
 	}
-	
+
 	private int posPiatto(Piatto p) {
 		int i = 0;
 		String pName = p.getNomePiatto();
@@ -70,7 +71,5 @@ public class Menu {
 		}
 		return i;
 	}
-	
-	
 
 }
