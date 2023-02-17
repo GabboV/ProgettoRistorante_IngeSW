@@ -7,7 +7,7 @@ package Principale;
  */
 public class Ingrediente {
 	
-	public String name;
+	private String name;
 
 	public Ingrediente(String name) {
 		super();

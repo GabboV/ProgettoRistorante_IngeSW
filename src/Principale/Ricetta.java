@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Ricetta {
 	
-	public ArrayList<Ingrediente> ingredienti;
+	private ArrayList<Ingrediente> ingredienti;
 
 	public Ricetta(ArrayList<Ingrediente> ingredienti) {
 		super();
