@@ -1,23 +1,24 @@
 package Principale;
 
+import java.util.Date;
+
 public class Piatto {
 	
 	private String nomePiatto;
-	
-	private boolean valido;
-	
+	private Date inizio;
+	private Date fine;
 	private Ricetta recipe;
+	private double caricoLavoro;
 	
-	private int caricoLavoro;
-
-	public Piatto(String nomePiatto, boolean valido, Ricetta recipe, int caricoLavoro) {
+	public Piatto(String nomePiatto, Date inizio, Date fine, Ricetta recipe, double caricoLavoro) {
 		super();
 		this.nomePiatto = nomePiatto;
-		this.valido = valido;
+		this.inizio = inizio;
+		this.fine = fine;
 		this.recipe = recipe;
 		this.caricoLavoro = caricoLavoro;
 	}
-
+	
 	public String getNomePiatto() {
 		return nomePiatto;
 	}
@@ -26,12 +27,20 @@ public class Piatto {
 		this.nomePiatto = nomePiatto;
 	}
 
-	public boolean isValido() {
-		return valido;
+	public Date getInizio() {
+		return inizio;
 	}
 
-	public void setValido(boolean valido) {
-		this.valido = valido;
+	public void setInizio(Date inizio) {
+		this.inizio = inizio;
+	}
+
+	public Date getFine() {
+		return fine;
+	}
+
+	public void setFine(Date fine) {
+		this.fine = fine;
 	}
 
 	public Ricetta getRecipe() {
@@ -42,14 +51,20 @@ public class Piatto {
 		this.recipe = recipe;
 	}
 
-	public int getCaricoLavoro() {
+	public double getCaricoLavoro() {
 		return caricoLavoro;
 	}
 
-	public void setCaricoLavoro(int caricoLavoro) {
+	public void setCaricoLavoro(double caricoLavoro) {
 		this.caricoLavoro = caricoLavoro;
 	}
 	
-	
+	/**
+	 *DA IMPLEMENTARE
+	 * @return
+	 */
+	public boolean isValido() {
+		return false;
+	}
 
 }

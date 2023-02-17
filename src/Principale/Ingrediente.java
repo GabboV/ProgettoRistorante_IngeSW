@@ -5,27 +5,23 @@ package Principale;
  * 
  *
  */
-public class Ingrediente {
+public class Ingrediente extends Prodotto{
 	
-	private String name;
+	private double dose;
 
-	public Ingrediente(String name) {
-		super();
-		this.name = name;
+	public Ingrediente(String nome, Misura unita, double _dose) {
+		super(nome, unita);
+		this.dose = _dose;
+		// TODO Auto-generated constructor stub
 	}
 
-	/*
-	 * Getter and setter
-	 */
-	
-	public String getName() {
-		return name;
+	public double getDose() {
+		return dose;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setDose(double dose) {
+		this.dose = dose;
 	}
 	
 	
-
 }
