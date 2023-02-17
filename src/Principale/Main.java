@@ -8,6 +8,8 @@ public class Main {
 		System.out.print("Progetto Ristorante");
 		System.out.print("Progetto Ristorante");
 
+		System.out.print("Progetto Ristorante");
+		System.out.print("Progetto Ristorante");
 	}
 
 }
