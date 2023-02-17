@@ -9,8 +9,16 @@ public class MenuTematico extends Menu{
 
 	public MenuTematico(ArrayList<Piatto> piatti, Date data, boolean valido, String nome) {
 		super(piatti, data, valido);
-		this.nome = nome;
+		this.setNome(nome);
 		// TODO Auto-generated constructor stub
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 	
 	

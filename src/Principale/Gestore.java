@@ -4,8 +4,8 @@ import java.util.HashMap;
 
 public class Gestore {
 	
-	private int caricoDilavoro;
-	private int numeroPosti;
+	private int caricoDilavoroPerPersona;
+	private int numeroPostiASedere;
 	
 	private HashMap<Bevanda,Integer> consumoProcapite;
 	private HashMap<GenereExtra,Integer> consumoProcapiteExtra;
