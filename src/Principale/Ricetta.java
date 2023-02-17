@@ -59,27 +59,26 @@ public class Ricetta {
 	}
 	
 	public boolean esisteIngrediente(Ingrediente x) {
-		String xNome = x.getName();
+		String xNome = x.getNome();
 		for(int i = 0; i < this.ingredienti.size();i++) {
-			if(ingredienti.get(i).getName().equals(xNome)) return true;
+			if(ingredienti.get(i).getNome().equals(xNome)) return true;
 		}
 		return false;
 	}
 	
 	public void removeIngrediente(Ingrediente x) {
-		String xNome = x.getName();
 		if(this.esisteIngrediente(x)) {
 			int rmv = posIngrediente(x);
 			this.ingredienti.remove(rmv);
 		}
 		
 	}
-	
+
 	private int posIngrediente(Ingrediente x) {
-		String xNome = x.getName();
+		String xNome = x.getNome();
 		int i=0;
 		for(; i < this.ingredienti.size();i++) {
-			if(ingredienti.get(i).getName().equals(xNome)) return i;
+			if(ingredienti.get(i).getNome().equals(xNome)) return i;
 		}
 		return i;
 	}
