@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class MenuTematico extends Menu{
 	
-	public String nome;
+	private String nome;
 
 	public MenuTematico(ArrayList<Piatto> piatti, Date data, boolean valido, String nome) {
 		super(piatti, data, valido);

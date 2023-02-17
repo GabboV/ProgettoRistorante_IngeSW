@@ -2,13 +2,13 @@ package Principale;
 
 public class Piatto {
 	
-	public String nomePiatto;
+	private String nomePiatto;
 	
-	public boolean valido;
+	private boolean valido;
 	
-	public Ricetta recipe;
+	private Ricetta recipe;
 	
-	public int caricoLavoro;
+	private int caricoLavoro;
 
 	public Piatto(String nomePiatto, boolean valido, Ricetta recipe, int caricoLavoro) {
 		super();

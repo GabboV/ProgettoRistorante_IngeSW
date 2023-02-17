@@ -5,11 +5,11 @@ import java.util.Date;
 
 public class Menu {
 	
-	public ArrayList<Piatto> piatti;
+	private ArrayList<Piatto> piatti;
 	
-	public Date data;
+	private Date data;
 	
-	public boolean valido;
+	private boolean valido;
 
 	public Menu(ArrayList<Piatto> piatti, Date data, boolean valido) {
 		super();
