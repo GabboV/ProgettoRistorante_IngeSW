@@ -2,7 +2,7 @@ package Principale;
 
 import java.util.HashMap;
 
-import javax.xml.crypto.Data;
+import java.util.Date;
 
 public class Prenotazione {
 	
@@ -11,17 +11,16 @@ public class Prenotazione {
 	private  HashMap<MenuTematico,Integer> comandaTematico;
 	private  HashMap<MenuCarta,Integer> comandaCarta;
 	private int numeroPersone;
-	private Data dataPrenotazione;
+	private Date dataPrenotazione;
 	
-	public Prenotazione(Cliente prenotante, String codicePrenotazione, HashMap<MenuTematico, Integer> comandaTematico,
-			HashMap<MenuCarta, Integer> comandaCarta, int numeroPersone, Data dataPrenotazione) {
+	public Prenotazione(Cliente prenotante, String codicePrenotazione, int numeroPersone) {
 		super();
 		this.prenotante = prenotante;
 		this.codicePrenotazione = codicePrenotazione;
-		this.comandaTematico = comandaTematico;
-		this.comandaCarta = comandaCarta;
+		this.comandaTematico = new HashMap<MenuTematico,Integer>();
+		this.comandaCarta = new HashMap<MenuCarta,Integer>();
 		this.numeroPersone = numeroPersone;
-		this.dataPrenotazione = dataPrenotazione;
+		this.dataPrenotazione = new Date();
 	}
 
 	public String getCodicePrenotazione() {
@@ -60,7 +59,7 @@ public class Prenotazione {
 		return prenotante;
 	}
 
-	public Data getDataPrenotazione() {
+	public Date getDataPrenotazione() {
 		return dataPrenotazione;
 	}
 	
