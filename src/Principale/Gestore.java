@@ -1,7 +1,12 @@
 package Principale;
 
 import java.util.HashMap;
-
+/**
+ * 
+ * @author Kevin
+ * Da implementare le funzioni e responsabilità
+ *
+ */
 public class Gestore {
 
 	private int caricoDilavoroPerPersona;
@@ -52,6 +57,13 @@ public class Gestore {
 	public HashMap<GenereExtra, Integer> getConsumoProcapiteExtra() {
 		return consumoProcapiteExtra;
 	}
-	
+
+	public void setConsumoProcapite(HashMap<Bevanda, Integer> consumoProcapite) {
+		this.consumoProcapite = consumoProcapite;
+	}
+
+	public void setConsumoProcapiteExtra(HashMap<GenereExtra, Integer> consumoProcapiteExtra) {
+		this.consumoProcapiteExtra = consumoProcapiteExtra;
+	}
 
 }
