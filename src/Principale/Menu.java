@@ -3,12 +3,15 @@ package Principale;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * 
+ * @author Kevin
+ *
+ */
 public class Menu {
 
 	private ArrayList<Piatto> elencoPiatti;
-
 	private Date data;
-
 	private boolean valido;
 
 	public Menu(ArrayList<Piatto> piatti, Date data, boolean valido) {
