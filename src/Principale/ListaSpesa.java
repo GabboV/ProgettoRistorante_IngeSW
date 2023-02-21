@@ -11,6 +11,11 @@ public class ListaSpesa {
 		this.vociLista = new HashMap<Prodotto, Double>();
 	}
 
+	/**
+	 * Aggiunge un prodotto con la sua quantità
+	 * @param p
+	 * @param d
+	 */
 	public void addMerce(Prodotto p, Double d) {
 		vociLista.put(p, d);
 	}
