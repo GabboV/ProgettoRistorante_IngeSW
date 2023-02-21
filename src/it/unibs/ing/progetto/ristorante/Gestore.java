@@ -1,4 +1,4 @@
-package Principale;
+package it.unibs.ing.progetto.ristorante;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +13,7 @@ import it.unibs.fp.mylib.InputDati;
 public class Gestore {
 
 	private static final String DEFAULT = "DEFAULT";
+	@SuppressWarnings("unused")
 	private String userID;
 	private int caricoDilavoroPerPersona;
 	private int numeroPostiASedere;
@@ -52,7 +53,6 @@ public class Gestore {
 
 	public Ricetta creaRicetta() {
 
-//		String nomePiatto = InputDati.leggiStringaNonVuota("Inserisci nome del piatto --> ");
 		int porzioni = InputDati.leggiInteroConMinimo("inserisci numero di porzioni --> ", 1);
 		double workLoad = InputDati.leggiDoubleConMinimo("Inserisci il workLoad", 0.0);
 		

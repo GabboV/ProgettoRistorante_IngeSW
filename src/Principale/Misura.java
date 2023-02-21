@@ -2,6 +2,6 @@ package Principale;
 
 public enum Misura {
 	
-	GRAMMI, LITRI;
+	GRAMMI, LITRI,DEFAULT;
 
 }

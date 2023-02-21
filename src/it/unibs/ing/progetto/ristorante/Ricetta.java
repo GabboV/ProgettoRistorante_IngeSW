@@ -1,4 +1,4 @@
-package Principale;
+package it.unibs.ing.progetto.ristorante;
 
 import java.util.ArrayList;
 
