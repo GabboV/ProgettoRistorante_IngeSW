@@ -12,6 +12,9 @@ import it.unibs.fp.mylib.InputDati;
  */
 public class Gestore {
 
+	/*
+	 * 
+	 */
 	private static final String DEFAULT = "DEFAULT";
 	@SuppressWarnings("unused")
 	private String userID;
@@ -19,12 +22,44 @@ public class Gestore {
 	private int numeroPostiASedere;
 	private double caricoLavoroRistorante;
 
+	/*
+	 * 
+	 */
 	public Gestore(int caricoDilavoroPerPersona, int numeroPostiASedere, double caricoLavoroRistorante) {
 		super();
 		this.userID = DEFAULT;
 		this.caricoDilavoroPerPersona = caricoDilavoroPerPersona;
 		this.numeroPostiASedere = numeroPostiASedere;
 		this.caricoLavoroRistorante = caricoLavoroRistorante;
+	}
+
+	/**
+	 * Retrieve dei dati per ricetta
+	 * 
+	 * @return Ricetta
+	 */
+	public Ricetta creaRicetta() {
+
+		int porzioni = InputDati.leggiInteroConMinimo("inserisci numero di porzioni --> ", 1);
+		double workLoad = InputDati.leggiDoubleConMinimo("Inserisci il workLoad", 0.0);
+		ArrayList<ProductSheet> ingredienti = estraiIngredienti();
+		return new Ricetta(ingredienti, porzioni, workLoad);
+	}
+
+	/**
+	 * 
+	 * @return lista ingredienti con dosaggi
+	 */
+	private ArrayList<ProductSheet> estraiIngredienti() {
+		boolean on = false;
+		ArrayList<ProductSheet> ingredienti = new ArrayList<>();
+		do {
+			String nomeIngrediente = InputDati.leggiStringaNonVuota("Inserisci nome dell'ingrediente --> ");
+			double dose = InputDati.leggiDoubleConMinimo("Inserisci dose (dose must be > 0.0) --> ", 0.0);
+			ingredienti.add(new ProductSheet(new Ingrediente(nomeIngrediente, Misura.DEFAULT), dose));
+			on = InputDati.yesOrNo("Vuoi aggiungere un altro ingrediente? (Y/N)");
+		} while (on);
+		return ingredienti;
 	}
 
 	public int getCaricoDilavoroPerPersona() {
@@ -50,24 +85,6 @@ public class Gestore {
 	public void setCaricoLavoroRistorante(double caricoLavoroRistorante) {
 		this.caricoLavoroRistorante = caricoLavoroRistorante;
 	}
-
-	public Ricetta creaRicetta() {
-
-		int porzioni = InputDati.leggiInteroConMinimo("inserisci numero di porzioni --> ", 1);
-		double workLoad = InputDati.leggiDoubleConMinimo("Inserisci il workLoad", 0.0);
-		
-		boolean on = false;
-		ArrayList<ProductSheet> ingredienti = new ArrayList<>();
-
-		do {
-			String nomeIngrediente = InputDati.leggiStringaNonVuota("Inserisci nome dell'ingrediente --> ");
-			double dose = InputDati.leggiDoubleConMinimo("Inserisci dose (dose must be > 0.0) --> ", 0.0);
-			ingredienti.add(new ProductSheet(new Ingrediente(nomeIngrediente, Misura.DEFAULT), dose));
-			
-			on = InputDati.yesOrNo("Vuoi aggiungere un altro ingrediente? (Y/N)");
-		} while (on);
-		
-		return new Ricetta(ingredienti,porzioni,workLoad);
-	}
-
+	
+	
 }

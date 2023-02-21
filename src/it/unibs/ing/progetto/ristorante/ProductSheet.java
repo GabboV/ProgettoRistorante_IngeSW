@@ -1,5 +1,11 @@
 package it.unibs.ing.progetto.ristorante;
 
+/**
+ * Scheda di prodotto / Voce 
+ * 
+ * @author Kevin
+ *
+ */
 public class ProductSheet {
 	
 	private static final int UNDEFINED = 0;
