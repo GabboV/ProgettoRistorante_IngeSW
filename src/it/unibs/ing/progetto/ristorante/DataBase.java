@@ -15,6 +15,10 @@ public class DataBase {
 	 * Contiene tutte le ricette memorizzate in un certo momento
 	 */
 	private ArrayList<Ricetta> ricettario;
+	
+	private int caricoDilavoroPerPersona;
+	private int numeroPostiASedere;
+	private double caricoLavoroRistorante;
 
 	/*
 	 * Contiene tutti i piatti memorizzati in un certo momento
@@ -119,4 +123,49 @@ public class DataBase {
 		this.singleWorkLoad = singleWorkLoad;
 	}
 
+	public int getCaricoDilavoroPerPersona() {
+		return caricoDilavoroPerPersona;
+	}
+
+	public void setCaricoDilavoroPerPersona(int caricoDilavoroPerPersona) {
+		this.caricoDilavoroPerPersona = caricoDilavoroPerPersona;
+	}
+
+	public int getNumeroPostiASedere() {
+		return numeroPostiASedere;
+	}
+
+	public void setNumeroPostiASedere(int numeroPostiASedere) {
+		this.numeroPostiASedere = numeroPostiASedere;
+	}
+
+	public double getCaricoLavoroRistorante() {
+		return caricoLavoroRistorante;
+	}
+
+	public void setCaricoLavoroRistorante(double caricoLavoroRistorante) {
+		this.caricoLavoroRistorante = caricoLavoroRistorante;
+	}
+
+	public HashMap<Piatto, Ricetta> getCorrispondenze() {
+		return corrispondenze;
+	}
+
+	public void setCorrispondenze(HashMap<Piatto, Ricetta> corrispondenze) {
+		this.corrispondenze = corrispondenze;
+	}
+
+	public void setRicettario(ArrayList<Ricetta> ricettario) {
+		this.ricettario = ricettario;
+	}
+
+	public void setInsiemeBevande(ArrayList<ProductSheet> insiemeBevande) {
+		this.insiemeBevande = insiemeBevande;
+	}
+
+	public void setInsiemeGeneriExtra(ArrayList<ProductSheet> insiemeGeneriExtra) {
+		this.insiemeGeneriExtra = insiemeGeneriExtra;
+	}
+
+	
 }

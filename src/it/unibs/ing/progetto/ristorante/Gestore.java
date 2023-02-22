@@ -18,9 +18,6 @@ public class Gestore {
 	private static final String DEFAULT = "DEFAULT";
 	@SuppressWarnings("unused")
 	private String userID;
-	private int caricoDilavoroPerPersona;
-	private int numeroPostiASedere;
-	private double caricoLavoroRistorante;
 	private DataBase ristoranteDB;
 
 	/*
@@ -30,9 +27,6 @@ public class Gestore {
 			DataBase ristoranteDB) {
 		super();
 		this.userID = userID;
-		this.caricoDilavoroPerPersona = caricoDilavoroPerPersona;
-		this.numeroPostiASedere = numeroPostiASedere;
-		this.caricoLavoroRistorante = caricoLavoroRistorante;
 		this.ristoranteDB = ristoranteDB;
 	}
 
@@ -65,29 +59,6 @@ public class Gestore {
 		return ingredienti;
 	}
 
-	public int getCaricoDilavoroPerPersona() {
-		return caricoDilavoroPerPersona;
-	}
-
-	public void setCaricoDilavoroPerPersona(int caricoDilavoroPerPersona) {
-		this.caricoDilavoroPerPersona = caricoDilavoroPerPersona;
-	}
-
-	public int getNumeroPostiASedere() {
-		return numeroPostiASedere;
-	}
-
-	public void setNumeroPostiASedere(int numeroPostiASedere) {
-		this.numeroPostiASedere = numeroPostiASedere;
-	}
-
-	public double getCaricoLavoroRistorante() {
-		return caricoLavoroRistorante;
-	}
-
-	public void setCaricoLavoroRistorante(double caricoLavoroRistorante) {
-		this.caricoLavoroRistorante = caricoLavoroRistorante;
-	}
 	
 	
 }
