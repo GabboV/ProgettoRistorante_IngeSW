@@ -1,6 +1,7 @@
 package it.unibs.ing.progetto.ristorante;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Utility Class per per la classe gestore
@@ -19,6 +20,12 @@ public class DataBase {
 	 * Contiene tutti i piatti memorizzati in un certo momento
 	 */
 	private ArrayList<Piatto> pietanze;
+	private int places;
+	private double singleWorkLoad;
+	private ArrayList<ProductSheet> insiemeBevande;
+	private ArrayList<ProductSheet> insiemeGeneriExtra;
+	private HashMap<Piatto,Ricetta> corrispondenze;
+	
 
 	/**
 	 * Se inizializzazione SENZA dati preesistenti
@@ -27,6 +34,9 @@ public class DataBase {
 		super();
 		this.ricettario = new ArrayList<Ricetta>();
 		this.pietanze = new ArrayList<Piatto>();
+		this.insiemeBevande = new ArrayList<ProductSheet>();
+		this.insiemeGeneriExtra = new ArrayList<ProductSheet>();
+		this.corrispondenze = new HashMap<Piatto,Ricetta>();
 	}
 
 	/**
@@ -36,10 +46,11 @@ public class DataBase {
 	 * @param ricettario
 	 * @param piatti
 	 */
-	public DataBase(ArrayList<Ricetta> ricettario, ArrayList<Piatto> piatti) {
+	public DataBase(ArrayList<Ricetta> ricettario, ArrayList<Piatto> piatti, HashMap<Piatto,Ricetta> corrispondenze) {
 		super();
 		this.ricettario = ricettario;
 		this.pietanze = piatti;
+		this.corrispondenze = corrispondenze;
 	}
 
 	/**
@@ -74,6 +85,38 @@ public class DataBase {
 	 */
 	public void addRicetta(Ricetta r) {
 		this.ricettario.add(r);
+	}
+
+	public ArrayList<Piatto> getPietanze() {
+		return pietanze;
+	}
+
+	public int getPlaces() {
+		return places;
+	}
+
+	public double getSingleWorkLoad() {
+		return singleWorkLoad;
+	}
+
+	public ArrayList<ProductSheet> getInsiemeBevande() {
+		return insiemeBevande;
+	}
+
+	public ArrayList<ProductSheet> getInsiemeGeneriExtra() {
+		return insiemeGeneriExtra;
+	}
+
+	public void setPietanze(ArrayList<Piatto> pietanze) {
+		this.pietanze = pietanze;
+	}
+
+	public void setPlaces(int places) {
+		this.places = places;
+	}
+
+	public void setSingleWorkLoad(double singleWorkLoad) {
+		this.singleWorkLoad = singleWorkLoad;
 	}
 
 }

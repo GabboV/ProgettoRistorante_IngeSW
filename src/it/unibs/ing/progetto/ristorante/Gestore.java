@@ -21,16 +21,19 @@ public class Gestore {
 	private int caricoDilavoroPerPersona;
 	private int numeroPostiASedere;
 	private double caricoLavoroRistorante;
+	private DataBase ristoranteDB;
 
 	/*
 	 * 
 	 */
-	public Gestore(int caricoDilavoroPerPersona, int numeroPostiASedere, double caricoLavoroRistorante) {
+	public Gestore(String userID, int caricoDilavoroPerPersona, int numeroPostiASedere, double caricoLavoroRistorante,
+			DataBase ristoranteDB) {
 		super();
-		this.userID = DEFAULT;
+		this.userID = userID;
 		this.caricoDilavoroPerPersona = caricoDilavoroPerPersona;
 		this.numeroPostiASedere = numeroPostiASedere;
 		this.caricoLavoroRistorante = caricoLavoroRistorante;
+		this.ristoranteDB = ristoranteDB;
 	}
 
 	/**

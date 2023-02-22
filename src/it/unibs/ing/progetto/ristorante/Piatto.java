@@ -12,7 +12,7 @@ public class Piatto {
 	private String nomePiatto; 
 	private Date inizio;
 	private Date fine;
-	private Ricetta recipe;
+//	private Ricetta recipe;
 	private double caricoLavoro;
 
 	public Piatto(String nomePiatto, Ricetta recipe, double caricoLavoro) {
@@ -20,7 +20,7 @@ public class Piatto {
 		this.nomePiatto = nomePiatto;
 		this.inizio = null;
 		this.fine = null;
-		this.recipe = recipe;
+	//	this.recipe = recipe;
 		this.caricoLavoro = caricoLavoro;
 	}
 
@@ -29,7 +29,7 @@ public class Piatto {
 		this.nomePiatto = nomePiatto;
 		this.inizio = inizio;
 		this.fine = fine;
-		this.recipe = recipe;
+	//	this.recipe = recipe;
 		this.caricoLavoro = caricoLavoro;
 	}
 
@@ -48,19 +48,19 @@ public class Piatto {
 	public Date getFine() {
 		return fine;
 	}
-
+/*
 	public Ricetta getRecipe() {
 		return recipe;
 	}
-
+*/
 	public double getCaricoLavoro() {
 		return caricoLavoro;
 	}
 
 	@Override
 	public String toString() {
-		return "Piatto [nomePiatto=" + nomePiatto + ", inizio=" + inizio + ", fine=" + fine + ", recipe=" + recipe
-				+ ", caricoLavoro=" + caricoLavoro + "]";
+		return "Piatto [nomePiatto=" + nomePiatto + ", inizio=" + inizio + ", fine=" + fine + ", caricoLavoro="
+				+ caricoLavoro + "]";
 	}
 
 	/**
