@@ -23,8 +23,7 @@ public class Gestore {
 	/*
 	 * 
 	 */
-	public Gestore(String userID, int caricoDilavoroPerPersona, int numeroPostiASedere, double caricoLavoroRistorante,
-			DataBase ristoranteDB) {
+	public Gestore(String userID, DataBase ristoranteDB) {
 		super();
 		this.userID = userID;
 		this.ristoranteDB = ristoranteDB;
@@ -35,30 +34,41 @@ public class Gestore {
 	 * 
 	 * @return Ricetta
 	 */
-	public Ricetta creaRicetta() {
-
-		int porzioni = InputDati.leggiInteroConMinimo("inserisci numero di porzioni --> ", 1);
-		double workLoad = InputDati.leggiDoubleConMinimo("Inserisci il workLoad", 0.0);
-		ArrayList<ProductSheet> ingredienti = estraiIngredienti();
-		return new Ricetta(ingredienti, porzioni, workLoad);
+	public void creaRicetta(ArrayList<ProductSheet> ingredienti, double workLoad, int porzioni,String nome) {
+		Ricetta r = new Ricetta(ingredienti, porzioni, workLoad);
+		Piatto p = new Piatto(nome,workLoad/porzioni);
+		this.ristoranteDB.addRicetta(r);
+		this.ristoranteDB.addPiatto(p);
+		this.ristoranteDB.addCorrispondenza(p, r);
 	}
 
 	/**
 	 * 
 	 * @return lista ingredienti con dosaggi
 	 */
-	private ArrayList<ProductSheet> estraiIngredienti() {
-		boolean on = false;
-		ArrayList<ProductSheet> ingredienti = new ArrayList<>();
-		do {
-			String nomeIngrediente = InputDati.leggiStringaNonVuota("Inserisci nome dell'ingrediente --> ");
-			double dose = InputDati.leggiDoubleConMinimo("Inserisci dose (dose must be > 0.0) --> ", 0.0);
-			ingredienti.add(new ProductSheet(new Ingrediente(nomeIngrediente, Misura.DEFAULT), dose));
-			on = InputDati.yesOrNo("Vuoi aggiungere un altro ingrediente? (Y/N)");
-		} while (on);
-		return ingredienti;
+
+	public void inizializzaWorkload(double w) {
+		this.ristoranteDB.setCaricoLavoroRistorante(w);
 	}
 
-	
-	
+	public void setPostiASedere(int posti) {
+		this.ristoranteDB.setNumeroPostiASedere(posti);
+	}
+
+	public void inserisciInsiemeBevande(ArrayList<ProductSheet> bevande) {
+		this.ristoranteDB.setInsiemeBevande(bevande);
+	}
+
+	public void inserisciGeneriExtra(ArrayList<ProductSheet> generiExtra) {
+		this.ristoranteDB.setInsiemeBevande(generiExtra);
+	}
+
+	public void inserisciCorrispondenza(Piatto p, Ricetta r) {
+		this.ristoranteDB.addCorrispondenza(p, r);
+	}
+
+	public String visualizzaDB() {
+		return this.ristoranteDB.toString();
+	}
+
 }

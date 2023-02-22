@@ -24,8 +24,6 @@ public class DataBase {
 	 * Contiene tutti i piatti memorizzati in un certo momento
 	 */
 	private ArrayList<Piatto> pietanze;
-	private int places;
-	private double singleWorkLoad;
 	private ArrayList<ProductSheet> insiemeBevande;
 	private ArrayList<ProductSheet> insiemeGeneriExtra;
 	private HashMap<Piatto,Ricetta> corrispondenze;
@@ -95,13 +93,6 @@ public class DataBase {
 		return pietanze;
 	}
 
-	public int getPlaces() {
-		return places;
-	}
-
-	public double getSingleWorkLoad() {
-		return singleWorkLoad;
-	}
 
 	public ArrayList<ProductSheet> getInsiemeBevande() {
 		return insiemeBevande;
@@ -115,13 +106,7 @@ public class DataBase {
 		this.pietanze = pietanze;
 	}
 
-	public void setPlaces(int places) {
-		this.places = places;
-	}
-
-	public void setSingleWorkLoad(double singleWorkLoad) {
-		this.singleWorkLoad = singleWorkLoad;
-	}
+	
 
 	public int getCaricoDilavoroPerPersona() {
 		return caricoDilavoroPerPersona;
@@ -151,8 +136,8 @@ public class DataBase {
 		return corrispondenze;
 	}
 
-	public void setCorrispondenze(HashMap<Piatto, Ricetta> corrispondenze) {
-		this.corrispondenze = corrispondenze;
+	public void addCorrispondenza(Piatto p, Ricetta r) {
+		this.corrispondenze.put(p, r);
 	}
 
 	public void setRicettario(ArrayList<Ricetta> ricettario) {
@@ -166,6 +151,18 @@ public class DataBase {
 	public void setInsiemeGeneriExtra(ArrayList<ProductSheet> insiemeGeneriExtra) {
 		this.insiemeGeneriExtra = insiemeGeneriExtra;
 	}
+
+	@Override
+	public String toString() {
+		return "DataBase [ricettario=" + ricettario + ", caricoDilavoroPerPersona=" + caricoDilavoroPerPersona
+				+ ", numeroPostiASedere=" + numeroPostiASedere + ", caricoLavoroRistorante=" + caricoLavoroRistorante
+				+ ", pietanze=" + pietanze + ", insiemeBevande=" + insiemeBevande + ", insiemeGeneriExtra="
+				+ insiemeGeneriExtra + ", corrispondenze=" + corrispondenze + "]";
+	}
+
+
+	
+	
 
 	
 }

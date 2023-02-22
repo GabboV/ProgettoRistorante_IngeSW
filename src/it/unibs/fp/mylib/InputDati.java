@@ -163,7 +163,7 @@ public class InputDati
 	     catch (InputMismatchException e)
 	      {
 	       System.out.println(ERRORE_FORMATO);
-	//       String daButtare = lettore.next();
+	       String daButtare = lettore.next();
 	      }
 	    } while (!finito);
 	   return valoreLetto;

@@ -12,24 +12,23 @@ public class Piatto {
 	private String nomePiatto; 
 	private Date inizio;
 	private Date fine;
-//	private Ricetta recipe;
 	private double caricoLavoro;
+	
+	
 
-	public Piatto(String nomePiatto, Ricetta recipe, double caricoLavoro) {
+	public Piatto(String nomePiatto, double caricoLavoro) {
 		super();
 		this.nomePiatto = nomePiatto;
 		this.inizio = null;
 		this.fine = null;
-	//	this.recipe = recipe;
 		this.caricoLavoro = caricoLavoro;
 	}
 
-	public Piatto(String nomePiatto, Date inizio, Date fine, Ricetta recipe, double caricoLavoro) {
+	public Piatto(String nomePiatto, Date inizio, Date fine,  double caricoLavoro) {
 		super();
 		this.nomePiatto = nomePiatto;
 		this.inizio = inizio;
 		this.fine = fine;
-	//	this.recipe = recipe;
 		this.caricoLavoro = caricoLavoro;
 	}
 
