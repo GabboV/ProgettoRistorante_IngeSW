@@ -29,26 +29,25 @@ public class CLI_main {
 		int porzioni = InputDati.leggiInteroConMinimo("inserisci numero di porzioni --> ", 1);
 		double workLoad = InputDati.leggiDoubleConMinimo("Inserisci il workLoad --> ", 0.0);
 		ArrayList<ProductSheet> ingredienti = new ArrayList<ProductSheet>();
-		ingredienti = estraiIngredienti();
+		ingredienti = chiediIngredienti();
 		
 		gestore.creaRicetta(ingredienti, workLoad, porzioni,"CicogniEFagiane");
 		
 		System.out.println(gestore.visualizzaDB());
-
 		/*
 		 * 
 		 */
 
 	}
 
-	private static ArrayList<ProductSheet> estraiIngredienti() {
+	private static ArrayList<ProductSheet> chiediIngredienti() {
 		boolean on = false;
 		ArrayList<ProductSheet> ingredienti = new ArrayList<>();
 		do {
 			String nomeIngrediente = InputDati.leggiStringaNonVuota("Inserisci nome dell'ingrediente --> ");
 			double dose = InputDati.leggiDoubleConMinimo("Inserisci dose (dose must be > 0.0) --> ", 0.0);
 			ingredienti.add(new ProductSheet(new Ingrediente(nomeIngrediente, Misura.DEFAULT), dose));
-			on = InputDati.yesOrNo("Vuoi aggiungere un altro ingrediente? (Y/N)");
+			on = InputDati.yesOrNo("Vuoi aggiungere un altro ingrediente? ");
 		} while (on);
 		return ingredienti;
 	}
