@@ -16,17 +16,10 @@ public class AddettoPrenotazioni {
 		this.elencoPrenotazioni.add(p);
 	}
 	
-	/**
-	 * 
-	 */
 	public void removePrenotazioniScadute() {
 		
 	}
 	
-	/**
-	 * 
-	 * @return Prenotazione
-	 */
 	public void creaPrenotazione() {
 		
 	}

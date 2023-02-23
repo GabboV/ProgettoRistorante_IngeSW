@@ -28,33 +28,42 @@ public class MainPrenotazioni {
 
 	private static Prenotazione chiediPrenotazione(){
 		
-		//chiedi codiceCliente
-		//chiedi codicePrenotazione
-		//chiedi numeroCoperti e controllo posti a sedere rimasti liberi
-		//chiedi dataPrenotazione
-		//creo ArrayList<Piatto>
-		//creo ArrayList<MenuTematico>
-		//chiedi piatto/menuTematico
-		//controllo esistenza piatto/menuTematico nel menuRistoranteValido per quella data
+		//ricevi Prenotazione
+		//salva nomeCliente
+		//salva numeroCoperti
+		//salva dataPrenotazione
+		//controllo posti a sedere rimasti liberi nella dataPrenotazione
+		//creo menuAllaCarta e elencoMenuTematiciValidi della data (serve metodo dal DataBase)
+		
+		//conto MenuTematici e PiattiSingoli
 		//confronto numeroCoperti e counterMenuTematici e counterPiattiSingoli
-		//if (counterMenuTematici == numeroCoperti) && (counterPiattiSingoli == 0) then confermo la prenotazione
-		//if (counterMenuTematici == (numeroCoperti - 1)) && (counterPiattiSingoli == 0) then posso chiedere solo piatti singoli
-		//if (counterMenuTematici == (numeroCoperti - 1)) && (counterPiattiSingoli > 1) then posso chiedere solo piatti singoli o conferma della prenotazione
-		//if (counterPiattiSingoli + counterMenuTematici) < numeroCoperti then chiedo piatto/menuTematico
-		//else chiedi piatto/menuTematico o conferma della prenotazione
-		//costruisci HashMap<Piatto, Integer> da elenco di piattiSingoli e MenuTematici
-		//calcola numeroPersone tenendone conto dopo l'aggiunta di ogni piatto o menuTematico
-		//calcola caricoLavoroPrenotazione tenendone conto dopo l'aggiunta di ogni piatto o menuTematico
-		//if caricoLavoroPrenotazione > caricoLavoroRistorante then rifai prenotazione (o rimuovi l'ultimo piatto, con attenzione alle conseguenze)
-		//crea prenotazione e aggiungi all'elencoPrenotazioni
+		//IF (counterPiattiSingoli + counterMenuTematici) < numeroCoperti THEN prenotazione NON VALIDA (+messaggioMotivo)
+		//IF counterMenuTematici > numeroCoperti THEN prenotazione NON VALIDA (+messaggioMotivo)
 		
-		//posso chiedere prenotazione un piatto alla volta 
-		//oppure con un eleco di piatti, confermando l'ordine alla fine se rispetta tutti i vincoli
+		//crea HashMap<Piatto, Integer> vuota
+		//prendi un piatto/menuTematico alla volta
+		//IF nome del piatto/menuTematico non esiste nel menuRistoranteValido THEN prenotazione NON VALIDA (+messaggioMotivo)
+		//aggiorno valore caricoLavoroPrenotazione (devo stare attento a questione di ricetta-porzione-caricoLavoroPerPorzione?) !!!
+		//IF caricoLavoroPrenotazione > caricoLavoroRistorante THEN prenotazione NON VALIDA (+messaggioMotivo)
+		//creo Piatto o elenco di piatti di un menu tematico e aggiungo in HashMap<Piatto, Integer>
 		
-		String codiceCliente = "Mario";
-		Integer numeroCoperti = 3;
-		Cliente cliente = new Cliente(codiceCliente, numeroCoperti);
-		String codicePrenotazione = "001";
+		//creo prenotazione e aggiungo all'elencoPrenotazioni
+		//aggiorno valore postiLiberiRistorante e caricoLavoroRistorante di una certa data
+		
+		
+		//serve metodo in AddettoPrenotazioni di getElencoPrenotazioniValideInData utile al Magazziniere per calcolare la ListaDellaSpesa 
+		//	(bastano le HashMap<Piatto, Integer> oppure una sola HashMap<Piatto, Integer> che le comprende tutte?)
+		//serve metodo in AddettoPrenotazioni di removePrenotazioniScadute (da usare alla fine di getElencoPrenotazioniValidoInData oppure in altri casi?)
+		//serve metodo per calcolare il caricoLavoro tenendo conto di piatti gia ordinati? !!!
+
+		
+		//Se chiedo prenotazioni un piatto alla volta ci sono troppe complicazioni nell'aggiornare valori e controllare validita (troppe alternative)
+		//Per esempio se caricoLavoroRistorante quasi raggiunto, devo sperare che cliente chiede piatto "leggero" e continuare a richiedere, o dargli delle
+		//	opzioni, o eliminare la prenotazione?
+		//Devo raccogliere prenotazioni come elecoPiattiSingoliPrenotati e elencoMenuTematiciPrenotati
+		
+		String cliente = "Mario";
+		int numeroCoperti = 3;
 		String dataPrenotazione = "20/03/2023";
 		float caricoLavoroPrenotazione = 100;
 		
@@ -73,7 +82,7 @@ public class MainPrenotazioni {
 
 		int numeroPersone = calcolaNumeroPersoneComanda(comanda);
 		
-		Prenotazione prenotazione = new Prenotazione(cliente, codicePrenotazione, numeroPersone, dataPrenotazione, caricoLavoroPrenotazione, comanda);
+		Prenotazione prenotazione = new Prenotazione(cliente, numeroCoperti, comanda, numeroPersone, dataPrenotazione, caricoLavoroPrenotazione);
 		
 		/*
 		provato con array di SingoliPiatti e MenuTematici
