@@ -7,25 +7,18 @@ import java.util.Date;
 public class Prenotazione {
 	
 	private String nomeCliente;
-	//indica il numero di persone che il cliente rappresenta
+	//indica il numero di persone che occupanto un coperto
 	private int numeroCoperti;
-	//basta avere una HashMap<String, Integer>?
+	//basta avere una HashMap<String, Integer>? no perchè cosi semplifico le operazioni del magazziniere
 	private HashMap<Piatto,Integer> comanda;
-	//indica il numero di piatti o menuTematici che le persone hanno ordinato
-	private int numeroPersone;
-	//da cambiare in classe Date
-	private String dataPrenotazione;
-	private float caricoLavoroPrenotazione;
+	private Date dataPrenotazione;
 	
-	public Prenotazione(String cliente, int numeroCoperti, HashMap<Piatto, Integer> comanda, int numeroPersone,
-			String dataPrenotazione, float caricoLavoroPrenotazione) {
+	public Prenotazione(String cliente, int numeroCoperti, HashMap<Piatto, Integer> comanda, Date dataPrenotazione) {
 		super();
 		this.nomeCliente = cliente;
 		this.numeroCoperti = numeroCoperti;
 		this.comanda = comanda;
-		this.numeroPersone = numeroPersone;
 		this.dataPrenotazione = dataPrenotazione;
-		this.caricoLavoroPrenotazione = caricoLavoroPrenotazione;
 	}
 
 
@@ -58,41 +51,13 @@ public class Prenotazione {
 		this.comanda = comanda;
 	}
 
-
-	public int getNumeroPersone() {
-		return numeroPersone;
-	}
-
-
-	public void setNumeroPersone(int numeroPersone) {
-		this.numeroPersone = numeroPersone;
-	}
-
-
-	public String getDataPrenotazione() {
+	public Date getDataPrenotazione() {
 		return dataPrenotazione;
 	}
 
 
-	public void setDataPrenotazione(String dataPrenotazione) {
+	public void setDataPrenotazione(Date dataPrenotazione) {
 		this.dataPrenotazione = dataPrenotazione;
-	}
-
-
-	public float getCaricoLavoroPrenotazione() {
-		return caricoLavoroPrenotazione;
-	}
-
-
-	public void setCaricoLavoroPrenotazione(float caricoLavoroPrenotazione) {
-		this.caricoLavoroPrenotazione = caricoLavoroPrenotazione;
-	}
-	
-	
-	@Override
-	public String toString() {
-		return "Prenotazione\n" + nomeCliente + ",\ncomanda=" + comanda + ",\nnumeroPersone=" + numeroPersone + ",\ndataPrenotazione=" 
-				+ dataPrenotazione + ",\ncaricoLavoroPrenotazione=" + caricoLavoroPrenotazione + "\n\n";
 	}
 	
 }

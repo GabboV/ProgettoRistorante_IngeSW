@@ -60,7 +60,6 @@ public class Menu {
 	}
 	*/
 	
-	//nel DataBase si può conservare un istanza di MenuSpeciali
 	
 	//MenuCarta contiene elenco dei piatti validi nella data
 	//serve classe MenuCarta? No, perchè è piu facile generarlo con un metodo solo quando serve

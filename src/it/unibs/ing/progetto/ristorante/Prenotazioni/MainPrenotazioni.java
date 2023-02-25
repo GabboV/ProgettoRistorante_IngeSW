@@ -1,6 +1,7 @@
 package it.unibs.ing.progetto.ristorante.Prenotazioni;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import it.unibs.fp.mylib.InputDati;
@@ -64,7 +65,7 @@ public class MainPrenotazioni {
 		
 		String cliente = "Mario";
 		int numeroCoperti = 3;
-		String dataPrenotazione = "20/03/2023";
+		Date dataPrenotazione = null;
 		float caricoLavoroPrenotazione = 100;
 		
 		HashMap<Piatto, Integer> comanda= new HashMap<Piatto, Integer>();
@@ -82,7 +83,7 @@ public class MainPrenotazioni {
 
 		int numeroPersone = calcolaNumeroPersoneComanda(comanda);
 		
-		Prenotazione prenotazione = new Prenotazione(cliente, numeroCoperti, comanda, numeroPersone, dataPrenotazione, caricoLavoroPrenotazione);
+		Prenotazione prenotazione = new Prenotazione(cliente, numeroCoperti, comanda, dataPrenotazione);
 		
 		/*
 		provato con array di SingoliPiatti e MenuTematici
