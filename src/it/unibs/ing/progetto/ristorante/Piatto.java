@@ -1,6 +1,7 @@
 package it.unibs.ing.progetto.ristorante;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 /**
  * 
@@ -10,65 +11,54 @@ import java.util.Date;
 public class Piatto {
 
 	private String nomePiatto; 
-	private Date inizio;
-	private Date fine;
 	private double caricoLavoro;
+	//array contentente coppie di date (dataInizio e dataFine)
+	private ArrayList<DatePair> periodiValidita;
 	
 	
-
-	public Piatto(String nomePiatto, double caricoLavoro) {
+	public Piatto(String nomePiatto, ArrayList<DatePair> periodiValidita,  double caricoLavoro) {
 		super();
 		this.nomePiatto = nomePiatto;
-		this.inizio = null;
-		this.fine = null;
+		this.periodiValidita = periodiValidita;
 		this.caricoLavoro = caricoLavoro;
 	}
 
-	public Piatto(String nomePiatto, Date inizio, Date fine,  double caricoLavoro) {
-		super();
-		this.nomePiatto = nomePiatto;
-		this.inizio = inizio;
-		this.fine = fine;
-		this.caricoLavoro = caricoLavoro;
+	//cosa succede se non ho un DatePair non inizializzato (se può succedere)
+	//esistono piatti sempre validi?
+	//devo imporre che date sono in ordine prima di usare questo metodo
+	//posso avere un periodiValidita vuoto?
+	public boolean isValidoInData(LocalDate data) {
+		//prende ciascun DatePair presente in periodiValidita
+		for(DatePair d : periodiValidita) {
+			//se la data è compresa tra dataInizio e dataFine oppure coincide con una delle due date ritorna true
+			if(d.contieneDataEstremiInclusi(data)) return true;
+		}
+		return false;
 	}
-
-	/**
-	 * 
-	 * @return
-	 */
+	
+	
+	//getters e setters
 	public String getNomePiatto() {
 		return nomePiatto;
 	}
 
-	public Date getInizio() {
-		return inizio;
+	public void setNomePiatto(String nomePiatto) {
+		this.nomePiatto = nomePiatto;
 	}
 
-	public Date getFine() {
-		return fine;
-	}
-/*
-	public Ricetta getRecipe() {
-		return recipe;
-	}
-*/
 	public double getCaricoLavoro() {
 		return caricoLavoro;
 	}
 
-	@Override
-	public String toString() {
-		return "Piatto [nomePiatto=" + nomePiatto + ", inizio=" + inizio + ", fine=" + fine + ", caricoLavoro="
-				+ caricoLavoro + "]";
+	public void setCaricoLavoro(double caricoLavoro) {
+		this.caricoLavoro = caricoLavoro;
 	}
 
-	/**
-	 * DA IMPLEMENTARE
-	 * 
-	 * @return
-	 */
-	public boolean isValido() {
-		return false;
+	public ArrayList<DatePair> getGiorniValido() {
+		return periodiValidita;
 	}
 
+	public void setGiorniValido(ArrayList<DatePair> periodiValidita) {
+		this.periodiValidita = periodiValidita;
+	}
 }

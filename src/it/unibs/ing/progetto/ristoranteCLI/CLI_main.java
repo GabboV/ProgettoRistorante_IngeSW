@@ -32,7 +32,7 @@ public class CLI_main {
 		ArrayList<ProductSheet> ingredienti = new ArrayList<ProductSheet>();
 		ingredienti = chiediIngredienti();
 		
-		gestore.creaRicetta(ingredienti, workLoad, porzioni,"CicogniEFagiane");
+		//gestore.creaRicetta(ingredienti, workLoad, porzioni,"CicogniEFagiane");
 		
 		System.out.println(gestore.visualizzaDB());
 		/*

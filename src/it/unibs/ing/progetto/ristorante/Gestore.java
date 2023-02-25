@@ -1,5 +1,6 @@
 package it.unibs.ing.progetto.ristorante;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -34,9 +35,9 @@ public class Gestore {
 	 * 
 	 * @return Ricetta
 	 */
-	public void creaRicetta(ArrayList<ProductSheet> ingredienti, double workLoad, int porzioni,String nome) {
+	public void creaRicetta(ArrayList<ProductSheet> ingredienti, double workLoad, int porzioni,String nome, ArrayList<DatePair> periodiValidita) {
 		Ricetta r = new Ricetta(ingredienti, porzioni, workLoad);
-		Piatto p = new Piatto(nome,workLoad/porzioni);
+		Piatto p = new Piatto(nome, periodiValidita, workLoad/porzioni);
 		this.ristoranteDB.addRicetta(r);
 		this.ristoranteDB.addPiatto(p);
 		this.ristoranteDB.addCorrispondenza(p, r);

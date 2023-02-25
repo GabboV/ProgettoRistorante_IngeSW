@@ -1,8 +1,8 @@
 package it.unibs.ing.progetto.ristorante.Prenotazioni;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import it.unibs.ing.progetto.ristorante.Piatto;
-import java.util.Date;
 
 public class Prenotazione {
 	
@@ -11,9 +11,9 @@ public class Prenotazione {
 	private int numeroCoperti;
 	//basta avere una HashMap<String, Integer>? no perchè cosi semplifico le operazioni del magazziniere
 	private HashMap<Piatto,Integer> comanda;
-	private Date dataPrenotazione;
+	private LocalDate dataPrenotazione;
 	
-	public Prenotazione(String cliente, int numeroCoperti, HashMap<Piatto, Integer> comanda, Date dataPrenotazione) {
+	public Prenotazione(String cliente, int numeroCoperti, HashMap<Piatto, Integer> comanda, LocalDate dataPrenotazione) {
 		super();
 		this.nomeCliente = cliente;
 		this.numeroCoperti = numeroCoperti;
@@ -51,12 +51,12 @@ public class Prenotazione {
 		this.comanda = comanda;
 	}
 
-	public Date getDataPrenotazione() {
+	public LocalDate getDataPrenotazione() {
 		return dataPrenotazione;
 	}
 
 
-	public void setDataPrenotazione(Date dataPrenotazione) {
+	public void setDataPrenotazione(LocalDate dataPrenotazione) {
 		this.dataPrenotazione = dataPrenotazione;
 	}
 	
