@@ -5,6 +5,7 @@ import it.unibs.ing.progetto.ristorante.Ingrediente;
 import it.unibs.ing.progetto.ristorante.Misura;
 import it.unibs.ing.progetto.ristorante.ProductSheet;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import it.unibs.fp.mylib.InputDati;
@@ -36,7 +37,7 @@ public class Controller {
 				double workLoad = InputDati.leggiDoubleConMinimo("Inserisci work load -> ", 0.0);
 				int porzioni = InputDati.leggiInteroConMinimo("Inserisci porzioni -> ", 1);
 				String nome = InputDati.leggiStringaNonVuota("Nome del piatto -> ");
-				model.creaRicetta(ingredienti, workLoad, porzioni, nome);
+				model.creaRicetta(ingredienti, workLoad, porzioni, nome, null);
 				break;
 			case 2:
 				int numero = InputDati.leggiInteroConMinimo("Inserisci numero posti ristorante -> ", 1);

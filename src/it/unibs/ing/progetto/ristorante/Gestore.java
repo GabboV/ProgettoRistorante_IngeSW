@@ -46,14 +46,6 @@ public class Gestore {
 		this.ristoranteDB.addPiatto(p);
 		this.ristoranteDB.addCorrispondenza(p, r);
 	}
-    
-	public void creaRicetta(ArrayList<ProductSheet> schedeIngredienti, double workLoad, int porzioni, String nome) {
-		Ricetta r = new Ricetta(schedeIngredienti, porzioni, workLoad);
-		Piatto p = new Piatto(nome, workLoad / porzioni);
-		this.ristoranteDB.addRicetta(r);
-		this.ristoranteDB.addPiatto(p);
-		this.ristoranteDB.addCorrispondenza(p, r);
-	}
 
 	public void creaBevanda(Ingrediente bevanda, double consumoProCapite) {
 		ProductSheet e = new ProductSheet(bevanda, consumoProCapite);

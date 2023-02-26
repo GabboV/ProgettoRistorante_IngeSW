@@ -174,6 +174,7 @@ public class DataBase {
 	 */
 	public void addCorrispondenza(Piatto p, Ricetta r) {
 		this.corrispondenzePiattoRicetta.put(p, r);
+	}
 
 	public void addBevanda(ProductSheet e) {
 		this.insiemeBevande.add(e);
@@ -181,13 +182,5 @@ public class DataBase {
 
 	public void addExtra(ProductSheet e) {
 		this.insiemeBevande.add(e);
-	}
-
-	@Override
-	public String toString() {
-		return "DataBase [ricettario=" + ricettario + ", caricoDilavoroPerPersona=" + caricoDilavoroPerPersona
-				+ ", numeroPostiASedere=" + numeroPostiASedere + ", caricoLavoroRistorante=" + caricoLavoroRistorante
-				+ ", pietanze=" + pietanze + ", insiemeBevande=" + insiemeBevande + ", insiemeGeneriExtra="
-				+ insiemeGeneriExtra + ", corrispondenze=" + corrispondenze + "]";
 	}
 }
