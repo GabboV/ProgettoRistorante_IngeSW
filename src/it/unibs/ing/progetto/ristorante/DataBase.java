@@ -15,7 +15,7 @@ public class DataBase {
 	 * Contiene tutte le ricette memorizzate in un certo momento
 	 */
 	private ArrayList<Ricetta> ricettario;
-	
+
 	private int caricoDilavoroPerPersona;
 	private int numeroPostiASedere;
 	private double caricoLavoroRistorante;
@@ -26,8 +26,7 @@ public class DataBase {
 	private ArrayList<Piatto> pietanze;
 	private ArrayList<ProductSheet> insiemeBevande;
 	private ArrayList<ProductSheet> insiemeGeneriExtra;
-	private HashMap<Piatto,Ricetta> corrispondenze;
-	
+	private HashMap<Piatto, Ricetta> corrispondenze;
 
 	/**
 	 * Se inizializzazione SENZA dati preesistenti
@@ -38,7 +37,7 @@ public class DataBase {
 		this.pietanze = new ArrayList<Piatto>();
 		this.insiemeBevande = new ArrayList<ProductSheet>();
 		this.insiemeGeneriExtra = new ArrayList<ProductSheet>();
-		this.corrispondenze = new HashMap<Piatto,Ricetta>();
+		this.corrispondenze = new HashMap<Piatto, Ricetta>();
 	}
 
 	/**
@@ -48,10 +47,18 @@ public class DataBase {
 	 * @param ricettario
 	 * @param piatti
 	 */
-	public DataBase(ArrayList<Ricetta> ricettario, ArrayList<Piatto> piatti, HashMap<Piatto,Ricetta> corrispondenze) {
+
+	public DataBase(ArrayList<Ricetta> ricettario, int caricoDilavoroPerPersona, int numeroPostiASedere,
+			double caricoLavoroRistorante, ArrayList<Piatto> pietanze, ArrayList<ProductSheet> insiemeBevande,
+			ArrayList<ProductSheet> insiemeGeneriExtra, HashMap<Piatto, Ricetta> corrispondenze) {
 		super();
 		this.ricettario = ricettario;
-		this.pietanze = piatti;
+		this.caricoDilavoroPerPersona = caricoDilavoroPerPersona;
+		this.numeroPostiASedere = numeroPostiASedere;
+		this.caricoLavoroRistorante = caricoLavoroRistorante;
+		this.pietanze = pietanze;
+		this.insiemeBevande = insiemeBevande;
+		this.insiemeGeneriExtra = insiemeGeneriExtra;
 		this.corrispondenze = corrispondenze;
 	}
 
@@ -93,7 +100,6 @@ public class DataBase {
 		return pietanze;
 	}
 
-
 	public ArrayList<ProductSheet> getInsiemeBevande() {
 		return insiemeBevande;
 	}
@@ -105,8 +111,6 @@ public class DataBase {
 	public void setPietanze(ArrayList<Piatto> pietanze) {
 		this.pietanze = pietanze;
 	}
-
-	
 
 	public int getCaricoDilavoroPerPersona() {
 		return caricoDilavoroPerPersona;
@@ -152,6 +156,7 @@ public class DataBase {
 		this.insiemeGeneriExtra = insiemeGeneriExtra;
 	}
 
+
 	@Override
 	public String toString() {
 		return "DataBase [ricettario=" + ricettario + ", caricoDilavoroPerPersona=" + caricoDilavoroPerPersona
@@ -160,9 +165,12 @@ public class DataBase {
 				+ insiemeGeneriExtra + ", corrispondenze=" + corrispondenze + "]";
 	}
 
+	public void addBevanda(ProductSheet e) {
+		this.insiemeBevande.add(e);
+	}
 
-	
-	
+	public void addExtra(ProductSheet e) {
+		this.insiemeBevande.add(e);
+	}
 
-	
 }

@@ -15,16 +15,16 @@ public class Ingrediente {
 		super();
 		this.nome = nome;
 		this.unitofMeasure = unitofMeasure;
-		this.type= TipoIngrediente.RAW;
+		this.type = TipoIngrediente.RAW;
 	}
-	
+
 	public Ingrediente(String nome, Misura unitofMeasure, TipoIngrediente tipo) {
 		super();
 		this.nome = nome;
 		this.unitofMeasure = unitofMeasure;
-		this.type= tipo;
+		this.type = tipo;
 	}
-	
+
 	public TipoIngrediente getType() {
 		return type;
 	}
@@ -47,7 +47,9 @@ public class Ingrediente {
 
 	@Override
 	public String toString() {
-		return "Ingrediente [nome=" + nome + ", unitofMeasure=" + unitofMeasure + "]";
+		return "Ingrediente [nome=" + nome + ", unitofMeasure=" + unitofMeasure + ", type=" + type + "]";
 	}
+
+	
 
 }
