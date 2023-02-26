@@ -13,7 +13,6 @@ import it.unibs.ing.progetto.ristorante.Menu.MenuTematico;
  *
  */
 public class DataBase {
-	
 	private int caricoDilavoroPerPersona;
 	private int numeroPostiASedere;
 	private double caricoLavoroRistorante;
@@ -26,7 +25,6 @@ public class DataBase {
 	private ArrayList<ProductSheet> insiemeBevande;
 	private ArrayList<ProductSheet> insiemeGeneriExtra;
 	private HashMap<Piatto,Ricetta> corrispondenzePiattoRicetta;
-	
 
 	/**
 	 * Se inizializzazione SENZA dati preesistenti
@@ -58,9 +56,9 @@ public class DataBase {
 	
 	
 	//MenuCarta contiene elenco dei piatti validi nella data
-	//serve classe MenuCarta? No, perchè è piu facile generarlo con un metodo solo quando serve
-	//	altrimenti dovrei ogni volta che è richiesta generare una istanza di MenuCarta per quando mi serve,
-	//	ma non ha senso conservarla da qualche parte perchè ogni giorno può cambiare
+	//serve classe MenuCarta? No, perchï¿½ ï¿½ piu facile generarlo con un metodo solo quando serve
+	//	altrimenti dovrei ogni volta che ï¿½ richiesta generare una istanza di MenuCarta per quando mi serve,
+	//	ma non ha senso conservarla da qualche parte perchï¿½ ogni giorno puï¿½ cambiare
 	
 	//ritorna un ArrayList<Piatto> contenente solo i piatti singoli memorizzati nel DataBase e validi nella data
 	public ArrayList<Piatto> getMenuCartaInData(LocalDate date){
@@ -79,7 +77,7 @@ public class DataBase {
 		}
 		return menuTematiciValidi;
 	}
-	
+  
 	//getter and setters
 	public int getCaricoDilavoroPerPersona() {
 		return caricoDilavoroPerPersona;
@@ -176,7 +174,20 @@ public class DataBase {
 	 */
 	public void addCorrispondenza(Piatto p, Ricetta r) {
 		this.corrispondenzePiattoRicetta.put(p, r);
+
+	public void addBevanda(ProductSheet e) {
+		this.insiemeBevande.add(e);
 	}
 
-	
+	public void addExtra(ProductSheet e) {
+		this.insiemeBevande.add(e);
+	}
+
+	@Override
+	public String toString() {
+		return "DataBase [ricettario=" + ricettario + ", caricoDilavoroPerPersona=" + caricoDilavoroPerPersona
+				+ ", numeroPostiASedere=" + numeroPostiASedere + ", caricoLavoroRistorante=" + caricoLavoroRistorante
+				+ ", pietanze=" + pietanze + ", insiemeBevande=" + insiemeBevande + ", insiemeGeneriExtra="
+				+ insiemeGeneriExtra + ", corrispondenze=" + corrispondenze + "]";
+	}
 }
