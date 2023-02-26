@@ -2,6 +2,7 @@ package it.unibs.ing.progetto.ristoranteCLI;
 
 import java.util.ArrayList;
 
+import Principale.Prenotazione;
 import it.unibs.fp.mylib.InputDati;
 import it.unibs.ing.progetto.ristorante.DataBase;
 import it.unibs.ing.progetto.ristorante.Gestore;
@@ -31,7 +32,7 @@ public class CLI_main {
 		ArrayList<ProductSheet> ingredienti = new ArrayList<ProductSheet>();
 		ingredienti = chiediIngredienti();
 		
-		gestore.creaRicetta(ingredienti, workLoad, porzioni,"CicogniEFagiane");
+		//gestore.creaRicetta(ingredienti, workLoad, porzioni,"CicogniEFagiane");
 		
 		System.out.println(gestore.visualizzaDB());
 		/*
@@ -50,6 +51,11 @@ public class CLI_main {
 			on = InputDati.yesOrNo("Vuoi aggiungere un altro ingrediente? ");
 		} while (on);
 		return ingredienti;
+	}
+	
+	private static ArrayList<Prenotazione> chiediPrenotazione(){
+		ArrayList<Prenotazione> prenotazione = new ArrayList<>();
+		return prenotazione;
 	}
 
 }
