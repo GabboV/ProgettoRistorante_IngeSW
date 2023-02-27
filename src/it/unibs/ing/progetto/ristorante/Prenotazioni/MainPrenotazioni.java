@@ -16,9 +16,6 @@ public class MainPrenotazioni {
 		DataBase ristoranteDB = new DataBase();
 		Gestore gestore = new Gestore("administrator", ristoranteDB);
 		
-		gestore.setPostiASedere(50);
-		gestore.inizializzaWorkload(300);
-		
 		AddettoPrenotazioni addettoPrenotazioni = new AddettoPrenotazioni();
 		Prenotazione prenotazione = chiediPrenotazione();
 		
