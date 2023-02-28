@@ -38,7 +38,9 @@ public class Gestore {
 	public void creaRicetta(ArrayList<ProductSheet> ingredienti, double workLoad, int porzioni, String nome,
 			ArrayList<DatePair> periodiValidita) {
 		Ricetta r = new Ricetta(ingredienti, porzioni, workLoad);
+
 		Piatto p = new Piatto(nome, periodiValidita, workLoad / porzioni);
+
 		this.ristoranteDB.addRicetta(r);
 		this.ristoranteDB.addPiatto(p);
 		this.ristoranteDB.addCorrispondenza(p, r);
