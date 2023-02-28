@@ -1,13 +1,12 @@
 package it.unibs.ing.progetto.ristorante.prototipo;
 
-import java.util.ArrayList;
 
-import Principale.Prenotazione;
 import it.unibs.ing.progetto.ristorante.Lista;
 import it.unibs.ing.progetto.ristorante.Ristorante;
 
 public class Magazziniere extends Employee {
 
+	
 	public Magazziniere(Ristorante ristorante) {
 		super(ristorante);
 		// TODO Auto-generated constructor stub
@@ -25,7 +24,8 @@ public class Magazziniere extends Employee {
 	 * @param listaPrenotazione
 	 * @return
 	 */
-	public Lista creaListaSpesa(ArrayList<Prenotazione> listaPrenotazione) {
+	
+	public Lista creaListaSpesa() {
 		/*
 		 * 
 		 * It Does Something undefined

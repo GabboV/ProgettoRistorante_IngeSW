@@ -18,11 +18,13 @@ public class Ristorante {
 	private int caricoDilavoroPerPersona;
 	private int numeroPostiASedere;
 	private double caricoLavoroRistorante;
+	
 	// Contiene tutte le ricette memorizzate nel database
 	private ArrayList<Ricetta> ricettario;
 	// Contiene tutti i piatti memorizzati nel database
 	private ArrayList<Piatto> menuPiatti;
 	// Contiene tutti i menu tematici memorizzati nel database
+	
 	private ArrayList<MenuTematico> menuTematici;
 	private ArrayList<ProductSheet> insiemeBevande;
 	private ArrayList<ProductSheet> insiemeGeneriExtra;
