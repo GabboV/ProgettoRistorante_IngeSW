@@ -5,16 +5,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import it.unibs.fp.mylib.InputDati;
-import it.unibs.ing.progetto.ristorante.DataBase;
 import it.unibs.ing.progetto.ristorante.Gestore;
 import it.unibs.ing.progetto.ristorante.Piatto;
+import it.unibs.ing.progetto.ristorante.Ristorante;
 import it.unibs.ing.progetto.ristorante.Menu.MenuTematico;
 
 public class MainPrenotazioni {
 
 	public static void main(String[] args) {
-		DataBase ristoranteDB = new DataBase();
-		Gestore gestore = new Gestore("administrator", ristoranteDB);
+		Ristorante ristoranteDB = new Ristorante();
+		Gestore gestore = new Gestore(ristoranteDB);
 		
 		AddettoPrenotazioni addettoPrenotazioni = new AddettoPrenotazioni();
 		Prenotazione prenotazione = chiediPrenotazione();

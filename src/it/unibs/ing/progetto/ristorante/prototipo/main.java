@@ -1,6 +1,6 @@
 package it.unibs.ing.progetto.ristorante.prototipo;
 
-import it.unibs.ing.progetto.ristorante.DataBase;
+import it.unibs.ing.progetto.ristorante.Ristorante;
 import it.unibs.ing.progetto.ristorante.Gestore;
 
 public class main {
@@ -8,8 +8,8 @@ public class main {
 	public static void main(String[] args) {
 
 		View view = new View();
-		DataBase d = new DataBase();
-		Gestore gestore = new Gestore("nothing", d);
+		Ristorante d = new Ristorante();
+		Gestore gestore = new Gestore(d);
 
 		Controller c = new Controller(gestore, view);
 

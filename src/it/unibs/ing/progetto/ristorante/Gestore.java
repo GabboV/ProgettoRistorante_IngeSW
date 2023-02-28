@@ -1,32 +1,26 @@
 package it.unibs.ing.progetto.ristorante;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import it.unibs.fp.mylib.InputDati;
+import it.unibs.ing.progetto.ristorante.prototipo.Employee;
 
 /**
  * 
  * @author Kevin Da implementare le funzioni e responsabilità
  *
  */
-public class Gestore {
+public class Gestore extends Employee{
 
-	private static final String DEFAULT = "DEFAULT";
 	private static final String[] OPZIONI = new String[] { "Crea ricetta", "Setta numero posti a sedere",
 			"Setta carico di Lavoro del Ristorante", "Visualizza ricette" };
 	@SuppressWarnings("unused")
-	private String userID;
-	private DataBase ristoranteDB;
+
 
 	/*
 	 * 
 	 */
-	public Gestore(String userID, DataBase ristoranteDB) {
-		super();
-		this.userID = userID;
-		this.ristoranteDB = ristoranteDB;
+	public Gestore(Ristorante ristoranteDB) {
+		super(ristoranteDB);
 	}
 
 	/**
@@ -41,19 +35,19 @@ public class Gestore {
 
 		Piatto p = new Piatto(nome, periodiValidita, workLoad / porzioni);
 
-		this.ristoranteDB.addRicetta(r);
-		this.ristoranteDB.addPiatto(p);
-		this.ristoranteDB.addCorrispondenza(p, r);
+		this.getRistorante().addRicetta(r);
+		this.getRistorante().addPiatto(p);
+		this.getRistorante().addCorrispondenza(p, r);
 	}
 
 	public void creaBevanda(Ingrediente bevanda, double consumoProCapite) {
 		ProductSheet e = new ProductSheet(bevanda, consumoProCapite);
-		this.ristoranteDB.addBevanda(e);
+		this.getRistorante().addBevanda(e);
 	}
 
 	public void creaExtra(Ingrediente extra, double consumoProCapite) {
 		ProductSheet e = new ProductSheet(extra, consumoProCapite);
-		this.ristoranteDB.addExtra(e);
+		this.getRistorante().addExtra(e);
 	}
 
 	/**
@@ -62,19 +56,19 @@ public class Gestore {
 	 */
 
 	public void inizializzaWorkload(double w) {
-		this.ristoranteDB.setCaricoLavoroRistorante(w);
+		this.getRistorante().setCaricoLavoroRistorante(w);
 	}
 
 	public void setPostiASedere(int posti) {
-		this.ristoranteDB.setNumeroPostiASedere(posti);
+		this.getRistorante().setNumeroPostiASedere(posti);
 	}
 
 	public void inserisciCorrispondenza(Piatto p, Ricetta r) {
-		this.ristoranteDB.addCorrispondenza(p, r);
+		this.getRistorante().addCorrispondenza(p, r);
 	}
 
 	public String visualizzaDB() {
-		return this.ristoranteDB.toString();
+		return this.getRistorante().toString();
 	}
 
 	public static String[] getOpzioni() {
@@ -82,7 +76,7 @@ public class Gestore {
 	}
 
 	public String visualizzaRicette() {
-		return this.ristoranteDB.ottieniRicette();
+		return this.getRistorante().ottieniRicette();
 	}
 
 }

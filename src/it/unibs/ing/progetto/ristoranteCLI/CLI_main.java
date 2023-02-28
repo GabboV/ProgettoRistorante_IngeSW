@@ -4,19 +4,19 @@ import java.util.ArrayList;
 
 import Principale.Prenotazione;
 import it.unibs.fp.mylib.InputDati;
-import it.unibs.ing.progetto.ristorante.DataBase;
 import it.unibs.ing.progetto.ristorante.Gestore;
 import it.unibs.ing.progetto.ristorante.Ingrediente;
 import it.unibs.ing.progetto.ristorante.Misura;
 import it.unibs.ing.progetto.ristorante.ProductSheet;
+import it.unibs.ing.progetto.ristorante.Ristorante;
 
 public class CLI_main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		DataBase ristoranteDB = new DataBase();
-		Gestore gestore = new Gestore("administrator", ristoranteDB);
+		Ristorante ristoranteDB = new Ristorante();
+		Gestore gestore = new Gestore(ristoranteDB);
 
 		/*
 		 * 
@@ -31,9 +31,9 @@ public class CLI_main {
 		double workLoad = InputDati.leggiDoubleConMinimo("Inserisci il workLoad --> ", 0.0);
 		ArrayList<ProductSheet> ingredienti = new ArrayList<ProductSheet>();
 		ingredienti = chiediIngredienti();
-		
-		//gestore.creaRicetta(ingredienti, workLoad, porzioni,"CicogniEFagiane");
-		
+
+		// gestore.creaRicetta(ingredienti, workLoad, porzioni,"CicogniEFagiane");
+
 		System.out.println(gestore.visualizzaDB());
 		/*
 		 * 
@@ -52,8 +52,8 @@ public class CLI_main {
 		} while (on);
 		return ingredienti;
 	}
-	
-	private static ArrayList<Prenotazione> chiediPrenotazione(){
+
+	private static ArrayList<Prenotazione> chiediPrenotazione() {
 		ArrayList<Prenotazione> prenotazione = new ArrayList<>();
 		return prenotazione;
 	}

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import it.unibs.ing.progetto.ristorante.Menu.MenuTematico;
+import it.unibs.ing.progetto.ristorante.Prenotazioni.Prenotazione;
 
 /**
  * Utility Class per per la classe gestore
@@ -12,7 +13,8 @@ import it.unibs.ing.progetto.ristorante.Menu.MenuTematico;
  * @author Kevin
  *
  */
-public class DataBase {
+public class Ristorante {
+
 	private int caricoDilavoroPerPersona;
 	private int numeroPostiASedere;
 	private double caricoLavoroRistorante;
@@ -25,11 +27,17 @@ public class DataBase {
 	private ArrayList<ProductSheet> insiemeBevande;
 	private ArrayList<ProductSheet> insiemeGeneriExtra;
 	private HashMap<Piatto, Ricetta> corrispondenzePiattoRicetta;
+	private Lista inventario;
+	private Lista listaSpesa;
+	private ArrayList<Prenotazione> elencoPrenotazioni;
+	
+	
+	
 
 	/**
 	 * Se inizializzazione SENZA dati preesistenti
 	 */
-	public DataBase() {
+	public Ristorante() {
 		super();
 		this.ricettario = new ArrayList<Ricetta>();
 		this.menuPiatti = new ArrayList<Piatto>();
@@ -37,13 +45,16 @@ public class DataBase {
 		this.insiemeBevande = new ArrayList<ProductSheet>();
 		this.insiemeGeneriExtra = new ArrayList<ProductSheet>();
 		this.corrispondenzePiattoRicetta = new HashMap<Piatto, Ricetta>();
+		this.inventario = new Lista();
+		this.listaSpesa = new Lista();
+		this.elencoPrenotazioni = new ArrayList<Prenotazione>();
 	}
 
 	/**
 	 * Inizializzazione con dati preesistente (non comprende la logica di retrieve
 	 * dei dati da eventuale file di salvataggio)
 	 */
-	public DataBase(ArrayList<Ricetta> ricettario, ArrayList<Piatto> menuPiatti, ArrayList<MenuTematico> menuTematici,
+	public Ristorante(ArrayList<Ricetta> ricettario, ArrayList<Piatto> menuPiatti, ArrayList<MenuTematico> menuTematici,
 			ArrayList<ProductSheet> insiemeBevande, ArrayList<ProductSheet> insiemeGeneriExtra,
 			HashMap<Piatto, Ricetta> corrispondenzePiattoRicetta) {
 		super();
@@ -162,13 +173,21 @@ public class DataBase {
 	public void addExtra(ProductSheet e) {
 		this.insiemeBevande.add(e);
 	}
-	
+
 	public String ottieniRicette() {
 		StringBuilder s = new StringBuilder();
 		int indice = 1;
-		for(Ricetta r : ricettario) {
-			s.append(indice +".\n"+r.toString()+"\n");
+		for (Ricetta r : ricettario) {
+			s.append(indice + ".\n" + r.toString() + "\n");
 		}
 		return s.toString();
+	}
+
+	public Lista getInventario() {
+		return inventario;
+	}
+
+	public Lista getListaSpesa() {
+		return listaSpesa;
 	}
 }
