@@ -75,10 +75,23 @@ public class Ricetta {
 		return i;
 	}
 
+	/**
+	 * Cose
+	 */
 	@Override
 	public String toString() {
-		return "Ricetta [ingredienti=" + ingredienti + ", numeroPorzioni=" + numeroPorzioni
-				+ ", caricoLavoroPerPorzione=" + caricoLavoroPerPorzione + "]";
+		StringBuilder b = new StringBuilder();
+		b.append(String.format("Ricetta: %s\n", 2));
+		b.append(String.format("Porzioni: %d\n", this.numeroPorzioni));
+		b.append(String.format("Carico di lavoro: %f\n", this.caricoLavoroPerPorzione));
+		int indice = 1;
+		b.append("Ingrediente \t quantità");
+		for(ProductSheet i: ingredienti) {
+			b.append(String.format("%d. %s - %f\n", indice,i.getIngrendient().getNome(), i.getAmount()));
+			indice++;
+		}
+		
+		return b.toString();
 	}
 	
 	

@@ -14,12 +14,8 @@ import it.unibs.fp.mylib.InputDati;
 public class Gestore {
 
 	private static final String DEFAULT = "DEFAULT";
-	private static final String[] OPZIONI = new String[] {
-			"Crea ricetta",
-			"Setta numero posti a sedere",
-			"Setta carico di Lavoro del Ristorante",
-			"Visualizza ricette"
-	};
+	private static final String[] OPZIONI = new String[] { "Crea ricetta", "Setta numero posti a sedere",
+			"Setta carico di Lavoro del Ristorante", "Visualizza ricette" };
 	@SuppressWarnings("unused")
 	private String userID;
 	private DataBase ristoranteDB;
@@ -38,11 +34,12 @@ public class Gestore {
 	 * 
 	 * @return Ricetta
 	 */
-   
-	public void creaRicetta(ArrayList<ProductSheet> ingredienti, double workLoad, int porzioni,String nome, ArrayList<DatePair> periodiValidita) {
+
+	public void creaRicetta(ArrayList<ProductSheet> ingredienti, double workLoad, int porzioni, String nome,
+			ArrayList<DatePair> periodiValidita) {
 		Ricetta r = new Ricetta(ingredienti, porzioni, workLoad);
-		Piatto p = new Piatto(nome, periodiValidita, workLoad/porzioni);
-    this.ristoranteDB.addRicetta(r);
+		Piatto p = new Piatto(nome, periodiValidita, workLoad / porzioni);
+		this.ristoranteDB.addRicetta(r);
 		this.ristoranteDB.addPiatto(p);
 		this.ristoranteDB.addCorrispondenza(p, r);
 	}
@@ -51,7 +48,7 @@ public class Gestore {
 		ProductSheet e = new ProductSheet(bevanda, consumoProCapite);
 		this.ristoranteDB.addBevanda(e);
 	}
-	
+
 	public void creaExtra(Ingrediente extra, double consumoProCapite) {
 		ProductSheet e = new ProductSheet(extra, consumoProCapite);
 		this.ristoranteDB.addExtra(e);
@@ -70,14 +67,6 @@ public class Gestore {
 		this.ristoranteDB.setNumeroPostiASedere(posti);
 	}
 
-	public void inserisciInsiemeBevande(ArrayList<ProductSheet> bevande) {
-		this.ristoranteDB.setInsiemeBevande(bevande);
-	}
-
-	public void inserisciGeneriExtra(ArrayList<ProductSheet> generiExtra) {
-		this.ristoranteDB.setInsiemeBevande(generiExtra);
-	}
-
 	public void inserisciCorrispondenza(Piatto p, Ricetta r) {
 		this.ristoranteDB.addCorrispondenza(p, r);
 	}
@@ -89,9 +78,9 @@ public class Gestore {
 	public static String[] getOpzioni() {
 		return OPZIONI;
 	}
-	
+
 	public String visualizzaRicette() {
-		return this.ristoranteDB.getRicettario().toString();
+		return this.ristoranteDB.ottieniRicette();
 	}
 
 }
