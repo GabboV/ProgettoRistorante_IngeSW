@@ -8,18 +8,10 @@ package it.unibs.ing.progetto.ristorante;
 public class Ingrediente {
 
 	private String nome;
-	private Misura unitofMeasure;
 
-	public Ingrediente(String nome, Misura unitofMeasure) {
+	public Ingrediente(String nome) {
 		super();
 		this.nome = nome;
-		this.unitofMeasure = unitofMeasure;
-	}
-
-	public Ingrediente(String nome, Misura unitofMeasure, TipoIngrediente tipo) {
-		super();
-		this.nome = nome;
-		this.unitofMeasure = unitofMeasure;
 	}
 
 	public String getNome() {
@@ -30,20 +22,9 @@ public class Ingrediente {
 		this.nome = nome;
 	}
 
-	public Misura getUnitofMeasure() {
-		return unitofMeasure;
-	}
-
-	public void setUnitofMeasure(Misura unitofMeasure) {
-		this.unitofMeasure = unitofMeasure;
-	}
-
 	@Override
 	public String toString() {
-		return "Ingrediente [nome=" + nome + ", unitofMeasure=" + unitofMeasure + "]";
+		return "Ingrediente [nome=" + nome + "]";
 	}
-
-
-	
 
 }

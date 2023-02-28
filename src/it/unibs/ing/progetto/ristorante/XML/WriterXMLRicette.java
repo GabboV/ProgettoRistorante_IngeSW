@@ -86,7 +86,6 @@ public class WriterXMLRicette {
             xmlw.writeStartElement(INGREDIENTE);
             xmlw.writeAttribute(NOME_INGREDIENTE, i.getIngrendient().getNome());
             xmlw.writeAttribute(DOSE, Double.toString(i.getAmount()));
-            xmlw.writeAttribute(MISURA, i.getIngrendient().getUnitofMeasure().toString());
             xmlw.writeAttribute(PORZIONI, i.getIngrendient().getNome());
             xmlw.writeAttribute(CARICO_LAVORO_PORZIONE, i.getIngrendient().getNome());
             xmlw.writeEndElement();

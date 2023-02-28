@@ -1,9 +1,6 @@
 package it.unibs.ing.progetto.ristorante.prototipo;
 
-import it.unibs.ing.progetto.ristorante.Gestore;
-import it.unibs.ing.progetto.ristorante.Ingrediente;
-import it.unibs.ing.progetto.ristorante.Misura;
-import it.unibs.ing.progetto.ristorante.ProductSheet;
+import it.unibs.ing.progetto.ristorante.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -62,7 +59,7 @@ public class Controller {
 		do {
 			String nomeIngrediente = InputDati.leggiStringaNonVuota("Inserisci nome dell'ingrediente --> ");
 			double dose = InputDati.leggiDoubleConMinimo("Inserisci dose (dose must be > 0.0) --> ", 0.0);
-			ingredienti.add(new ProductSheet(new Ingrediente(nomeIngrediente, Misura.DEFAULT), dose));
+			ingredienti.add(new ProductSheet(new Ingrediente(nomeIngrediente), dose));
 			on = InputDati.yesOrNo("Vuoi aggiungere un altro ingrediente? ");
 		} while (on);
 		return ingredienti;

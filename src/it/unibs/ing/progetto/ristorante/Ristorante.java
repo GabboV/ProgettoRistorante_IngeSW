@@ -33,9 +33,6 @@ public class Ristorante {
 	private Lista listaSpesa;
 	private ArrayList<Prenotazione> elencoPrenotazioni;
 	
-	
-	
-
 	/**
 	 * Se inizializzazione SENZA dati preesistenti
 	 */
