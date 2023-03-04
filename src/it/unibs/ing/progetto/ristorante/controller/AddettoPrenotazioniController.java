@@ -8,13 +8,12 @@ import it.unibs.ing.progetto.ristorante.model.MenuTematico;
 import it.unibs.ing.progetto.ristorante.model.Piatto;
 import it.unibs.ing.progetto.ristorante.model.Prenotazione;
 
-public class AddettoPrenotazioni {
+public class AddettoPrenotazioniController {
 	
 	private ArrayList<Prenotazione> elencoPrenotazioni;
 
 
-	public AddettoPrenotazioni() {
-		super();
+	public AddettoPrenotazioniController() {
 		this.elencoPrenotazioni = new ArrayList<Prenotazione>();
 	}
 	

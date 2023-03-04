@@ -1,7 +1,7 @@
 package it.unibs.ing.progetto.ristorante;
 
 import it.unibs.ing.progetto.ristorante.*;
-import it.unibs.ing.progetto.ristorante.controller.Gestore;
+import it.unibs.ing.progetto.ristorante.controller.GestoreController;
 import it.unibs.ing.progetto.ristorante.model.Prodotto;
 
 import java.time.LocalDate;
@@ -12,7 +12,7 @@ import it.unibs.fp.mylib.MyMenu;
 
 public class Controller {
 
-	private Gestore model;
+	private GestoreController model;
 	//private View view;
 
 	/*
