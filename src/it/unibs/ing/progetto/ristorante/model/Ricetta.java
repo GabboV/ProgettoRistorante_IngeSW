@@ -1,25 +1,25 @@
-package it.unibs.ing.progetto.ristorante;
+package it.unibs.ing.progetto.ristorante.model;
 
 import java.util.ArrayList;
 
 public class Ricetta {
 
-	private ArrayList<ProductSheet> ingredienti;
+	private ArrayList<Prodotto> ingredienti;
 	private int numeroPorzioni;
 	private double caricoLavoroPerPorzione;
 
-	public Ricetta(ArrayList<ProductSheet> ingredienti, int numeroPorzioni, double caricoLavoroPerPorzione) {
+	public Ricetta(ArrayList<Prodotto> ingredienti, int numeroPorzioni, double caricoLavoroPerPorzione) {
 		super();
 		this.ingredienti = ingredienti;
 		this.numeroPorzioni = numeroPorzioni;
 		this.caricoLavoroPerPorzione = caricoLavoroPerPorzione;
 	}
 
-	public ArrayList<ProductSheet> getIngredienti() {
+	public ArrayList<Prodotto> getIngredienti() {
 		return ingredienti;
 	}
 
-	public void setIngredienti(ArrayList<ProductSheet> ingredienti) {
+	public void setIngredienti(ArrayList<Prodotto> ingredienti) {
 		this.ingredienti = ingredienti;
 	}
 
@@ -44,20 +44,20 @@ public class Ricetta {
 	 * 
 	 * @param ingrediente
 	 */
-	public void addIngrediente(ProductSheet ingrediente) {
+	public void addIngrediente(Prodotto ingrediente) {
 		this.ingredienti.add(ingrediente);
 	}
 
-	public boolean esisteIngrediente(ProductSheet x) {
-		String xNome = x.getIngrendient().getNome();
+	public boolean esisteIngrediente(Prodotto x) {
+		String xNome = x.getNome();
 		for (int i = 0; i < this.ingredienti.size(); i++) {
-			if (ingredienti.get(i).getIngrendient().getNome().equals(xNome))
+			if (ingredienti.get(i).getNome().equals(xNome))
 				return true;
 		}
 		return false;
 	}
 
-	public void removeIngrediente(ProductSheet x) {
+	public void removeIngrediente(Prodotto x) {
 		if (this.esisteIngrediente(x)) {
 			int rmv = posIngrediente(x);
 			this.ingredienti.remove(rmv);
@@ -65,11 +65,11 @@ public class Ricetta {
 
 	}
 
-	private int posIngrediente(ProductSheet x) {
-		String xNome = x.getIngrendient().getNome();
+	private int posIngrediente(Prodotto x) {
+		String xNome = x.getNome();
 		int i = 0;
 		for (; i < this.ingredienti.size(); i++) {
-			if (ingredienti.get(i).getIngrendient().getNome().equals(xNome))
+			if (ingredienti.get(i).getNome().equals(xNome))
 				return i;
 		}
 		return i;
@@ -86,8 +86,8 @@ public class Ricetta {
 		b.append(String.format("Carico di lavoro: %f\n", this.caricoLavoroPerPorzione));
 		int indice = 1;
 		b.append("Ingrediente \t quantità");
-		for(ProductSheet i: ingredienti) {
-			b.append(String.format("%d. %s - %f\n", indice,i.getIngrendient().getNome(), i.getAmount()));
+		for(Prodotto i: ingredienti) {
+			b.append(String.format("%d. %s - %f\n", indice,i.getNome(), i.getQuantita()));
 			indice++;
 		}
 		

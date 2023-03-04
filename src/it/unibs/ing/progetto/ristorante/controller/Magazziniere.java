@@ -1,8 +1,10 @@
-package it.unibs.ing.progetto.ristorante.prototipo;
+package it.unibs.ing.progetto.ristorante.controller;
 
 
-import it.unibs.ing.progetto.ristorante.Lista;
-import it.unibs.ing.progetto.ristorante.Ristorante;
+import java.util.ArrayList;
+
+import it.unibs.ing.progetto.ristorante.model.Prodotto;
+import it.unibs.ing.progetto.ristorante.model.Ristorante;
 
 public class Magazziniere extends Employee {
 
@@ -25,13 +27,13 @@ public class Magazziniere extends Employee {
 	 * @return
 	 */
 	
-	public Lista creaListaSpesa() {
+	public ArrayList<Prodotto> creaListaSpesa() {
 		/*
 		 * 
 		 * It Does Something undefined
 		 * 
 		 */
-		return new Lista();
+		return new ArrayList<Prodotto>();
 	}
 
 }

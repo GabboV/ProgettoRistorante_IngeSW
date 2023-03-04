@@ -1,4 +1,4 @@
-package it.unibs.ing.progetto.ristorante;
+package it.unibs.ing.progetto.ristorante.model;
 
 import java.time.LocalDate;
 

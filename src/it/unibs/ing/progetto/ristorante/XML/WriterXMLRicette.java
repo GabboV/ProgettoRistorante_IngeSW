@@ -4,10 +4,8 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
-import it.unibs.ing.progetto.ristorante.Ingrediente;
-import it.unibs.ing.progetto.ristorante.Piatto;
-import it.unibs.ing.progetto.ristorante.ProductSheet;
-import it.unibs.ing.progetto.ristorante.Ricetta;
+import it.unibs.ing.progetto.ristorante.model.Piatto;
+import it.unibs.ing.progetto.ristorante.model.Ricetta;
 
 import java.io.FileOutputStream;
 import java.time.LocalDate;
@@ -81,7 +79,8 @@ public class WriterXMLRicette {
         xmlw.writeAttribute(NOME_PIATTO, p.getNomePiatto());
         xmlw.writeAttribute(CARICO_LAVORO_PIATTO, Double.toString(p.getCaricoLavoro()));
         xmlw.writeCharacters("\n");
-        for (ProductSheet i : r.getIngredienti()) {
+        /*
+        for (Prodotto i : ) {
             xmlw.writeCharacters("\t"+"\t");
             xmlw.writeStartElement(INGREDIENTE);
             xmlw.writeAttribute(NOME_INGREDIENTE, i.getIngrendient().getNome());
@@ -90,8 +89,8 @@ public class WriterXMLRicette {
             xmlw.writeAttribute(CARICO_LAVORO_PORZIONE, i.getIngrendient().getNome());
             xmlw.writeEndElement();
             xmlw.writeCharacters("\n");
+         }*/
         xmlw.writeCharacters("\t");
         xmlw.writeEndElement();
-    }
     }
 }

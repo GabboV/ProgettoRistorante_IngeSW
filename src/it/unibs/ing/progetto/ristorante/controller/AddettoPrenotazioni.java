@@ -1,11 +1,12 @@
-package it.unibs.ing.progetto.ristorante.Prenotazioni;
+package it.unibs.ing.progetto.ristorante.controller;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import it.unibs.ing.progetto.ristorante.Piatto;
-import it.unibs.ing.progetto.ristorante.Menu.MenuTematico;
+import it.unibs.ing.progetto.ristorante.model.MenuTematico;
+import it.unibs.ing.progetto.ristorante.model.Piatto;
+import it.unibs.ing.progetto.ristorante.model.Prenotazione;
 
 public class AddettoPrenotazioni {
 	
@@ -178,6 +179,31 @@ public class AddettoPrenotazioni {
 		return "AddettoPrenotazioni\n\n" + s;
 	}
 	
+	
+	
+	//funzione che confronta il nuovo piatto con la HashMap della comanda attuale
+	//se il piatto gia esiste nella comanda allora aumenta il value corrispondente di 1
+	//se il piatto non esiste nella comanda allora lo aggiunge con value = 1;
+	//INCOLLATO, DA CONTROLLARE
+	private static HashMap<Piatto, Integer> aggiungiPiattoInComanda(HashMap<Piatto, Integer> comanda, Piatto p){
+		if (comanda.containsKey(p)) {
+			int numeroOrdini = comanda.get(p);
+			comanda.replace(p, numeroOrdini+1);
+		} else {
+			comanda.put(p, 1);
+		}
+		return comanda;
+	}
+	
+	//Calcola il numero di piatti ordinati in una comanda
+	//INCOLLATO, DA CONTROLLARE
+	private static int calcolaNumeroPersoneComanda(HashMap<Piatto, Integer> comanda){
+		int somma = 0;
+		for (int i : comanda.values()) {
+		    somma += i;
+		}
+		return somma;
+	}
 	
 	//Se chiedo prenotazioni un piatto alla volta ci sono troppe complicazioni nell'aggiornare valori e controllare validita (troppe alternative)
 	//Per esempio se caricoLavoroRistorante quasi raggiunto, devo sperare che cliente chiede piatto "leggero" e continuare a richiedere, o dargli delle

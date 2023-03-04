@@ -1,6 +1,6 @@
-package it.unibs.ing.progetto.ristorante.prototipo;
+package it.unibs.ing.progetto.ristorante.controller;
 
-import it.unibs.ing.progetto.ristorante.Ristorante;
+import it.unibs.ing.progetto.ristorante.model.Ristorante;
 
 public class Employee {
 	

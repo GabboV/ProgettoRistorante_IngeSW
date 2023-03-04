@@ -1,10 +1,7 @@
-package it.unibs.ing.progetto.ristorante.Menu;
+package it.unibs.ing.progetto.ristorante.model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-
-import it.unibs.ing.progetto.ristorante.DatePair;
-import it.unibs.ing.progetto.ristorante.Piatto;
 
 public class MenuTematico {
 	

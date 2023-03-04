@@ -4,7 +4,7 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
-import it.unibs.ing.progetto.ristorante.Piatto;
+import it.unibs.ing.progetto.ristorante.model.Piatto;
 
 import java.io.FileOutputStream;
 import java.time.LocalDate;

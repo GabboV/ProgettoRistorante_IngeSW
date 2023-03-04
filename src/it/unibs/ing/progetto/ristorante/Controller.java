@@ -1,6 +1,8 @@
-package it.unibs.ing.progetto.ristorante.prototipo;
+package it.unibs.ing.progetto.ristorante;
 
 import it.unibs.ing.progetto.ristorante.*;
+import it.unibs.ing.progetto.ristorante.controller.Gestore;
+import it.unibs.ing.progetto.ristorante.model.Prodotto;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -11,14 +13,17 @@ import it.unibs.fp.mylib.MyMenu;
 public class Controller {
 
 	private Gestore model;
-	private View view;
+	//private View view;
 
+	/*
 	public Controller(Gestore model, View view) {
 		super();
 		this.model = model;
-		this.view = view;
+		//this.view = view;
 	}
+	*/
 
+	/*
 	public void avviaController() {
 		boolean running = true;
 		MyMenu menu = new MyMenu("Gestore", Gestore.getOpzioni());
@@ -52,14 +57,16 @@ public class Controller {
 			}
 		} while (running);
 	}
+	*/
 
-	private ArrayList<ProductSheet> chiediIngredienti() {
+	//DA RICONTROLLARE
+	private ArrayList<Prodotto> chiediIngredienti() {
 		boolean on = false;
-		ArrayList<ProductSheet> ingredienti = new ArrayList<>();
+		ArrayList<Prodotto> ingredienti = new ArrayList<>();
 		do {
 			String nomeIngrediente = InputDati.leggiStringaNonVuota("Inserisci nome dell'ingrediente --> ");
 			double dose = InputDati.leggiDoubleConMinimo("Inserisci dose (dose must be > 0.0) --> ", 0.0);
-			ingredienti.add(new ProductSheet(new Ingrediente(nomeIngrediente), dose));
+			ingredienti.add(new Prodotto());
 			on = InputDati.yesOrNo("Vuoi aggiungere un altro ingrediente? ");
 		} while (on);
 		return ingredienti;

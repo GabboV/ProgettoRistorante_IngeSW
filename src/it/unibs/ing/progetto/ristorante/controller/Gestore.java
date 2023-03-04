@@ -1,8 +1,12 @@
-package it.unibs.ing.progetto.ristorante;
+package it.unibs.ing.progetto.ristorante.controller;
 
 import java.util.ArrayList;
 
-import it.unibs.ing.progetto.ristorante.prototipo.Employee;
+import it.unibs.ing.progetto.ristorante.model.DatePair;
+import it.unibs.ing.progetto.ristorante.model.Piatto;
+import it.unibs.ing.progetto.ristorante.model.Prodotto;
+import it.unibs.ing.progetto.ristorante.model.Ricetta;
+import it.unibs.ing.progetto.ristorante.model.Ristorante;
 
 /**
  * 
@@ -29,7 +33,7 @@ public class Gestore extends Employee{
 	 * @return Ricetta
 	 */
 
-	public void creaRicetta(ArrayList<ProductSheet> ingredienti, double workLoad, int porzioni, String nome,
+	public void creaRicetta(ArrayList<Prodotto> ingredienti, double workLoad, int porzioni, String nome,
 			ArrayList<DatePair> periodiValidita) {
 		Ricetta r = new Ricetta(ingredienti, porzioni, workLoad);
 
@@ -40,15 +44,17 @@ public class Gestore extends Employee{
 		this.getRistorante().addCorrispondenza(p, r);
 	}
 
-	public void creaBevanda(Ingrediente bevanda, double consumoProCapite) {
-		ProductSheet e = new ProductSheet(bevanda, consumoProCapite);
+	/*
+	public void creaBevanda(Prodotto bevanda, double consumoProCapite) {
+		Prodotto e = new Prodotto();
 		this.getRistorante().addBevanda(e);
 	}
 
-	public void creaExtra(Ingrediente extra, double consumoProCapite) {
-		ProductSheet e = new ProductSheet(extra, consumoProCapite);
+	public void creaExtra(Prodotto extra, double consumoProCapite) {
+		Prodotto e = new Prodotto();
 		this.getRistorante().addExtra(e);
 	}
+	*/
 
 	/**
 	 * 

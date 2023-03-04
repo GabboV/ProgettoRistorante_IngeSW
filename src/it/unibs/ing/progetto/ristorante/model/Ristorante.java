@@ -1,11 +1,8 @@
-package it.unibs.ing.progetto.ristorante;
+package it.unibs.ing.progetto.ristorante.model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import it.unibs.ing.progetto.ristorante.Menu.MenuTematico;
-import it.unibs.ing.progetto.ristorante.Prenotazioni.Prenotazione;
 
 /**
  * Utility Class per per la classe gestore
@@ -26,11 +23,11 @@ public class Ristorante {
 	// Contiene tutti i menu tematici memorizzati nel database
 	
 	private ArrayList<MenuTematico> menuTematici;
-	private ArrayList<ProductSheet> insiemeBevande;
-	private ArrayList<ProductSheet> insiemeGeneriExtra;
+	private ArrayList<Prodotto> insiemeBevande;
+	private ArrayList<Prodotto> insiemeGeneriExtra;
 	private HashMap<Piatto, Ricetta> corrispondenzePiattoRicetta;
-	private Lista inventario;
-	private Lista listaSpesa;
+	private ArrayList<Prodotto> inventario;
+	private ArrayList<Prodotto> listaSpesa;
 	private ArrayList<Prenotazione> elencoPrenotazioni;
 	
 	/**
@@ -41,11 +38,11 @@ public class Ristorante {
 		this.ricettario = new ArrayList<Ricetta>();
 		this.menuPiatti = new ArrayList<Piatto>();
 		this.menuTematici = new ArrayList<MenuTematico>();
-		this.insiemeBevande = new ArrayList<ProductSheet>();
-		this.insiemeGeneriExtra = new ArrayList<ProductSheet>();
+		this.insiemeBevande = new ArrayList<Prodotto>();
+		this.insiemeGeneriExtra = new ArrayList<Prodotto>();
 		this.corrispondenzePiattoRicetta = new HashMap<Piatto, Ricetta>();
-		this.inventario = new Lista();
-		this.listaSpesa = new Lista();
+		this.inventario = new ArrayList<Prodotto>();
+		this.listaSpesa = new ArrayList<Prodotto>();
 		this.elencoPrenotazioni = new ArrayList<Prenotazione>();
 	}
 
@@ -54,7 +51,7 @@ public class Ristorante {
 	 * dei dati da eventuale file di salvataggio)
 	 */
 	public Ristorante(ArrayList<Ricetta> ricettario, ArrayList<Piatto> menuPiatti, ArrayList<MenuTematico> menuTematici,
-			ArrayList<ProductSheet> insiemeBevande, ArrayList<ProductSheet> insiemeGeneriExtra,
+			ArrayList<Prodotto> insiemeBevande, ArrayList<Prodotto> insiemeGeneriExtra,
 			HashMap<Piatto, Ricetta> corrispondenzePiattoRicetta) {
 		super();
 		this.ricettario = ricettario;
@@ -128,11 +125,11 @@ public class Ristorante {
 		return menuTematici;
 	}
 
-	public ArrayList<ProductSheet> getInsiemeBevande() {
+	public ArrayList<Prodotto> getInsiemeBevande() {
 		return insiemeBevande;
 	}
 
-	public ArrayList<ProductSheet> getInsiemeGeneriExtra() {
+	public ArrayList<Prodotto> getInsiemeGeneriExtra() {
 		return insiemeGeneriExtra;
 	}
 
@@ -165,11 +162,11 @@ public class Ristorante {
 		this.corrispondenzePiattoRicetta.put(p, r);
 	}
 
-	public void addBevanda(ProductSheet e) {
+	public void addBevanda(Prodotto e) {
 		this.insiemeBevande.add(e);
 	}
 
-	public void addExtra(ProductSheet e) {
+	public void addExtra(Prodotto e) {
 		this.insiemeBevande.add(e);
 	}
 
@@ -182,11 +179,11 @@ public class Ristorante {
 		return s.toString();
 	}
 
-	public Lista getInventario() {
+	public ArrayList<Prodotto> getInventario() {
 		return inventario;
 	}
 
-	public Lista getListaSpesa() {
+	public ArrayList<Prodotto> getListaSpesa() {
 		return listaSpesa;
 	}
 }

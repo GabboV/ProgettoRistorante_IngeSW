@@ -1,8 +1,7 @@
-package it.unibs.ing.progetto.ristorante.Prenotazioni;
+package it.unibs.ing.progetto.ristorante.model;
 
 import java.time.LocalDate;
 import java.util.HashMap;
-import it.unibs.ing.progetto.ristorante.Piatto;
 
 public class Prenotazione {
 	
