@@ -3,23 +3,18 @@ package it.unibs.ing.progetto.ristorante.model;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-/**
- * 
- * @author Kevin
- *
- */
 public class Piatto {
 
 	private String nomePiatto; 
-	private double caricoLavoro;
+	private int caricoLavoro;
 	//array contentente coppie di date (dataInizio e dataFine)
 	private ArrayList<DatePair> periodiValidita;
 	
 	
-	public Piatto(String nomePiatto, ArrayList<DatePair> periodiValidita,  double caricoLavoro) {
+	public Piatto(String nomePiatto,  int caricoLavoro) {
 		super();
 		this.nomePiatto = nomePiatto;
-		this.periodiValidita = periodiValidita;
+		this.periodiValidita = new ArrayList<DatePair>();
 		this.caricoLavoro = caricoLavoro;
 	}
 
@@ -36,6 +31,10 @@ public class Piatto {
 		return false;
 	}
 	
+	public void addDatePair(DatePair periodoValidita) {
+		periodiValidita.add(periodoValidita);
+	}
+	
 	
 	//getters e setters
 	public String getNomePiatto() {
@@ -46,19 +45,19 @@ public class Piatto {
 		this.nomePiatto = nomePiatto;
 	}
 
-	public double getCaricoLavoro() {
+	public int getCaricoLavoro() {
 		return caricoLavoro;
 	}
 
-	public void setCaricoLavoro(double caricoLavoro) {
+	public void setCaricoLavoro(int caricoLavoro) {
 		this.caricoLavoro = caricoLavoro;
 	}
 
-	public ArrayList<DatePair> getGiorniValido() {
+	public ArrayList<DatePair> getPeriodiValidita() {
 		return periodiValidita;
 	}
 
-	public void setGiorniValido(ArrayList<DatePair> periodiValidita) {
+	public void setPeriodiValidita(ArrayList<DatePair> periodiValidita) {
 		this.periodiValidita = periodiValidita;
 	}
 }

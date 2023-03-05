@@ -13,7 +13,7 @@ public class MainRistorante {
 		System.out.println("Per la fase di inizializzazione del programma è necessario il login del Gestore.");
 		boolean risposta = InputDati.yesOrNo("Sei il Gestore? ");
 		if (risposta == false) {
-			System.out.println("Bisogna essere il Gestore per poter inizializzare il programma");
+			System.out.println("Bisogna essere il Gestore per poter inizializzare il programma.");
 			System.out.println("Arresto programma...");
 			System.exit(0);
 		}

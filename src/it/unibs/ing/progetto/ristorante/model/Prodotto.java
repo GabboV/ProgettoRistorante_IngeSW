@@ -6,6 +6,12 @@ public class Prodotto {
 	Float quantita;
 	String unitaMisura;
 	
+	public Prodotto(String nome, Float quantita, String unitaMisura) {
+		this.nome = nome;
+		this.quantita = quantita;
+		this.unitaMisura = unitaMisura;
+	}
+
 	public String getNome() {
 		return nome;
 	}

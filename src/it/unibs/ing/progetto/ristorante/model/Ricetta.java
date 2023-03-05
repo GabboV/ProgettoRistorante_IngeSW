@@ -4,23 +4,22 @@ import java.util.ArrayList;
 
 public class Ricetta {
 
-	private ArrayList<Prodotto> ingredienti;
+	private ArrayList<Prodotto> elencoIngredienti;
 	private int numeroPorzioni;
-	private double caricoLavoroPerPorzione;
+	private int caricoLavoroPorzione;
 
-	public Ricetta(ArrayList<Prodotto> ingredienti, int numeroPorzioni, double caricoLavoroPerPorzione) {
-		super();
-		this.ingredienti = ingredienti;
+	public Ricetta(int numeroPorzioni, int caricoLavoroPerPorzione) {
+		this.elencoIngredienti = new ArrayList<Prodotto>();
 		this.numeroPorzioni = numeroPorzioni;
-		this.caricoLavoroPerPorzione = caricoLavoroPerPorzione;
+		this.caricoLavoroPorzione = caricoLavoroPerPorzione;
 	}
 
-	public ArrayList<Prodotto> getIngredienti() {
-		return ingredienti;
+	public ArrayList<Prodotto> getElencoIngredienti() {
+		return elencoIngredienti;
 	}
 
-	public void setIngredienti(ArrayList<Prodotto> ingredienti) {
-		this.ingredienti = ingredienti;
+	public void setElencoIngredienti(ArrayList<Prodotto> ingredienti) {
+		this.elencoIngredienti = ingredienti;
 	}
 
 	public int getNumeroPorzioni() {
@@ -31,62 +30,43 @@ public class Ricetta {
 		this.numeroPorzioni = numeroPorzioni;
 	}
 
-	public double getCaricoLavoroPerPorzione() {
-		return caricoLavoroPerPorzione;
+	public int getCaricoLavoroPorzione() {
+		return caricoLavoroPorzione;
 	}
 
-	public void setCaricoLavoroPerPorzione(double caricoLavoroPerPorzione) {
-		this.caricoLavoroPerPorzione = caricoLavoroPerPorzione;
+	public void setCaricoLavoroPorzione(int caricoLavoroPerPorzione) {
+		this.caricoLavoroPorzione = caricoLavoroPerPorzione;
 	}
 
-	/**
-	 * Aggiunge ingrediente alla lista
-	 * 
-	 * @param ingrediente
-	 */
+	
+	
 	public void addIngrediente(Prodotto ingrediente) {
-		this.ingredienti.add(ingrediente);
-	}
-
-	public boolean esisteIngrediente(Prodotto x) {
-		String xNome = x.getNome();
-		for (int i = 0; i < this.ingredienti.size(); i++) {
-			if (ingredienti.get(i).getNome().equals(xNome))
-				return true;
+		boolean esiste = false;
+		for(Prodotto i : elencoIngredienti) {
+			if(i.getNome().equalsIgnoreCase(ingrediente.getNome())) {
+				System.out.println("Hai gia' aggiunto questo ingrediente alla ricetta.");
+				esiste = true;
+				break;
+			}
 		}
-		return false;
-	}
-
-	public void removeIngrediente(Prodotto x) {
-		if (this.esisteIngrediente(x)) {
-			int rmv = posIngrediente(x);
-			this.ingredienti.remove(rmv);
+		if (!esiste) {
+			elencoIngredienti.add(ingrediente);
+			System.out.println("E' stata aggiunto un ingrediente.");
+			System.out.println("Nome: " + ingrediente.getNome());
+			System.out.println("Dose: " + ingrediente.getQuantita() + ingrediente.getUnitaMisura());
 		}
-
 	}
-
-	private int posIngrediente(Prodotto x) {
-		String xNome = x.getNome();
-		int i = 0;
-		for (; i < this.ingredienti.size(); i++) {
-			if (ingredienti.get(i).getNome().equals(xNome))
-				return i;
-		}
-		return i;
-	}
-
-	/**
-	 * Cose
-	 */
+	
+	
 	@Override
 	public String toString() {
 		StringBuilder b = new StringBuilder();
 		b.append(String.format("Ricetta: %s\n", 2));
 		b.append(String.format("Porzioni: %d\n", this.numeroPorzioni));
-		b.append(String.format("Carico di lavoro: %f\n", this.caricoLavoroPerPorzione));
+		b.append(String.format("Carico di lavoro: %f\n", this.caricoLavoroPorzione));
 		int indice = 1;
 		b.append("Ingrediente \t quantità");
-		for(Prodotto i: ingredienti) {
+		for(Prodotto i: elencoIngredienti) {
 			b.append(String.format("%d. %s - %f\n", indice,i.getNome(), i.getQuantita()));
 			indice++;
 		}

@@ -65,8 +65,8 @@ public class Controller {
 		ArrayList<Prodotto> ingredienti = new ArrayList<>();
 		do {
 			String nomeIngrediente = InputDati.leggiStringaNonVuota("Inserisci nome dell'ingrediente --> ");
-			double dose = InputDati.leggiDoubleConMinimo("Inserisci dose (dose must be > 0.0) --> ", 0.0);
-			ingredienti.add(new Prodotto());
+			float dose = InputDati.leggiFloatConMinimo("Inserisci dose (dose must be > 0.0) --> ", 0.0f);
+			ingredienti.add(new Prodotto(nomeIngrediente, dose, "kg"));
 			on = InputDati.yesOrNo("Vuoi aggiungere un altro ingrediente? ");
 		} while (on);
 		return ingredienti;

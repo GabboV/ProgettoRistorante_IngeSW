@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class Ristorante {
 
 	private LocalDate dataCorrente;
-	private int caricoDilavoroPerPersona;
+	private int caricoLavoroPerPersona;
 	private int numeroPostiASedere;
 	private double caricoLavoroRistorante;
 	
@@ -17,8 +17,9 @@ public class Ristorante {
 	private ArrayList<Piatto> elencoPiatti;
 	// Contiene tutti i menu tematici memorizzati nel database
 	private ArrayList<MenuTematico> elencoMenuTematici;
-	private HashMap<Prodotto, Float> insiemeBevande;
-	private HashMap<Prodotto, Float> insiemeGeneriExtra;
+	private ArrayList<Prodotto> insiemeBevande;
+	private ArrayList<Prodotto> insiemeGeneriExtra;
+	//perchè serve una HashMap? 
 	private HashMap<Piatto, Ricetta> corrispondenzePiattoRicetta;
 	private ArrayList<Prodotto> registroMagazzino;
 	private ArrayList<Prodotto> listaSpesa;
@@ -32,6 +33,25 @@ public class Ristorante {
 	
 	
 
+	public Ristorante() {
+		this.dataCorrente = null;
+		this.caricoLavoroPerPersona = 1;
+		this.numeroPostiASedere = 1;
+		this.caricoLavoroRistorante = 1;
+		this.elencoRicette = new ArrayList<Ricetta>();
+		this.elencoPiatti = new ArrayList<Piatto>();
+		this.elencoMenuTematici = new ArrayList<MenuTematico>();
+		this.insiemeBevande = new ArrayList<Prodotto>();
+		this.insiemeGeneriExtra = new ArrayList<Prodotto>();
+		this.corrispondenzePiattoRicetta = new HashMap<Piatto, Ricetta>();
+		this.registroMagazzino = new ArrayList<Prodotto>();
+		this.listaSpesa = new ArrayList<Prodotto>();
+		this.elencoPrenotazioni = new ArrayList<Prenotazione>();
+		this.menuAllaCartaValido = new ArrayList<Piatto>();
+		this.menuTematiciValidi = new ArrayList<MenuTematico>();
+		this.elencoPrenotazioniValide = new ArrayList<Prenotazione>();
+	}
+
 	//GETTER AND SETTER
 	public LocalDate getDataCorrente() {
 		return dataCorrente;
@@ -42,11 +62,11 @@ public class Ristorante {
 	}
 
 	public int getCaricoDilavoroPerPersona() {
-		return caricoDilavoroPerPersona;
+		return caricoLavoroPerPersona;
 	}
 
 	public void setCaricoDilavoroPerPersona(int caricoDilavoroPerPersona) {
-		this.caricoDilavoroPerPersona = caricoDilavoroPerPersona;
+		this.caricoLavoroPerPersona = caricoDilavoroPerPersona;
 	}
 
 	public int getNumeroPostiASedere() {
@@ -89,19 +109,19 @@ public class Ristorante {
 		this.elencoMenuTematici = elencoMenuTematici;
 	}
 
-	public HashMap<Prodotto, Float> getInsiemeBevande() {
+	public ArrayList<Prodotto> getInsiemeBevande() {
 		return insiemeBevande;
 	}
 
-	public void setInsiemeBevande(HashMap<Prodotto, Float> insiemeBevande) {
+	public void setInsiemeBevande(ArrayList<Prodotto> insiemeBevande) {
 		this.insiemeBevande = insiemeBevande;
 	}
 
-	public HashMap<Prodotto, Float> getInsiemeGeneriExtra() {
+	public ArrayList<Prodotto> getInsiemeGeneriExtra() {
 		return insiemeGeneriExtra;
 	}
 
-	public void setInsiemeGeneriExtra(HashMap<Prodotto, Float> insiemeGeneriExtra) {
+	public void setInsiemeGeneriExtra(ArrayList<Prodotto> insiemeGeneriExtra) {
 		this.insiemeGeneriExtra = insiemeGeneriExtra;
 	}
 
@@ -200,29 +220,100 @@ public class Ristorante {
 		return menuTematiciValidi;
 	}
 
+	
+	public void addPiattoRicetta(Piatto piatto, Ricetta ricetta) {
+		boolean esiste = false;
+		for(Piatto p : elencoPiatti) {
+			if(p.getNomePiatto().equalsIgnoreCase(piatto.getNomePiatto())) {
+				System.out.println("Il nome del piatto e' gia' stato utilizzato. L'aggiunta dell'elemento nel menu e' stata annullata.");
+				esiste = true;
+				break;
+			}
+		}
+		if (!esiste) {
+			elencoPiatti.add(piatto);
+			elencoRicette.add(ricetta);
+			corrispondenzePiattoRicetta.put(piatto, ricetta);
+			//da mettere in GestoreView?
+			System.out.println();
+			System.out.println("E' stato aggiunto un nuovo elemento al menu.");
+			System.out.println("Nome del piatto: " + piatto.getNomePiatto());
+			System.out.println("Numero porzioni: " + ricetta.getNumeroPorzioni());
+			System.out.println("Carico di lavoro per porzione: " + piatto.getCaricoLavoro());
+			System.out.println("RICETTA: ");
+			for(Prodotto i : ricetta.getElencoIngredienti()) {
+				System.out.println("Nome ingrediente: " + i.getNome());
+				System.out.println("Dose: " + i.getQuantita() + i.getUnitaMisura());
+			}
+			System.out.println("Periodi di validita': ");
+			for(DatePair d : piatto.getPeriodiValidita()) {
+				LocalDate dInizio = d.getDataInizio();
+				LocalDate dFine = d.getDataFine();
+				//forse con overwrite di LocalDate?
+				System.out.println(dInizio.getDayOfMonth() + "/" + dInizio.getMonthValue() + "/" + dInizio.getYear() 
+						+ " --> " + dFine.getDayOfMonth() + "/" + dFine.getMonthValue() + "/" + dFine.getYear() );
+			}
+			System.out.println();
+		}
+	}
+	
 	//Aggiunge una nuova ricetta a quelle esistenti
 	public void addRicetta(Ricetta r) {
-		this.elencoRicette.add(r);
+		elencoRicette.add(r);
 	}
 
 	//Aggiunge un piatto a quelli esistenti
 	public void addPiatto(Piatto p) {
-		this.elencoPiatti.add(p);
+		elencoPiatti.add(p);
 	}
 
 	//Aggiunge una nuova corrispondenza piatto-ricetta
 	public void addCorrispondenza(Piatto p, Ricetta r) {
-		this.corrispondenzePiattoRicetta.put(p, r);
+		corrispondenzePiattoRicetta.put(p, r);
 	}
 
-	public void addBevanda(Prodotto p, Float f) {
-		this.insiemeBevande.put(p,f);
+	
+	//Controlla se in insiemeBevande esiste gia' una bevanda con il nome uguale a qullo che si vuole aggiungere
+	//Se gia' esiste, stampa a video un msg
+	//Se non esiste la aggiunge a insiemeBevande e stampa msg a video
+	public void addBevanda(Prodotto bevanda) {
+		boolean esiste = false;
+		for(Prodotto b : insiemeBevande) {
+			if(b.getNome().equalsIgnoreCase(bevanda.getNome())) {
+				System.out.println("La bevanda gia' esiste.");
+				esiste = true;
+				break;
+			}
+		}
+		if (!esiste) {
+			insiemeBevande.add(bevanda);
+			System.out.println("E' stata aggiunta una bevanda.");
+			System.out.println("Nome: " + bevanda.getNome());
+			System.out.println("ConsumoProCapite: " + bevanda.getQuantita() + bevanda.getUnitaMisura());
+		}
 	}
 
-	public void addExtra(Prodotto p, Float f) {
-		this.insiemeBevande.put(p, f);
+	//Controlla se in insiemeGeneriExtra esiste gia' un genereExtra con il nome uguale a qullo che si vuole aggiungere
+	//Se gia' esiste, stampa a video un msg
+	//Se non esiste la aggiunge a inisemeGeneriExtra e stampa a video un msg
+	public void addGenereExtra(Prodotto genereExtra) {
+		boolean esiste = false;
+		for(Prodotto g : insiemeBevande) {
+			if(g.getNome().equalsIgnoreCase(genereExtra.getNome())) {
+				System.out.println("Il genere extra gia' esiste.");
+				esiste = true;
+				break;
+			}
+		}
+		if (!esiste) {
+			insiemeGeneriExtra.add(genereExtra);
+			System.out.println("E' stata aggiunta un genere extra.");
+			System.out.println("Nome: " + genereExtra.getNome());
+			System.out.println("ConsumoProCapite: " + genereExtra.getQuantita() + genereExtra.getUnitaMisura());
+		}
 	}
-
+	
+	
 	public String ottieniRicette() {
 		StringBuilder s = new StringBuilder();
 		int indice = 1;
