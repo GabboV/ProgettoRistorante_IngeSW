@@ -312,14 +312,4 @@ public class Ristorante {
 			System.out.println("ConsumoProCapite: " + genereExtra.getQuantita() + genereExtra.getUnitaMisura());
 		}
 	}
-	
-	
-	public String ottieniRicette() {
-		StringBuilder s = new StringBuilder();
-		int indice = 1;
-		for (Ricetta r : elencoRicette) {
-			s.append(indice + ".\n" + r.toString() + "\n");
-		}
-		return s.toString();
-	}
 }

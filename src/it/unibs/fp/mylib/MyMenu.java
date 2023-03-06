@@ -8,7 +8,7 @@ e sia presentata in fondo al menu
 public class MyMenu
 {
   final private static String CORNICE = "--------------------------------";
-  final private static String VOCE_USCITA = "0\tEsci";
+  final private static String VOCE_USCITA = "0 - ESCI";
   final private static String RICHIESTA_INSERIMENTO = "Digita il numero dell'opzione desiderata > ";
 
   private String titolo;
@@ -34,7 +34,7 @@ public class MyMenu
 	System.out.println(CORNICE);
     for (int i=0; i<voci.length; i++)
 	 {
-	  System.out.println( (i+1) + "\t" + voci[i]);
+	  System.out.println( (i+1) + " - " + voci[i]);
 	 }
     System.out.println();
 	System.out.println(VOCE_USCITA);

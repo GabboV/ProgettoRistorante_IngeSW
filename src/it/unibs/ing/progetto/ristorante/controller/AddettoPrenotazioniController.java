@@ -7,14 +7,20 @@ import java.util.HashMap;
 import it.unibs.ing.progetto.ristorante.model.MenuTematico;
 import it.unibs.ing.progetto.ristorante.model.Piatto;
 import it.unibs.ing.progetto.ristorante.model.Prenotazione;
+import it.unibs.ing.progetto.ristorante.model.Ristorante;
+import it.unibs.ing.progetto.ristorante.view.AddettoPrenotazioniView;
 
 public class AddettoPrenotazioniController {
 	
 	private ArrayList<Prenotazione> elencoPrenotazioni;
 
+	
+	private Ristorante model;
+	private AddettoPrenotazioniView view;
+	
 
-	public AddettoPrenotazioniController() {
-		this.elencoPrenotazioni = new ArrayList<Prenotazione>();
+	public AddettoPrenotazioniController(Ristorante model) {
+		this.model = model;
 	}
 	
 	//Riceve una data e rimuove da elencoPrenotazioni tutte le prenotazioni che sono precedenti a tale data

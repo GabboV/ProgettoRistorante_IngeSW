@@ -51,7 +51,7 @@ public class GestoreController{
 	
 	//da spostare msg in GestoreView se possibile
 	//creare metodi separati se possibile e aggiungere controlli
-	public void inizializzaRistorante() {
+	public Ristorante inizializzaRistorante() {
 		ristorante = new Ristorante();
 		view = new GestoreView();
 		
@@ -120,6 +120,7 @@ public class GestoreController{
 			ristorante.addPiattoRicetta(p, r);
 			altraRicetta = view.richiestaNuovaAggiunta("Vuoi aggiungere un altra ricetta? ");
 		} while(altraRicetta);
+		return ristorante;
 	}
 	
 	
@@ -197,9 +198,5 @@ public class GestoreController{
 	public static String[] getOpzioni() {
 		return OPZIONI;
 	}
-
-	public String visualizzaRicette() {
-		return ristorante.ottieniRicette();
-	}
-
+	
 }
