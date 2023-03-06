@@ -13,6 +13,15 @@ public class Ricetta {
 		this.numeroPorzioni = numeroPorzioni;
 		this.caricoLavoroPorzione = caricoLavoroPerPorzione;
 	}
+	
+	public ArrayList<Prodotto> getElencoIngredientiPerPorzioni(int porzioni) {
+		ArrayList<Prodotto> elenco = new ArrayList<Prodotto>();
+		for(Prodotto p: elencoIngredienti) {
+			float quantita = (porzioni * p.getQuantita())/this.numeroPorzioni;
+			elenco.add(new Prodotto(p.getNome(),quantita,p.getUnitaMisura()));
+		}
+		return elenco;
+	}
 
 	public ArrayList<Prodotto> getElencoIngredienti() {
 		return elencoIngredienti;

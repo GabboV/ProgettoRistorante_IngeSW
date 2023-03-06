@@ -2,6 +2,7 @@ package it.unibs.ing.progetto.ristorante.model;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 
 public class Prenotazione {
 	
@@ -21,42 +22,24 @@ public class Prenotazione {
 	}
 
 
-	public String getCliente() {
-		return nomeCliente;
-	}
-
-
-	public void setCliente(String cliente) {
-		this.nomeCliente = cliente;
-	}
-
-
-	public int getNumeroCoperti() {
-		return numeroCoperti;
-	}
-
-
-	public void setNumeroCoperti(int numeroCoperti) {
-		this.numeroCoperti = numeroCoperti;
-	}
-
-
 	public HashMap<Piatto, Integer> getComanda() {
 		return comanda;
 	}
 
 
-	public void setComanda(HashMap<Piatto, Integer> comanda) {
-		this.comanda = comanda;
-	}
-
 	public LocalDate getDataPrenotazione() {
 		return dataPrenotazione;
 	}
-
-
-	public void setDataPrenotazione(LocalDate dataPrenotazione) {
-		this.dataPrenotazione = dataPrenotazione;
+	
+	public boolean isValidinData(LocalDate data) {
+		//
+		return false;
 	}
 	
+	public List<Piatto> getAllPiatti(){
+		return (List<Piatto>) this.comanda.keySet();
+	}
+
+
+
 }

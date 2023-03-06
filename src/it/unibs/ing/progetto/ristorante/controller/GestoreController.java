@@ -198,8 +198,4 @@ public class GestoreController{
 		return OPZIONI;
 	}
 
-	public String visualizzaRicette() {
-		return ristorante.ottieniRicette();
-	}
-
 }
