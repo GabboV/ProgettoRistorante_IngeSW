@@ -58,6 +58,8 @@ public class ViewGenerale {
 			break;
 		case MAGAZZINIERE:
 			MagazziniereController magazziniere = new MagazziniereController(model);
+			magazziniere.magazziniereHandler();
+			
 			break;
 		case ESCI:
 			System.out.println(MSG_ARRESTO_PROGRAMMA);
