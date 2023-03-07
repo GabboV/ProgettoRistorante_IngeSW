@@ -16,8 +16,7 @@ public class ViewGenerale {
 	
 	public void avvioProgramma() {
 		System.out.println(MSG_BENVENUTO);
-		//Ristorante model = loginInizializzazione();
-		Ristorante model=null;
+		Ristorante model = loginInizializzazione();
 		loginUtente(model);
 	}
 	
@@ -33,8 +32,8 @@ public class ViewGenerale {
 		else {
 			GestoreController gestore = new GestoreController();
 			model = gestore.inizializzaRistorante();
-			System.out.println("Hai completato l'inizializzazione del programma.");
 			//Finita l'inizializzazione si dovrebbe rimanere nel GestoreController
+			
 		}
 		return model;
 	}
