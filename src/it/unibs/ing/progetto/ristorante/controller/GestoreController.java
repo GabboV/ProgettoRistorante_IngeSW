@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.RowFilter.ComparisonType;
+
 import it.unibs.fp.mylib.InputDati;
 import it.unibs.ing.progetto.ristorante.model.DatePair;
 import it.unibs.ing.progetto.ristorante.model.Piatto;
@@ -15,6 +17,16 @@ import it.unibs.ing.progetto.ristorante.view.GestoreView;
 
 public class GestoreController{
 
+	private static final int ESCI = 0;
+	private static final int VISUALIZZA_GENERI_EXTRA = 9;
+	private static final int VISUALIZZA_BEVANDE = 8;
+	private static final int VISUALIZZA_MENU_TEMATICI = 7;
+	private static final int VISUALIZZA_RICETTE = 6;
+	private static final int VISUALIZZA_PARAMETRI = 5;
+	private static final int AGGIUNGI_GENERE_EXTRA = 4;
+	private static final int AGGIUNGI_BEVANDA = 3;
+	private static final int AGGIUNGI_MENU_TEMATICO = 2;
+	private static final int AGGIUNGI_INGREDIENTE = 1;
 	private static final String UNITA_MISURA_BEVANDE = "l";
 	private static final String UNITA_MISURA_GENERI_EXTRA = "hg";
 	
@@ -63,7 +75,7 @@ public class GestoreController{
 		ristorante.setNumeroPostiASedere(nPosti);
 		
 		int caricoLavoroPersona = view.richiestaCaricoLavoro("Inserisci il carico di lavoro per persona: ");
-		ristorante.setCaricoDilavoroPerPersona(caricoLavoroPersona);
+		ristorante.setCaricoLavoroPerPersona(caricoLavoroPersona);
 		
 		int caricoLavoroRistorante = caricoLavoroPersona * nPosti;
 		caricoLavoroRistorante += Math.floor(caricoLavoroRistorante / 100.0 * 20);
@@ -87,37 +99,50 @@ public class GestoreController{
 	
 	
 	public void apriMenuGestore() {
+		//forse da mettere tutte le final insieme
+		view = new GestoreView();
 		int scelta = view.stampaMenuGestore();
 		//in base a scelta, rimanda a diversi metodi del programma
-		if(scelta == 1) {
-			
-		}
-		if(scelta == 2) {
-			
-		}
-		if(scelta == 3) {
+		switch(scelta) {
+		case AGGIUNGI_INGREDIENTE:
+			aggiungiPiattoRicetta();
+			apriMenuGestore();
+			break;
+		case AGGIUNGI_MENU_TEMATICO:
+			break;
+		case AGGIUNGI_BEVANDA:
 			aggiungiBevanda();
-		}
-		if(scelta == 4) {
+			apriMenuGestore();
+			break;
+		case AGGIUNGI_GENERE_EXTRA:
 			aggiungiGenereExtra();
-		}
-		if(scelta == 5) {
-			
-		}
-		if(scelta == 6) {
-			
-		}
-		if(scelta == 7) {
-			
-		}
-		if(scelta == 8) {
-			
-		}
-		if(scelta == 9) {
-			
-		}
-		if(scelta == 0) {
+			apriMenuGestore();
+			break;
+		case VISUALIZZA_PARAMETRI:
+			//potrei dare tutto il model come parametro
+			view.stampaParametriRistorante(ristorante.getDataCorrente(), ristorante.getNumeroPostiASedere(), ristorante.getCaricoLavoroPerPersona(), ristorante.getCaricoLavoroRistorante());
+			apriMenuGestore();
+			break;
+		case VISUALIZZA_RICETTE:
+			//ciclo che stampa ricette (con contatore)
+			int contatore = 0;
+			for(Piatto p : ristorante.getElencoPiatti()) {
+				Ricetta r = ristorante.getCorrispondenzePiattoRicetta().get(p);
+				view.stampaMsg(contatore + ")");
+				view.stampaPiattoRicetta(p, r);
+				contatore++;
+			}
+			apriMenuGestore();
+			break;
+		case VISUALIZZA_MENU_TEMATICI:
+			break;
+		case VISUALIZZA_BEVANDE:
+			break;
+		case VISUALIZZA_GENERI_EXTRA:
+			break;
+		case ESCI:
 			System.out.println("Fine sessione Gestore...");
+			break;
 		}
 	}
 	

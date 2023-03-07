@@ -13,6 +13,11 @@ public class ViewGenerale {
 	final private static String TITOLO_SCHERMATA = "PAGINA DI LOGIN";
 	final private static String[] ELENCO_RUOLI = {"GESTORE", "ADDETTO PRENOTAZIONI", "MAGAZZINIERE"};
 	final private static String MSG_ARRESTO_PROGRAMMA = "Arresto programma...";
+	final private static int GESTORE = 1;
+	private static final int ADDETTO_PRENOTAZIONI = 2;
+	private static final int MAGAZZINIERE = 3;
+	private static final int ESCI = 0;
+
 	
 	public void avvioProgramma() {
 		System.out.println(MSG_BENVENUTO);
@@ -42,18 +47,22 @@ public class ViewGenerale {
 		MyMenu menu = new MyMenu(TITOLO_SCHERMATA, ELENCO_RUOLI);
 		System.out.println();
 		int scelta = menu.scegli();
-		if(scelta == 1) {
+		
+		switch(scelta) {
+		case GESTORE:
 			GestoreController gestore = new GestoreController(model);
-		}
-		if(scelta == 2) {
+			gestore.apriMenuGestore();
+			break;
+		case ADDETTO_PRENOTAZIONI:
 			AddettoPrenotazioniController addettoPrenotazioni = new AddettoPrenotazioniController(model);
-		}
-		if(scelta == 3) {
+			break;
+		case MAGAZZINIERE:
 			MagazziniereController magazziniere = new MagazziniereController(model);
-		}
-		if(scelta == 0) {
+			break;
+		case ESCI:
 			System.out.println(MSG_ARRESTO_PROGRAMMA);
 			System.exit(0);
+			break;
 		}
 	}
 }

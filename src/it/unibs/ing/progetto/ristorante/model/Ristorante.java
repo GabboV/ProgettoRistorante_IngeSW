@@ -11,7 +11,7 @@ public class Ristorante {
 	private LocalDate dataCorrente;
 	private int caricoLavoroPerPersona;
 	private int numeroPostiASedere;
-	private double caricoLavoroRistorante;
+	private int caricoLavoroRistorante;
 
 	// Contiene tutte le ricette memorizzate nel database
 	private ArrayList<Ricetta> elencoRicette;
@@ -58,11 +58,11 @@ public class Ristorante {
 		this.dataCorrente = dataCorrente;
 	}
 
-	public int getCaricoDilavoroPerPersona() {
+	public int getCaricoLavoroPerPersona() {
 		return caricoLavoroPerPersona;
 	}
 
-	public void setCaricoDilavoroPerPersona(int caricoDilavoroPerPersona) {
+	public void setCaricoLavoroPerPersona(int caricoDilavoroPerPersona) {
 		this.caricoLavoroPerPersona = caricoDilavoroPerPersona;
 	}
 
@@ -74,11 +74,11 @@ public class Ristorante {
 		this.numeroPostiASedere = numeroPostiASedere;
 	}
 
-	public double getCaricoLavoroRistorante() {
+	public int getCaricoLavoroRistorante() {
 		return caricoLavoroRistorante;
 	}
 
-	public void setCaricoLavoroRistorante(double caricoLavoroRistorante) {
+	public void setCaricoLavoroRistorante(int caricoLavoroRistorante) {
 		this.caricoLavoroRistorante = caricoLavoroRistorante;
 	}
 
