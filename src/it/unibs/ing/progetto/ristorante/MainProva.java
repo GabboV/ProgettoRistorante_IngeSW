@@ -9,7 +9,6 @@ public class MainProva {
 		Ristorante ristorante = new Ristorante();
 		GestoreController gestore = new GestoreController(ristorante);
 		
-		gestore.setPostiASedere(100);
 		
 		
 		
