@@ -21,7 +21,7 @@ public class Ristorante {
 	private ArrayList<MenuTematico> elencoMenuTematici;
 	private ArrayList<Prodotto> insiemeBevande;
 	private ArrayList<Prodotto> insiemeGeneriExtra;
-	// perchè serve una HashMap?
+	// perchï¿½ serve una HashMap?
 	private HashMap<Piatto, Ricetta> corrispondenzePiattoRicetta;
 	private ArrayList<Prodotto> registroMagazzino;
 	private ArrayList<Prodotto> listaSpesa;
@@ -211,40 +211,9 @@ public class Ristorante {
 	}
 
 	public void addPiattoRicetta(Piatto piatto, Ricetta ricetta) {
-		boolean esiste = false;
-		for (Piatto p : elencoPiatti) {
-			if (p.getNomePiatto().equalsIgnoreCase(piatto.getNomePiatto())) {
-				System.out.println(
-						"Il nome del piatto e' gia' stato utilizzato. L'aggiunta dell'elemento nel menu e' stata annullata.");
-				esiste = true;
-				break;
-			}
-		}
-		if (!esiste) {
-			elencoPiatti.add(piatto);
-			elencoRicette.add(ricetta);
-			corrispondenzePiattoRicetta.put(piatto, ricetta);
-			// da mettere in GestoreView?
-			System.out.println();
-			System.out.println("E' stato aggiunto un nuovo elemento al menu.");
-			System.out.println("Nome del piatto: " + piatto.getNomePiatto());
-			System.out.println("Numero porzioni: " + ricetta.getNumeroPorzioni());
-			System.out.println("Carico di lavoro per porzione: " + piatto.getCaricoLavoro());
-			System.out.println("RICETTA: ");
-			for (Prodotto i : ricetta.getElencoIngredienti()) {
-				System.out.println("Nome ingrediente: " + i.getNome());
-				System.out.println("Dose: " + i.getQuantita() + i.getUnitaMisura());
-			}
-			System.out.println("Periodi di validita': ");
-			for (DatePair d : piatto.getPeriodiValidita()) {
-				LocalDate dInizio = d.getDataInizio();
-				LocalDate dFine = d.getDataFine();
-				// forse con overwrite di LocalDate?
-				System.out.println(dInizio.getDayOfMonth() + "/" + dInizio.getMonthValue() + "/" + dInizio.getYear()
-						+ " --> " + dFine.getDayOfMonth() + "/" + dFine.getMonthValue() + "/" + dFine.getYear());
-			}
-			System.out.println();
-		}
+		elencoPiatti.add(piatto);
+		elencoRicette.add(ricetta);
+		corrispondenzePiattoRicetta.put(piatto, ricetta);
 	}
 
 	// Aggiunge una nuova ricetta a quelle esistenti
@@ -316,7 +285,7 @@ public class Ristorante {
 
 		// Unisco tutte le comande -> Ogni piatto prenotato avra una voce con la sua
 		// molteplicita
-		// Questo è necessario perche in diverse prenotazioni ci possono essere piatti
+		// Questo ï¿½ necessario perche in diverse prenotazioni ci possono essere piatti
 		// uguali
 
 		HashMap<Piatto, Integer> totaleComande = unisciComande(prenotazioniInData);

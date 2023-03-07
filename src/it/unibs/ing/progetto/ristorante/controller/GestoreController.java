@@ -15,7 +15,6 @@ import it.unibs.ing.progetto.ristorante.view.GestoreView;
 
 public class GestoreController{
 
-	private static final String[] OPZIONI = new String[] { "Crea ricetta", "Setta numero posti a sedere", "Setta carico di Lavoro del Ristorante", "Visualizza ricette" }; @SuppressWarnings("unused")
 	private static final String UNITA_MISURA_BEVANDE = "l";
 	private static final String UNITA_MISURA_GENERI_EXTRA = "hg";
 	
@@ -51,7 +50,7 @@ public class GestoreController{
 	
 	//da spostare msg in GestoreView se possibile
 	//creare metodi separati se possibile e aggiungere controlli
-	public void inizializzaRistorante() {
+	public Ristorante inizializzaRistorante() {
 		ristorante = new Ristorante();
 		view = new GestoreView();
 		
@@ -72,54 +71,133 @@ public class GestoreController{
 		
 		view.stampaParametriRistorante(dataCorrente, nPosti, caricoLavoroPersona, caricoLavoroRistorante);
 		
-		//e' necessario inserire una bevanda/genere extra?
 		//sistema puo funzionare con solo una ricetta-piatto e parametri?
-		
-		//da finire (aggiunta in ristorante e controllo duplicati)
-		System.out.println("E' necessario inserire almeno una ricetta.");
-		boolean altraRicetta = false;
+		//da finire (aggiunta in ristorante e controllo duplicati e aggiunta piu periodoValidi)
+		view.stampaMsg("E' necessario inserire almeno una ricetta.");
+		boolean altraRicetta;
 		do {
-			String nomePiatto = view.richiestaNome("Inserisci il nome del piatto: ");
-			//da aggiungere controllo su piatti gia' aggiunti
-			int porzioni = view.richiestaNumeroPorzioni("Inserisci il numero di porzioni del piatto: ");
-			int caricoLavoro = view.richiestaCaricoLavoro("Inserisci il carico di lavoro per porzione: ");
-			
-			Ricetta r = new Ricetta(porzioni, caricoLavoro);
-			System.out.println("Ora bisogna inserire l'elenco di ingredienti della ricetta e le rispettive dosi.");
-			
-			boolean continua = true;
-			do {
-				String nomeIngrediente = view.richiestaNome("Inserisci il nome dell'ingrediente: ");
-				//da aggiungere controllo su ingredienti gia' aggiunti
-				String unitaMisura = view.richiestaUnitaMisura("Inserisci unita di misura: ");
-				float dose = view.richiestaQuantita("Inserisci dose: ");
-				
-				Prodotto ingrediente = new Prodotto(nomeIngrediente, dose, unitaMisura);
-				r.addIngrediente(ingrediente);
-				
-				continua = view.richiestaNuovaAggiunta("Vuoi aggiungere un altro ingrediente? ");
-			} while(continua);
-			
-			Piatto p = new Piatto(nomePiatto, caricoLavoro);
-			System.out.println("E' necessario indicare il periodo di validita' del piatto.");
-			//forse come metodo in GestoreView?
-			boolean valido = true;
-			do {
-				LocalDate dataInizio = view.richiestaData("Inserire data di inizio validita'. ");
-				LocalDate dataFine = view.richiestaData("Inserire data di fine validita': ");
-				if((dataInizio.isBefore(dataFine) || dataInizio.isEqual(dataFine)) && dataFine.isAfter(dataCorrente)) {
-					DatePair periodoValidita = new DatePair(dataInizio, dataFine);
-					//DA MODIFICARE PER AGGIUNGERE PIU PERIODI
-					p.addDatePair(periodoValidita);
-					valido = true;
-				} else {
-					System.out.println("Il periodo inserito deve essere valido in futuro.");
-					valido = false;
-				}
-			} while(!valido);	
-			ristorante.addPiattoRicetta(p, r);
+			aggiungiPiattoRicetta();
 			altraRicetta = view.richiestaNuovaAggiunta("Vuoi aggiungere un altra ricetta? ");
 		} while(altraRicetta);
+		view.stampaMsg("Hai completato l'inizializzazione del programma.\n");
+		apriMenuGestore();
+		return ristorante;
+	}
+
+	
+	
+	public void apriMenuGestore() {
+		int scelta = view.stampaMenuGestore();
+		//in base a scelta, rimanda a diversi metodi del programma
+		if(scelta == 1) {
+			
+		}
+		if(scelta == 2) {
+			
+		}
+		if(scelta == 3) {
+			aggiungiBevanda();
+		}
+		if(scelta == 4) {
+			aggiungiGenereExtra();
+		}
+		if(scelta == 5) {
+			
+		}
+		if(scelta == 6) {
+			
+		}
+		if(scelta == 7) {
+			
+		}
+		if(scelta == 8) {
+			
+		}
+		if(scelta == 9) {
+			
+		}
+		if(scelta == 0) {
+			System.out.println("Fine sessione Gestore...");
+		}
+	}
+	
+	
+	private void aggiungiPiattoRicetta() {
+		//controllo nome da fare gia' all'inizio?
+		String nomePiatto;
+		boolean nomeValido = true;
+		do {
+			nomePiatto = view.richiestaNome("Inserisci il nome del piatto: ");
+			for(Piatto p : ristorante.getElencoPiatti()) {
+				if(p.getNomePiatto().equalsIgnoreCase(nomePiatto)) {
+					view.stampaMsg("Il nome del piatto e' gia' stato utilizzato. L'aggiunta dell'elemento nel menu e' stata annullata.");
+					nomeValido = false;
+					break;
+				}
+			}
+		} while(!nomeValido);
+			
+		int porzioni = view.richiestaNumeroPorzioni("Inserisci il numero di porzioni del piatto: ");
+		int caricoLavoro = view.richiestaCaricoLavoro("Inserisci il carico di lavoro per porzione: ");
+		
+		Ricetta r = new Ricetta(porzioni, caricoLavoro);
+		Piatto p = new Piatto(nomePiatto, caricoLavoro);
+		
+		view.stampaMsg("\nOra bisogna inserire l'elenco di ingredienti della ricetta e le rispettive dosi.");
+		
+		boolean altroIngrediente;
+		do {
+			//controllare se aggiunge alla ricetta la lista di ingredienti
+			aggiungiIngrediente(r);
+			altroIngrediente = view.richiestaNuovaAggiunta("Vuoi aggiungere un altro ingrediente? ");
+		} while(altroIngrediente);
+
+		view.stampaMsg("E' necessario indicare il periodo di validita' del piatto.");
+		boolean altroPeriodo;
+		do {
+			aggiungiPeriodoValido(p);
+			altroPeriodo = view.richiestaNuovaAggiunta("Vuoi aggiungere un altro periodo di validita'? ");
+		} while(altroPeriodo);
+		ristorante.addPiattoRicetta(p, r);
+		view.stampaMsg("\nE' stato aggiunto un nuovo elemento al menu.");
+		view.stampaPiattoRicetta(p, r);
+	}
+
+	//DA CONTROLLARE SE PERIODO SI SOVRAPPONE CON UN ALTRO
+	private void aggiungiPeriodoValido(Piatto p) {
+		boolean valido = true;
+		do {
+			LocalDate dataInizio = view.richiestaData("Inserire data di inizio validita'. ");
+			LocalDate dataFine = view.richiestaData("Inserire data di fine validita': ");
+			if((dataInizio.isBefore(dataFine) || dataInizio.isEqual(dataFine)) && dataFine.isAfter(ristorante.getDataCorrente())) {
+				DatePair periodoValidita = new DatePair(dataInizio, dataFine);
+				p.addDatePair(periodoValidita);
+				valido = true;
+			} else {
+				view.stampaMsg("Il periodo inserito deve essere valido in futuro.");
+				valido = false;
+			}
+		} while(!valido);	
+	}
+
+	private void aggiungiIngrediente(Ricetta r) {
+		String nomeIngrediente = view.richiestaNome("Inserisci il nome dell'ingrediente: ");
+		String unitaMisura = view.richiestaUnitaMisura("Inserisci unita di misura: ");
+		float dose = view.richiestaQuantita("Inserisci dose: ");
+		
+		Prodotto ingrediente = new Prodotto(nomeIngrediente, dose, unitaMisura);
+		
+		boolean esiste = false;
+		for(Prodotto i : r.getElencoIngredienti()) {
+			if(i.getNome().equalsIgnoreCase(ingrediente.getNome())) {
+				view.stampaMsg("Hai gia' aggiunto questo ingrediente alla ricetta.");
+				esiste = true;
+				break;
+			}
+		}
+		if (!esiste) {
+			r.addIngrediente(ingrediente);
+		}
 	}
 	
 	
@@ -165,37 +243,5 @@ public class GestoreController{
 	
 	
 	
-	//METODI DA RIVEDERE
-
-	public void creaPiattoRicetta(ArrayList<Prodotto> ingredienti, int workLoad, int porzioni, String nome,
-			ArrayList<DatePair> periodiValidita) {
-		Ricetta r = new Ricetta(porzioni, workLoad);
-
-		Piatto p = new Piatto(nome, workLoad);
-
-		ristorante.addRicetta(r);
-		ristorante.addPiatto(p);
-		ristorante.addCorrispondenza(p, r);
-	}
 	
-	public void inizializzaWorkload(int w) {
-		ristorante.setCaricoLavoroRistorante(w);
-	}
-
-	public void setPostiASedere(int posti) {
-		ristorante.setNumeroPostiASedere(posti);
-	}
-
-	public void inserisciCorrispondenza(Piatto p, Ricetta r) {
-		ristorante.addCorrispondenza(p, r);
-	}
-
-	public String visualizzaDB() {
-		return ristorante.toString();
-	}
-
-	public static String[] getOpzioni() {
-		return OPZIONI;
-	}
-
 }
