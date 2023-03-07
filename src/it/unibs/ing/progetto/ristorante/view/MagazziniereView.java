@@ -1,10 +1,12 @@
 package it.unibs.ing.progetto.ristorante.view;
 
+import java.util.ArrayList;
+
 import it.unibs.fp.mylib.MyMenu;
 
 public class MagazziniereView {
 	
-	private final String[] OPZIONI = new String[] {
+	private static final String[] OPZIONI = new String[] {
 			"Aggiorna registro Magazzino",
 			"Crea Lista Spesa",
 			"Visualizza lista spesa"

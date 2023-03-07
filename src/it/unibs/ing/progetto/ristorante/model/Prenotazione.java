@@ -1,8 +1,8 @@
 package it.unibs.ing.progetto.ristorante.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class Prenotazione {
 	
@@ -36,8 +36,9 @@ public class Prenotazione {
 		return false;
 	}
 	
-	public List<Piatto> getAllPiatti(){
-		return (List<Piatto>) this.comanda.keySet();
+	public ArrayList<Piatto> getAllPiatti(){
+		return new ArrayList<Piatto>(this.comanda.keySet());
+		
 	}
 
 

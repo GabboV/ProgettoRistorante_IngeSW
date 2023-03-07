@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import it.unibs.ing.progetto.ristorante.model.Prodotto;
 import it.unibs.ing.progetto.ristorante.model.Ristorante;
 import it.unibs.ing.progetto.ristorante.view.MagazziniereView;
+import it.unibs.ing.progetto.ristorante.view.OutputHandler;
 
 public class MagazziniereController {
 
@@ -31,6 +32,11 @@ public class MagazziniereController {
 	public void creaListaSpesa(LocalDate date) {
 		model.creaListaSpesa(date);
 	}
+	
+	public void visualizzaListaSpesa() {
+		String listaFormattata = OutputHandler.formatListaProdotti(model.getListaSpesa());
+		view.print(listaFormattata);
+	}
 
 	public void magazziniereHandler(LocalDate date) {
 
@@ -51,9 +57,9 @@ public class MagazziniereController {
 				break;
 			}
 		} while (on);
-
 		view.print(LOGOUT_END);
-
 	}
+	
+	
 
 }
