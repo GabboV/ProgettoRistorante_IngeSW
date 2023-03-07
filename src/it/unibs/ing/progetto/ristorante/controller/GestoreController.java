@@ -220,7 +220,7 @@ public class GestoreController{
 		UnitaMisura unitaMisura = view.richiestaUnitaMisura("Inserisci unita di misura: ");
 		float dose = view.richiestaQuantita("Inserisci dose: ");
 		
-		Prodotto ingrediente = new Prodotto(nomeIngrediente, dose, unitaMisura);
+		Prodotto ingrediente = new Prodotto(nomeIngrediente, dose);
 		
 		boolean esiste = false;
 		for(Prodotto i : r.getElencoIngredienti()) {
@@ -250,7 +250,7 @@ public class GestoreController{
 			String nomeBevanda = view.richiestaNome("Inserisci il nome di una bevanda: ");
 			Float consumoProCapiteBevanda =  view.richiestaConsumoProCapite("Inserisci il consumo pro capite di " + nomeBevanda + ": ");
 			
-			Prodotto bevanda = new Prodotto(nomeBevanda, consumoProCapiteBevanda, UnitaMisura.LITRI);
+			Prodotto bevanda = new Prodotto(nomeBevanda, consumoProCapiteBevanda);
 			
 			for (Prodotto b : ristorante.getInsiemeBevande()) {
 				if (b.getNome().equalsIgnoreCase(nomeBevanda)) {
@@ -282,7 +282,7 @@ public class GestoreController{
 			String nomeGenereExtra = view.richiestaNome("Inserisci il nome di un genere extra: ");
 			Float consumoProCapiteGenereExtra =  view.richiestaConsumoProCapite("Inserisci il consumo pro capite di " + nomeGenereExtra + ": ");
 			
-			Prodotto genereExtra = new Prodotto(nomeGenereExtra, consumoProCapiteGenereExtra, UnitaMisura.HG);
+			Prodotto genereExtra = new Prodotto(nomeGenereExtra, consumoProCapiteGenereExtra);
 			
 			for (Prodotto g : ristorante.getInsiemeGeneriExtra()) {
 				if (g.getNome().equalsIgnoreCase(nomeGenereExtra)) {

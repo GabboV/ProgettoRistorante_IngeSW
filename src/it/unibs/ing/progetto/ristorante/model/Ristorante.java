@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Ristorante {
 
+	private static final double FATTORE_10_PER_CENTO = 1.10;
 	private static final int PERCENTUALE = 10;
 	private LocalDate dataCorrente;
 	private int caricoLavoroPerPersona;
@@ -26,9 +27,6 @@ public class Ristorante {
 	private ArrayList<Prodotto> registroMagazzino;
 	private ArrayList<Prodotto> listaSpesa;
 	private ArrayList<Prenotazione> elencoPrenotazioni;
-	private ArrayList<Piatto> menuAllaCartaValido;
-	private ArrayList<MenuTematico> menuTematiciValidi;
-	private ArrayList<Prenotazione> elencoPrenotazioniValide;
 
 	public Ristorante() {
 		this.dataCorrente = null;
@@ -44,9 +42,6 @@ public class Ristorante {
 		this.registroMagazzino = new ArrayList<Prodotto>();
 		this.listaSpesa = new ArrayList<Prodotto>();
 		this.elencoPrenotazioni = new ArrayList<Prenotazione>();
-		this.menuAllaCartaValido = new ArrayList<Piatto>();
-		this.menuTematiciValidi = new ArrayList<MenuTematico>();
-		this.elencoPrenotazioniValide = new ArrayList<Prenotazione>();
 	}
 
 	// GETTER AND SETTER
@@ -58,6 +53,9 @@ public class Ristorante {
 		this.dataCorrente = dataCorrente;
 	}
 
+	public void addPrenotazione(Prenotazione prenotazione) {
+		this.elencoPrenotazioni.add(prenotazione);
+	}
 	public int getCaricoLavoroPerPersona() {
 		return caricoLavoroPerPersona;
 	}
@@ -154,30 +152,6 @@ public class Ristorante {
 		this.elencoPrenotazioni = elencoPrenotazioni;
 	}
 
-	public ArrayList<Piatto> getMenuAllaCartaValido() {
-		return menuAllaCartaValido;
-	}
-
-	public void setMenuAllaCartaValido(ArrayList<Piatto> menuAllaCartaValido) {
-		this.menuAllaCartaValido = menuAllaCartaValido;
-	}
-
-	public ArrayList<MenuTematico> getMenuTematiciValidi() {
-		return menuTematiciValidi;
-	}
-
-	public void setMenuTematiciValidi(ArrayList<MenuTematico> menuTematiciValidi) {
-		this.menuTematiciValidi = menuTematiciValidi;
-	}
-
-	public ArrayList<Prenotazione> getElencoPrenotazioniValide() {
-		return elencoPrenotazioniValide;
-	}
-
-	public void setElencoPrenotazioniValide(ArrayList<Prenotazione> elencoPrenotazioniValide) {
-		this.elencoPrenotazioniValide = elencoPrenotazioniValide;
-	}
-
 	// METODI DA CONTROLLARE SE ANCORA VALIDI O SERVONO
 
 	// MenuCarta contiene elenco dei piatti validi nella data
@@ -251,14 +225,15 @@ public class Ristorante {
 
 		// Unisco tutte le comande -> Ogni piatto prenotato avra una voce con la sua
 		// molteplicita
-		// Questo � necessario perche in diverse prenotazioni ci possono essere piatti
+		// Questo si rende necessario siccome in diverse prenotazioni ci possono essere
+		// piatti
 		// uguali
 
 		HashMap<Piatto, Integer> totaleComande = unisciComande(prenotazioniInData);
 
 		// Costruisco la lista INIZIALE di tutti gli ingredienti necessari
 
-		ArrayList<Prodotto> listaIniziale = this.costruisciListaSpesa(totaleComande);
+		ArrayList<Prodotto> listaIniziale = this.costruisciListaSpesa(totaleComande,data);
 
 		// Confronto con registroMagazzino per togliere dalla lista precedente
 		// ingredienti gia presenti e in quantita sufficiente
@@ -268,7 +243,7 @@ public class Ristorante {
 		for (Prodotto voce : listaIniziale) {
 			if (!this.contieneProdottoSufficiente(registroMagazzino, voce)) {
 
-				float daAcquistare = voce.getQuantita() - this.quantitaInMagazzino(voce);
+				float daAcquistare = (float) (voce.getQuantita()*FATTORE_10_PER_CENTO - this.quantitaInMagazzino(voce));
 
 				Prodotto voceDaInserire = new Prodotto(voce.getNome(), daAcquistare, voce.getUnitaMisura());
 				this.listaSpesa.add(voceDaInserire);
@@ -279,12 +254,13 @@ public class Ristorante {
 
 	// crea elenco prenotazioni valide in data
 	private ArrayList<Prenotazione> creaElencoPrenotazioniInData(LocalDate data) {
-		List<Prenotazione> prenotazioniInData = new ArrayList<Prenotazione>();
+		ArrayList<Prenotazione> prenotazioniInData = new ArrayList<Prenotazione>();
 		for (Prenotazione p : this.elencoPrenotazioni) {
-			if (p.isValidinData(data))
+			if (p.isValidinData(data)) {
 				prenotazioniInData.add(p);
+			}
 		}
-		return elencoPrenotazioni;
+		return prenotazioniInData;
 	}
 
 	private float quantitaInMagazzino(Prodotto prodotto) {
@@ -319,14 +295,14 @@ public class Ristorante {
 		return elenco;
 	}
 
-	private ArrayList<Prodotto> costruisciListaSpesa(HashMap<Piatto, Integer> piattiOrdinati) {
+	private ArrayList<Prodotto> costruisciListaSpesa(HashMap<Piatto, Integer> piattiOrdinati, LocalDate date) {
 
 		ArrayList<Prodotto> prodotti = new ArrayList<Prodotto>();
 		List<Piatto> piatti = new ArrayList<Piatto>(piattiOrdinati.keySet());
-
-		this.aggiungiVoceUnivoco(prodotti, this.insiemeBevande);
-		this.aggiungiVoceUnivoco(prodotti, this.insiemeGeneriExtra);
-
+		int numeroClientiIndata= this.getNumeroClientiPrenotatiInData(date);
+		
+		prodotti.addAll(this.ricalcolaInBaseNumeroClienti(insiemeBevande, numeroClientiIndata));
+		prodotti.addAll(this.ricalcolaInBaseNumeroClienti(insiemeGeneriExtra, numeroClientiIndata));
 		for (Piatto piatto : piatti) {
 
 			Ricetta ricetta = corrispondenzePiattoRicetta.get(piatto); // Recupero la ricetta dalle corrispondenze
@@ -334,7 +310,7 @@ public class Ristorante {
 			// Recupero la lista degli ingredienti
 			aggiungiVoceUnivoco(prodotti, ingredienti);
 		}
-		maggiorazionePercentuale(prodotti, PERCENTUALE);
+//		maggiorazionePercentuale(prodotti, PERCENTUALE);
 		return prodotti;
 
 	}
@@ -354,6 +330,14 @@ public class Ristorante {
 		for (Prodotto voceLista : prodotti) {
 			float quantitaOld = voceLista.getQuantita();
 			voceLista.setQuantita((float) (quantitaOld * fattorePercentuale));
+		}
+	}
+
+	private void aggiornaListaConProdotto(ArrayList<Prodotto> prodotti, Prodotto prodotto) {
+		if (this.contieneProdotto(prodotti, prodotto)) {
+			this.replaceProdotto(prodotti, prodotto);
+		} else {
+			prodotti.add(prodotto);
 		}
 	}
 
@@ -387,6 +371,56 @@ public class Ristorante {
 			}
 		}
 		return false;
+	}
+
+	public void addProdottoInventario(Prodotto prodotto) {
+		this.aggiornaListaConProdotto(this.registroMagazzino, prodotto);
+	}
+	
+	private int getNumeroClientiPrenotatiInData(LocalDate date) {
+		int count = 0;
+		for(Prenotazione p: this.elencoPrenotazioni) {
+			if(p.isValidinData(date)) {
+				count+= p.getNumeroCoperti();
+			}
+		}
+		return count;
+	}
+	
+	private ArrayList<Prodotto> ricalcolaInBaseNumeroClienti(ArrayList<Prodotto> insieme ,int numero){
+		ArrayList<Prodotto> insiemeNew = new ArrayList<>();
+		for(Prodotto p: insieme) {
+			Prodotto nuovo = new Prodotto(p.getNome(),p.getQuantita()*numero,p.getUnitaMisura());
+			insiemeNew.add(nuovo);
+		}
+		return insiemeNew;
+	}
+	
+	public void rimuoviProdottoQuantita(Prodotto prodotto, float quantita) {
+		String nomeCercato = prodotto.getNome();
+		for(Prodotto p: this.registroMagazzino) {
+			if(p.getNome().equalsIgnoreCase(nomeCercato)) {
+				if(p.getQuantita() > quantita) {
+					p.setQuantita(p.getQuantita()-quantita);
+				} else {
+					rmvProdotto(registroMagazzino, prodotto);
+				}
+				break;
+			}
+		}
+	}
+	
+	private static void rmvProdotto(ArrayList<Prodotto> prodotti,Prodotto prodotto) {
+		int indice = 0;
+		String nome = prodotto.getNome();
+		for (int i = 0 ; i < prodotti.size(); i++) {
+			if(nome.equalsIgnoreCase(prodotti.get(i).getNome())) {
+				indice = i;
+				prodotti.remove(indice);
+				break;
+			}
+		}
+		
 	}
 
 }
