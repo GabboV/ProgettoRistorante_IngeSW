@@ -231,46 +231,12 @@ public class Ristorante {
 		corrispondenzePiattoRicetta.put(p, r);
 	}
 
-	// Controlla se in insiemeBevande esiste gia' una bevanda con il nome uguale a
-	// qullo che si vuole aggiungere
-	// Se gia' esiste, stampa a video un msg
-	// Se non esiste la aggiunge a insiemeBevande e stampa msg a video
 	public void addBevanda(Prodotto bevanda) {
-		boolean esiste = false;
-		for (Prodotto b : insiemeBevande) {
-			if (b.getNome().equalsIgnoreCase(bevanda.getNome())) {
-				System.out.println("La bevanda gia' esiste.");
-				esiste = true;
-				break;
-			}
-		}
-		if (!esiste) {
-			insiemeBevande.add(bevanda);
-			System.out.println("E' stata aggiunta una bevanda.");
-			System.out.println("Nome: " + bevanda.getNome());
-			System.out.println("ConsumoProCapite: " + bevanda.getQuantita() + bevanda.getUnitaMisura());
-		}
+		insiemeBevande.add(bevanda);
 	}
-
-	// Controlla se in insiemeGeneriExtra esiste gia' un genereExtra con il nome
-	// uguale a qullo che si vuole aggiungere
-	// Se gia' esiste, stampa a video un msg
-	// Se non esiste la aggiunge a inisemeGeneriExtra e stampa a video un msg
+	
 	public void addGenereExtra(Prodotto genereExtra) {
-		boolean esiste = false;
-		for (Prodotto g : insiemeBevande) {
-			if (g.getNome().equalsIgnoreCase(genereExtra.getNome())) {
-				System.out.println("Il genere extra gia' esiste.");
-				esiste = true;
-				break;
-			}
-		}
-		if (!esiste) {
-			insiemeGeneriExtra.add(genereExtra);
-			System.out.println("E' stata aggiunta un genere extra.");
-			System.out.println("Nome: " + genereExtra.getNome());
-			System.out.println("ConsumoProCapite: " + genereExtra.getQuantita() + genereExtra.getUnitaMisura());
-		}
+		insiemeGeneriExtra.add(genereExtra);
 	}
 
 	/*

@@ -26,7 +26,7 @@ public class OutputHandler {
 		for (Prodotto voce : lista) {
 			String denominazione = voce.getNome();
 			float quantita = voce.getQuantita();
-			String unitaMisura = voce.getUnitaMisura();
+			UnitaMisura unitaMisura = voce.getUnitaMisura();
 			String voceFormattata = String.format(FORMAT_VOCI_LISTA, indice, denominazione, quantita,
 					unitaMisura);
 			builder.append(voceFormattata);
@@ -47,7 +47,7 @@ public class OutputHandler {
 		builder.append(formatNome);
 		builder.append(formatCaricoLavoro);
 		builder.append(PERIODI_VALIDI);
-		for (DatePair periodo : piatto.getPeriodiValidita()) {
+		for (Periodo periodo : piatto.getPeriodiValidita()) {
 			LocalDate inizio = periodo.getDataInizio();
 			LocalDate fine = periodo.getDataFine();
 			String formatPeriodo = String.format(FORMAT_PERIODO, inizio.getDayOfMonth(),

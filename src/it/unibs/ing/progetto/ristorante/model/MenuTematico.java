@@ -8,16 +8,16 @@ public class MenuTematico {
 	private String nome;
 	private ArrayList<Piatto> elencoPiatti;
 	private float caricoLavoro;
-	private ArrayList<DatePair> periodiValidita;
+	private ArrayList<Periodo> periodiValidita;
 	
 	
-	//cosa succede se non ho un DatePair non inizializzato (se può succedere)
+	//cosa succede se non ho un Periodo non inizializzato (se può succedere)
 	//esistono menuTematici sempre validi?
 	//devo imporre che date sono in ordine prima di usare questo metodo
 	//posso avere un periodiValidita vuoto?
 	public boolean isValidoInData(LocalDate data) {
-		//prende ciascun DatePair presente in periodiValidita
-		for(DatePair d : periodiValidita) {
+		//prende ciascun Periodo presente in periodiValidita
+		for(Periodo d : periodiValidita) {
 			//se la data è compresa tra dataInizio e dataFine oppure coincide con una delle due date ritorna true
 			if(d.contieneDataEstremiInclusi(data)) return true;
 		}
@@ -25,7 +25,7 @@ public class MenuTematico {
 	}
 	
 	public MenuTematico(String nome, ArrayList<Piatto> elencoPiatti, float caricoLavoro,
-			ArrayList<DatePair> periodiValidita) {
+			ArrayList<Periodo> periodiValidita) {
 		super();
 		this.nome = nome;
 		this.elencoPiatti = elencoPiatti;
@@ -52,10 +52,10 @@ public class MenuTematico {
 	public void setCaricoLavoro(float caricoLavoro) {
 		this.caricoLavoro = caricoLavoro;
 	}
-	public ArrayList<DatePair> getPeriodiValidita() {
+	public ArrayList<Periodo> getPeriodiValidita() {
 		return periodiValidita;
 	}
-	public void setPeriodiValidita(ArrayList<DatePair> periodiValidita) {
+	public void setPeriodiValidita(ArrayList<Periodo> periodiValidita) {
 		this.periodiValidita = periodiValidita;
 	}
 }

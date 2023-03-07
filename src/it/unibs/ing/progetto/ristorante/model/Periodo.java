@@ -2,11 +2,11 @@ package it.unibs.ing.progetto.ristorante.model;
 
 import java.time.LocalDate;
 
-public class DatePair {
+public class Periodo {
 	private final LocalDate dataInizio;
     private final LocalDate dataFine;
 
-    public DatePair(LocalDate first, LocalDate second) {
+    public Periodo(LocalDate first, LocalDate second) {
         this.dataInizio = first;
         this.dataFine = second;
     }

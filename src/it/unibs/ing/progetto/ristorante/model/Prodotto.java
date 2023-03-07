@@ -4,9 +4,9 @@ public class Prodotto {
 
 	private String nome;
 	private Float quantita;
-	private String unitaMisura;
+	private UnitaMisura unitaMisura;
 	
-	public Prodotto(String nome, Float quantita, String unitaMisura) {
+	public Prodotto(String nome, Float quantita, UnitaMisura unitaMisura) {
 		this.nome = nome;
 		this.quantita = quantita;
 		this.unitaMisura = unitaMisura;
@@ -24,10 +24,10 @@ public class Prodotto {
 	public void setQuantita(Float quantita) {
 		this.quantita = quantita;
 	}
-	public String getUnitaMisura() {
+	public UnitaMisura getUnitaMisura() {
 		return unitaMisura;
 	}
-	public void setUnitaMisura(String unitaMisura) {
+	public void setUnitaMisura(UnitaMisura unitaMisura) {
 		this.unitaMisura = unitaMisura;
 	}
 

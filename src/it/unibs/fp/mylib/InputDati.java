@@ -5,6 +5,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import javax.xml.datatype.DatatypeConfigurationException;
+
+import it.unibs.ing.progetto.ristorante.model.UnitaMisura;
 public class InputDati 
 {
 	  private static Scanner lettore = creaScanner();
@@ -17,6 +19,10 @@ public class InputDati
 	  private final static String MESSAGGIO_AMMISSIBILI= "Attenzione: i caratteri ammissibili sono: ";
 	  private final static char RISPOSTA_SI='S';
 	  private final static char RISPOSTA_NO='N';
+	  private final static String KILOGRAMMI = "kg";
+	  private final static String ETTOGRAMMI = "hg";
+	  private final static String GRAMMI = "g";
+	  private final static String LITRI = "l";
 
 	  private static Scanner creaScanner ()
 	  {
@@ -286,5 +292,32 @@ public class InputDati
 			  return true;
 		  else
 			  return false;
+	  }
+	  
+	  
+	  //da migliorare
+	  public static UnitaMisura leggiUnitaMisura(String messaggio)
+	  {
+		  String kg = UnitaMisura.KG.getName();
+		  String hg = UnitaMisura.HG.getName();
+		  String g = UnitaMisura.GRAMMI.getName();
+		  String l = UnitaMisura.LITRI.getName();
+		  String valoriAmmissibili = "("+kg+"/"+hg+"/"+g+"/"+l+") ";
+		  String valoreLetto = null;
+		  do
+		  {
+			  System.out.print(messaggio);
+			  valoreLetto = lettore.next();
+			  String daButtare = lettore.nextLine();
+			  if(!(daButtare.isBlank())) {
+				  System.out.println(MESSAGGIO_AMMISSIBILI + valoriAmmissibili);
+			  } else {
+				  if(valoreLetto.equalsIgnoreCase(kg)) return UnitaMisura.KG;
+				  if(valoreLetto.equalsIgnoreCase(hg)) return UnitaMisura.HG;
+				  if(valoreLetto.equalsIgnoreCase(g)) return UnitaMisura.GRAMMI;
+				  if(valoreLetto.equalsIgnoreCase(l)) return UnitaMisura.LITRI;
+				  System.out.println(MESSAGGIO_AMMISSIBILI + valoriAmmissibili);
+			  }
+		  } while (true);
 	  }
 }

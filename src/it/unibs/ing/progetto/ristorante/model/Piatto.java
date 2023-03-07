@@ -8,30 +8,30 @@ public class Piatto {
 	private String nomePiatto; 
 	private int caricoLavoro;
 	//array contentente coppie di date (dataInizio e dataFine)
-	private ArrayList<DatePair> periodiValidita;
+	private ArrayList<Periodo> periodiValidita;
 	
 	
 	public Piatto(String nomePiatto,  int caricoLavoro) {
 		super();
 		this.nomePiatto = nomePiatto;
-		this.periodiValidita = new ArrayList<DatePair>();
+		this.periodiValidita = new ArrayList<Periodo>();
 		this.caricoLavoro = caricoLavoro;
 	}
 
-	//cosa succede se non ho un DatePair non inizializzato (se può succedere)
+	//cosa succede se non ho un Periodo non inizializzato (se può succedere)
 	//esistono piatti sempre validi?
 	//devo imporre che date sono in ordine prima di usare questo metodo
 	//posso avere un periodiValidita vuoto?
 	public boolean isValidoInData(LocalDate data) {
-		//prende ciascun DatePair presente in periodiValidita
-		for(DatePair d : periodiValidita) {
+		//prende ciascun Periodo presente in periodiValidita
+		for(Periodo d : periodiValidita) {
 			//se la data è compresa tra dataInizio e dataFine oppure coincide con una delle due date ritorna true
 			if(d.contieneDataEstremiInclusi(data)) return true;
 		}
 		return false;
 	}
 	
-	public void addDatePair(DatePair periodoValidita) {
+	public void addDatePair(Periodo periodoValidita) {
 		periodiValidita.add(periodoValidita);
 	}
 	
@@ -53,11 +53,11 @@ public class Piatto {
 		this.caricoLavoro = caricoLavoro;
 	}
 
-	public ArrayList<DatePair> getPeriodiValidita() {
+	public ArrayList<Periodo> getPeriodiValidita() {
 		return periodiValidita;
 	}
 
-	public void setPeriodiValidita(ArrayList<DatePair> periodiValidita) {
+	public void setPeriodiValidita(ArrayList<Periodo> periodiValidita) {
 		this.periodiValidita = periodiValidita;
 	}
 }

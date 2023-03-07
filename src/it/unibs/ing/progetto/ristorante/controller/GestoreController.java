@@ -8,11 +8,12 @@ import java.util.HashMap;
 import javax.swing.RowFilter.ComparisonType;
 
 import it.unibs.fp.mylib.InputDati;
-import it.unibs.ing.progetto.ristorante.model.DatePair;
+import it.unibs.ing.progetto.ristorante.model.Periodo;
 import it.unibs.ing.progetto.ristorante.model.Piatto;
 import it.unibs.ing.progetto.ristorante.model.Prodotto;
 import it.unibs.ing.progetto.ristorante.model.Ricetta;
 import it.unibs.ing.progetto.ristorante.model.Ristorante;
+import it.unibs.ing.progetto.ristorante.model.UnitaMisura;
 import it.unibs.ing.progetto.ristorante.view.GestoreView;
 
 public class GestoreController{
@@ -27,8 +28,6 @@ public class GestoreController{
 	private static final int AGGIUNGI_BEVANDA = 3;
 	private static final int AGGIUNGI_MENU_TEMATICO = 2;
 	private static final int AGGIUNGI_INGREDIENTE = 1;
-	private static final String UNITA_MISURA_BEVANDE = "l";
-	private static final String UNITA_MISURA_GENERI_EXTRA = "hg";
 	
 	private Ristorante ristorante;
 	private GestoreView view;
@@ -91,7 +90,8 @@ public class GestoreController{
 			aggiungiPiattoRicetta();
 			altraRicetta = view.richiestaNuovaAggiunta("Vuoi aggiungere un altra ricetta? ");
 		} while(altraRicetta);
-		view.stampaMsg("Hai completato l'inizializzazione del programma.\n");
+	
+		view.stampaMsg("\nHai completato l'inizializzazione del programma.\n");
 		apriMenuGestore();
 		return ristorante;
 	}
@@ -109,6 +109,7 @@ public class GestoreController{
 			apriMenuGestore();
 			break;
 		case AGGIUNGI_MENU_TEMATICO:
+			apriMenuGestore();
 			break;
 		case AGGIUNGI_BEVANDA:
 			aggiungiBevanda();
@@ -119,8 +120,9 @@ public class GestoreController{
 			apriMenuGestore();
 			break;
 		case VISUALIZZA_PARAMETRI:
-			//potrei dare tutto il model come parametro
+			//potrei dare tutto il model come parametro, ma così do solo parametri necessari
 			view.stampaParametriRistorante(ristorante.getDataCorrente(), ristorante.getNumeroPostiASedere(), ristorante.getCaricoLavoroPerPersona(), ristorante.getCaricoLavoroRistorante());
+			System.out.println();
 			apriMenuGestore();
 			break;
 		case VISUALIZZA_RICETTE:
@@ -128,17 +130,25 @@ public class GestoreController{
 			int contatore = 0;
 			for(Piatto p : ristorante.getElencoPiatti()) {
 				Ricetta r = ristorante.getCorrispondenzePiattoRicetta().get(p);
-				view.stampaMsg(contatore + ")");
+				view.stampaMsg(" ----------- " + contatore + " ----------- ");
 				view.stampaPiattoRicetta(p, r);
 				contatore++;
 			}
 			apriMenuGestore();
 			break;
 		case VISUALIZZA_MENU_TEMATICI:
+			System.out.println();
+			apriMenuGestore();
 			break;
 		case VISUALIZZA_BEVANDE:
+			view.stampaInsiemeProdotti(ristorante.getInsiemeBevande());
+			System.out.println();
+			apriMenuGestore();
 			break;
 		case VISUALIZZA_GENERI_EXTRA:
+			view.stampaInsiemeProdotti(ristorante.getInsiemeGeneriExtra());
+			System.out.println();
+			apriMenuGestore();
 			break;
 		case ESCI:
 			System.out.println("Fine sessione Gestore...");
@@ -164,7 +174,7 @@ public class GestoreController{
 			
 		int porzioni = view.richiestaNumeroPorzioni("Inserisci il numero di porzioni del piatto: ");
 		int caricoLavoro = view.richiestaCaricoLavoro("Inserisci il carico di lavoro per porzione: ");
-		
+		//forse da creare istanze nel model?
 		Ricetta r = new Ricetta(porzioni, caricoLavoro);
 		Piatto p = new Piatto(nomePiatto, caricoLavoro);
 		
@@ -195,7 +205,7 @@ public class GestoreController{
 			LocalDate dataInizio = view.richiestaData("Inserire data di inizio validita'. ");
 			LocalDate dataFine = view.richiestaData("Inserire data di fine validita': ");
 			if((dataInizio.isBefore(dataFine) || dataInizio.isEqual(dataFine)) && dataFine.isAfter(ristorante.getDataCorrente())) {
-				DatePair periodoValidita = new DatePair(dataInizio, dataFine);
+				Periodo periodoValidita = new Periodo(dataInizio, dataFine);
 				p.addDatePair(periodoValidita);
 				valido = true;
 			} else {
@@ -207,7 +217,7 @@ public class GestoreController{
 
 	private void aggiungiIngrediente(Ricetta r) {
 		String nomeIngrediente = view.richiestaNome("Inserisci il nome dell'ingrediente: ");
-		String unitaMisura = view.richiestaUnitaMisura("Inserisci unita di misura: ");
+		UnitaMisura unitaMisura = view.richiestaUnitaMisura("Inserisci unita di misura: ");
 		float dose = view.richiestaQuantita("Inserisci dose: ");
 		
 		Prodotto ingrediente = new Prodotto(nomeIngrediente, dose, unitaMisura);
@@ -222,6 +232,8 @@ public class GestoreController{
 		}
 		if (!esiste) {
 			r.addIngrediente(ingrediente);
+			view.stampaMsg("E' stata aggiunto un ingrediente.");
+			view.stampaProdotto(ingrediente);
 		}
 	}
 	
@@ -232,14 +244,29 @@ public class GestoreController{
 	//Se non esiste la aggiunge a insiemeBevande e stampa a video un msg
 	//Chiede a utente se vuole aggiungere un'altra bevanda
 	public void aggiungiBevanda() {
-		boolean continua = true;
+		boolean altraBevanda = true;
+		boolean esiste = false;
 		do {
 			String nomeBevanda = view.richiestaNome("Inserisci il nome di una bevanda: ");
 			Float consumoProCapiteBevanda =  view.richiestaConsumoProCapite("Inserisci il consumo pro capite di " + nomeBevanda + ": ");
-			Prodotto bevanda = new Prodotto(nomeBevanda, consumoProCapiteBevanda, UNITA_MISURA_BEVANDE);
-			ristorante.addBevanda(bevanda);
-			continua = view.richiestaNuovaAggiunta("Vuoi aggiungere un'altra bevanda? ");
-		} while(continua);
+			
+			Prodotto bevanda = new Prodotto(nomeBevanda, consumoProCapiteBevanda, UnitaMisura.LITRI);
+			
+			for (Prodotto b : ristorante.getInsiemeBevande()) {
+				if (b.getNome().equalsIgnoreCase(nomeBevanda)) {
+					view.stampaMsg("La bevanda gia' esiste.");
+					esiste = true;
+					break;
+				}
+			}
+			if (!esiste) {
+				ristorante.addBevanda(bevanda);
+				view.stampaMsg("E' stata aggiunta una bevanda.");
+				view.stampaProdotto(bevanda);
+			}
+			altraBevanda = view.richiestaNuovaAggiunta("Vuoi aggiungere un'altra bevanda? ");
+		} while(altraBevanda);
+		
 	}
 	
 	
@@ -249,14 +276,28 @@ public class GestoreController{
 	//Se non esiste la aggiunge a inisemeGeneriExtra e stampa a video un msg
 	//Chiede a utente se vuole aggiungere un altro genere extra
 	public void aggiungiGenereExtra() {
-		boolean continua = true;
+		boolean altroGenereExtra = true;
+		boolean esiste = false;
 		do {
 			String nomeGenereExtra = view.richiestaNome("Inserisci il nome di un genere extra: ");
 			Float consumoProCapiteGenereExtra =  view.richiestaConsumoProCapite("Inserisci il consumo pro capite di " + nomeGenereExtra + ": ");
-			Prodotto genereExtra = new Prodotto(nomeGenereExtra, consumoProCapiteGenereExtra, UNITA_MISURA_GENERI_EXTRA);
-			ristorante.addGenereExtra(genereExtra);
-			continua = view.richiestaNuovaAggiunta("Vuoi aggiungere un altro genere extra? ");
-		} while(continua);
+			
+			Prodotto genereExtra = new Prodotto(nomeGenereExtra, consumoProCapiteGenereExtra, UnitaMisura.HG);
+			
+			for (Prodotto g : ristorante.getInsiemeGeneriExtra()) {
+				if (g.getNome().equalsIgnoreCase(nomeGenereExtra)) {
+					view.stampaMsg("Il genere extra gia' esiste.");
+					esiste = true;
+					break;
+				}
+			}
+			if (!esiste) {
+				ristorante.addGenereExtra(genereExtra);
+				view.stampaMsg("E' stata aggiunta un genere extra.");
+				view.stampaProdotto(genereExtra);
+			}
+			altroGenereExtra = view.richiestaNuovaAggiunta("Vuoi aggiungere un altro genere extra? ");
+		} while(altroGenereExtra);
 	}
 	
 	

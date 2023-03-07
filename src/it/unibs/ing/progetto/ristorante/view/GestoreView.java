@@ -1,14 +1,16 @@
 package it.unibs.ing.progetto.ristorante.view;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 
 import it.unibs.fp.mylib.InputDati;
 import it.unibs.fp.mylib.MyMenu;
-import it.unibs.ing.progetto.ristorante.model.DatePair;
+import it.unibs.ing.progetto.ristorante.model.Periodo;
 import it.unibs.ing.progetto.ristorante.model.Piatto;
 import it.unibs.ing.progetto.ristorante.model.Prodotto;
 import it.unibs.ing.progetto.ristorante.model.Ricetta;
+import it.unibs.ing.progetto.ristorante.model.UnitaMisura;
 
 public class GestoreView {
 
@@ -47,9 +49,8 @@ public class GestoreView {
 		return InputDati.leggiStringaNonVuota(messaggio);
 	}
 	
-	public String richiestaUnitaMisura(String messaggio) {
-		//devo imporre scelta tra kg,l,hg (enum)?
-		return InputDati.leggiStringaNonVuota(messaggio);
+	public UnitaMisura richiestaUnitaMisura(String messaggio) {
+		return InputDati.leggiUnitaMisura(messaggio);
 	}
 	
 	public Float richiestaConsumoProCapite(String messaggio) {
@@ -81,23 +82,16 @@ public class GestoreView {
 		return menu.scegli();
 	}
 	
-	public void stampaIngrediente(Prodotto i) {
-		System.out.println("E' stata aggiunto un ingrediente.");
-		System.out.println("Nome: " + i.getNome());
-		System.out.println("Dose: " + i.getQuantita() + i.getUnitaMisura());	
-	}
-	
 	public void stampaPiattoRicetta(Piatto p, Ricetta r) {
 		System.out.println("Nome del piatto: " + p.getNomePiatto());
 		System.out.println("Numero porzioni: " + r.getNumeroPorzioni());
 		System.out.println("Carico di lavoro per porzione: " + p.getCaricoLavoro());
 		System.out.println("RICETTA: ");
 		for(Prodotto i : r.getElencoIngredienti()) {
-			System.out.println("Nome ingrediente: " + i.getNome());
-			System.out.println("Dose: " + i.getQuantita() + i.getUnitaMisura());
+			stampaProdotto(i);
 		}
 		System.out.println("Periodi di validita': ");
-		for(DatePair d : p.getPeriodiValidita()) {
+		for(Periodo d : p.getPeriodiValidita()) {
 			LocalDate dInizio = d.getDataInizio();
 			LocalDate dFine = d.getDataFine();
 			stampaPeriodo(dInizio, dFine);
@@ -114,5 +108,25 @@ public class GestoreView {
 		System.out.print(" --> ");
 		stampaData(dataFine);
 		System.out.println();
+	}
+	
+	public void stampaProdotto(Prodotto p) {
+		System.out.println("Nome: " + p.getNome());
+		System.out.println("Consumo pro capite: " + p.getQuantita() + p.getUnitaMisura());	
+	}
+	
+	public void stampaInsiemeProdotti(ArrayList<Prodotto> elencoProdotti) {
+		int contatore = 0;
+		if (elencoProdotti.isEmpty()) {
+			System.out.println();
+			System.out.println("La lista e' vuota.");
+			System.out.println();
+		} else {
+			for(Prodotto p : elencoProdotti) {
+				System.out.println(" ----------- " + contatore + " ----------- ");
+				stampaProdotto(p);
+				contatore++;
+			}
+		}
 	}
 }
