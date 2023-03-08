@@ -10,7 +10,7 @@ public enum UnitaMisura {
 		this.unitaMisura = unitaMisura;
 	}
 
-	public String getUnitaMisura() {
+	public String getName() {
 		return unitaMisura;
 	}
 	
