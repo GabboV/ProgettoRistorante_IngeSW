@@ -15,9 +15,9 @@ import it.unibs.ing.progetto.ristorante.model.UnitaMisura;
 public class GestoreView {
 
 	final static private String TITOLO = "COMANDI GESTORE";
-	final static private String[] ELENCO_COMANDI = {"Aggiungi ricetta", "Aggiungi menu tematico", "Aggiungi bevanda",
+	final static private String[] ELENCO_COMANDI = {"Aggiungi ricetta", "Aggiungi menu tematico (non ancora implementato)", "Aggiungi bevanda",
 			"Aggiungi genere extra", "Visualizza parametri", "Visualizza ricette",
-			"Visualizza menu tematici", "Visualizza bevande", "Visualizza generi extra"};
+			"Visualizza menu tematici (non ancora implementato)", "Visualizza bevande", "Visualizza generi extra"};
 	
 	public void stampaMsgBenvenutoInizializzazione() {
 		System.out.println("Benvenuto Gestore.");
@@ -66,15 +66,13 @@ public class GestoreView {
 	}
 	
 	public void stampaParametriRistorante(LocalDate dataCorrente, int nPosti, int caricoLavoroPersona, int caricoLavoroRistorante) {
-		System.out.println();
-		System.out.println("Questi sono i valori dei parametri del ristorante: ");
-		System.out.print("La data corrente e' ");
+		System.out.println("\nPARAMETRI RISTORANTE");
+		System.out.print("Data corrente: ");
 		stampaData(dataCorrente);
-		System.out.println(" ed e' " + dataCorrente.getDayOfWeek());
-		System.out.println("Il numero di posti a sedere del ristorante e' " + nPosti);
-		System.out.println("Il carico di lavoro per persona e' " + caricoLavoroPersona);
-		System.out.println("Il carico lavoro gestibile dal ristorante per un pasto e' " + caricoLavoroRistorante);
-		System.out.println();
+		System.out.println(" " + dataCorrente.getDayOfWeek());
+		System.out.println("Numero di posti a sedere del ristorante: " + nPosti);
+		System.out.println("Carico di lavoro per persona: " + caricoLavoroPersona);
+		System.out.println("Carico lavoro gestibile dal ristorante per un pasto: " + caricoLavoroRistorante);
 	}
 	
 	public int stampaMenuGestore() {
@@ -83,18 +81,21 @@ public class GestoreView {
 	}
 	
 	public void stampaPiattoRicetta(Piatto p, Ricetta r) {
-		System.out.println("Nome del piatto: " + p.getNomePiatto());
-		System.out.println("Numero porzioni: " + r.getNumeroPorzioni());
-		System.out.println("Carico di lavoro per porzione: " + p.getCaricoLavoro());
-		System.out.println("RICETTA: ");
-		for(Prodotto i : r.getElencoIngredienti()) {
-			stampaProdotto(i);
-		}
+		System.out.println("PIATTO:");
+		System.out.println("Nome: " + p.getNomePiatto());
+		System.out.println("Carico di lavoro: " + p.getCaricoLavoro());
 		System.out.println("Periodi di validita': ");
 		for(Periodo d : p.getPeriodiValidita()) {
 			LocalDate dInizio = d.getDataInizio();
 			LocalDate dFine = d.getDataFine();
 			stampaPeriodo(dInizio, dFine);
+		}
+		System.out.println("RICETTA: ");
+		System.out.println("Numero porzioni: " + r.getNumeroPorzioni());
+		System.out.println("Carico di lavoro per porzione: " + r.getCaricoLavoroPorzione());
+		System.out.println("INGREDIENTI:");
+		for(Prodotto i : r.getElencoIngredienti()) {
+			stampaIngrediente(i);
 		}
 	}
 	
@@ -108,6 +109,11 @@ public class GestoreView {
 		System.out.print(" --> ");
 		stampaData(dataFine);
 		System.out.println();
+	}
+	
+	public void stampaIngrediente(Prodotto p) {
+		System.out.println("Nome: " + p.getNome());
+		System.out.println("Dose: " + p.getQuantita() + p.getUnitaMisura());	
 	}
 	
 	public void stampaProdotto(Prodotto p) {

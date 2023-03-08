@@ -127,6 +127,7 @@ public class GestoreController{
 			break;
 		case VISUALIZZA_RICETTE:
 			//ciclo che stampa ricette (con contatore)
+			view.stampaMsg("\nELENCO PIATTI-RICETTE");
 			int contatore = 0;
 			for(Piatto p : ristorante.getElencoPiatti()) {
 				Ricetta r = ristorante.getCorrispondenzePiattoRicetta().get(p);
@@ -141,11 +142,13 @@ public class GestoreController{
 			apriMenuGestore();
 			break;
 		case VISUALIZZA_BEVANDE:
+			view.stampaMsg("\nELENCO BEVANDE");
 			view.stampaInsiemeProdotti(ristorante.getInsiemeBevande());
 			System.out.println();
 			apriMenuGestore();
 			break;
 		case VISUALIZZA_GENERI_EXTRA:
+			view.stampaMsg("\nELENCO GENERI EXTRA");
 			view.stampaInsiemeProdotti(ristorante.getInsiemeGeneriExtra());
 			System.out.println();
 			apriMenuGestore();
@@ -198,7 +201,7 @@ public class GestoreController{
 		view.stampaPiattoRicetta(p, r);
 	}
 
-	//DA CONTROLLARE SE PERIODO SI SOVRAPPONE CON UN ALTRO
+	//si puo aggiungere controllo sovrapposizione di date
 	private void aggiungiPeriodoValido(Piatto p) {
 		boolean valido = true;
 		do {
@@ -217,7 +220,7 @@ public class GestoreController{
 
 	private void aggiungiIngrediente(Ricetta r) {
 		String nomeIngrediente = view.richiestaNome("Inserisci il nome dell'ingrediente: ");
-		UnitaMisura unitaMisura = view.richiestaUnitaMisura("Inserisci unita di misura: ");
+		String unitaMisura = view.richiestaNome("Inserisci unita di misura: ");
 		float dose = view.richiestaQuantita("Inserisci dose: ");
 		
 		Prodotto ingrediente = new Prodotto(nomeIngrediente, dose);
@@ -250,7 +253,7 @@ public class GestoreController{
 			String nomeBevanda = view.richiestaNome("Inserisci il nome di una bevanda: ");
 			Float consumoProCapiteBevanda =  view.richiestaConsumoProCapite("Inserisci il consumo pro capite di " + nomeBevanda + ": ");
 			
-			Prodotto bevanda = new Prodotto(nomeBevanda, consumoProCapiteBevanda);
+			Prodotto bevanda = new Prodotto(nomeBevanda, consumoProCapiteBevanda, "l");
 			
 			for (Prodotto b : ristorante.getInsiemeBevande()) {
 				if (b.getNome().equalsIgnoreCase(nomeBevanda)) {
@@ -282,7 +285,7 @@ public class GestoreController{
 			String nomeGenereExtra = view.richiestaNome("Inserisci il nome di un genere extra: ");
 			Float consumoProCapiteGenereExtra =  view.richiestaConsumoProCapite("Inserisci il consumo pro capite di " + nomeGenereExtra + ": ");
 			
-			Prodotto genereExtra = new Prodotto(nomeGenereExtra, consumoProCapiteGenereExtra);
+			Prodotto genereExtra = new Prodotto(nomeGenereExtra, consumoProCapiteGenereExtra, "hg");
 			
 			for (Prodotto g : ristorante.getInsiemeGeneriExtra()) {
 				if (g.getNome().equalsIgnoreCase(nomeGenereExtra)) {

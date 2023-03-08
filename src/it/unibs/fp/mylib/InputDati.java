@@ -294,8 +294,7 @@ public class InputDati
 			  return false;
 	  }
 	  
-	  
-	  //da migliorare
+	  //utilizzando enum UnitaMisura
 	  public static UnitaMisura leggiUnitaMisura(String messaggio)
 	  {
 		  String kg = UnitaMisura.KG.getName();
