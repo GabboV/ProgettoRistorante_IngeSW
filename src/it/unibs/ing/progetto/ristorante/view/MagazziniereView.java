@@ -16,10 +16,9 @@ public class MagazziniereView {
 	private static final String AGGIORNA_REGISTRO_MAGAZZINO = "Aggiorna registro Magazzino";
 	private static final String CREA_LISTA_SPESA = "Crea Lista Spesa";
 
-	private static final String[] OPZIONI_MAGAZZINIERE = new String[] { CREA_LISTA_SPESA, AGGIORNA_REGISTRO_MAGAZZINO,
-
+	private static final String[] OPZIONI_MAGAZZINIERE = new String[] { CREA_LISTA_SPESA, VISUALIZZA_INVENTARIO,
 			VISUALIZZA_LISTA_SPESA, AGGIUNGI_PRODOTTO_NEL_MAGAZZINO, RIMUOVI_PRODOTTO_NEL_MAGAZZINO,
-			VISUALIZZA_INVENTARIO };
+			AGGIORNA_REGISTRO_MAGAZZINO };
 
 	private MyMenu menu = new MyMenu(MAGAZZINIERE, OPZIONI_MAGAZZINIERE);
 

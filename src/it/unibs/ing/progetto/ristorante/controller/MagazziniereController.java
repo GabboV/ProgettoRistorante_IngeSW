@@ -10,24 +10,29 @@ import it.unibs.ing.progetto.ristorante.view.OutputFormatter;
 
 public class MagazziniereController {
 
-	private static final String NESSUNA_LISTA_DELLA_SPESA = "La lista della spesa è vuota o mai stata creata";
-	private static final int VISUALIZZA_INVENTARIO = 6;
+	private static final String MAGAZZINO_VUOTO = "\nIl Magazzino è vuoto...\n";
+	private static final String LOGOUT_END = "Hai effettuato il Logout";
+	private static final String NESSUNA_LISTA_DELLA_SPESA = "\nLa lista della spesa è vuota o non è mai stata creata\n";
+	
 	private static final String INSERIRE_LA_DATA_PER_CUI_CREARE_LA_LISTA_DELLA_SPESA = "Inserire la data per cui creare la lista della spesa\n";
 	private static final String PROFILO_MAGAZZINIERE = "Profilo: Magazziniere\n";
 	private static final String ERRORE = "Something really really bad happened...riavviare il programma";
 	private static final String INSERISCI_QUANTITA_DA_RIDURRE = "Inserisci quantita da ridurre -> ";
 	private static final String SELEZIONE_IL_PRODOTTO_NUMERO_DA_ELIMINARE_O_RIDURRE = "Selezione il prodotto (numero) da eliminare o ridurre -> ";
-	private static final int ZERO = 0;
 	private static final String INSERISCI_QUANTITA_DEL_PRODOTTO = "Inserisci quantita del prodotto -> ";
 	private static final String INSERISCI_UNITA_DI_MISURA_DEL_PRODOTTO = "Inserisci unita di misura del prodotto -> ";
 	private static final String INSERISCI_NOME_DEL_PRODOTTO = "Inserisci nome del prodotto -> ";
-	private static final int RIMUOVI_PRODOTTI_DETERIORATI = 5;
-	private static final int AGGIUNGI_PRODOTTI = 4;
-	private static final int VISUALIZZA_LISTA_SPESA = 3;
-	private static final String LOGOUT_END = "Hai effettuato il Logout";
-	private static final int AGGIORNA_REGISTRO_MAGAZZINO = 2;
-	private static final int CREA_LISTA_SPESA = 1;
+	
+	private static final int ZERO = 0;
 	private static final int LOGOUT = 0;
+	private static final int CREA_LISTA_SPESA = 1;
+	private static final int VISUALIZZA_INVENTARIO = 2;
+	private static final int VISUALIZZA_LISTA_SPESA = 3;
+	private static final int AGGIUNGI_PRODOTTI = 4;
+	private static final int RIMUOVI_PRODOTTI_DETERIORATI = 5;
+	
+	private static final int AGGIORNA_REGISTRO_MAGAZZINO = 6;
+
 
 	private Ristorante model;
 	private MagazziniereView view;
@@ -56,20 +61,20 @@ public class MagazziniereController {
 			case CREA_LISTA_SPESA:
 				this.creaListaSpesa();
 				break;
-			case AGGIORNA_REGISTRO_MAGAZZINO:
-				this.aggiornaRegistroMagazzino();
+			case VISUALIZZA_INVENTARIO:
+				this.visualizzaInventario();
 				break;
 			case VISUALIZZA_LISTA_SPESA:
 				this.visualizzaListaSpesa();
 				break;
 			case AGGIUNGI_PRODOTTI:
-				this.addProdottoInventario();
+				this.addProdottoRegistroMagazzino();
 				break;
 			case RIMUOVI_PRODOTTI_DETERIORATI:
 				this.rimuoviProdottiInventario();
 				break;
-			case VISUALIZZA_INVENTARIO:
-				this.visualizzaInventario();
+			case AGGIORNA_REGISTRO_MAGAZZINO:
+				this.aggiornaRegistroMagazzino();
 				break;
 			default:
 				this.view.print(ERRORE);
@@ -94,7 +99,10 @@ public class MagazziniereController {
 		view.print(listaFormattata);
 	}
 
-	public void addProdottoInventario() {
+	/**
+	 * Aggiunge un prodotto al registro del magazzino (con feedback dalla view)
+	 */
+	public void addProdottoRegistroMagazzino() {
 		String nome = this.view.richiestaNome(INSERISCI_NOME_DEL_PRODOTTO);
 		String unitaMisura = this.view.richiestaNome(INSERISCI_UNITA_DI_MISURA_DEL_PRODOTTO);
 		float quantita = this.view.richiestaQuantita(INSERISCI_QUANTITA_DEL_PRODOTTO);
@@ -119,7 +127,12 @@ public class MagazziniereController {
 	}
 
 	public void visualizzaInventario() {
-		String inventario = OutputFormatter.formatListaProdotti(this.model.getRegistroMagazzino());
+		String inventario;
+		if(this.model.isRegistroMagazzinoEmpty()) {
+			inventario = MAGAZZINO_VUOTO;
+		} else {
+			inventario = OutputFormatter.formatListaProdotti(this.model.getRegistroMagazzino());
+		}
 		this.view.print(inventario);
 	}
 

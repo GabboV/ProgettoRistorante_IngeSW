@@ -1,7 +1,8 @@
 package it.unibs.ing.progetto.ristorante.model;
 
-public class Prodotto {
 
+public class Prodotto {
+	
 	private String nome;
 	private Float quantita;
 	private String unitaMisura;
@@ -35,8 +36,6 @@ public class Prodotto {
 	public void setUnitaMisura(String unitaMisura) {
 		this.unitaMisura = unitaMisura;
 	}
-
-	
 	
 	
 }

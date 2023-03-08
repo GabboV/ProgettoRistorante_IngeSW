@@ -419,7 +419,14 @@ public class Ristorante {
 		} else {
 			return false;
 		}
-
+	}
+	
+	public boolean isRegistroMagazzinoEmpty() {
+		if(this.registroMagazzino.size() == 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }
