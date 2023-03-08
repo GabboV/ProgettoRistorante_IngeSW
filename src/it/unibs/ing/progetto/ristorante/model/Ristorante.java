@@ -56,6 +56,7 @@ public class Ristorante {
 	public void addPrenotazione(Prenotazione prenotazione) {
 		this.elencoPrenotazioni.add(prenotazione);
 	}
+
 	public int getCaricoLavoroPerPersona() {
 		return caricoLavoroPerPersona;
 	}
@@ -233,7 +234,7 @@ public class Ristorante {
 
 		// Costruisco la lista INIZIALE di tutti gli ingredienti necessari
 
-		ArrayList<Prodotto> listaIniziale = this.costruisciListaSpesa(totaleComande,data);
+		ArrayList<Prodotto> listaIniziale = this.costruisciListaSpesa(totaleComande, data);
 
 		// Confronto con registroMagazzino per togliere dalla lista precedente
 		// ingredienti gia presenti e in quantita sufficiente
@@ -243,7 +244,8 @@ public class Ristorante {
 		for (Prodotto voce : listaIniziale) {
 			if (!this.contieneProdottoSufficiente(registroMagazzino, voce)) {
 
-				float daAcquistare = (float) (voce.getQuantita()*FATTORE_10_PER_CENTO - this.quantitaInMagazzino(voce));
+				float daAcquistare = (float) (voce.getQuantita() * FATTORE_10_PER_CENTO
+						- this.quantitaInMagazzino(voce));
 
 				Prodotto voceDaInserire = new Prodotto(voce.getNome(), daAcquistare, voce.getUnitaMisura());
 				this.listaSpesa.add(voceDaInserire);
@@ -299,15 +301,15 @@ public class Ristorante {
 
 		ArrayList<Prodotto> prodotti = new ArrayList<Prodotto>();
 		List<Piatto> piatti = new ArrayList<Piatto>(piattiOrdinati.keySet());
-		int numeroClientiIndata= this.getNumeroClientiPrenotatiInData(date);
-		
+		int numeroClientiIndata = this.getNumeroClientiPrenotatiInData(date);
+
 		prodotti.addAll(this.ricalcolaInBaseNumeroClienti(insiemeBevande, numeroClientiIndata));
 		prodotti.addAll(this.ricalcolaInBaseNumeroClienti(insiemeGeneriExtra, numeroClientiIndata));
+		
 		for (Piatto piatto : piatti) {
 
 			Ricetta ricetta = corrispondenzePiattoRicetta.get(piatto); // Recupero la ricetta dalle corrispondenze
-			ArrayList<Prodotto> ingredienti = ricetta.getElencoIngredientiPerPorzioni(piattiOrdinati.get(piatto));
-			// Recupero la lista degli ingredienti
+			ArrayList<Prodotto> ingredienti = ricetta.getElencoIngredientiPerPorzioni(piattiOrdinati.get(piatto));// Recupero la lista degli ingredienti
 			aggiungiVoceUnivoco(prodotti, ingredienti);
 		}
 //		maggiorazionePercentuale(prodotti, PERCENTUALE);
@@ -315,49 +317,37 @@ public class Ristorante {
 
 	}
 
-	private void aggiungiVoceUnivoco(ArrayList<Prodotto> prodotti, ArrayList<Prodotto> ingredienti) {
-		for (Prodotto i : ingredienti) {
-			if (this.contieneProdotto(prodotti, i)) {
-				replaceProdotto(prodotti, i);
-			} else {
-				prodotti.add(i);
-			}
+	private void aggiungiVoceUnivoco(ArrayList<Prodotto> prodottiLista, ArrayList<Prodotto> ingredienti) {
+		for (Prodotto prodotto : ingredienti) {
+			aggiornaListaConProdotto(prodottiLista,prodotto);
 		}
 	}
 
-	private void maggiorazionePercentuale(ArrayList<Prodotto> prodotti, float percentuale) {
-		double fattorePercentuale = 1 + (percentuale / 100);
-		for (Prodotto voceLista : prodotti) {
-			float quantitaOld = voceLista.getQuantita();
-			voceLista.setQuantita((float) (quantitaOld * fattorePercentuale));
-		}
-	}
-
-	private void aggiornaListaConProdotto(ArrayList<Prodotto> prodotti, Prodotto prodotto) {
-		if (this.contieneProdotto(prodotti, prodotto)) {
-			this.replaceProdotto(prodotti, prodotto);
+	private void aggiornaListaConProdotto(ArrayList<Prodotto> listaProdotti, Prodotto prodotto) {
+		if (this.listaContieneProdotto(listaProdotti, prodotto)) {
+			this.aggiornaQuantitaProdotto(listaProdotti, prodotto);
 		} else {
-			prodotti.add(prodotto);
+			listaProdotti.add(prodotto);
 		}
 	}
 
-	private void replaceProdotto(ArrayList<Prodotto> prodotti, Prodotto i) {
+	private boolean aggiornaQuantitaProdotto(ArrayList<Prodotto> prodotti, Prodotto i) {
 		for (Prodotto product : prodotti) {
 			if (product.getNome().equalsIgnoreCase(i.getNome())) {
 				product.setQuantita(product.getQuantita() + i.getQuantita());
-				break;
+				return true;
 			}
 		}
+		return false;
 	}
 
-	private boolean contieneProdotto(ArrayList<Prodotto> prodotti, Prodotto prodotto) {
+	private boolean listaContieneProdotto(ArrayList<Prodotto> prodotti, Prodotto prodotto) {
 		String nomeCercato = prodotto.getNome();
 		for (Prodotto p : prodotti) {
 			String prodottoCorrente = p.getNome();
 			if (prodottoCorrente.equalsIgnoreCase(nomeCercato)) {
 				return true;
 			}
-
 		}
 		return false;
 	}
@@ -376,32 +366,32 @@ public class Ristorante {
 	public void addProdottoInventario(Prodotto prodotto) {
 		this.aggiornaListaConProdotto(this.registroMagazzino, prodotto);
 	}
-	
+
 	private int getNumeroClientiPrenotatiInData(LocalDate date) {
 		int count = 0;
-		for(Prenotazione p: this.elencoPrenotazioni) {
-			if(p.isValidinData(date)) {
-				count+= p.getNumeroCoperti();
+		for (Prenotazione p : this.elencoPrenotazioni) {
+			if (p.isValidinData(date)) {
+				count += p.getNumeroCoperti();
 			}
 		}
 		return count;
 	}
-	
-	private ArrayList<Prodotto> ricalcolaInBaseNumeroClienti(ArrayList<Prodotto> insieme ,int numero){
+
+	private ArrayList<Prodotto> ricalcolaInBaseNumeroClienti(ArrayList<Prodotto> insieme, int numero) {
 		ArrayList<Prodotto> insiemeNew = new ArrayList<>();
-		for(Prodotto p: insieme) {
-			Prodotto nuovo = new Prodotto(p.getNome(),p.getQuantita()*numero,p.getUnitaMisura());
+		for (Prodotto p : insieme) {
+			Prodotto nuovo = new Prodotto(p.getNome(), p.getQuantita() * numero, p.getUnitaMisura());
 			insiemeNew.add(nuovo);
 		}
 		return insiemeNew;
 	}
-	
-	public void rimuoviProdottoQuantita(Prodotto prodotto, float quantita) {
+
+	public void rimuoviProdottoQuantitaInRegistro(Prodotto prodotto, float quantita) {
 		String nomeCercato = prodotto.getNome();
-		for(Prodotto p: this.registroMagazzino) {
-			if(p.getNome().equalsIgnoreCase(nomeCercato)) {
-				if(p.getQuantita() > quantita) {
-					p.setQuantita(p.getQuantita()-quantita);
+		for (Prodotto p : this.registroMagazzino) {
+			if (p.getNome().equalsIgnoreCase(nomeCercato)) {
+				if (p.getQuantita() > quantita) {
+					p.setQuantita(p.getQuantita() - quantita);
 				} else {
 					rmvProdotto(registroMagazzino, prodotto);
 				}
@@ -409,18 +399,27 @@ public class Ristorante {
 			}
 		}
 	}
-	
-	private static void rmvProdotto(ArrayList<Prodotto> prodotti,Prodotto prodotto) {
+
+	private static void rmvProdotto(ArrayList<Prodotto> prodotti, Prodotto prodotto) {
 		int indice = 0;
 		String nome = prodotto.getNome();
-		for (int i = 0 ; i < prodotti.size(); i++) {
-			if(nome.equalsIgnoreCase(prodotti.get(i).getNome())) {
+		for (int i = 0; i < prodotti.size(); i++) {
+			if (nome.equalsIgnoreCase(prodotti.get(i).getNome())) {
 				indice = i;
 				prodotti.remove(indice);
 				break;
 			}
 		}
-		
+
+	}
+
+	public boolean isListaSpesaEmpty() {
+		if (this.listaSpesa.size() == 0) {
+			return true;
+		} else {
+			return false;
+		}
+
 	}
 
 }

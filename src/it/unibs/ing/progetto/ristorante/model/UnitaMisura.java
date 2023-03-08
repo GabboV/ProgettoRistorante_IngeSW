@@ -2,15 +2,16 @@ package it.unibs.ing.progetto.ristorante.model;
 
 public enum UnitaMisura {
 
-	KG("kg"), HG("hg"), LITRI("l"), GRAMMI("g");
+	KG("kg"), HG("hg"), LITRI("l"), GRAMMI("g"), UNITA("Unita");
 
-	String nome;
-	UnitaMisura(String string) {
-		this.nome = string;
+	private final String unitaMisura;
+
+	private UnitaMisura(String unitaMisura) {
+		this.unitaMisura = unitaMisura;
 	}
-	
-	public String getName() {
-        return this.nome;
-    }
+
+	public String getUnitaMisura() {
+		return unitaMisura;
+	}
 	
 }

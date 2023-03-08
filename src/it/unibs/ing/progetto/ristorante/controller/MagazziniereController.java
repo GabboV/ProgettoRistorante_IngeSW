@@ -10,7 +10,7 @@ import it.unibs.ing.progetto.ristorante.view.OutputFormatter;
 
 public class MagazziniereController {
 
-	private static final String NESSUNA_LISTA_DELLA_SPESA = "Nessuna lista della spesa";
+	private static final String NESSUNA_LISTA_DELLA_SPESA = "La lista della spesa è vuota o mai stata creata";
 	private static final int VISUALIZZA_INVENTARIO = 6;
 	private static final String INSERIRE_LA_DATA_PER_CUI_CREARE_LA_LISTA_DELLA_SPESA = "Inserire la data per cui creare la lista della spesa\n";
 	private static final String PROFILO_MAGAZZINIERE = "Profilo: Magazziniere\n";
@@ -86,10 +86,10 @@ public class MagazziniereController {
 
 	public void visualizzaListaSpesa() {
 		String listaFormattata;
-		if (!model.getListaSpesa().isEmpty()) {
-			listaFormattata = OutputFormatter.formatListaProdotti(model.getListaSpesa());
-		} else {
+		if (model.isListaSpesaEmpty()) {
 			listaFormattata = NESSUNA_LISTA_DELLA_SPESA;
+		} else {
+			listaFormattata = OutputFormatter.formatListaProdotti(model.getListaSpesa());
 		}
 		view.print(listaFormattata);
 	}
@@ -114,7 +114,7 @@ public class MagazziniereController {
 		int indiceProdottoSelezionato = view.leggiInteroCompreso(SELEZIONE_IL_PRODOTTO_NUMERO_DA_ELIMINARE_O_RIDURRE,
 				ZERO, this.model.getRegistroMagazzino().size());
 		float quantitaDaRidurre = view.richiestaQuantita(INSERISCI_QUANTITA_DA_RIDURRE);
-		this.model.rimuoviProdottoQuantita(this.model.getRegistroMagazzino().get(indiceProdottoSelezionato),
+		this.model.rimuoviProdottoQuantitaInRegistro(this.model.getRegistroMagazzino().get(indiceProdottoSelezionato),
 				quantitaDaRidurre);
 	}
 
