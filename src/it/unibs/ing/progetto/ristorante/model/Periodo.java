@@ -3,6 +3,7 @@ package it.unibs.ing.progetto.ristorante.model;
 import java.time.LocalDate;
 
 public class Periodo {
+	
 	private final LocalDate dataInizio;
     private final LocalDate dataFine;
 

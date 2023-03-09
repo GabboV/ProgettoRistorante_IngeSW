@@ -20,7 +20,12 @@ public class MagazziniereView {
 			VISUALIZZA_LISTA_SPESA, AGGIUNGI_PRODOTTO_NEL_MAGAZZINO, RIMUOVI_PRODOTTO_NEL_MAGAZZINO,
 			AGGIORNA_REGISTRO_MAGAZZINO };
 
-	private MyMenu menu = new MyMenu(MAGAZZINIERE, OPZIONI_MAGAZZINIERE);
+	private MyMenu menu;
+
+	public MagazziniereView() {
+		super();
+		this.menu = new MyMenu(MAGAZZINIERE, OPZIONI_MAGAZZINIERE);
+	}
 
 	public int printMenu() {
 		return menu.scegli();

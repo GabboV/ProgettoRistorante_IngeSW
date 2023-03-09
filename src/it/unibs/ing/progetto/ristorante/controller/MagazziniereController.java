@@ -10,7 +10,7 @@ import it.unibs.ing.progetto.ristorante.view.OutputFormatter;
 
 public class MagazziniereController {
 
-	private static final String MAGAZZINO_VUOTO = "\nIl Magazzino è vuoto...\n";
+	private static final String MAGAZZINO_VUOTO = "\nIl Magazzino è vuoto\n";
 	private static final String LOGOUT_END = "Hai effettuato il Logout";
 	private static final String NESSUNA_LISTA_DELLA_SPESA = "\nLa lista della spesa è vuota o non è mai stata creata\n";
 	
@@ -43,20 +43,14 @@ public class MagazziniereController {
 		this.view = new MagazziniereView();
 	}
 
-	public void aggiornaRegistroMagazzino() {
-		/*
-		 * Da implementare
-		 */
-	}
-
-	public void magazziniereHandler() {
+	public void avviaSessione() {
 		this.view.print(PROFILO_MAGAZZINIERE);
-		boolean on = true;
+		boolean sessionOn = true;
 		do {
 			int input = this.view.printMenu();
 			switch (input) {
 			case LOGOUT:
-				on = false;
+				sessionOn = false;
 				break;
 			case CREA_LISTA_SPESA:
 				this.creaListaSpesa();
@@ -80,7 +74,7 @@ public class MagazziniereController {
 				this.view.print(ERRORE);
 				break;
 			}
-		} while (on);
+		} while (sessionOn);
 		view.print(LOGOUT_END);
 	}
 
@@ -106,8 +100,10 @@ public class MagazziniereController {
 		String nome = this.view.richiestaNome(INSERISCI_NOME_DEL_PRODOTTO);
 		String unitaMisura = this.view.richiestaNome(INSERISCI_UNITA_DI_MISURA_DEL_PRODOTTO);
 		float quantita = this.view.richiestaQuantita(INSERISCI_QUANTITA_DEL_PRODOTTO);
+		
 		Prodotto prodottoNuovo = new Prodotto(nome, quantita, unitaMisura);
 		this.model.addProdottoInventario(prodottoNuovo);
+		
 		String feedback = OutputFormatter.formatProdotto(prodottoNuovo);
 		this.view.print(feedback);
 	}
@@ -117,13 +113,18 @@ public class MagazziniereController {
 	}
 
 	public void rimuoviProdottiInventario() {
-		String elencoProdotti = OutputFormatter.formatElencoPiatti(this.model.getRegistroMagazzino());
-		view.print(elencoProdotti);
-		int indiceProdottoSelezionato = view.leggiInteroCompreso(SELEZIONE_IL_PRODOTTO_NUMERO_DA_ELIMINARE_O_RIDURRE,
-				ZERO, this.model.getRegistroMagazzino().size());
-		float quantitaDaRidurre = view.richiestaQuantita(INSERISCI_QUANTITA_DA_RIDURRE);
-		this.model.rimuoviProdottoQuantitaInRegistro(this.model.getRegistroMagazzino().get(indiceProdottoSelezionato),
-				quantitaDaRidurre);
+		if(!this.model.isRegistroMagazzinoEmpty()) {
+			String elencoProdotti = OutputFormatter.formatElencoProdotti2(this.model.getRegistroMagazzino());
+			view.print(elencoProdotti);
+			int indiceProdottoSelezionato = view.leggiInteroCompreso(SELEZIONE_IL_PRODOTTO_NUMERO_DA_ELIMINARE_O_RIDURRE,
+					ZERO, this.model.getRegistroMagazzino().size());
+			float quantitaDaRidurre = view.richiestaQuantita(INSERISCI_QUANTITA_DA_RIDURRE);
+			this.model.rimuoviProdottoQuantitaInRegistro(this.model.getRegistroMagazzino().get(indiceProdottoSelezionato),
+					quantitaDaRidurre);
+		} else {
+			view.print(MAGAZZINO_VUOTO);
+		}
+		
 	}
 
 	public void visualizzaInventario() {
@@ -134,6 +135,12 @@ public class MagazziniereController {
 			inventario = OutputFormatter.formatListaProdotti(this.model.getRegistroMagazzino());
 		}
 		this.view.print(inventario);
+	}
+	
+	public void aggiornaRegistroMagazzino() {
+		/*
+		 * Da implementare
+		 */
 	}
 
 }

@@ -209,7 +209,7 @@ public class GestoreController{
 			LocalDate dataFine = view.richiestaData("Inserire data di fine validita': ");
 			if((dataInizio.isBefore(dataFine) || dataInizio.isEqual(dataFine)) && dataFine.isAfter(ristorante.getDataCorrente())) {
 				Periodo periodoValidita = new Periodo(dataInizio, dataFine);
-				p.addDatePair(periodoValidita);
+				p.addPeriodoValidita(periodoValidita);
 				valido = true;
 			} else {
 				view.stampaMsg("Il periodo inserito deve essere valido in futuro.");

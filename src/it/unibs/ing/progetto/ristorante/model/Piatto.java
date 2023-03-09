@@ -31,10 +31,9 @@ public class Piatto {
 		return false;
 	}
 	
-	public void addDatePair(Periodo periodoValidita) {
+	public void addPeriodoValidita(Periodo periodoValidita) {
 		periodiValidita.add(periodoValidita);
 	}
-	
 	
 	//getters e setters
 	public String getNomePiatto() {
