@@ -24,15 +24,15 @@ public class MainProva {
 		LocalDate dataprenotazione = LocalDate.of(2023, 1, 14);
 
 		Piatto p1 = new Piatto("Pasta al tonno", 3);
-		p1.addDatePair(periodo);
+		p1.addPeriodoValidita(periodo);
 
 		Piatto p2 = new Piatto("Pollo halal", 4);
-		p2.addDatePair(periodo);
+		p2.addPeriodoValidita(periodo);
 
 		Piatto p3 = new Piatto("Risotto allo zafferano", 9);
-		p3.addDatePair(periodo);
+		p3.addPeriodoValidita(periodo);
 		Piatto p4 = new Piatto("Onigiri", 7);
-		p4.addDatePair(periodo);
+		p4.addPeriodoValidita(periodo);
 
 		Prodotto i1 = new Prodotto("Pasta", (float) 300.0, "grammi");
 		Prodotto i2 = new Prodotto("Tonno", (float) 100.0, "grammi");
@@ -122,7 +122,7 @@ public class MainProva {
 		ristorante.addPrenotazione(pre2);
 		
 		MagazziniereController m = new MagazziniereController(ristorante);
-		m.magazziniereHandler();
+		m.avviaSessione();
 
 	}
 

@@ -14,18 +14,16 @@ public class Ristorante {
 	private int numeroPostiASedere;
 	private int caricoLavoroRistorante;
 
-	// Contiene tutte le ricette memorizzate nel database
 	private ArrayList<Ricetta> elencoRicette;
-	// Contiene tutti i piatti memorizzati nel database
 	private ArrayList<Piatto> elencoPiatti;
-	// Contiene tutti i menu tematici memorizzati nel database
 	private ArrayList<MenuTematico> elencoMenuTematici;
 	private ArrayList<Prodotto> insiemeBevande;
 	private ArrayList<Prodotto> insiemeGeneriExtra;
-	// perch� serve una HashMap?
+
 	private HashMap<Piatto, Ricetta> corrispondenzePiattoRicetta;
 	private ArrayList<Prodotto> registroMagazzino;
 	private ArrayList<Prodotto> listaSpesa;
+
 	private ArrayList<Prenotazione> elencoPrenotazioni;
 
 	public Ristorante() {
@@ -44,6 +42,137 @@ public class Ristorante {
 		this.elencoPrenotazioni = new ArrayList<Prenotazione>();
 	}
 
+	/*
+	 * 
+	 * 
+	 * 
+	 * 
+	 * Work in progress
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 */
+
+	public boolean isRistorantePienoInData(LocalDate data) {
+		return (this.getPostiDisponibiliInData(data) == 0);
+	}
+
+	public int getPostiDisponibiliInData(LocalDate data) {
+		int numeroClienti = this.getNumeroClientiPrenotatiInData(data);
+		return this.numeroPostiASedere - numeroClienti;
+	}
+
+	public void addPrenotazione(Prenotazione prenotazione) {
+		this.elencoPrenotazioni.add(prenotazione);
+	}
+	
+	public boolean nonCiSonoPrenotazioni() {
+		return (this.elencoPrenotazioni.size()==0);
+	}
+
+	public boolean removePrenotazione(Prenotazione prenotazione) {
+		String daRimuovere = prenotazione.getCodiceCliente();
+		for (int i = 0; i < this.elencoPrenotazioni.size(); i++) {
+			Prenotazione corrente = elencoPrenotazioni.get(i);
+			String cliente = corrente.getCodiceCliente();
+			if (daRimuovere.equalsIgnoreCase(cliente)) {
+				this.elencoPrenotazioni.remove(i);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public ArrayList<Piatto> getMenuCartaValidiInData(LocalDate data) {
+		ArrayList<Piatto> menuCarta = new ArrayList<Piatto>();
+		for (Piatto p : this.elencoPiatti) {
+			if (p.isValidoInData(data)) {
+				menuCarta.add(p);
+			}
+		}
+		return menuCarta;
+	}
+
+	public ArrayList<MenuTematico> getMenuTematiciValidiInData(LocalDate data) {
+		ArrayList<MenuTematico> menuTematiciValidi = new ArrayList<MenuTematico>();
+		for (MenuTematico m : this.elencoMenuTematici) {
+			if (m.isValidoInData(data)) {
+				menuTematiciValidi.add(m);
+			}
+		}
+		return menuTematiciValidi;
+	}
+
+	public boolean ciSonoMenuTematiciValidiInData(LocalDate data) {
+		return (this.getMenuCartaValidiInData(data).size() > 0);
+	}
+
+	public boolean ciSonoPiattiValidiInData(LocalDate data) {
+		return (this.getMenuCartaInData(data).size() > 0);
+	}
+	
+	public boolean isPrenotazioneFattibileInData(Prenotazione prenotazione, LocalDate data) {
+		
+		float caricoDaSostenereInData = this.getCaricoLavoroDaSostenereInData(data);
+		float caricoDaSostenereAggiuntivo = prenotazione.getCaricoLavoroTotalePrenotazione();
+		float nuovoCarico = caricoDaSostenereInData + caricoDaSostenereAggiuntivo;
+		
+		int postiLiberi = this.getPostiDisponibiliInData(data);
+		int nuoviPrenotati = prenotazione.getNumeroCoperti();
+		
+		/*
+		 * Fattibile se e solo se il carico di lavoro nuovo non supera quello settato e
+		 * se i postiLiberi sono sufficienti
+		 */
+		return (nuovoCarico <= this.caricoLavoroRistorante && postiLiberi >= nuoviPrenotati);
+		
+	}
+	
+	
+
+	/*
+	 * Carico di lavoro della totalita delle prenotazioni -> somma del valore del
+	 * carico di lavoro di tutti i menu tematici, estesa a tutte le persone che
+	 * hanno ordinato ciascun menu, e di tutti i piatti prenotati, estesa a tutte le
+	 * persone che hanno ordinato ciascun piatto
+	 */
+
+	private float getCaricoLavoroDaSostenereInData(LocalDate data) {
+		float caricoDaSostenere = 0;
+		for (Prenotazione p : this.elencoPrenotazioni) {
+			caricoDaSostenere += p.getCaricoLavoroTotalePrenotazione();
+		}
+		return caricoDaSostenere;
+	}
+
+	public float getCaricoLavoroSostenibileRimasto(LocalDate data) {
+		return this.caricoLavoroRistorante - this.getCaricoLavoroDaSostenereInData(data);
+	}
+
+	public void removePrenotazioniScadute(LocalDate data) {
+		// Con che base si stabilisce se una prenotazione sia scaduta o meno (?)
+	}
+
+	/*
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 */
+
 	// GETTER AND SETTER
 	public LocalDate getDataCorrente() {
 		return dataCorrente;
@@ -51,10 +180,6 @@ public class Ristorante {
 
 	public void setDataCorrente(LocalDate dataCorrente) {
 		this.dataCorrente = dataCorrente;
-	}
-
-	public void addPrenotazione(Prenotazione prenotazione) {
-		this.elencoPrenotazioni.add(prenotazione);
 	}
 
 	public int getCaricoLavoroPerPersona() {
@@ -308,11 +433,15 @@ public class Ristorante {
 
 		prodotti.addAll(this.ricalcolaInBaseNumeroClienti(insiemeBevande, numeroClientiIndata));
 		prodotti.addAll(this.ricalcolaInBaseNumeroClienti(insiemeGeneriExtra, numeroClientiIndata));
-		
+
 		for (Piatto piatto : piatti) {
 
 			Ricetta ricetta = corrispondenzePiattoRicetta.get(piatto); // Recupero la ricetta dalle corrispondenze
-			ArrayList<Prodotto> ingredienti = ricetta.getElencoIngredientiPerPorzioni(piattiOrdinati.get(piatto));// Recupero la lista degli ingredienti
+			ArrayList<Prodotto> ingredienti = ricetta.getElencoIngredientiPerPorzioni(piattiOrdinati.get(piatto));// Recupero
+																													// la
+																													// lista
+																													// degli
+																													// ingredienti
 			aggiungiVoceUnivoco(prodotti, ingredienti);
 		}
 //		maggiorazionePercentuale(prodotti, PERCENTUALE);
@@ -322,7 +451,7 @@ public class Ristorante {
 
 	private void aggiungiVoceUnivoco(ArrayList<Prodotto> prodottiLista, ArrayList<Prodotto> ingredienti) {
 		for (Prodotto prodotto : ingredienti) {
-			aggiornaListaConProdotto(prodottiLista,prodotto);
+			aggiornaListaConProdotto(prodottiLista, prodotto);
 		}
 	}
 
@@ -413,7 +542,6 @@ public class Ristorante {
 				break;
 			}
 		}
-
 	}
 
 	public boolean isListaSpesaEmpty() {
@@ -423,9 +551,9 @@ public class Ristorante {
 			return false;
 		}
 	}
-	
+
 	public boolean isRegistroMagazzinoEmpty() {
-		if(this.registroMagazzino.size() == 0) {
+		if (this.registroMagazzino.size() == 0) {
 			return true;
 		} else {
 			return false;

@@ -73,7 +73,7 @@ public class OutputFormatter {
 		return builder.toString();
 	}
 
-	public static String formatElencoPiatti(ArrayList<Prodotto> prodotti) {
+	public static String formatElencoProdotti2(ArrayList<Prodotto> prodotti) {
 		StringBuilder builder = new StringBuilder();
 		int indice = 0;
 		for (Prodotto p : prodotti) {
@@ -83,4 +83,77 @@ public class OutputFormatter {
 		return builder.toString();
 	}
 
+	public static String formatPiattoCliente(Piatto piatto) {
+		String denominazione = String.format("%20s", piatto.getNomePiatto());
+		return denominazione;
+	}
+
+	public static String formatMenuCarta(ArrayList<Piatto> menu) {
+		StringBuilder builder = new StringBuilder();
+		int indice = 1;
+		for (Piatto p : menu) {
+			String voce = String.format("%d- %20s\n", indice, formatPiattoCliente(p));
+			builder.append(voce);
+			indice++;
+		}
+		return builder.toString();
+	}
+
+	public static String formatMenuTematico(MenuTematico menu) {
+		StringBuilder builder = new StringBuilder();
+		String nome = String.format("Nome Menu: %20s\n", menu.getNome());
+		builder.append(nome);
+		for (Piatto p : menu.getElencoPiatti()) {
+			String voce = String.format("- %20s\n", formatPiattoCliente(p));
+			builder.append(voce);
+		}
+		return builder.toString();
+	}
+	
+	public static String formatListaMenuTematici(ArrayList<MenuTematico> menus) {
+		StringBuilder builder = new StringBuilder();
+		int indice = 1;
+		for(MenuTematico m: menus) {
+			String riga = String.format("%d.\n %s\n", indice, formatMenuTematico(m));
+			builder.append(riga);
+			indice++;
+		}
+		return builder.toString();
+	}
+	
+	public static String formatPrenotazione(Prenotazione p) {
+		LocalDate d = p.getDataPrenotazione();
+		return String.format("Data: %d/%d/%d   coperti: %d   caricoLavoro: %f ", d.getDayOfMonth(),d.getMonthValue(),d.getYear(),p.getNumeroCoperti(),p.getCaricoLavoroTotalePrenotazione());
+	}
+	
+	public static String formatPrenotazioni(ArrayList<Prenotazione> prenotazioni) {
+		StringBuilder builder = new StringBuilder();
+		for(Prenotazione p: prenotazioni) {
+			builder.append(formatPrenotazione(p)+"\n");
+		}
+		return builder.toString();
+	}
+
+	/*
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 */
 }

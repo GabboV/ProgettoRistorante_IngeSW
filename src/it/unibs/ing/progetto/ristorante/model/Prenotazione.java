@@ -6,22 +6,27 @@ import java.util.HashMap;
 
 public class Prenotazione {
 
-	private String nomeCliente;
-	// indica il numero di persone che occupanto un coperto
+	private String codice_cliente;
 	private int numeroCoperti;
-	// basta avere una HashMap<String, Integer>? no perchè cosi semplifico le
-	// operazioni del magazziniere
 	private HashMap<Piatto, Integer> comanda;
 	private LocalDate dataPrenotazione;
 
 	public Prenotazione(String cliente, int numeroCoperti, HashMap<Piatto, Integer> comanda,
 			LocalDate dataPrenotazione) {
 		super();
-		this.nomeCliente = cliente;
+		this.codice_cliente = cliente;
 		this.numeroCoperti = numeroCoperti;
 		this.comanda = comanda;
 		this.dataPrenotazione = dataPrenotazione;
 	}
+
+	
+	
+	public void setDataPrenotazione(LocalDate dataPrenotazione) {
+		this.dataPrenotazione = dataPrenotazione;
+	}
+
+
 
 	public HashMap<Piatto, Integer> getComanda() {
 		return comanda;
@@ -35,6 +40,14 @@ public class Prenotazione {
 		return dataPrenotazione;
 	}
 
+	public ArrayList<Piatto> getAllPiatti() {
+		return new ArrayList<Piatto>(this.comanda.keySet());
+	}
+
+	public String getCodiceCliente() {
+		return codice_cliente;
+	}
+
 	public boolean isValidinData(LocalDate data) {
 		if (data.getDayOfMonth() == this.dataPrenotazione.getDayOfMonth()
 				&& data.getMonth() == this.dataPrenotazione.getMonth()
@@ -45,8 +58,15 @@ public class Prenotazione {
 		}
 	}
 
-	public ArrayList<Piatto> getAllPiatti() {
-		return new ArrayList<Piatto>(this.comanda.keySet());
+	public float getCaricoLavoroTotalePrenotazione() {
+		float caricoTotale = 0;
+		ArrayList<Piatto> piattiOrdinati = this.getAllPiatti();
+		for (Piatto p : piattiOrdinati) {
+			int personeOrdinatoP = this.comanda.get(p);
+			float caricoParziale = p.getCaricoLavoro() * personeOrdinatoP;
+			caricoTotale += caricoParziale;
+		}
+		return caricoTotale;
 	}
 
 }
