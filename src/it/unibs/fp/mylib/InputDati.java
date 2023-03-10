@@ -37,7 +37,7 @@ public class InputDati
 		  return lettore.next();
 	  }
 	  
-	  //voglio che prenda una frase, tolti spazi iniziali e finali, e con possibili spazi multipli trasformati in uno singolo
+	  //chiede input di una stringa non vuota
 	  public static String leggiStringaNonVuota(String messaggio)
 	  {
 		  boolean finito=false;
@@ -52,6 +52,27 @@ public class InputDati
 				  finito=true;
 			  else
 				  System.out.println(ERRORE_STRINGA_VUOTA);
+		  } while (!finito);
+
+		  return lettura;
+	  }
+	  
+	  //accetta nomi che contengono solo lettere
+	  public static String leggiStringaDiLettere(String messaggio)
+	  {
+		  boolean finito=false;
+		  String lettura = null;
+		  do
+		  {
+			  System.out.print(messaggio);
+			  lettura = lettore.nextLine();
+			  //elimina spazi iniziali e finali, ed elimina spazi/tab duplicati
+			  lettura = lettura.trim().replaceAll("( |\t)+", " ");
+			  if (lettura.matches(("[a-zA-Z\s]+"))) {
+				  finito = true;
+			  } else {
+				  System.out.println("Il nome deve contenere solo lettere e non deve essere vuota.");
+			  }
 		  } while (!finito);
 
 		  return lettura;
@@ -294,7 +315,7 @@ public class InputDati
 			  return false;
 	  }
 	  
-	  //utilizzando enum UnitaMisura
+	  //legge una stringa che deve coincidere con un valore dell'enum UnitaMisura
 	  public static UnitaMisura leggiUnitaMisura(String messaggio)
 	  {
 		  String kg = UnitaMisura.KG.getName();

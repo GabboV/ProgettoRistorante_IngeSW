@@ -8,6 +8,7 @@ import java.util.HashMap;
 import javax.swing.RowFilter.ComparisonType;
 
 import it.unibs.fp.mylib.InputDati;
+import it.unibs.ing.progetto.ristorante.model.MenuTematico;
 import it.unibs.ing.progetto.ristorante.model.Periodo;
 import it.unibs.ing.progetto.ristorante.model.Piatto;
 import it.unibs.ing.progetto.ristorante.model.Prodotto;
@@ -59,8 +60,7 @@ public class GestoreController{
 	
 	//CONTROLLER METHODS
 	
-	//da spostare msg in GestoreView se possibile
-	//creare metodi separati se possibile e aggiungere controlli
+	//richiede all'utente i parametri del ristorante e almeno una ricetta
 	public Ristorante inizializzaRistorante() {
 		ristorante = new Ristorante();
 		view = new GestoreView();
@@ -97,18 +97,19 @@ public class GestoreController{
 	}
 
 	
-	
+	//presenta al gestore le operazioni che puo' eseguire e la esegue
 	public void apriMenuGestore() {
 		//forse da mettere tutte le final insieme
 		view = new GestoreView();
+		//da fare ciclo while per apriMenuGestore
 		int scelta = view.stampaMenuGestore();
-		//in base a scelta, rimanda a diversi metodi del programma
 		switch(scelta) {
 		case AGGIUNGI_INGREDIENTE:
 			aggiungiPiattoRicetta();
 			apriMenuGestore();
 			break;
 		case AGGIUNGI_MENU_TEMATICO:
+			//DA IMPLEMENTARE
 			apriMenuGestore();
 			break;
 		case AGGIUNGI_BEVANDA:
@@ -127,18 +128,14 @@ public class GestoreController{
 			break;
 		case VISUALIZZA_RICETTE:
 			//ciclo che stampa ricette (con contatore)
+			//DA SPOSTARE IN GESTORE VIEW
 			view.stampaMsg("\nELENCO PIATTI-RICETTE");
-			int contatore = 0;
-			for(Piatto p : ristorante.getElencoPiatti()) {
-				Ricetta r = ristorante.getCorrispondenzePiattoRicetta().get(p);
-				view.stampaMsg(" ----------- " + contatore + " ----------- ");
-				view.stampaPiattoRicetta(p, r);
-				contatore++;
-			}
+			view.stampaElencoPiattiRicette(ristorante.getElencoPiatti(), ristorante.getElencoRicette(), ristorante.getCorrispondenzePiattoRicetta());
 			apriMenuGestore();
 			break;
 		case VISUALIZZA_MENU_TEMATICI:
 			System.out.println();
+			//DA IMPLEMENTARE
 			apriMenuGestore();
 			break;
 		case VISUALIZZA_BEVANDE:
@@ -159,18 +156,20 @@ public class GestoreController{
 		}
 	}
 	
-	
+	//richiede dati di un nuovo piatto e ricetta rispettiva al gestore e la aggiunge al ristorante
 	private void aggiungiPiattoRicetta() {
-		//controllo nome da fare gia' all'inizio?
 		String nomePiatto;
 		boolean nomeValido = true;
+		//richiede il nome inserito se esiste gia' nell'elenco dei piatti
 		do {
 			nomePiatto = view.richiestaNome("Inserisci il nome del piatto: ");
 			for(Piatto p : ristorante.getElencoPiatti()) {
 				if(p.getNomePiatto().equalsIgnoreCase(nomePiatto)) {
-					view.stampaMsg("Il nome del piatto e' gia' stato utilizzato. L'aggiunta dell'elemento nel menu e' stata annullata.");
+					view.stampaMsg("Il nome del piatto e' gia' stato utilizzato.");
 					nomeValido = false;
 					break;
+				} else {
+					nomeValido = true;
 				}
 			}
 		} while(!nomeValido);
@@ -185,7 +184,6 @@ public class GestoreController{
 		
 		boolean altroIngrediente;
 		do {
-			//controllare se aggiunge alla ricetta la lista di ingredienti
 			aggiungiIngrediente(r);
 			altroIngrediente = view.richiestaNuovaAggiunta("Vuoi aggiungere un altro ingrediente? ");
 		} while(altroIngrediente);
@@ -201,7 +199,8 @@ public class GestoreController{
 		view.stampaPiattoRicetta(p, r);
 	}
 
-	//si puo aggiungere controllo sovrapposizione di date
+	
+	//richiede un periodo e controlla se avra' validita in almeno un giorno futuro
 	private void aggiungiPeriodoValido(Piatto p) {
 		boolean valido = true;
 		do {
@@ -218,12 +217,14 @@ public class GestoreController{
 		} while(!valido);	
 	}
 
+	
+	//richiede al gestore i dati di un ingrediente e li aggiunge alla ricetta data come parametro
 	private void aggiungiIngrediente(Ricetta r) {
 		String nomeIngrediente = view.richiestaNome("Inserisci il nome dell'ingrediente: ");
 		String unitaMisura = view.richiestaNome("Inserisci unita di misura: ");
 		float dose = view.richiestaQuantita("Inserisci dose: ");
 		
-		Prodotto ingrediente = new Prodotto(nomeIngrediente, dose);
+		Prodotto ingrediente = new Prodotto(nomeIngrediente, dose, unitaMisura);
 		
 		boolean esiste = false;
 		for(Prodotto i : r.getElencoIngredienti()) {
@@ -242,7 +243,7 @@ public class GestoreController{
 	
 	
 	//Chiede a utente dati di una nuova bevanda
-	//Controlla se in insiemeBevande esiste gia' una bevanda con il nome uguale a qullo che si vuole aggiungere
+	//Controlla se in insiemeBevande esiste gia' una bevanda con il nome uguale
 	//Se gia' esiste, stampa a video un msg
 	//Se non esiste la aggiunge a insiemeBevande e stampa a video un msg
 	//Chiede a utente se vuole aggiungere un'altra bevanda
@@ -274,7 +275,7 @@ public class GestoreController{
 	
 	
 	//Chiede a utente dati di un nuovo genere extra
-	//Controlla se in insiemeGeneriExtra esiste gia' un genereExtra con il nome uguale a qullo che si vuole aggiungere
+	//Controlla se in insiemeGeneriExtra esiste gia' un genereExtra con il nome uguale
 	//Se gia' esiste, stampa a video un msg
 	//Se non esiste la aggiunge a inisemeGeneriExtra e stampa a video un msg
 	//Chiede a utente se vuole aggiungere un altro genere extra
@@ -304,6 +305,28 @@ public class GestoreController{
 	}
 	
 	
+	private void aggiungiMenuTematico() {
+		String nomeMenuTematico;
+		boolean nomeValido = true;
+		do {
+			nomeMenuTematico = view.richiestaNome("Inserisci il nome del menuTematico: ");
+			for(MenuTematico m : ristorante.getElencoMenuTematici()) {
+				if(m.getNome().equalsIgnoreCase(nomeMenuTematico)) {
+					view.stampaMsg("Il nome del menu tematico e' gia' stato utilizzato.");
+					nomeValido = false;
+					break;
+				} else {
+					nomeValido = true;
+				}
+			}
+		} while(!nomeValido);
+			
+		//devo presentare al gestore l'elenco di piatti
+		//il gestore sceglie alcuni piatti (almeno 2)
+		//controllo se il nuovo menu tematico rispetta i controlli (piatti validi nel periodo, carico di lavoro valido)
+		
+		view.stampaMsg("\nE' stato aggiunto un nuovo menu tematico.");
+	}
 	
 	
 	

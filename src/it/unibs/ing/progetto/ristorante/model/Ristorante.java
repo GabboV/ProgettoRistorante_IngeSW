@@ -153,6 +153,7 @@ public class Ristorante {
 		this.elencoPrenotazioni = elencoPrenotazioni;
 	}
 
+	
 	// METODI DA CONTROLLARE SE ANCORA VALIDI O SERVONO
 
 	// MenuCarta contiene elenco dei piatti validi nella data
@@ -206,10 +207,12 @@ public class Ristorante {
 		corrispondenzePiattoRicetta.put(p, r);
 	}
 
+	//aggiunge una nuova benvanda a insiemeBevande
 	public void addBevanda(Prodotto bevanda) {
 		insiemeBevande.add(bevanda);
 	}
 	
+	//aggiunge un nuovo genere extra a insiemeGeneriExtra
 	public void addGenereExtra(Prodotto genereExtra) {
 		insiemeGeneriExtra.add(genereExtra);
 	}

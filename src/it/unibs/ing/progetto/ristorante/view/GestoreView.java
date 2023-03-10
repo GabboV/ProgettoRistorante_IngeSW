@@ -3,6 +3,7 @@ package it.unibs.ing.progetto.ristorante.view;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import it.unibs.fp.mylib.InputDati;
 import it.unibs.fp.mylib.MyMenu;
@@ -133,6 +134,16 @@ public class GestoreView {
 				stampaProdotto(p);
 				contatore++;
 			}
+		}
+	}
+	
+	public void stampaElencoPiattiRicette(ArrayList<Piatto> elencoPiatti, ArrayList<Ricetta> elencoRicette, HashMap<Piatto, Ricetta> corrispondenzePiattoRicetta) {
+		int contatore = 0;
+		for(Piatto p : elencoPiatti) {
+			Ricetta r = corrispondenzePiattoRicetta.get(p);
+			stampaMsg(" ----------- " + contatore + " ----------- ");
+			stampaPiattoRicetta(p, r);
+			contatore++;
 		}
 	}
 }

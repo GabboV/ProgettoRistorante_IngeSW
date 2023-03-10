@@ -28,6 +28,7 @@ public class ViewGenerale {
 	
 	public void avvioProgramma() {
 		System.out.println(MSG_BENVENUTO);
+		//DA AGGIUNGERE PER INIZIALIZZAZIONE MANUALE DEL RISTORANTE
 		//Ristorante model = loginInizializzazione();
 		
 		
@@ -126,10 +127,12 @@ public class ViewGenerale {
 		loginUtente(model);
 	}
 	
+	//permette al gestore di inizializzare i parametri del ristorante al primo avvio
 	public Ristorante loginInizializzazione() {
 		System.out.println("Per la fase di inizializzazione del programma è necessario il login del Gestore.");
 		Ristorante model = null;
 		boolean risposta = InputDati.yesOrNo("Sei il Gestore? ");
+		//Se l'utente risponde che non e' il gestore, allore il programma si arresta
 		if (risposta == false) {
 			System.out.println("Bisogna essere il Gestore per poter inizializzare il programma.");
 			System.out.println(MSG_ARRESTO_PROGRAMMA);
@@ -138,12 +141,11 @@ public class ViewGenerale {
 		else {
 			GestoreController gestore = new GestoreController();
 			model = gestore.inizializzaRistorante();
-			//Finita l'inizializzazione si dovrebbe rimanere nel GestoreController
-			
 		}
 		return model;
 	}
 	
+	//chiede il ruolo dell'utente apre il rispettivo menu
 	public void loginUtente(Ristorante model) {
 		MyMenu menu = new MyMenu(TITOLO_SCHERMATA, ELENCO_RUOLI);
 		System.out.println();
