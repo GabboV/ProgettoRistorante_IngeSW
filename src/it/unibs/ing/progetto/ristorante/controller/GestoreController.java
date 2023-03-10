@@ -102,58 +102,54 @@ public class GestoreController{
 		//forse da mettere tutte le final insieme
 		view = new GestoreView();
 		//da fare ciclo while per apriMenuGestore
-		int scelta = view.stampaMenuGestore();
-		switch(scelta) {
-		case AGGIUNGI_INGREDIENTE:
-			aggiungiPiattoRicetta();
-			apriMenuGestore();
-			break;
-		case AGGIUNGI_MENU_TEMATICO:
-			//DA IMPLEMENTARE
-			apriMenuGestore();
-			break;
-		case AGGIUNGI_BEVANDA:
-			aggiungiBevanda();
-			apriMenuGestore();
-			break;
-		case AGGIUNGI_GENERE_EXTRA:
-			aggiungiGenereExtra();
-			apriMenuGestore();
-			break;
-		case VISUALIZZA_PARAMETRI:
-			//potrei dare tutto il model come parametro, ma così do solo parametri necessari
-			view.stampaParametriRistorante(ristorante.getDataCorrente(), ristorante.getNumeroPostiASedere(), ristorante.getCaricoLavoroPerPersona(), ristorante.getCaricoLavoroRistorante());
-			System.out.println();
-			apriMenuGestore();
-			break;
-		case VISUALIZZA_RICETTE:
-			//ciclo che stampa ricette (con contatore)
-			//DA SPOSTARE IN GESTORE VIEW
-			view.stampaMsg("\nELENCO PIATTI-RICETTE");
-			view.stampaElencoPiattiRicette(ristorante.getElencoPiatti(), ristorante.getElencoRicette(), ristorante.getCorrispondenzePiattoRicetta());
-			apriMenuGestore();
-			break;
-		case VISUALIZZA_MENU_TEMATICI:
-			System.out.println();
-			//DA IMPLEMENTARE
-			apriMenuGestore();
-			break;
-		case VISUALIZZA_BEVANDE:
-			view.stampaMsg("\nELENCO BEVANDE");
-			view.stampaInsiemeProdotti(ristorante.getInsiemeBevande());
-			System.out.println();
-			apriMenuGestore();
-			break;
-		case VISUALIZZA_GENERI_EXTRA:
-			view.stampaMsg("\nELENCO GENERI EXTRA");
-			view.stampaInsiemeProdotti(ristorante.getInsiemeGeneriExtra());
-			System.out.println();
-			apriMenuGestore();
-			break;
-		case ESCI:
-			System.out.println("Fine sessione Gestore...");
-			break;
-		}
+		boolean sessioneOn = true;
+		do {
+			int scelta = view.stampaMenuGestore();
+			switch(scelta) {
+			case AGGIUNGI_INGREDIENTE:
+				aggiungiPiattoRicetta();
+				break;
+			case AGGIUNGI_MENU_TEMATICO:
+				//DA IMPLEMENTARE
+				break;
+			case AGGIUNGI_BEVANDA:
+				aggiungiBevanda();
+				break;
+			case AGGIUNGI_GENERE_EXTRA:
+				aggiungiGenereExtra();
+				break;
+			case VISUALIZZA_PARAMETRI:
+				//potrei dare tutto il model come parametro, ma così do solo parametri necessari
+				view.stampaParametriRistorante(ristorante.getDataCorrente(), ristorante.getNumeroPostiASedere(), ristorante.getCaricoLavoroPerPersona(), ristorante.getCaricoLavoroRistorante());
+				System.out.println();
+				break;
+			case VISUALIZZA_RICETTE:
+				//ciclo che stampa ricette (con contatore)
+				//DA SPOSTARE IN GESTORE VIEW
+				view.stampaMsg("\nELENCO PIATTI-RICETTE");
+				view.stampaElencoPiattiRicette(ristorante.getElencoPiatti(), ristorante.getElencoRicette(), ristorante.getCorrispondenzePiattoRicetta());
+				break;
+			case VISUALIZZA_MENU_TEMATICI:
+				System.out.println();
+				//DA IMPLEMENTARE
+				break;
+			case VISUALIZZA_BEVANDE:
+				view.stampaMsg("\nELENCO BEVANDE");
+				view.stampaInsiemeProdotti(ristorante.getInsiemeBevande());
+				System.out.println();
+				break;
+			case VISUALIZZA_GENERI_EXTRA:
+				view.stampaMsg("\nELENCO GENERI EXTRA");
+				view.stampaInsiemeProdotti(ristorante.getInsiemeGeneriExtra());
+				System.out.println();
+				break;
+			case ESCI:
+				sessioneOn = false;
+				System.out.println("Fine sessione Gestore...");
+				break;
+			}
+		} while(sessioneOn);
+		
 	}
 	
 	//richiede dati di un nuovo piatto e ricetta rispettiva al gestore e la aggiunge al ristorante
