@@ -1,5 +1,6 @@
 package it.unibs.ing.progetto.ristorante.model;
 
+import java.util.ArrayList;
 
 public class Prodotto {
 	
@@ -37,5 +38,15 @@ public class Prodotto {
 		this.unitaMisura = unitaMisura;
 	}
 	
+	public boolean esisteIn(ArrayList<Prodotto> ingredienti) {
+		boolean esiste = false;
+		for(Prodotto i : ingredienti) {
+			if(i.getNome().equalsIgnoreCase(nome)) {
+				esiste = true;
+				break;
+			}
+		}
+		return esiste;
+	}
 	
 }

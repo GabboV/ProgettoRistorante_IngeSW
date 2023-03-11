@@ -9,6 +9,7 @@ import it.unibs.fp.mylib.MyMenu;
 import it.unibs.ing.progetto.ristorante.controller.AddettoPrenotazioniController;
 import it.unibs.ing.progetto.ristorante.controller.GestoreController;
 import it.unibs.ing.progetto.ristorante.controller.MagazziniereController;
+import it.unibs.ing.progetto.ristorante.model.MenuTematico;
 import it.unibs.ing.progetto.ristorante.model.Periodo;
 import it.unibs.ing.progetto.ristorante.model.Piatto;
 import it.unibs.ing.progetto.ristorante.model.Prenotazione;
@@ -46,10 +47,11 @@ public class ViewGenerale {
 		LocalDate _10gennaio2023 = LocalDate.of(2023, 01, 10);
 		LocalDate _17gennaio2023 = LocalDate.of(2023, 01, 17);
 		Periodo periodo = new Periodo(_10gennaio2023, _17gennaio2023);
+		ArrayList<Periodo> elencoPeriodi = new ArrayList<>();
+		elencoPeriodi.add(periodo);
 
 		// PIATTO-RICETTA 1
-		Piatto p1 = new Piatto("Pasta al tonno", 3);
-		p1.addPeriodoValidita(periodo);
+		Piatto p1 = new Piatto("Pasta al tonno", 3, elencoPeriodi);
 		Prodotto i1 = new Prodotto("Pasta", 300.0f, "grammi");
 		Prodotto i2 = new Prodotto("Tonno", 100.0f, "grammi");
 		Prodotto i3 = new Prodotto("Sugo", 80.0f, "grammi");
@@ -64,8 +66,7 @@ public class ViewGenerale {
 		model.addPiattoRicetta(p1, r1);
 
 		// PIATTO-RICETTA 2
-		Piatto p2 = new Piatto("Pollo halal", 4);
-		p2.addPeriodoValidita(periodo);
+		Piatto p2 = new Piatto("Pollo halal", 4, elencoPeriodi);
 		Prodotto i5 = new Prodotto("Pollo", (float) 1000.0, "grammi");
 		Prodotto i6 = new Prodotto("Curry", (float) 100.0, "grammi");
 		Prodotto i7 = new Prodotto("Olio", (float) 20.0, "ml");
@@ -78,8 +79,7 @@ public class ViewGenerale {
 		model.addPiattoRicetta(p2, r2);
 
 		// PIATTO-RICETTA 3
-		Piatto p3 = new Piatto("Risotto allo zafferano", 9);
-		p3.addPeriodoValidita(periodo);
+		Piatto p3 = new Piatto("Risotto allo zafferano", 9, elencoPeriodi);
 		Prodotto i8 = new Prodotto("Riso basmati", (float) 500.0, "grammi");
 		Prodotto i9 = new Prodotto("Zafferano", (float) 10.0, "grammi");
 		ArrayList<Prodotto> ingredienti3 = new ArrayList<>();
@@ -90,8 +90,7 @@ public class ViewGenerale {
 		model.addPiattoRicetta(p3, r3);
 
 		// PIATTO-RICETTA 4
-		Piatto p4 = new Piatto("Onigiri", 7);
-		p4.addPeriodoValidita(periodo);
+		Piatto p4 = new Piatto("Onigiri", 7, elencoPeriodi);
 		Prodotto i10 = new Prodotto("Alga Nori", (float) 3, "unita");
 		Prodotto i12 = new Prodotto("Tonno", (float) 100.0, "grammi");
 		Prodotto i13 = new Prodotto("Salsa", (float) 80.0, "ml");
@@ -125,6 +124,16 @@ public class ViewGenerale {
 		generiExtra.add(g3);
 		model.setInsiemeGeneriExtra(generiExtra);
 		
+		//MENU TEMATICI
+		ArrayList<Piatto> piatti1 = new ArrayList<>();
+		piatti1.add(p1);
+		piatti1.add(p1);
+		piatti1.add(p4);
+		piatti1.add(p4);
+		MenuTematico m1 = new MenuTematico("Festa del pesce", piatti1, 20, elencoPeriodi);
+		model.addMenuTematico(m1);;
+		
+		// PRENOTAZIONI
 		HashMap<Piatto,Integer> comanda1 = new HashMap<Piatto,Integer>();
 		comanda1.put(p1, 3);
 		comanda1.put(p4, 7);

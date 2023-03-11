@@ -8,6 +8,12 @@ public class Ricetta {
 	private int numeroPorzioni;
 	private int caricoLavoroPorzione;
 
+	public Ricetta(ArrayList<Prodotto> elencoIngredienti, int numeroPorzioni, int caricoLavoroPerPorzione) {
+		this.elencoIngredienti = elencoIngredienti;
+		this.numeroPorzioni = numeroPorzioni;
+		this.caricoLavoroPorzione = caricoLavoroPerPorzione;
+	}
+	
 	public Ricetta(int numeroPorzioni, int caricoLavoroPerPorzione) {
 		this.elencoIngredienti = new ArrayList<Prodotto>();
 		this.numeroPorzioni = numeroPorzioni;

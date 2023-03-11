@@ -10,6 +10,14 @@ public class MenuTematico {
 	private int caricoLavoro;
 	private ArrayList<Periodo> periodiValidita;
 	
+	public MenuTematico(String nome, ArrayList<Piatto> elencoPiatti, int caricoLavoro,
+			ArrayList<Periodo> periodiValidita) {
+		super();
+		this.nome = nome;
+		this.elencoPiatti = elencoPiatti;
+		this.caricoLavoro = caricoLavoro;
+		this.periodiValidita = periodiValidita;
+	}
 	
 	public boolean isValidoInData(LocalDate data) {
 		//prende ciascun Periodo presente in periodiValidita
@@ -18,15 +26,6 @@ public class MenuTematico {
 			if(d.contieneDataEstremiInclusi(data)) return true;
 		}
 		return false;
-	}
-	
-	public MenuTematico(String nome, ArrayList<Piatto> elencoPiatti, int caricoLavoro,
-			ArrayList<Periodo> periodiValidita) {
-		super();
-		this.nome = nome;
-		this.elencoPiatti = elencoPiatti;
-		this.caricoLavoro = caricoLavoro;
-		this.periodiValidita = periodiValidita;
 	}
 	
 	//getters e setters

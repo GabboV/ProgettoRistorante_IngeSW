@@ -17,6 +17,13 @@ public class Piatto {
 		this.periodiValidita = new ArrayList<Periodo>();
 		this.caricoLavoro = caricoLavoro;
 	}
+	
+	public Piatto(String nomePiatto,  int caricoLavoro, ArrayList<Periodo> periodiValidita) {
+		super();
+		this.nomePiatto = nomePiatto;
+		this.periodiValidita = periodiValidita;
+		this.caricoLavoro = caricoLavoro;
+	}
 
 	//cosa succede se non ho un Periodo non inizializzato (se può succedere)
 	//esistono piatti sempre validi?

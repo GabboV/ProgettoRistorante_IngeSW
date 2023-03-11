@@ -20,9 +20,19 @@ public class Periodo {
         return dataFine;
     }
     
+    //controlla se la data e' compresa tra dataInizio e dataFine estremi inclusi
     public boolean contieneDataEstremiInclusi(LocalDate data) {
     	if((data.isAfter(this.getDataInizio()) && data.isBefore(this.getDataFine())) || data.isEqual(this.getDataInizio()) || data.isEqual(this.getDataFine())) 
 			return true;
 		return false;
+    }
+    
+  //data di inizio deve essere prima o lo stesso giorno della data fine, e data fine deve essere dopo la data corrente
+    public boolean isValido(LocalDate dataCorrente) {
+    	boolean valido = false;
+    	if((dataInizio.isBefore(dataFine) || dataInizio.isEqual(dataFine)) && dataFine.isAfter(dataCorrente)) {
+			valido = true;
+    	}
+    	return valido;
     }
 }

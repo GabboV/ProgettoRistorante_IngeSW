@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+import javax.sound.midi.MidiChannel;
+
 import it.unibs.fp.mylib.InputDati;
 import it.unibs.fp.mylib.MyMenu;
+import it.unibs.ing.progetto.ristorante.model.MenuTematico;
 import it.unibs.ing.progetto.ristorante.model.Periodo;
 import it.unibs.ing.progetto.ristorante.model.Piatto;
 import it.unibs.ing.progetto.ristorante.model.Prodotto;
@@ -16,9 +19,9 @@ import it.unibs.ing.progetto.ristorante.model.UnitaMisura;
 public class GestoreView {
 
 	final static private String TITOLO = "COMANDI GESTORE";
-	final static private String[] ELENCO_COMANDI = {"Aggiungi ricetta", "Aggiungi menu tematico (non ancora implementato)", "Aggiungi bevanda",
+	final static private String[] ELENCO_COMANDI = {"Aggiungi ricetta", "Aggiungi menu tematico", "Aggiungi bevanda",
 			"Aggiungi genere extra", "Visualizza parametri", "Visualizza ricette",
-			"Visualizza menu tematici (non ancora implementato)", "Visualizza bevande", "Visualizza generi extra"};
+			"Visualizza menu tematici", "Visualizza bevande", "Visualizza generi extra"};
 	
 	public void stampaMsgBenvenutoInizializzazione() {
 		System.out.println("Benvenuto Gestore.");
@@ -35,6 +38,14 @@ public class GestoreView {
 	
 	public int richiestaInteroPositivo(String messaggio) {
 		return InputDati.leggiInteroPositivo(messaggio);
+	}
+	
+	public int richiestaInteroNonNegativo(String messaggio) {
+		return InputDati.leggiInteroNonNegativo(messaggio);
+	}
+	
+	public int richiestaInteroConMinimoMassimo(String messaggio, int min, int max) {
+		return InputDati.leggiIntero(messaggio, min, max);
 	}
 	
 	public String richiestaNome(String messaggio) {
@@ -146,6 +157,34 @@ public class GestoreView {
 			stampaMsg(" ----------- " + contatore + " ----------- ");
 			stampaPiattoRicetta(p, r);
 			contatore++;
+		}
+	}
+	
+	public void stampaMenuTematico(MenuTematico m) {
+		System.out.println("Nome menu tematico: " + m.getNome());
+		System.out.println("Carico lavoro: " + m.getCaricoLavoro());
+		System.out.println("Piatti del menu: ");
+		for(Piatto p : m.getElencoPiatti()) {
+			System.out.println("Nome: " + p.getNomePiatto());
+		}
+		System.out.println("Periodi di validita': ");
+		for(Periodo periodo : m.getPeriodiValidita()) {
+			LocalDate dInizio = periodo.getDataInizio();
+			LocalDate dFine = periodo.getDataFine();
+			stampaPeriodo(dInizio, dFine);
+		}
+	}
+	
+	public void stampaElencoMenuTematici(ArrayList<MenuTematico> elencoMenuTematici) {
+		if(elencoMenuTematici.isEmpty()) {
+			stampaMsg("La lista e' vuota.");
+		} else {
+			int contatore = 0;
+			for(MenuTematico m : elencoMenuTematici) {
+				stampaMsg(" ----------- " + contatore + " ----------- ");
+				stampaMenuTematico(m);
+				contatore++;
+			}
 		}
 	}
 }

@@ -110,7 +110,7 @@ public class GestoreController{
 				aggiungiPiattoRicetta();
 				break;
 			case AGGIUNGI_MENU_TEMATICO:
-				//DA IMPLEMENTARE
+				aggiungiMenuTematico();
 				break;
 			case AGGIUNGI_BEVANDA:
 				aggiungiBevanda();
@@ -121,27 +121,27 @@ public class GestoreController{
 			case VISUALIZZA_PARAMETRI:
 				//potrei dare tutto il model come parametro, ma così do solo parametri necessari
 				view.stampaParametriRistorante(ristorante.getDataCorrente(), ristorante.getNumeroPostiASedere(), ristorante.getCaricoLavoroPerPersona(), ristorante.getCaricoLavoroRistorante());
-				System.out.println();
+				view.stampaMsg("");
 				break;
 			case VISUALIZZA_RICETTE:
-				//ciclo che stampa ricette (con contatore)
-				//DA SPOSTARE IN GESTORE VIEW
 				view.stampaMsg("\nELENCO PIATTI-RICETTE");
 				view.stampaElencoPiattiRicette(ristorante.getElencoPiatti(), ristorante.getElencoRicette(), ristorante.getCorrispondenzePiattoRicetta());
+				view.stampaMsg("");
 				break;
 			case VISUALIZZA_MENU_TEMATICI:
-				System.out.println();
-				//DA IMPLEMENTARE
+				view.stampaMsg("\nELENCO MENU TEMATICI");
+				view.stampaElencoMenuTematici(ristorante.getElencoMenuTematici());
+				view.stampaMsg("");
 				break;
 			case VISUALIZZA_BEVANDE:
 				view.stampaMsg("\nELENCO BEVANDE");
 				view.stampaInsiemeProdotti(ristorante.getInsiemeBevande());
-				System.out.println();
+				view.stampaMsg("");
 				break;
 			case VISUALIZZA_GENERI_EXTRA:
 				view.stampaMsg("\nELENCO GENERI EXTRA");
 				view.stampaInsiemeProdotti(ristorante.getInsiemeGeneriExtra());
-				System.out.println();
+				view.stampaMsg("");
 				break;
 			case ESCI:
 				sessioneOn = false;
@@ -162,7 +162,6 @@ public class GestoreController{
 			for(Piatto p : ristorante.getElencoPiatti()) {
 				if(p.getNomePiatto().equalsIgnoreCase(nomePiatto)) {
 					view.stampaMsg("Il nome del piatto e' gia' stato utilizzato.");
-					nomeValido = false;
 					break;
 				} else {
 					nomeValido = true;
@@ -172,71 +171,63 @@ public class GestoreController{
 			
 		int porzioni = view.richiestaInteroPositivo("Inserisci il numero di porzioni del piatto: ");
 		int caricoLavoro = view.richiestaInteroPositivo("Inserisci il carico di lavoro per porzione: ");
-		//forse da creare istanze nel model?
-		Ricetta r = new Ricetta(porzioni, caricoLavoro);
-		Piatto p = new Piatto(nomePiatto, caricoLavoro);
 		
 		view.stampaMsg("\nOra bisogna inserire l'elenco di ingredienti della ricetta e le rispettive dosi.");
-		
+		ArrayList<Prodotto> elencoIngredienti = new ArrayList<>();
 		boolean altroIngrediente;
 		do {
-			aggiungiIngrediente(r);
+			aggiungiIngrediente(elencoIngredienti);
 			altroIngrediente = view.richiestaNuovaAggiunta("Vuoi aggiungere un altro ingrediente? ");
 		} while(altroIngrediente);
-
-		//DA CAMBIARE METODO UNICO PER AGGIUNTA CREAZIONE ARRAY DI PERIODI VALIDI
+		
 		view.stampaMsg("E' necessario indicare il periodo di validita' del piatto.");
+		ArrayList<Periodo> periodi = new ArrayList<>();
 		boolean altroPeriodo;
 		do {
-			aggiungiPeriodoValido(p);
+			aggiungiPeriodoValido(periodi);
 			altroPeriodo = view.richiestaNuovaAggiunta("Vuoi aggiungere un altro periodo di validita'? ");
 		} while(altroPeriodo);
+		
+		Ricetta r = new Ricetta(elencoIngredienti, porzioni, caricoLavoro);
+		Piatto p = new Piatto(nomePiatto, caricoLavoro, periodi);
 		ristorante.addPiattoRicetta(p, r);
 		view.stampaMsg("\nE' stato aggiunto un nuovo elemento al menu.");
 		view.stampaPiattoRicetta(p, r);
 	}
 
 	
-	//DA CAMBIARE METODO UNICO PER AGGIUNTA CREAZIONE ARRAY DI PERIODI VALIDI
+	//DA CONTROLLARE SE FUNZIONA
+		private void aggiungiIngrediente(ArrayList<Prodotto> elencoIngredienti) {
+			String nomeIngrediente = view.richiestaNome("Inserisci il nome dell'ingrediente: ");
+			String unitaMisura = view.richiestaNome("Inserisci unita di misura: ");
+			float dose = view.richiestaQuantita("Inserisci dose: ");
+			Prodotto ingrediente = new Prodotto(nomeIngrediente, dose, unitaMisura);
+			boolean esiste = ingrediente.esisteIn(elencoIngredienti);
+			if(!esiste) {
+				elencoIngredienti.add(ingrediente);
+				view.stampaMsg("E' stata aggiunto un ingrediente.");
+				view.stampaProdotto(ingrediente);
+			} else {
+				view.stampaMsg("Hai gia' aggiunto questo ingrediente alla ricetta.");
+			}
+		}
+	
+	
+	//DA CONTROLLARE SE FUNZIONA
 	//richiede un periodo e controlla se avra' validita in almeno un giorno futuro
-	private void aggiungiPeriodoValido(Piatto p) {
-		boolean valido = true;
+	private void aggiungiPeriodoValido(ArrayList<Periodo> periodi) {
+		boolean valido = false;
 		do {
 			LocalDate dataInizio = view.richiestaData("Inserire data di inizio validita'. ");
 			LocalDate dataFine = view.richiestaData("Inserire data di fine validita': ");
-			if((dataInizio.isBefore(dataFine) || dataInizio.isEqual(dataFine)) && dataFine.isAfter(ristorante.getDataCorrente())) {
-				Periodo periodoValidita = new Periodo(dataInizio, dataFine);
-				p.addPeriodoValidita(periodoValidita);
-				valido = true;
+			Periodo periodoValidita = new Periodo(dataInizio, dataFine);
+			valido = periodoValidita.isValido(ristorante.getDataCorrente());
+			if(valido) {
+				periodi.add(periodoValidita);
 			} else {
 				view.stampaMsg("Il periodo inserito deve essere valido in futuro.");
-				valido = false;
 			}
 		} while(!valido);	
-	}
-
-	
-	//richiede al gestore i dati di un ingrediente e li aggiunge alla ricetta data come parametro
-	private void aggiungiIngrediente(Ricetta r) {
-		String nomeIngrediente = view.richiestaNome("Inserisci il nome dell'ingrediente: ");
-		String unitaMisura = view.richiestaNome("Inserisci unita di misura: ");
-		float dose = view.richiestaQuantita("Inserisci dose: ");
-		
-		Prodotto ingrediente = new Prodotto(nomeIngrediente, dose, unitaMisura);
-		
-		boolean esiste = false;
-		for(Prodotto i : r.getElencoIngredienti()) {
-			if(i.getNome().equalsIgnoreCase(ingrediente.getNome())) {
-				view.stampaMsg("Hai gia' aggiunto questo ingrediente alla ricetta.");
-				esiste = true;
-				break;
-			}
-		}
-		if (!esiste) {
-			r.addIngrediente(ingrediente);
-			view.stampaMsg("E' stata aggiunto un ingrediente.");
-			view.stampaProdotto(ingrediente);
-		}
 	}
 	
 	
@@ -308,58 +299,67 @@ public class GestoreController{
 		String nomeMenuTematico;
 		boolean nomeValido = true;
 		do {
-			nomeMenuTematico = view.richiestaNome("Inserisci il nome del menuTematico: ");
+			//ESISTE UN MODO DI METTERE TUTTI I CONTROLLI DI ESISTENZA IN UN METODO?
+			//per farlo nelle rispettive classi ho bisogno di creare l'istanza prima
+			//per farlo nel controller come metodo che controlla una String, devo trasformare l'elenco in lista di nomi
+			nomeValido = true;
+			nomeMenuTematico = view.richiestaNome("Inserisci il nome del menu tematico: ");
 			for(MenuTematico m : ristorante.getElencoMenuTematici()) {
 				if(m.getNome().equalsIgnoreCase(nomeMenuTematico)) {
 					view.stampaMsg("Il nome del menu tematico e' gia' stato utilizzato.");
 					nomeValido = false;
 					break;
-				} else {
-					nomeValido = true;
 				}
 			}
 		} while(!nomeValido);
 		
 		int caricoLavoroMenuTematico = 0;
 		int caricoLavoroMax = (int) Math.floor(ristorante.getCaricoLavoroPerPersona()*4.0/3);
+		//nell'input da mettere numPiattiEsistenti - 1 se il contatore presenta i piatti partendo da zero
+		int numPiattiEsistenti = ristorante.getElencoPiatti().size();
 		//chiedo e aggiungo il primo piatto al menu tematico
+		view.stampaMsg("\nELENCO PIATTI DISPONIBILI: ");
 		view.stampaElencoPiatti(ristorante.getElencoPiatti());
-		int scelta = view.richiestaInteroPositivo("Inserisci il numero del piatto che vuoi aggiungere al menu tematico: ");
+		view.stampaMsg("\nCarico di lavoro massimo del menu tematico --> " + caricoLavoroMax);
+		int scelta = view.richiestaInteroConMinimoMassimo("Inserisci il numero del piatto che vuoi aggiungere al menu tematico: ", 0, numPiattiEsistenti-1);
 		Piatto p = ristorante.piattoScelto(scelta);
 		ArrayList<Piatto> piatti = new ArrayList<>();
 		piatti.add(p);
 		caricoLavoroMenuTematico = p.getCaricoLavoro();
-		view.stampaMsg("Carico di lavoro ancora disponibile per il menu tematico --> " + (caricoLavoroMax - caricoLavoroMenuTematico));
 		//chiedo almeno un secondo piatto e poi altri se il gestore lo desidera
 		boolean altroPiatto;
 		do {
+			view.stampaMsg("\nELENCO PIATTI DISPONIBILI: ");
 			view.stampaElencoPiatti(ristorante.getElencoPiatti());
-			scelta = view.richiestaInteroPositivo("Inserisci il numero del piatto che vuoi aggiungere al menu tematico: ");
+			view.stampaMsg("\nCarico di lavoro ancora disponibile per il menu tematico --> " + (caricoLavoroMax - caricoLavoroMenuTematico));
+			scelta = view.richiestaInteroConMinimoMassimo("Inserisci il numero del piatto che vuoi aggiungere al menu tematico: ", 0, numPiattiEsistenti-1);
 			p = ristorante.piattoScelto(scelta);
 			if(caricoLavoroMenuTematico + p.getCaricoLavoro() <= caricoLavoroMax) {
 				piatti.add(p);
 				caricoLavoroMenuTematico += p.getCaricoLavoro();
-				view.stampaMsg("Carico di lavoro ancora disponibile per il menu tematico --> " + (caricoLavoroMax - caricoLavoroMenuTematico));
 			} else {
-				view.stampaMsg("Il carico di lavoro del menu tematico supera il limite massimo.");
+				view.stampaMsg("Il carico di lavoro del menu tematico supera il limite massimo. Il piatto non e' stato aggiunto.");
 			}
-			
-			altroPiatto = view.richiestaNuovaAggiunta("Vuoi aggiungere un altro piatto? ");
+			if(caricoLavoroMenuTematico < caricoLavoroMax) {
+				altroPiatto = view.richiestaNuovaAggiunta("Vuoi aggiungere un altro piatto? ");
+			} else {
+				view.stampaMsg("Hai raggiunto il limite di carico di lavoro del menu.");
+				altroPiatto = false;
+			}
 		} while(altroPiatto);
 		
-		//DA CAMBIARE METODO UNICO PER AGGIUNTA CREAZIONE ARRAY DI PERIODI VALIDI
 		view.stampaMsg("E' necessario indicare il periodo di validita' del menu tematico.");
+		ArrayList<Periodo> periodi = new ArrayList<>();
 		boolean altroPeriodo;
 		do {
-			aggiungiPeriodoValido(p);
+			aggiungiPeriodoValido(periodi);
 			altroPeriodo = view.richiestaNuovaAggiunta("Vuoi aggiungere un altro periodo di validita'? ");
 		} while(altroPeriodo);
 		
-		MenuTematico menuTematico = new MenuTematico(nomeMenuTematico, piatti, caricoLavoroMenuTematico, null);
+		MenuTematico menuTematico = new MenuTematico(nomeMenuTematico, piatti, caricoLavoroMenuTematico, periodi);
 		ristorante.addMenuTematico(menuTematico);
 		view.stampaMsg("\nE' stato aggiunto un nuovo menu tematico.");
 	}
-	
 	
 	
 	
