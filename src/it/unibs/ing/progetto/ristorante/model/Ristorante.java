@@ -311,6 +311,17 @@ public class Ristorante {
 		return menuTematiciValidi;
 	}
 
+	public Piatto piattoScelto(int scelta) {
+		Piatto p = null;
+		for(int i = 0; i < elencoPiatti.size(); i++) {
+			if(scelta == i) {
+				p = elencoPiatti.get(i);
+				break;
+			}
+		}
+		return p;
+	}
+	
 	public void addPiattoRicetta(Piatto piatto, Ricetta ricetta) {
 		elencoPiatti.add(piatto);
 		elencoRicette.add(ricetta);
@@ -332,6 +343,11 @@ public class Ristorante {
 		corrispondenzePiattoRicetta.put(p, r);
 	}
 
+	//aggiunge un nuovo menu tematico
+	public void addMenuTematico(MenuTematico m) {
+		elencoMenuTematici.add(m);
+	}
+	
 	//aggiunge una nuova benvanda a insiemeBevande
 	public void addBevanda(Prodotto bevanda) {
 		insiemeBevande.add(bevanda);

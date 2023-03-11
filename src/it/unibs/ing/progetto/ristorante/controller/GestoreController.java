@@ -70,10 +70,10 @@ public class GestoreController{
 		LocalDate dataCorrente = view.richiestaData("Inserisci la dataCorrente.");
 		ristorante.setDataCorrente(dataCorrente);
 		
-		int nPosti = view.richiestaNumeroPostiRistorante("Inserisci il numero di posti del ristorante: ");
+		int nPosti = view.richiestaInteroPositivo("Inserisci il numero di posti del ristorante: ");
 		ristorante.setNumeroPostiASedere(nPosti);
 		
-		int caricoLavoroPersona = view.richiestaCaricoLavoro("Inserisci il carico di lavoro per persona: ");
+		int caricoLavoroPersona = view.richiestaInteroPositivo("Inserisci il carico di lavoro per persona: ");
 		ristorante.setCaricoLavoroPerPersona(caricoLavoroPersona);
 		
 		int caricoLavoroRistorante = caricoLavoroPersona * nPosti;
@@ -170,8 +170,8 @@ public class GestoreController{
 			}
 		} while(!nomeValido);
 			
-		int porzioni = view.richiestaNumeroPorzioni("Inserisci il numero di porzioni del piatto: ");
-		int caricoLavoro = view.richiestaCaricoLavoro("Inserisci il carico di lavoro per porzione: ");
+		int porzioni = view.richiestaInteroPositivo("Inserisci il numero di porzioni del piatto: ");
+		int caricoLavoro = view.richiestaInteroPositivo("Inserisci il carico di lavoro per porzione: ");
 		//forse da creare istanze nel model?
 		Ricetta r = new Ricetta(porzioni, caricoLavoro);
 		Piatto p = new Piatto(nomePiatto, caricoLavoro);
@@ -184,6 +184,7 @@ public class GestoreController{
 			altroIngrediente = view.richiestaNuovaAggiunta("Vuoi aggiungere un altro ingrediente? ");
 		} while(altroIngrediente);
 
+		//DA CAMBIARE METODO UNICO PER AGGIUNTA CREAZIONE ARRAY DI PERIODI VALIDI
 		view.stampaMsg("E' necessario indicare il periodo di validita' del piatto.");
 		boolean altroPeriodo;
 		do {
@@ -196,6 +197,7 @@ public class GestoreController{
 	}
 
 	
+	//DA CAMBIARE METODO UNICO PER AGGIUNTA CREAZIONE ARRAY DI PERIODI VALIDI
 	//richiede un periodo e controlla se avra' validita in almeno un giorno futuro
 	private void aggiungiPeriodoValido(Piatto p) {
 		boolean valido = true;
@@ -301,6 +303,7 @@ public class GestoreController{
 	}
 	
 	
+	//possibile implementazione di menu tematici con soli piatti validi
 	private void aggiungiMenuTematico() {
 		String nomeMenuTematico;
 		boolean nomeValido = true;
@@ -316,11 +319,44 @@ public class GestoreController{
 				}
 			}
 		} while(!nomeValido);
-			
-		//devo presentare al gestore l'elenco di piatti
-		//il gestore sceglie alcuni piatti (almeno 2)
-		//controllo se il nuovo menu tematico rispetta i controlli (piatti validi nel periodo, carico di lavoro valido)
 		
+		int caricoLavoroMenuTematico = 0;
+		int caricoLavoroMax = (int) Math.floor(ristorante.getCaricoLavoroPerPersona()*4.0/3);
+		//chiedo e aggiungo il primo piatto al menu tematico
+		view.stampaElencoPiatti(ristorante.getElencoPiatti());
+		int scelta = view.richiestaInteroPositivo("Inserisci il numero del piatto che vuoi aggiungere al menu tematico: ");
+		Piatto p = ristorante.piattoScelto(scelta);
+		ArrayList<Piatto> piatti = new ArrayList<>();
+		piatti.add(p);
+		caricoLavoroMenuTematico = p.getCaricoLavoro();
+		view.stampaMsg("Carico di lavoro ancora disponibile per il menu tematico --> " + (caricoLavoroMax - caricoLavoroMenuTematico));
+		//chiedo almeno un secondo piatto e poi altri se il gestore lo desidera
+		boolean altroPiatto;
+		do {
+			view.stampaElencoPiatti(ristorante.getElencoPiatti());
+			scelta = view.richiestaInteroPositivo("Inserisci il numero del piatto che vuoi aggiungere al menu tematico: ");
+			p = ristorante.piattoScelto(scelta);
+			if(caricoLavoroMenuTematico + p.getCaricoLavoro() <= caricoLavoroMax) {
+				piatti.add(p);
+				caricoLavoroMenuTematico += p.getCaricoLavoro();
+				view.stampaMsg("Carico di lavoro ancora disponibile per il menu tematico --> " + (caricoLavoroMax - caricoLavoroMenuTematico));
+			} else {
+				view.stampaMsg("Il carico di lavoro del menu tematico supera il limite massimo.");
+			}
+			
+			altroPiatto = view.richiestaNuovaAggiunta("Vuoi aggiungere un altro piatto? ");
+		} while(altroPiatto);
+		
+		//DA CAMBIARE METODO UNICO PER AGGIUNTA CREAZIONE ARRAY DI PERIODI VALIDI
+		view.stampaMsg("E' necessario indicare il periodo di validita' del menu tematico.");
+		boolean altroPeriodo;
+		do {
+			aggiungiPeriodoValido(p);
+			altroPeriodo = view.richiestaNuovaAggiunta("Vuoi aggiungere un altro periodo di validita'? ");
+		} while(altroPeriodo);
+		
+		MenuTematico menuTematico = new MenuTematico(nomeMenuTematico, piatti, caricoLavoroMenuTematico, null);
+		ristorante.addMenuTematico(menuTematico);
 		view.stampaMsg("\nE' stato aggiunto un nuovo menu tematico.");
 	}
 	

@@ -33,16 +33,7 @@ public class GestoreView {
 		return InputDati.leggiData(messaggio);
 	}
 	
-	//possibile raccogliere alcuni metodi in un metodo solo?
-	public int richiestaNumeroPostiRistorante(String messaggio) {
-		return InputDati.leggiInteroPositivo(messaggio);
-	}
-	
-	public int richiestaCaricoLavoro(String messaggio) {
-		return InputDati.leggiInteroPositivo(messaggio);
-	}
-	
-	public int richiestaNumeroPorzioni(String messaggio) {
+	public int richiestaInteroPositivo(String messaggio) {
 		return InputDati.leggiInteroPositivo(messaggio);
 	}
 	
@@ -79,6 +70,17 @@ public class GestoreView {
 	public int stampaMenuGestore() {
 		MyMenu menu = new MyMenu(TITOLO, ELENCO_COMANDI);
 		return menu.scegli();
+	}
+	
+	//stampa l'elenco dei piatti del ristorante, che non deve essere vuota
+	public void stampaElencoPiatti(ArrayList<Piatto> elencoPiatti) {
+		int contatore = 0;
+		for(Piatto p : elencoPiatti) {
+			System.out.println(" ----------- " + contatore + " ----------- ");
+			stampaMsg("Nome: " + p.getNomePiatto());
+			stampaMsg("Carico di lavoro: " + p.getCaricoLavoro());
+			contatore++;
+		}
 	}
 	
 	public void stampaPiattoRicetta(Piatto p, Ricetta r) {

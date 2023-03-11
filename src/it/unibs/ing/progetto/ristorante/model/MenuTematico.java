@@ -7,14 +7,10 @@ public class MenuTematico {
 	
 	private String nome;
 	private ArrayList<Piatto> elencoPiatti;
-	private float caricoLavoro;
+	private int caricoLavoro;
 	private ArrayList<Periodo> periodiValidita;
 	
 	
-	//cosa succede se non ho un Periodo non inizializzato (se può succedere)
-	//esistono menuTematici sempre validi?
-	//devo imporre che date sono in ordine prima di usare questo metodo
-	//posso avere un periodiValidita vuoto?
 	public boolean isValidoInData(LocalDate data) {
 		//prende ciascun Periodo presente in periodiValidita
 		for(Periodo d : periodiValidita) {
@@ -24,7 +20,7 @@ public class MenuTematico {
 		return false;
 	}
 	
-	public MenuTematico(String nome, ArrayList<Piatto> elencoPiatti, float caricoLavoro,
+	public MenuTematico(String nome, ArrayList<Piatto> elencoPiatti, int caricoLavoro,
 			ArrayList<Periodo> periodiValidita) {
 		super();
 		this.nome = nome;
@@ -46,10 +42,10 @@ public class MenuTematico {
 	public void setElencoPiatti(ArrayList<Piatto> elencoPiatti) {
 		this.elencoPiatti = elencoPiatti;
 	}
-	public float getCaricoLavoro() {
+	public int getCaricoLavoro() {
 		return caricoLavoro;
 	}
-	public void setCaricoLavoro(float caricoLavoro) {
+	public void setCaricoLavoro(int caricoLavoro) {
 		this.caricoLavoro = caricoLavoro;
 	}
 	public ArrayList<Periodo> getPeriodiValidita() {
