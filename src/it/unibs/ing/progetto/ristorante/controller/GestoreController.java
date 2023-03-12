@@ -170,6 +170,7 @@ public class GestoreController{
 		} while(!nomeValido);
 			
 		int porzioni = view.richiestaInteroPositivo("Inserisci il numero di porzioni del piatto: ");
+		//DEVO METTERE COME LIMITE IL CARICO LAVORO PER PERSONA
 		int caricoLavoro = view.richiestaInteroPositivo("Inserisci il carico di lavoro per porzione: ");
 		
 		view.stampaMsg("\nOra bisogna inserire l'elenco di ingredienti della ricetta e le rispettive dosi.");
@@ -213,7 +214,6 @@ public class GestoreController{
 		}
 	
 	
-	//DA CONTROLLARE SE FUNZIONA
 	//richiede un periodo e controlla se avra' validita in almeno un giorno futuro
 	private void aggiungiPeriodoValido(ArrayList<Periodo> periodi) {
 		boolean valido = false;
@@ -295,6 +295,7 @@ public class GestoreController{
 	
 	
 	//possibile implementazione di menu tematici con soli piatti validi
+	//crea un menu tematico e lo aggiunge a ElencoMenuTematici del ristorante
 	private void aggiungiMenuTematico() {
 		String nomeMenuTematico;
 		boolean nomeValido = true;
@@ -313,52 +314,87 @@ public class GestoreController{
 			}
 		} while(!nomeValido);
 		
+		ArrayList<Piatto> elencoPiatti = aggiungiElencoPiattiAlMenuTematico();
+		int caricoLavoroMenuTematico = calcolaCaricoLavoroMenuTematico(elencoPiatti);
+		
+		view.stampaMsg("E' necessario indicare il periodo di validita'.");
+		ArrayList<Periodo> periodi = aggiungiElencoPeriodiValidi();
+		
+		ristorante.addMenuTematico(nomeMenuTematico, elencoPiatti, caricoLavoroMenuTematico, periodi);
+		view.stampaMsg("\nE' stato aggiunto un nuovo menu tematico.");
+	}
+	
+	
+	private ArrayList<Piatto> aggiungiElencoPiattiAlMenuTematico() {
+		ArrayList<Piatto> elencoPiatti = new ArrayList<>();
 		int caricoLavoroMenuTematico = 0;
 		int caricoLavoroMax = (int) Math.floor(ristorante.getCaricoLavoroPerPersona()*4.0/3);
-		//nell'input da mettere numPiattiEsistenti - 1 se il contatore presenta i piatti partendo da zero
-		int numPiattiEsistenti = ristorante.getElencoPiatti().size();
-		//chiedo e aggiungo il primo piatto al menu tematico
-		view.stampaMsg("\nELENCO PIATTI DISPONIBILI: ");
-		view.stampaElencoPiatti(ristorante.getElencoPiatti());
-		view.stampaMsg("\nCarico di lavoro massimo del menu tematico --> " + caricoLavoroMax);
-		int scelta = view.richiestaInteroConMinimoMassimo("Inserisci il numero del piatto che vuoi aggiungere al menu tematico: ", 0, numPiattiEsistenti-1);
-		Piatto p = ristorante.piattoScelto(scelta);
-		ArrayList<Piatto> piatti = new ArrayList<>();
-		piatti.add(p);
-		caricoLavoroMenuTematico = p.getCaricoLavoro();
-		//chiedo almeno un secondo piatto e poi altri se il gestore lo desidera
-		boolean altroPiatto;
+		boolean altroPiatto = false;
 		do {
-			view.stampaMsg("\nELENCO PIATTI DISPONIBILI: ");
-			view.stampaElencoPiatti(ristorante.getElencoPiatti());
-			view.stampaMsg("\nCarico di lavoro ancora disponibile per il menu tematico --> " + (caricoLavoroMax - caricoLavoroMenuTematico));
-			scelta = view.richiestaInteroConMinimoMassimo("Inserisci il numero del piatto che vuoi aggiungere al menu tematico: ", 0, numPiattiEsistenti-1);
-			p = ristorante.piattoScelto(scelta);
-			if(caricoLavoroMenuTematico + p.getCaricoLavoro() <= caricoLavoroMax) {
-				piatti.add(p);
-				caricoLavoroMenuTematico += p.getCaricoLavoro();
-			} else {
-				view.stampaMsg("Il carico di lavoro del menu tematico supera il limite massimo. Il piatto non e' stato aggiunto.");
+			Piatto piatto = richiestaPiattoDaElenco(caricoLavoroMenuTematico, caricoLavoroMax);
+			boolean piattoValido = aggiungiPiattoAlMenuTematico(piatto, caricoLavoroMenuTematico, caricoLavoroMax);
+			if(piattoValido) {
+				elencoPiatti.add(piatto);
+				caricoLavoroMenuTematico += piatto.getCaricoLavoro();
 			}
-			if(caricoLavoroMenuTematico < caricoLavoroMax) {
-				altroPiatto = view.richiestaNuovaAggiunta("Vuoi aggiungere un altro piatto? ");
-			} else {
-				view.stampaMsg("Hai raggiunto il limite di carico di lavoro del menu.");
-				altroPiatto = false;
-			}
+			altroPiatto = controllaAggiuntaNuovoPiattoAlMenuTematico(caricoLavoroMenuTematico, caricoLavoroMax);
 		} while(altroPiatto);
-		
-		view.stampaMsg("E' necessario indicare il periodo di validita' del menu tematico.");
+		return elencoPiatti;
+	}
+
+
+	public Piatto richiestaPiattoDaElenco(int caricoLavoroMenuTematico, int caricoLavoroMax) {
+		int numPiattiEsistenti = ristorante.getElencoPiatti().size();
+        view.stampaMsg("\nELENCO PIATTI DISPONIBILI: ");
+        view.stampaElencoPiatti(ristorante.getElencoPiatti());
+        view.stampaMsg("\nCarico di lavoro ancora disponibile per il menu tematico --> " + (caricoLavoroMax - caricoLavoroMenuTematico));
+        int scelta = view.richiestaInteroConMinimoMassimo("Inserisci il numero del piatto che vuoi aggiungere al menu tematico: ", 0, numPiattiEsistenti-1);
+        Piatto piatto = ristorante.piattoScelto(scelta);
+        return piatto;
+	}
+	
+	
+	private boolean aggiungiPiattoAlMenuTematico(Piatto piatto, int caricoLavoroMenuTematico, int caricoLavoroMax) {
+		boolean piattoValido = false;
+		if (caricoLavoroMenuTematico + piatto.getCaricoLavoro() <= caricoLavoroMax) {
+			piattoValido = true;
+        } else {
+            view.stampaMsg("Il carico di lavoro del menu tematico supera il limite massimo. Il piatto non e' stato aggiunto.");
+            piattoValido = false;
+        }
+		return piattoValido;
+	}
+	
+	
+	private boolean controllaAggiuntaNuovoPiattoAlMenuTematico(int caricoLavoroMenuTematico, int caricoLavoroMax) {
+		boolean altroPiatto = true;
+		if(caricoLavoroMenuTematico < caricoLavoroMax) {
+			altroPiatto = view.richiestaNuovaAggiunta("Vuoi aggiungere un altro piatto? ");
+		} else {
+			view.stampaMsg("Hai raggiunto il limite di carico di lavoro del menu.");
+			altroPiatto = false;
+		}
+		return altroPiatto;
+	}
+	
+	
+	private int calcolaCaricoLavoroMenuTematico(ArrayList<Piatto> piatti) {
+		int caricoLavoroMenuTematico = 0;
+		for(Piatto p : piatti) {
+			caricoLavoroMenuTematico += p.getCaricoLavoro();
+		}
+		return caricoLavoroMenuTematico;
+	}
+	
+	
+	private ArrayList<Periodo> aggiungiElencoPeriodiValidi() {
 		ArrayList<Periodo> periodi = new ArrayList<>();
 		boolean altroPeriodo;
 		do {
 			aggiungiPeriodoValido(periodi);
 			altroPeriodo = view.richiestaNuovaAggiunta("Vuoi aggiungere un altro periodo di validita'? ");
 		} while(altroPeriodo);
-		
-		MenuTematico menuTematico = new MenuTematico(nomeMenuTematico, piatti, caricoLavoroMenuTematico, periodi);
-		ristorante.addMenuTematico(menuTematico);
-		view.stampaMsg("\nE' stato aggiunto un nuovo menu tematico.");
+		return periodi;
 	}
 	
 	

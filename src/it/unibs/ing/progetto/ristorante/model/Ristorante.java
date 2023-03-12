@@ -344,8 +344,9 @@ public class Ristorante {
 	}
 
 	//aggiunge un nuovo menu tematico
-	public void addMenuTematico(MenuTematico m) {
-		elencoMenuTematici.add(m);
+	public void addMenuTematico(String nomeMenuTematico, ArrayList<Piatto> piatti, int caricoLavoroMenuTematico, ArrayList<Periodo> periodi) {
+		MenuTematico menuTematico = new MenuTematico(nomeMenuTematico, piatti, caricoLavoroMenuTematico, periodi);
+		elencoMenuTematici.add(menuTematico);
 	}
 	
 	//aggiunge una nuova benvanda a insiemeBevande

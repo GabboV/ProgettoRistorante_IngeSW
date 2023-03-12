@@ -130,8 +130,7 @@ public class ViewGenerale {
 		piatti1.add(p1);
 		piatti1.add(p4);
 		piatti1.add(p4);
-		MenuTematico m1 = new MenuTematico("Festa del pesce", piatti1, 20, elencoPeriodi);
-		model.addMenuTematico(m1);;
+		model.addMenuTematico("Festa del pesce", piatti1, 20, elencoPeriodi);;
 		
 		// PRENOTAZIONI
 		HashMap<Piatto,Integer> comanda1 = new HashMap<Piatto,Integer>();
