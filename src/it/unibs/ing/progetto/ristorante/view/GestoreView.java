@@ -56,11 +56,7 @@ public class GestoreView {
 		return InputDati.leggiUnitaMisura(messaggio);
 	}
 	
-	public Float richiestaConsumoProCapite(String messaggio) {
-		return InputDati.leggiFloatPositivo(messaggio);
-	}
-	
-	public Float richiestaQuantita(String messaggio) {
+	public Float richiestaFloatPositivo(String messaggio) {
 		return InputDati.leggiFloatPositivo(messaggio);
 	}
 	

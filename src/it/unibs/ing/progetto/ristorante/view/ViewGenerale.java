@@ -63,7 +63,7 @@ public class ViewGenerale {
 		ingredienti1.add(i4);
 		Ricetta r1 = new Ricetta(4, p1.getCaricoLavoro());
 		r1.setElencoIngredienti(ingredienti1);
-		model.addPiattoRicetta(p1, r1);
+		model.addPiattoRicetta(ingredienti1, 3, 4, "Pasta al tonno", elencoPeriodi);
 
 		// PIATTO-RICETTA 2
 		Piatto p2 = new Piatto("Pollo halal", 4, elencoPeriodi);
@@ -76,7 +76,7 @@ public class ViewGenerale {
 		ingredienti2.add(i7);
 		Ricetta r2 = new Ricetta(3, p2.getCaricoLavoro());
 		r2.setElencoIngredienti(ingredienti2);
-		model.addPiattoRicetta(p2, r2);
+		model.addPiattoRicetta(ingredienti2, 3, 4, "Pollo halal", elencoPeriodi);
 
 		// PIATTO-RICETTA 3
 		Piatto p3 = new Piatto("Risotto allo zafferano", 9, elencoPeriodi);
@@ -87,7 +87,7 @@ public class ViewGenerale {
 		ingredienti3.add(i9);
 		Ricetta r3 = new Ricetta(1, p3.getCaricoLavoro());
 		r3.setElencoIngredienti(ingredienti3);
-		model.addPiattoRicetta(p3, r3);
+		model.addPiattoRicetta(ingredienti3, 1, 9, "Risotto allo zafferano", elencoPeriodi);
 
 		// PIATTO-RICETTA 4
 		Piatto p4 = new Piatto("Onigiri", 7, elencoPeriodi);
@@ -102,7 +102,7 @@ public class ViewGenerale {
 		ingredienti4.add(i14);
 		Ricetta r4 = new Ricetta(3, p4.getCaricoLavoro());
 		r4.setElencoIngredienti(ingredienti4);
-		model.addPiattoRicetta(p4, r4);
+		model.addPiattoRicetta(ingredienti4, 3, 7, "Alga Nori", elencoPeriodi);
 
 		// BEVANDE
 		Prodotto b1 = new Prodotto("Acqua", (float) 1, "l");

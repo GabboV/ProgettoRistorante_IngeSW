@@ -322,7 +322,9 @@ public class Ristorante {
 		return p;
 	}
 	
-	public void addPiattoRicetta(Piatto piatto, Ricetta ricetta) {
+	public void addPiattoRicetta(ArrayList<Prodotto> elencoIngredienti, int porzioni, int caricoLavoro, String nomePiatto, ArrayList<Periodo> periodi) {
+		Ricetta ricetta = new Ricetta(elencoIngredienti, porzioni, caricoLavoro);
+		Piatto piatto = new Piatto(nomePiatto, caricoLavoro, periodi);
 		elencoPiatti.add(piatto);
 		elencoRicette.add(ricetta);
 		corrispondenzePiattoRicetta.put(piatto, ricetta);
@@ -350,12 +352,14 @@ public class Ristorante {
 	}
 	
 	//aggiunge una nuova benvanda a insiemeBevande
-	public void addBevanda(Prodotto bevanda) {
+	public void addBevanda(String nomeBevanda, float consumoProCapiteBevanda) {
+		Prodotto bevanda = new Prodotto(nomeBevanda, consumoProCapiteBevanda, "l");
 		insiemeBevande.add(bevanda);
 	}
 	
 	//aggiunge un nuovo genere extra a insiemeGeneriExtra
-	public void addGenereExtra(Prodotto genereExtra) {
+	public void addGenereExtra(String nomeGenereExtra, float consumoProCapiteGenereExtra) {
+		Prodotto genereExtra = new Prodotto(nomeGenereExtra, consumoProCapiteGenereExtra, "hg");
 		insiemeGeneriExtra.add(genereExtra);
 	}
 
