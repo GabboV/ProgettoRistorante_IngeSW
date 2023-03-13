@@ -16,7 +16,7 @@ import it.unibs.ing.progetto.ristorante.model.UnitaMisura;
 public class MainProva {
 
 	public static void main(String[] args) {
-
+/*
 		Ristorante ristorante = new Ristorante();
 		LocalDate _10gennaio2023 = LocalDate.of(2023, 01, 10);
 		LocalDate _17gennaio2023 = LocalDate.of(2023, 01, 17);
@@ -87,7 +87,7 @@ public class MainProva {
 		corrispondenzeProva.put(p3, r3);
 		corrispondenzeProva.put(p4, r4);
 		ristorante.setCorrispondenzePiattoRicetta(corrispondenzeProva);
-		*/
+		
 
 		ArrayList<Piatto> elencoPiattiProva = new ArrayList<>();
 		elencoPiattiProva.add(p1);
@@ -110,7 +110,7 @@ public class MainProva {
 		comanda1.put(p2, 6);
 		comanda1.put(p3, 2);
 	
-		Prenotazione pre1 = new Prenotazione("Prima",4,comanda1, dataprenotazione);
+		Prenotazione pre1 = new Prenotazione(4,comanda1, dataprenotazione);
 		
 		HashMap<Piatto,Integer> comanda2 = new HashMap<Piatto,Integer>();
 		comanda2.put(p1, 1);
@@ -118,14 +118,14 @@ public class MainProva {
 		comanda2.put(p2, 4);
 		comanda2.put(p3, 3);
 	
-		Prenotazione pre2 = new Prenotazione("Prima",3,comanda2, dataprenotazione);
+		Prenotazione pre2 = new Prenotazione(3,comanda2, dataprenotazione);
 	
 		ristorante.addPrenotazione(dataprenotazione, comanda2, 3);
 		ristorante.addPrenotazione(dataprenotazione, comanda1, 4);
 		
 		MagazziniereController m = new MagazziniereController(ristorante);
 		m.avviaSessione();
-
+*/
 	}
 
 }

@@ -124,12 +124,12 @@ public class ViewGenerale {
 		comanda1.put(model.piattoScelto(0), 3);
 		comanda1.put(model.piattoScelto(3), 1);
 		comanda1.put(model.piattoScelto(0), 1);
-		Prenotazione pre1 = new Prenotazione("Prima", 1, comanda1, dataprenotazione);
+		Prenotazione pre1 = new Prenotazione( 1, comanda1, dataprenotazione);
 		
 		HashMap<Piatto,Integer> comanda2 = new HashMap<Piatto,Integer>();
 		comanda2.put(model.piattoScelto(0), 2);
 		comanda2.put(model.piattoScelto(3), 2);
-		Prenotazione pre2 = new Prenotazione("Seconda", 3, comanda2, dataprenotazione);
+		Prenotazione pre2 = new Prenotazione(3, comanda2, dataprenotazione);
 
 		model.addPrenotazione(dataprenotazione, comanda2, 3);
 		model.addPrenotazione(dataprenotazione, comanda1, 4);
@@ -166,7 +166,7 @@ public class ViewGenerale {
 			switch (scelta) {
 			case GESTORE:
 				GestoreController gestore = new GestoreController(model);
-				gestore.apriMenuGestore();
+				gestore.avviaSessione();
 				break;
 			case ADDETTO_PRENOTAZIONI:
 				AddettoPrenotazioniController addettoPrenotazioni = new AddettoPrenotazioniController(model);

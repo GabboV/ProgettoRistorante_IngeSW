@@ -18,10 +18,19 @@ import it.unibs.ing.progetto.ristorante.model.UnitaMisura;
 
 public class GestoreView {
 
+	private static final String VISUALIZZA_GENERI_EXTRA = "Visualizza generi extra";
+	private static final String VISUALIZZA_BEVANDE = "Visualizza bevande";
+	private static final String VISUALIZZA_MENU_TEMATICI = "Visualizza menu tematici";
+	private static final String VISUALIZZA_RICETTE = "Visualizza ricette";
+	private static final String VISUALIZZA_PARAMETRI = "Visualizza parametri";
+	private static final String AGGIUNGI_GENERE_EXTRA = "Aggiungi genere extra";
+	private static final String AGGIUNGI_BEVANDA = "Aggiungi bevanda";
+	private static final String AGGIUNGI_MENU_TEMATICO = "Aggiungi menu tematico";
+	private static final String AGGIUNGI_RICETTA = "Aggiungi ricetta";
 	final static private String TITOLO = "COMANDI GESTORE";
-	final static private String[] ELENCO_COMANDI = {"Aggiungi ricetta", "Aggiungi menu tematico", "Aggiungi bevanda",
-			"Aggiungi genere extra", "Visualizza parametri", "Visualizza ricette",
-			"Visualizza menu tematici", "Visualizza bevande", "Visualizza generi extra"};
+	final static private String[] ELENCO_COMANDI = {AGGIUNGI_RICETTA, AGGIUNGI_MENU_TEMATICO, AGGIUNGI_BEVANDA,
+			AGGIUNGI_GENERE_EXTRA, VISUALIZZA_PARAMETRI, VISUALIZZA_RICETTE,
+			VISUALIZZA_MENU_TEMATICI, VISUALIZZA_BEVANDE, VISUALIZZA_GENERI_EXTRA};
 	
 	public void stampaMsgBenvenutoInizializzazione() {
 		System.out.println("Benvenuto Gestore.");

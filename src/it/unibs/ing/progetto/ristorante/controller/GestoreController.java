@@ -84,13 +84,13 @@ public class GestoreController{
 		} while(altraRicetta);
 	
 		view.stampaMsg("\nHai completato l'inizializzazione del programma.\n");
-		apriMenuGestore();
+		avviaSessione();
 		return ristorante;
 	}
 
 	
 	//presenta al gestore le operazioni che puo' eseguire e la esegue
-	public void apriMenuGestore() {
+	public void avviaSessione() {
 		//forse da mettere tutte le final insieme
 		view = new GestoreView();
 		boolean sessioneOn = true;

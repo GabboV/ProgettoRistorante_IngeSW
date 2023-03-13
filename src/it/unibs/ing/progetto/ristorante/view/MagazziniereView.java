@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import it.unibs.fp.mylib.InputDati;
 import it.unibs.fp.mylib.MyMenu;
+import it.unibs.ing.progetto.ristorante.model.Prodotto;
 
 public class MagazziniereView {
 
@@ -29,7 +30,7 @@ public class MagazziniereView {
 		return menu.scegli();
 	}
 
-	public void print(String msg) {
+	public void stampaMsg(String msg) {
 		System.out.println(msg);
 	}
 
@@ -47,6 +48,26 @@ public class MagazziniereView {
 
 	public LocalDate richiestaData(String messaggio) {
 		return InputDati.leggiData(messaggio);
+	}
+	
+	public void stampaInsiemeProdotti(ArrayList<Prodotto> elencoProdotti) {
+		int contatore = 0;
+		if (elencoProdotti.isEmpty()) {
+			System.out.println();
+			System.out.println("La lista e' vuota.");
+			System.out.println();
+		} else {
+			for(Prodotto p : elencoProdotti) {
+				System.out.println(" ----------- " + contatore + " ----------- ");
+				stampaProdotto(p);
+				contatore++;
+			}
+		}
+	}
+	
+	public void stampaProdotto(Prodotto p) {
+		System.out.println("Nome: " + p.getNome());
+		System.out.println("Consumo pro capite: " + p.getQuantita() + p.getUnitaMisura());	
 	}
 
 }

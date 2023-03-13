@@ -3,6 +3,8 @@ package it.unibs.ing.progetto.ristorante.model;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 public class Prenotazione {
 
@@ -11,22 +13,17 @@ public class Prenotazione {
 	private HashMap<Piatto, Integer> comanda;
 	private LocalDate dataPrenotazione;
 
-	public Prenotazione(String cliente, int numeroCoperti, HashMap<Piatto, Integer> comanda,
+	public Prenotazione(int numeroCoperti, HashMap<Piatto, Integer> comanda,
 			LocalDate dataPrenotazione) {
 		super();
-		this.codice_cliente = cliente;
 		this.numeroCoperti = numeroCoperti;
 		this.comanda = comanda;
 		this.dataPrenotazione = dataPrenotazione;
 	}
 
-	
-	
 	public void setDataPrenotazione(LocalDate dataPrenotazione) {
 		this.dataPrenotazione = dataPrenotazione;
 	}
-
-
 
 	public HashMap<Piatto, Integer> getComanda() {
 		return comanda;
@@ -40,15 +37,11 @@ public class Prenotazione {
 		return dataPrenotazione;
 	}
 
-	public ArrayList<Piatto> getAllPiatti() {
-		return new ArrayList<Piatto>(this.comanda.keySet());
-	}
-
 	public String getCodiceCliente() {
 		return codice_cliente;
 	}
 
-	public boolean isValidinData(LocalDate data) {
+	public boolean isPrenotazioneInData(LocalDate data) {
 		if (data.getDayOfMonth() == this.dataPrenotazione.getDayOfMonth()
 				&& data.getMonth() == this.dataPrenotazione.getMonth()
 				&& data.getYear() == this.dataPrenotazione.getYear()) {
@@ -60,9 +53,11 @@ public class Prenotazione {
 
 	public float getCaricoLavoroTotalePrenotazione() {
 		float caricoTotale = 0;
-		ArrayList<Piatto> piattiOrdinati = this.getAllPiatti();
-		for (Piatto p : piattiOrdinati) {
-			int personeOrdinatoP = this.comanda.get(p);
+		Iterator<Entry<Piatto, Integer>> iter = this.comanda.entrySet().iterator();
+		while (iter.hasNext()) {
+			Entry<Piatto, Integer> entry = iter.next();
+			int personeOrdinatoP = entry.getValue();
+			Piatto p = entry.getKey();
 			float caricoParziale = p.getCaricoLavoro() * personeOrdinatoP;
 			caricoTotale += caricoParziale;
 		}

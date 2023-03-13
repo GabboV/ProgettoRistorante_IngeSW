@@ -12,7 +12,7 @@ import it.unibs.ing.progetto.ristorante.model.Piatto;
 public class AddettoPrenotazioniView {
 
 	private static String[] OPZIONI = new String[] { "Aggiungi prenotazione", "Rimuovi prenotazione",
-			"Visualizza prenotazioni", "Visualizza posti disposinibili in una certa data" };
+			"Visualizza prenotazioni" };
 
 	private static String[] ORDINA = new String[] { "Ordina menu tematici", "Ordina dal menu alla carta" };
 

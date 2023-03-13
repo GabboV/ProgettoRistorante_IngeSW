@@ -39,19 +39,6 @@ public class Ristorante {
 		this.elencoPrenotazioni = new ArrayList<Prenotazione>();
 	}
 
-	/*
-	 * 
-	 * 
-	 * 
-	 * 
-	 * Work in progress
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 */
-
 	public boolean isRistorantePienoInData(LocalDate data) {
 		return (this.getPostiDisponibiliInData(data) == 0);
 	}
@@ -62,7 +49,7 @@ public class Ristorante {
 	}
 
 	public void addPrenotazione(LocalDate data, HashMap<Piatto, Integer> comanda, int coperti) {
-		this.elencoPrenotazioni.add(new Prenotazione(null, coperti, comanda, data));
+		this.elencoPrenotazioni.add(new Prenotazione(coperti, comanda, data));
 	}
 
 	public boolean nonCiSonoPrenotazioni() {
@@ -351,11 +338,8 @@ public class Ristorante {
 		insiemeGeneriExtra.add(genereExtra);
 	}
 
-	/*
-	 * ATTENZIONE equals() non implementato nella classe Prodotto, quindi il metodo
-	 * non funziona per ora
-	 */
 	public void generaListaSpesa(LocalDate data) {
+		
 		this.dataCorrente = data;
 
 		ArrayList<Prenotazione> prenotazioniInData = this.creaElencoPrenotazioniInData(data);
@@ -381,7 +365,7 @@ public class Ristorante {
 				this.listaSpesa.add(prodotto);
 
 			}
-			
+
 		}
 	}
 
@@ -403,7 +387,7 @@ public class Ristorante {
 	private ArrayList<Prenotazione> creaElencoPrenotazioniInData(LocalDate data) {
 		ArrayList<Prenotazione> prenotazioniInData = new ArrayList<Prenotazione>();
 		for (Prenotazione p : this.elencoPrenotazioni) {
-			if (p.isValidinData(data)) {
+			if (p.isPrenotazioneInData(data)) {
 				prenotazioniInData.add(p);
 			}
 		}
@@ -541,7 +525,8 @@ public class Ristorante {
 		return false;
 	}
 
-	public void addProdottoInventario(Prodotto prodotto) {
+	public void addProdottoInventario(String nome, float quantita, String unitaMisura) {
+		Prodotto prodotto = new Prodotto(nome, quantita, unitaMisura);
 		aggiornaListaConProdotto(this.registroMagazzino, prodotto);
 		if (!this.listaSpesa.isEmpty()) {
 			this.aggiornaListaSpesa(this.listaSpesa);
@@ -551,7 +536,7 @@ public class Ristorante {
 	private int getNumeroClientiPrenotatiInData(LocalDate date) {
 		int count = 0;
 		for (Prenotazione p : this.elencoPrenotazioni) {
-			if (p.isValidinData(date)) {
+			if (p.isPrenotazioneInData(date)) {
 				count += p.getNumeroCoperti();
 			}
 		}
@@ -567,49 +552,39 @@ public class Ristorante {
 		return insiemeNew;
 	}
 
-	public void rimuoviProdottoQuantitaInRegistro(Prodotto prodotto, float quantita) {
+	public void rimuoviQuantitaProdottoDaRegistro(Prodotto prodotto, float quantita) {
 		String nomeCercato = prodotto.getNome();
 		for (Prodotto p : this.registroMagazzino) {
 			if (p.getNome().equalsIgnoreCase(nomeCercato)) {
 				if (p.getQuantita() > quantita) {
 					p.setQuantita(p.getQuantita() - quantita);
 				} else {
-					rmvProdotto(registroMagazzino, prodotto);
+					rimuoviProdotto(registroMagazzino, prodotto);
 				}
 				break;
 			}
 		}
-		if(!this.listaSpesa.isEmpty()) {
+		if (!this.listaSpesa.isEmpty()) {
 			this.generaListaSpesa(dataCorrente);
 		}
 	}
 
-	private static void rmvProdotto(ArrayList<Prodotto> prodotti, Prodotto prodotto) {
-		int indice = 0;
+	private static void rimuoviProdotto(ArrayList<Prodotto> prodotti, Prodotto prodotto) {
 		String nome = prodotto.getNome();
 		for (int i = 0; i < prodotti.size(); i++) {
 			if (nome.equalsIgnoreCase(prodotti.get(i).getNome())) {
-				indice = i;
-				prodotti.remove(indice);
+				prodotti.remove(i);
 				break;
 			}
 		}
 	}
 
 	public boolean isListaSpesaEmpty() {
-		if (this.listaSpesa.size() == 0) {
-			return true;
-		} else {
-			return false;
-		}
+		return this.listaSpesa.isEmpty();
 	}
 
 	public boolean isRegistroMagazzinoEmpty() {
-		if (this.registroMagazzino.size() == 0) {
-			return true;
-		} else {
-			return false;
-		}
+		return this.registroMagazzino.isEmpty();
 	}
 
 }
