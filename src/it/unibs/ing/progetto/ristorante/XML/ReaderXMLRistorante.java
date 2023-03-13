@@ -3,18 +3,33 @@ package it.unibs.ing.progetto.ristorante.XML;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamReader;
+
+import it.unibs.ing.progetto.ristorante.model.Piatto;
+import it.unibs.ing.progetto.ristorante.model.Ricetta;
+
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ReaderXML {
+public class ReaderXMLRistorante {
     private static final String ERRORE_READER = "Errore nell'inizializzazione del reader: ";
     private static final String STRINGA_INIZIO_LETTURA = "Inzio lettura file: ";
     private static final String STRINGA_FINE_LETTURA = "Fine lettura file: ";
-    private static final String CITY = "city";
-    private static final String LINK = "link";
-    private static final String MAPPA_CREATA = "La mappaTerritorio e' stata creata con successo";
+    private static final String ELENCO_RICETTE = "ElencoRicette";
+    private static final String RICETTA = "Ricetta";
+    private static final String NOME_PIATTO = "nomePiatto";
+    private static final String CARICO_LAVORO = "caricoLavoro";
+    private static final String INGREDIENTE = "Ingrediente";
+    private static final String NOME_INGREDIENTE = "nomeIngrediente";
+    private static final String DOSE = "dose";
+    private static final String UNITA_MISURA = "unitaMisura";
+    private static final String PORZIONI = "porzioni";
+    private static final String DATA_INIZIO = "DataInizio";
+    private static final String DATA_FINE = "DataaFine";
+    private static final String GIORNO = "giorno";
+    private static final String MESE = "mese";
+    private static final String ANNO = "anno";
 
     /**
      * Legge il file .xml che contiene le città e i vari collegamenti tra esse. Inserisce in elencoNodi le città, in
@@ -25,11 +40,9 @@ public class ReaderXML {
      */
     /*
     public void leggiXML (String filename) {
-        int idNodoPartenza = 0;
-        ArrayList<Integer> elencoIdNodiArrivo = null;
-        mappaTerritorio = new HashMap<>();
-        mappaArchi = new HashMap<>();
-        elencoNodi = new ArrayList<>();
+    	ArrayList<Piatto> elencoPiatti = null;
+        ArrayList<Ricetta> elencoRicette = null;
+        HashMap<Piatto, Ricetta> corrispondenzePiattoRicetta = new HashMap<>();
         //Questo frammento di codice serve a creare ed istanziare la variabile xmlr di tipo XMLStreamReader,
         //che sarà utilizzata per leggere il file XML
         XMLInputFactory xmlif;
@@ -103,6 +116,5 @@ public class ReaderXML {
                 mappaTerritorio.put(new Arco(nodoPartenza, nodoArrivo), new Double[]{consumoVeicolo1,consumoVeicolo2});
             }
         }
-    }
-    */
+    }*/
 }
