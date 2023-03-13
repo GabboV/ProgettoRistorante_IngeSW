@@ -41,7 +41,7 @@ public class AddettoPrenotazioniController {
 				sessioneON = false;
 				break;
 			case AGGIUNGI_PRENOTAZIONE:
-				this.creaPrenotazione();
+				this.inserisciPrenotazione();;
 				break;
 			case RIMUOVI_PRENOTAZIONE:
 				// da implementare
@@ -60,17 +60,18 @@ public class AddettoPrenotazioniController {
 	}
 
 	public void visualizzaPrenotazioni() {
-		
+
 		String prenotazioni = null;
-		if(model.nonCiSonoPrenotazioni()) {
+		if (model.nonCiSonoPrenotazioni()) {
 			prenotazioni = "Non ci sono prenotazioni \n";
 		} else {
 			prenotazioni = OutputFormatter.formatPrenotazioni(this.model.getElencoPrenotazioni());
 		}
 
 		view.stampaMsg(prenotazioni);
-		
+
 	}
+
 	public void removePrenotazioniScadute(LocalDate data) {
 		this.model.removePrenotazioniScadute(data);
 	}
@@ -120,7 +121,7 @@ public class AddettoPrenotazioniController {
 			do {
 				if (this.model.isPrenotazioneFattibileInData(prenotazione, dataPrenotazione)) {
 					prenotazione.setDataPrenotazione(dataPrenotazione);
-					this.addPrenotazione(prenotazione);
+					//this.addPrenotazione(prenotazione);
 					finito = true;
 				} else {
 					view.stampaMsg("Prenotazione non eseguibile in tale data sceglierne un altra\n");
@@ -129,6 +130,7 @@ public class AddettoPrenotazioniController {
 						dataPrenotazione = view.richiestaData("Altra data: ");
 					} else {
 						this.view.stampaMsg("Hai annullato la prenotazione");
+						finito = true;
 					}
 				}
 
@@ -138,8 +140,115 @@ public class AddettoPrenotazioniController {
 
 	}
 
-	public void addPrenotazione(Prenotazione p) {
-		this.model.addPrenotazione(p);
+	public void inserisciPrenotazione() {
+
+		LocalDate dataPrenotazione = this.view.richiestaData("Inserire data della prenotazione:\n");
+		int numCoperti = 0;
+		if (!this.model.isRistorantePienoInData(dataPrenotazione)) {
+			int postiLiberi = this.model.getPostiDisponibiliInData(dataPrenotazione);
+			this.view.stampaMsg(String.format("Ci sono %d posti liberi", postiLiberi));
+			numCoperti = view.leggiInteroCompreso("Inserire il numero di persone -> ", 1, postiLiberi);
+		}
+
+		ArrayList<Piatto> piattiOrdinati = new ArrayList<>();
+		boolean discard = false;
+		for (int i = 0; i < numCoperti ; i++) {
+			boolean ordinato = false;
+			this.view.stampaMsg(String.format("Ordinazione per il cliente: ", i + 1));
+			do {
+
+				int scelta = this.view.printSelezioneMenu();
+				switch (scelta) {
+				case 0:
+					discard = true;
+					break;
+				case 1:
+					sceltaMenuTematico(dataPrenotazione, piattiOrdinati);
+					ordinato = true;
+					break;
+				case 2:
+					sceltaDaMenuCarta(dataPrenotazione, piattiOrdinati);
+					ordinato = true;
+					break;
+				default:
+					view.stampaMsg("Errore");
+					break;
+				}
+			} while (!ordinato && !discard);
+			if (discard)
+				break; // esce dal ciclo for
+		}
+
+		HashMap<Piatto, Integer> comanda;
+		if (!discard && !piattiOrdinati.isEmpty()) {
+			comanda = this.creaComandaConListaPiatti(piattiOrdinati);
+			boolean check = this.model.checkPrenotazione(dataPrenotazione, comanda, numCoperti);
+			if (check) {
+				this.model.addPrenotazione(dataPrenotazione, comanda, numCoperti);
+			} else {
+				view.stampaMsg("Prenotazione non fattibile");
+			}
+		} else {
+			this.view.stampaMsg("Hai annullato la prenotazione");
+		}
+
+	}
+
+	public HashMap<Piatto, Integer> creaComandaConListaPiatti(ArrayList<Piatto> piatti) {
+		HashMap<Piatto, Integer> comanda = new HashMap<>();
+		for (Piatto p : piatti) {
+
+			if (!comanda.containsKey(p)) {
+				comanda.put(p, 1);
+			} else {
+				int oldValue = comanda.get(p);
+				comanda.replace(p, oldValue + 1);
+			}
+
+		}
+		return comanda;
+	}
+	
+	public void addPrenotazione(LocalDate data, HashMap<Piatto, Integer> comanda, int coperti) {
+		this.model.addPrenotazione(data, comanda, coperti);
+	}
+
+	private void sceltaMenuTematico(LocalDate dataPrenotazione, ArrayList<Piatto> piatti) {
+		if (model.ciSonoMenuTematiciValidiInData(dataPrenotazione)) {
+			MenuTematico scelto = this.selezionaMenuTematico(dataPrenotazione);
+			piatti.addAll(scelto.getElencoPiatti());
+		}
+	}
+
+	private void sceltaDaMenuCarta(LocalDate dataPrenotazione, ArrayList<Piatto> piatti) {
+		if (model.esisteMenuCartaValidoInData(dataPrenotazione)) {
+			ArrayList<Piatto> piattiScelti = this.selezionaMenuCarta(dataPrenotazione);
+			piatti.addAll(piattiScelti);
+		}
+	}
+
+
+	public MenuTematico selezionaMenuTematico(LocalDate date) {
+		ArrayList<MenuTematico> menuTematici = this.model.getMenuTematiciValidiInData(date);
+
+		view.stampaElencoMenuTematici(menuTematici);
+		int indiceScelto = this.view.leggiInteroCompreso("Selezione l'indice del menu da ordinare -> ", 0,
+				menuTematici.size());
+		return menuTematici.get(indiceScelto);
+
+	}
+
+	public ArrayList<Piatto> selezionaMenuCarta(LocalDate date) {
+		ArrayList<Piatto> piattiValidi = model.getMenuCartaValidiInData(date);
+		ArrayList<Piatto> piattiScelti = new ArrayList<>();
+		boolean continua = false;
+		do {
+			this.view.stampaElencoPiatti(piattiValidi);
+			int scelto = this.view.leggiInteroCompreso("Scegli il piatto -> ", 0, piattiValidi.size() - 1);
+			piattiScelti.add(piattiValidi.get(scelto));
+			continua = this.view.richiestaNuovaAggiunta("Vuoi aggiungere un altro piatto? ");
+		} while (continua);
+		return piattiScelti;
 	}
 
 	public int ordinaMenuTematico(HashMap<Piatto, Integer> comanda, LocalDate date, int coperti) {

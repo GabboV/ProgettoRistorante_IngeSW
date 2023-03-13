@@ -149,8 +149,8 @@ public class ViewGenerale {
 	
 		Prenotazione pre2 = new Prenotazione("Prima",3,comanda2, dataprenotazione);
 		
-		model.addPrenotazione(pre1);
-		model.addPrenotazione(pre2);
+//		model.addPrenotazione(pre1);
+	//	model.addPrenotazione(pre2);
 
 		loginUtente(model);
 	}

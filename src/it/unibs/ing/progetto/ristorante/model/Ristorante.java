@@ -64,12 +64,12 @@ public class Ristorante {
 		return this.numeroPostiASedere - numeroClienti;
 	}
 
-	public void addPrenotazione(Prenotazione prenotazione) {
-		this.elencoPrenotazioni.add(prenotazione);
+	public void addPrenotazione(LocalDate data, HashMap<Piatto, Integer> comanda, int coperti) {
+		this.elencoPrenotazioni.add(new Prenotazione(null, coperti, comanda, data));
 	}
-	
+
 	public boolean nonCiSonoPrenotazioni() {
-		return (this.elencoPrenotazioni.size()==0);
+		return (this.elencoPrenotazioni.size() == 0);
 	}
 
 	public boolean removePrenotazione(Prenotazione prenotazione) {
@@ -112,25 +112,23 @@ public class Ristorante {
 	public boolean ciSonoPiattiValidiInData(LocalDate data) {
 		return (this.getMenuCartaInData(data).size() > 0);
 	}
-	
+
 	public boolean isPrenotazioneFattibileInData(Prenotazione prenotazione, LocalDate data) {
-		
+
 		float caricoDaSostenereInData = this.getCaricoLavoroDaSostenereInData(data);
 		float caricoDaSostenereAggiuntivo = prenotazione.getCaricoLavoroTotalePrenotazione();
 		float nuovoCarico = caricoDaSostenereInData + caricoDaSostenereAggiuntivo;
-		
+
 		int postiLiberi = this.getPostiDisponibiliInData(data);
 		int nuoviPrenotati = prenotazione.getNumeroCoperti();
-		
+
 		/*
 		 * Fattibile se e solo se il carico di lavoro nuovo non supera quello settato e
 		 * se i postiLiberi sono sufficienti
 		 */
 		return (nuovoCarico <= this.caricoLavoroRistorante && postiLiberi >= nuoviPrenotati);
-		
+
 	}
-	
-	
 
 	/*
 	 * Carico di lavoro della totalita delle prenotazioni -> somma del valore del
@@ -278,7 +276,6 @@ public class Ristorante {
 		this.elencoPrenotazioni = elencoPrenotazioni;
 	}
 
-	
 	// METODI DA CONTROLLARE SE ANCORA VALIDI O SERVONO
 
 	// MenuCarta contiene elenco dei piatti validi nella data
@@ -313,16 +310,17 @@ public class Ristorante {
 
 	public Piatto piattoScelto(int scelta) {
 		Piatto p = null;
-		for(int i = 0; i < elencoPiatti.size(); i++) {
-			if(scelta == i) {
+		for (int i = 0; i < elencoPiatti.size(); i++) {
+			if (scelta == i) {
 				p = elencoPiatti.get(i);
 				break;
 			}
 		}
 		return p;
 	}
-	
-	public void addPiattoRicetta(ArrayList<Prodotto> elencoIngredienti, int porzioni, int caricoLavoro, String nomePiatto, ArrayList<Periodo> periodi) {
+
+	public void addPiattoRicetta(ArrayList<Prodotto> elencoIngredienti, int porzioni, int caricoLavoro,
+			String nomePiatto, ArrayList<Periodo> periodi) {
 		Ricetta ricetta = new Ricetta(elencoIngredienti, porzioni, caricoLavoro);
 		Piatto piatto = new Piatto(nomePiatto, caricoLavoro, periodi);
 		elencoPiatti.add(piatto);
@@ -345,19 +343,20 @@ public class Ristorante {
 		corrispondenzePiattoRicetta.put(p, r);
 	}
 
-	//aggiunge un nuovo menu tematico
-	public void addMenuTematico(String nomeMenuTematico, ArrayList<Piatto> piatti, int caricoLavoroMenuTematico, ArrayList<Periodo> periodi) {
+	// aggiunge un nuovo menu tematico
+	public void addMenuTematico(String nomeMenuTematico, ArrayList<Piatto> piatti, int caricoLavoroMenuTematico,
+			ArrayList<Periodo> periodi) {
 		MenuTematico menuTematico = new MenuTematico(nomeMenuTematico, piatti, caricoLavoroMenuTematico, periodi);
 		elencoMenuTematici.add(menuTematico);
 	}
-	
-	//aggiunge una nuova benvanda a insiemeBevande
+
+	// aggiunge una nuova benvanda a insiemeBevande
 	public void addBevanda(String nomeBevanda, float consumoProCapiteBevanda) {
 		Prodotto bevanda = new Prodotto(nomeBevanda, consumoProCapiteBevanda, "l");
 		insiemeBevande.add(bevanda);
 	}
-	
-	//aggiunge un nuovo genere extra a insiemeGeneriExtra
+
+	// aggiunge un nuovo genere extra a insiemeGeneriExtra
 	public void addGenereExtra(String nomeGenereExtra, float consumoProCapiteGenereExtra) {
 		Prodotto genereExtra = new Prodotto(nomeGenereExtra, consumoProCapiteGenereExtra, "hg");
 		insiemeGeneriExtra.add(genereExtra);
@@ -468,6 +467,43 @@ public class Ristorante {
 //		maggiorazionePercentuale(prodotti, PERCENTUALE);
 		return prodotti;
 
+	}
+
+	public boolean ciSonoMenuValidiInData(LocalDate date) {
+		ArrayList<MenuTematico> menuTematici = this.getMenuTematiciValidiInData(date);
+		if (menuTematici.isEmpty()) {
+			return false;
+		} else
+			return true;
+
+	}
+
+	public boolean esisteMenuCartaValidoInData(LocalDate date) {
+		ArrayList<Piatto> piattiValidi = this.getMenuCartaValidiInData(date);
+		if (piattiValidi.isEmpty()) {
+			return false;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean checkPrenotazione(LocalDate date, HashMap<Piatto, Integer> piatti, int numeroCoperti) {
+		if (numeroCoperti > this.getPostiDisponibiliInData(date))
+			return false;
+		float caricoRimasto = this.getCaricoLavoroSostenibileRimasto(date);
+		float carico = this.calcolaCaricoLavoro(piatti);
+		if (carico > caricoRimasto)
+			return false;
+		return true;
+	}
+
+	public float calcolaCaricoLavoro(HashMap<Piatto, Integer> piatti) {
+		float carico = 0;
+		List<Piatto> piattiInComanda = new ArrayList<>(piatti.keySet());
+		for (Piatto p : piattiInComanda) {
+			carico += p.getCaricoLavoro() * piatti.get(p);
+		}
+		return carico;
 	}
 
 	private void aggiungiVoceUnivoco(ArrayList<Prodotto> prodottiLista, ArrayList<Prodotto> ingredienti) {
