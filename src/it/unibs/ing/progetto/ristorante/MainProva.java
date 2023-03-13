@@ -117,9 +117,9 @@ public class MainProva {
 		comanda2.put(p3, 3);
 	
 		Prenotazione pre2 = new Prenotazione("Prima",3,comanda2, dataprenotazione);
-		
-	//	ristorante.addPrenotazione(pre1);
-	//	ristorante.addPrenotazione(pre2);
+	
+		ristorante.addPrenotazione(dataprenotazione, comanda2, 3);
+		ristorante.addPrenotazione(dataprenotazione, comanda1, 4);
 		
 		MagazziniereController m = new MagazziniereController(ristorante);
 		m.avviaSessione();

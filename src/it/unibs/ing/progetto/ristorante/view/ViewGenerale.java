@@ -22,8 +22,7 @@ public class ViewGenerale {
 	private static final String ERRORE = "Errore";
 	final private static String MSG_BENVENUTO = "Benvenuto nel programma di supporto del tuo ristorante.";
 	final private static String TITOLO_SCHERMATA = "PAGINA DI LOGIN";
-	final private static String[] ELENCO_RUOLI = { "GESTORE", "ADDETTO PRENOTAZIONI (non ancora implementato)",
-			"MAGAZZINIERE" };
+	final private static String[] ELENCO_RUOLI = { "GESTORE", "ADDETTO PRENOTAZIONI", "MAGAZZINIERE" };
 	final private static String MSG_ARRESTO_PROGRAMMA = "Arresto programma...";
 	final private static int GESTORE = 1;
 	private static final int ADDETTO_PRENOTAZIONI = 2;
@@ -32,16 +31,16 @@ public class ViewGenerale {
 
 	public void avvioProgramma() {
 		System.out.println(MSG_BENVENUTO);
-		//DA AGGIUNGERE PER INIZIALIZZAZIONE MANUALE DEL RISTORANTE
-		//Ristorante model = loginInizializzazione();
-		
-		//DATI DI PROVA (DA USARE IN XML) (DA TOGLIERE)
-		//PARAMETRI
+		// DA AGGIUNGERE PER INIZIALIZZAZIONE MANUALE DEL RISTORANTE
+		// Ristorante model = loginInizializzazione();
+
+		// DATI DI PROVA (DA USARE IN XML) (DA TOGLIERE)
+		// PARAMETRI
 		Ristorante model = new Ristorante();
 		model.setNumeroPostiASedere(50);
 		model.setCaricoLavoroPerPersona(20);
 		model.setCaricoLavoroRistorante((int) (20 * 50 + 20 * 50 * 0.2));
-		model.setDataCorrente(LocalDate.of(2023, 3, 8));
+		model.setDataCorrente(LocalDate.of(2023, 1, 8));
 		LocalDate dataprenotazione = LocalDate.of(2023, 1, 14);
 
 		LocalDate _10gennaio2023 = LocalDate.of(2023, 01, 10);
@@ -104,6 +103,13 @@ public class ViewGenerale {
 		r4.setElencoIngredienti(ingredienti4);
 		model.addPiattoRicetta(ingredienti4, 3, 7, "Alga Nori", elencoPeriodi);
 
+		p1.addPeriodoValidita(periodo);
+
+		p2.addPeriodoValidita(periodo);
+
+		p3.addPeriodoValidita(periodo);
+		p4.addPeriodoValidita(periodo);
+
 		// BEVANDE
 		Prodotto b1 = new Prodotto("Acqua", (float) 1, "l");
 		Prodotto b2 = new Prodotto("Birra", (float) 0.5, "l");
@@ -123,44 +129,43 @@ public class ViewGenerale {
 		generiExtra.add(g2);
 		generiExtra.add(g3);
 		model.setInsiemeGeneriExtra(generiExtra);
-		
-		//MENU TEMATICI
+
+		// MENU TEMATICI
 		ArrayList<Piatto> piatti1 = new ArrayList<>();
 		piatti1.add(p1);
 		piatti1.add(p1);
 		piatti1.add(p4);
 		piatti1.add(p4);
-		model.addMenuTematico("Festa del pesce", piatti1, 20, elencoPeriodi);;
-		
+		model.addMenuTematico("Festa del pesce", piatti1, 20, elencoPeriodi);
+		;
+
 		// PRENOTAZIONI
-		HashMap<Piatto,Integer> comanda1 = new HashMap<Piatto,Integer>();
+		HashMap<Piatto, Integer> comanda1 = new HashMap<Piatto, Integer>();
 		comanda1.put(p1, 3);
 		comanda1.put(p4, 7);
 		comanda1.put(p2, 6);
 		comanda1.put(p3, 2);
-	
-		Prenotazione pre1 = new Prenotazione("Prima",4,comanda1, dataprenotazione);
-		
-		HashMap<Piatto,Integer> comanda2 = new HashMap<Piatto,Integer>();
+
+		HashMap<Piatto, Integer> comanda2 = new HashMap<Piatto, Integer>();
 		comanda2.put(p1, 1);
 		comanda2.put(p4, 5);
 		comanda2.put(p2, 4);
 		comanda2.put(p3, 3);
-	
-		Prenotazione pre2 = new Prenotazione("Prima",3,comanda2, dataprenotazione);
-		
-//		model.addPrenotazione(pre1);
-	//	model.addPrenotazione(pre2);
 
+		model.addPrenotazione(dataprenotazione, comanda2, 3);
+		model.addPrenotazione(dataprenotazione, comanda1, 4);
+
+		System.out.println(model.getCorrispondenzePiattoRicetta().isEmpty());
 		loginUtente(model);
 	}
-	
-	//permette al gestore di inizializzare i parametri del ristorante al primo avvio
+
+	// permette al gestore di inizializzare i parametri del ristorante al primo
+	// avvio
 	public Ristorante loginInizializzazione() {
 		System.out.println("Per la fase di inizializzazione del programma è necessario il login del Gestore.");
 		Ristorante model = null;
 		boolean risposta = InputDati.yesOrNo("Sei il Gestore? ");
-		//Se l'utente risponde che non e' il gestore, allore il programma si arresta
+		// Se l'utente risponde che non e' il gestore, allore il programma si arresta
 		if (risposta == false) {
 			System.out.println("Bisogna essere il Gestore per poter inizializzare il programma.");
 			System.out.println(MSG_ARRESTO_PROGRAMMA);
@@ -172,8 +177,8 @@ public class ViewGenerale {
 		}
 		return model;
 	}
-	
-	//chiede il ruolo dell'utente apre il rispettivo menu
+
+	// chiede il ruolo dell'utente apre il rispettivo menu
 	public void loginUtente(Ristorante model) {
 		MyMenu menu = new MyMenu(TITOLO_SCHERMATA, ELENCO_RUOLI);
 		System.out.println();

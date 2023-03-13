@@ -448,20 +448,17 @@ public class Ristorante {
 	private ArrayList<Prodotto> costruisciListaSpesa(HashMap<Piatto, Integer> piattiOrdinati, LocalDate date) {
 
 		ArrayList<Prodotto> prodotti = new ArrayList<Prodotto>();
-		List<Piatto> piatti = new ArrayList<Piatto>(piattiOrdinati.keySet());
+		ArrayList<Piatto> piatti = new ArrayList<Piatto>(piattiOrdinati.keySet());
 		int numeroClientiIndata = this.getNumeroClientiPrenotatiInData(date);
 
 		prodotti.addAll(this.ricalcolaInBaseNumeroClienti(insiemeBevande, numeroClientiIndata));
 		prodotti.addAll(this.ricalcolaInBaseNumeroClienti(insiemeGeneriExtra, numeroClientiIndata));
 
 		for (Piatto piatto : piatti) {
-
 			Ricetta ricetta = corrispondenzePiattoRicetta.get(piatto); // Recupero la ricetta dalle corrispondenze
-			ArrayList<Prodotto> ingredienti = ricetta.getElencoIngredientiPerPorzioni(piattiOrdinati.get(piatto));// Recupero
-																													// la
-																													// lista
-																													// degli
-																													// ingredienti
+			
+			ArrayList<Prodotto> ingredienti = ricetta.getElencoIngredientiPerPorzioni(piattiOrdinati.get(piatto));
+																													
 			aggiungiVoceUnivoco(prodotti, ingredienti);
 		}
 //		maggiorazionePercentuale(prodotti, PERCENTUALE);
