@@ -160,7 +160,7 @@ public class GestoreController{
 
 	
 	//si puo' usare uno stesso metodo per i vari richiestaNomeValido? forse usando getNome per tt gli elem (e non getNomePiatto)
-	//richiede un nome di piatto. Se gia' esiste in elencoPiatti, lo richiede
+	//richiede un nome di piatto. Se gia' esiste in elencoPiatti, lo richiede. Ritorna il nome valido
 	private String richiestaNomePiattoValido(ArrayList<Piatto> elencoPiatti) {
 		String nomePiatto;
 		boolean nomeValido = true;
@@ -235,6 +235,7 @@ public class GestoreController{
 	}
 	
 	
+	//richiede un nome di prodotto. Se gia' esiste in insiemeProdotti, lo richiede. Ritorna il nome valido
 	private String richiestaNomeProdottoValido(ArrayList<Prodotto> insiemeProdotti) {
 		String nomeProdotto;
 		boolean nomeValido = true;
@@ -256,7 +257,7 @@ public class GestoreController{
 	//possibile implementazione di menu tematici con soli piatti validi
 	//crea un menu tematico e lo aggiunge a elencoMenuTematici del ristorante
 	private void aggiungiMenuTematico() {
-		String nomeMenuTematico = richiestaNomeMenuTematicoValido();
+		String nomeMenuTematico = richiestaNomeMenuTematicoValido(ristorante.getElencoMenuTematici());
 		
 		ArrayList<Piatto> elencoPiatti = richiediElencoPiattiDelMenuTematico();
 		int caricoLavoroMenuTematico = calcolaCaricoLavoroMenuTematico(elencoPiatti);
@@ -269,16 +270,18 @@ public class GestoreController{
 	}
 
 	
-	//ESISTE UN MODO DI METTERE TUTTI I CONTROLLI DI ESISTENZA IN UN METODO?
+	//esiste un modo di mettere tutti i metodi di controllo nome in uno solo?
 	//per farlo nelle rispettive classi ho bisogno di creare l'istanza prima
 	//per farlo nel controller come metodo che controlla una String, devo trasformare l'elenco in lista di nomi
-	private String richiestaNomeMenuTematicoValido() {
+	
+	//chiede un nome di menu tematico. Se gia' esiste in elencoMenuTematici, lo richiede. Ritorna il nome valido
+	private String richiestaNomeMenuTematicoValido(ArrayList<MenuTematico> elencoMenuTematici) {
 		String nomeMenuTematico;
 		boolean nomeValido = true;
 		do {
 			nomeValido = true;
 			nomeMenuTematico = view.richiestaNome("Inserisci il nome del menu tematico: ");
-			for(MenuTematico m : ristorante.getElencoMenuTematici()) {
+			for(MenuTematico m : elencoMenuTematici) {
 				if(m.getNome().equalsIgnoreCase(nomeMenuTematico)) {
 					view.stampaMsg("Il nome del menu tematico e' gia' stato utilizzato.");
 					nomeValido = false;

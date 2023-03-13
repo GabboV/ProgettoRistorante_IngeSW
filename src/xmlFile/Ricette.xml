@@ -3,33 +3,80 @@
 	<DataCorrente giorno="8" mese="3" anno="2023"></DataCorrente>
 	<ElencoRicette>
 		<Ricetta nomePiatto="Alga Nori" porzioni="3.0" caricoLavoro="7.0">
-			<Ingrediente nomeIngrediente="Alga Nori" dose="3.0" unitaMisura="unita"></Ingrediente>
-			<Ingrediente nomeIngrediente="Tonno" dose="100.0" unitaMisura="grammi"></Ingrediente>
-			<Ingrediente nomeIngrediente="Salsa" dose="80.0" unitaMisura="ml"></Ingrediente>
-			<Ingrediente nomeIngrediente="Riso" dose="200.0" unitaMisura="grammi"></Ingrediente>
-			<DataInizio giorno="10" mese="1" anno="2023"></DataInizio>
-			<DataFine giorno="17" mese="1" anno="2023"></DataFine>
+			<ElencoIngredienti>
+				<Ingrediente nome="Alga Nori" dose="3.0" unitaMisura="unita"></Ingrediente>
+				<Ingrediente nome="Tonno" dose="100.0" unitaMisura="grammi"></Ingrediente>
+				<Ingrediente nome="Salsa" dose="80.0" unitaMisura="ml"></Ingrediente>
+				<Ingrediente nome="Riso" dose="200.0" unitaMisura="grammi"></Ingrediente>
+			</ElencoIngredienti>
+			<ElencoPeriodi>
+				<DataInizio giorno="10" mese="1" anno="2023"></DataInizio>
+				<DataFine giorno="17" mese="1" anno="2023"></DataFine>
+			</ElencoPeriodi>
 		</Ricetta>
 		<Ricetta nomePiatto="Risotto allo zafferano" porzioni="1.0" caricoLavoro="9.0">
-			<Ingrediente nomeIngrediente="Riso basmati" dose="500.0" unitaMisura="grammi"></Ingrediente>
-			<Ingrediente nomeIngrediente="Zafferano" dose="10.0" unitaMisura="grammi"></Ingrediente>
-			<DataInizio giorno="10" mese="1" anno="2023"></DataInizio>
-			<DataFine giorno="17" mese="1" anno="2023"></DataFine>
+			<ElencoIngredienti>
+				<Ingrediente nome="Riso basmati" dose="500.0" unitaMisura="grammi"></Ingrediente>
+				<Ingrediente nome="Zafferano" dose="10.0" unitaMisura="grammi"></Ingrediente>
+			</ElencoIngredienti>
+			<ElencoPeriodi>
+				<DataInizio giorno="10" mese="1" anno="2023"></DataInizio>
+				<DataFine giorno="17" mese="1" anno="2023"></DataFine>
+			</ElencoPeriodi>
 		</Ricetta>
 		<Ricetta nomePiatto="Pollo halal" porzioni="3.0" caricoLavoro="4.0">
-			<Ingrediente nomeIngrediente="Pollo" dose="1000.0" unitaMisura="grammi"></Ingrediente>
-			<Ingrediente nomeIngrediente="Curry" dose="100.0" unitaMisura="grammi"></Ingrediente>
-			<Ingrediente nomeIngrediente="Olio" dose="20.0" unitaMisura="ml"></Ingrediente>
-			<DataInizio giorno="10" mese="1" anno="2023"></DataInizio>
-			<DataFine giorno="17" mese="1" anno="2023"></DataFine>
+			<ElencoIngredienti>
+				<Ingrediente nome="Pollo" dose="1000.0" unitaMisura="grammi"></Ingrediente>
+				<Ingrediente nome="Curry" dose="100.0" unitaMisura="grammi"></Ingrediente>
+				<Ingrediente nome="Olio" dose="20.0" unitaMisura="ml"></Ingrediente>
+			</ElencoIngredienti>
+			<ElencoPeriodi>
+				<DataInizio giorno="10" mese="1" anno="2023"></DataInizio>
+				<DataFine giorno="17" mese="1" anno="2023"></DataFine>
+			</ElencoPeriodi>
 		</Ricetta>
 		<Ricetta nomePiatto="Pasta al tonno" porzioni="3.0" caricoLavoro="4.0">
-			<Ingrediente nomeIngrediente="Pasta" dose="300.0" unitaMisura="grammi"></Ingrediente>
-			<Ingrediente nomeIngrediente="Tonno" dose="100.0" unitaMisura="grammi"></Ingrediente>
-			<Ingrediente nomeIngrediente="Sugo" dose="80.0" unitaMisura="grammi"></Ingrediente>
-			<Ingrediente nomeIngrediente="Olio" dose="20.0" unitaMisura="ml"></Ingrediente>
-			<DataInizio giorno="10" mese="1" anno="2023"></DataInizio>
-			<DataFine giorno="17" mese="1" anno="2023"></DataFine>
+			<ElencoIngredienti>
+				<Ingrediente nome="Pasta" dose="300.0" unitaMisura="grammi"></Ingrediente>
+				<Ingrediente nome="Tonno" dose="100.0" unitaMisura="grammi"></Ingrediente>
+				<Ingrediente nome="Sugo" dose="80.0" unitaMisura="grammi"></Ingrediente>
+				<Ingrediente nome="Olio" dose="20.0" unitaMisura="ml"></Ingrediente>
+			</ElencoIngredienti>
+			<ElencoPeriodi>
+				<DataInizio giorno="10" mese="1" anno="2023"></DataInizio>
+				<DataFine giorno="17" mese="1" anno="2023"></DataFine>
+			</ElencoPeriodi>
 		</Ricetta>
 	</ElencoRicette>
+	<ElencoMenuTematici>
+		<MenuTematico nome="Festa del pesce" caricoLavoro="20.0">
+			<ElencoPiatti>
+				<Piatto nome="Pasta al tonno"></Piatto>
+				<Piatto nome="Pasta al tonno"></Piatto>
+				<Piatto nome="Onigiri"></Piatto>
+				<Piatto nome="Onigiri"></Piatto>
+			</ElencoPiatti>
+			<ElencoPeriodi>
+				<DataInizio giorno="10" mese="1" anno="2023"></DataInizio>
+				<DataFine giorno="17" mese="1" anno="2023"></DataFine>
+			</ElencoPeriodi>
+		</MenuTematico>
+	</ElencoMenuTematici>
+	<ElencoPrenotazioni>
+		<Prenotazione codiceCliente="Prima" numeroCoperti="1">
+			<DataPrenotazione giorno="14" mese="1" anno="2023"></DataPrenotazione>
+			<ElencoPiattiComanda>
+				<Piatto nome="Onigiri" numero="1"></Piatto>
+				<Piatto nome="Pollo halal" numero="1"></Piatto>
+				<Piatto nome="Pasta al tonno" numero="3"></Piatto>
+			</ElencoPiattiComanda>
+		</Prenotazione>
+		<Prenotazione codiceCliente="Seconda" numeroCoperti="3">
+			<DataPrenotazione giorno="14" mese="1" anno="2023"></DataPrenotazione>
+			<ElencoPiattiComanda>
+				<Piatto nome="Risotto allo zafferano" numero="2"></Piatto>
+				<Piatto nome="Pasta al tonno" numero="2"></Piatto>
+			</ElencoPiattiComanda>
+		</Prenotazione>
+	</ElencoPrenotazioni>
 </ParametriRistorante>

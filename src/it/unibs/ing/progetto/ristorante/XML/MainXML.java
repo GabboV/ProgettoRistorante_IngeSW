@@ -2,9 +2,11 @@ package it.unibs.ing.progetto.ristorante.XML;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import it.unibs.ing.progetto.ristorante.model.Periodo;
 import it.unibs.ing.progetto.ristorante.model.Piatto;
+import it.unibs.ing.progetto.ristorante.model.Prenotazione;
 import it.unibs.ing.progetto.ristorante.model.Prodotto;
 import it.unibs.ing.progetto.ristorante.model.Ricetta;
 import it.unibs.ing.progetto.ristorante.model.Ristorante;
@@ -130,6 +132,22 @@ public class MainXML {
 		piatti1.add(p4);
 		piatti1.add(p4);
 		model.addMenuTematico("Festa del pesce", piatti1, 20, elencoPeriodi);;
+		
+		// PRENOTAZIONI
+		HashMap<Piatto,Integer> comanda1 = new HashMap<Piatto,Integer>();
+		comanda1.put(p1, 3);
+		comanda1.put(p4, 1);
+		comanda1.put(p2, 1);
+		Prenotazione pre1 = new Prenotazione("Prima", 1,comanda1, dataprenotazione);
+		
+		HashMap<Piatto,Integer> comanda2 = new HashMap<Piatto,Integer>();
+		comanda2.put(p1, 2);
+		comanda2.put(p3, 2);
+		Prenotazione pre2 = new Prenotazione("Seconda", 3,comanda2, dataprenotazione);
+		
+		model.addPrenotazione(pre1);
+		model.addPrenotazione(pre2);
+		
 		
 		WriterXMLRistorante scrittore = new WriterXMLRistorante();
 		System.out.println(STRINGA_INIZIO_STAMPA);

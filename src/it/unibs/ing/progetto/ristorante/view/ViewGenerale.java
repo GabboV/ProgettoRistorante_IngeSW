@@ -41,7 +41,7 @@ public class ViewGenerale {
 		model.setNumeroPostiASedere(50);
 		model.setCaricoLavoroPerPersona(20);
 		model.setCaricoLavoroRistorante((int) (20 * 50 + 20 * 50 * 0.2));
-		model.setDataCorrente(LocalDate.of(2023, 3, 8));
+		model.setDataCorrente(LocalDate.of(2023, 1, 8));
 		LocalDate dataprenotazione = LocalDate.of(2023, 1, 14);
 
 		LocalDate _10gennaio2023 = LocalDate.of(2023, 01, 10);
