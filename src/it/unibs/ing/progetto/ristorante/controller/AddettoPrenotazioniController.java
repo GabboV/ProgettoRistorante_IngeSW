@@ -31,6 +31,7 @@ public class AddettoPrenotazioniController {
 
 	public void avviaSessione() {
 		view.stampaMsg("Addetto Prenotazioni\n");
+		view.stampaMsg("no");
 
 		boolean sessioneON = true;
 
