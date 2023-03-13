@@ -146,10 +146,10 @@ public class GestoreView {
 		}
 	}
 	
-	public void stampaElencoPiattiRicette(ArrayList<Piatto> elencoPiatti, ArrayList<Ricetta> elencoRicette, HashMap<Piatto, Ricetta> corrispondenzePiattoRicetta) {
+	public void stampaElencoPiattiRicette(ArrayList<Piatto> elencoPiatti) {
 		int contatore = 0;
 		for(Piatto p : elencoPiatti) {
-			Ricetta r = corrispondenzePiattoRicetta.get(p);
+			Ricetta r = p.getRicetta();
 			stampaMsg(" ----------- " + contatore + " ----------- ");
 			stampaPiattoRicetta(p, r);
 			contatore++;

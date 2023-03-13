@@ -42,74 +42,55 @@ public class ViewGenerale {
 		model.setCaricoLavoroRistorante((int) (20 * 50 + 20 * 50 * 0.2));
 		model.setDataCorrente(LocalDate.of(2023, 1, 8));
 		LocalDate dataprenotazione = LocalDate.of(2023, 1, 14);
-
+	
 		LocalDate _10gennaio2023 = LocalDate.of(2023, 01, 10);
 		LocalDate _17gennaio2023 = LocalDate.of(2023, 01, 17);
 		Periodo periodo = new Periodo(_10gennaio2023, _17gennaio2023);
 		ArrayList<Periodo> elencoPeriodi = new ArrayList<>();
 		elencoPeriodi.add(periodo);
-
-		// PIATTO-RICETTA 1
-		Piatto p1 = new Piatto("Pasta al tonno", 3, elencoPeriodi);
+	
+		// PIATTO-RICETTA 0
 		Prodotto i1 = new Prodotto("Pasta", 300.0f, "grammi");
 		Prodotto i2 = new Prodotto("Tonno", 100.0f, "grammi");
 		Prodotto i3 = new Prodotto("Sugo", 80.0f, "grammi");
 		Prodotto i4 = new Prodotto("Olio", 20.0f, "ml");
-		ArrayList<Prodotto> ingredienti1 = new ArrayList<>();
-		ingredienti1.add(i1);
-		ingredienti1.add(i2);
-		ingredienti1.add(i3);
-		ingredienti1.add(i4);
-		Ricetta r1 = new Ricetta(4, p1.getCaricoLavoro());
-		r1.setElencoIngredienti(ingredienti1);
-		model.addPiattoRicetta(ingredienti1, 3, 4, "Pasta al tonno", elencoPeriodi);
-
-		// PIATTO-RICETTA 2
-		Piatto p2 = new Piatto("Pollo halal", 4, elencoPeriodi);
+		ArrayList<Prodotto> ingredienti0 = new ArrayList<>();
+		ingredienti0.add(i1);
+		ingredienti0.add(i2);
+		ingredienti0.add(i3);
+		ingredienti0.add(i4);
+		model.addPiattoRicetta(ingredienti0, 3, 4, "Pasta al tonno", elencoPeriodi);
+	
+		// PIATTO-RICETTA 1
 		Prodotto i5 = new Prodotto("Pollo", (float) 1000.0, "grammi");
 		Prodotto i6 = new Prodotto("Curry", (float) 100.0, "grammi");
 		Prodotto i7 = new Prodotto("Olio", (float) 20.0, "ml");
-		ArrayList<Prodotto> ingredienti2 = new ArrayList<>();
-		ingredienti2.add(i5);
-		ingredienti2.add(i6);
-		ingredienti2.add(i7);
-		Ricetta r2 = new Ricetta(3, p2.getCaricoLavoro());
-		r2.setElencoIngredienti(ingredienti2);
-		model.addPiattoRicetta(ingredienti2, 3, 4, "Pollo halal", elencoPeriodi);
-
-		// PIATTO-RICETTA 3
-		Piatto p3 = new Piatto("Risotto allo zafferano", 9, elencoPeriodi);
+		ArrayList<Prodotto> ingredienti1 = new ArrayList<>();
+		ingredienti1.add(i5);
+		ingredienti1.add(i6);
+		ingredienti1.add(i7);
+		model.addPiattoRicetta(ingredienti1, 3, 4, "Pollo halal", elencoPeriodi);
+	
+		// PIATTO-RICETTA 2
 		Prodotto i8 = new Prodotto("Riso basmati", (float) 500.0, "grammi");
 		Prodotto i9 = new Prodotto("Zafferano", (float) 10.0, "grammi");
-		ArrayList<Prodotto> ingredienti3 = new ArrayList<>();
-		ingredienti3.add(i8);
-		ingredienti3.add(i9);
-		Ricetta r3 = new Ricetta(1, p3.getCaricoLavoro());
-		r3.setElencoIngredienti(ingredienti3);
-		model.addPiattoRicetta(ingredienti3, 1, 9, "Risotto allo zafferano", elencoPeriodi);
-
+		ArrayList<Prodotto> ingredienti2 = new ArrayList<>();
+		ingredienti2.add(i8);
+		ingredienti2.add(i9);
+		model.addPiattoRicetta(ingredienti2, 1, 9, "Risotto allo zafferano", elencoPeriodi);
+	
 		// PIATTO-RICETTA 4
-		Piatto p4 = new Piatto("Onigiri", 7, elencoPeriodi);
 		Prodotto i10 = new Prodotto("Alga Nori", (float) 3, "unita");
 		Prodotto i12 = new Prodotto("Tonno", (float) 100.0, "grammi");
 		Prodotto i13 = new Prodotto("Salsa", (float) 80.0, "ml");
 		Prodotto i14 = new Prodotto("Riso", (float) 200.0, "grammi");
-		ArrayList<Prodotto> ingredienti4 = new ArrayList<>();
-		ingredienti4.add(i10);
-		ingredienti4.add(i12);
-		ingredienti4.add(i13);
-		ingredienti4.add(i14);
-		Ricetta r4 = new Ricetta(3, p4.getCaricoLavoro());
-		r4.setElencoIngredienti(ingredienti4);
-		model.addPiattoRicetta(ingredienti4, 3, 7, "Alga Nori", elencoPeriodi);
-
-		p1.addPeriodoValidita(periodo);
-
-		p2.addPeriodoValidita(periodo);
-
-		p3.addPeriodoValidita(periodo);
-		p4.addPeriodoValidita(periodo);
-
+		ArrayList<Prodotto> ingredienti3 = new ArrayList<>();
+		ingredienti3.add(i10);
+		ingredienti3.add(i12);
+		ingredienti3.add(i13);
+		ingredienti3.add(i14);
+		model.addPiattoRicetta(ingredienti3, 3, 7, "Alga Nori", elencoPeriodi);
+	
 		// BEVANDE
 		Prodotto b1 = new Prodotto("Acqua", (float) 1, "l");
 		Prodotto b2 = new Prodotto("Birra", (float) 0.5, "l");
@@ -119,7 +100,7 @@ public class ViewGenerale {
 		bevande.add(b2);
 		bevande.add(b3);
 		model.setInsiemeBevande(bevande);
-
+	
 		// GENERI EXTRA
 		Prodotto g1 = new Prodotto("Pane", (float) 0.3, "hg");
 		Prodotto g2 = new Prodotto("Grissini", (float) 0.1, "hg");
@@ -132,25 +113,25 @@ public class ViewGenerale {
 
 		// MENU TEMATICI
 		ArrayList<Piatto> piatti1 = new ArrayList<>();
-		piatti1.add(p1);
-		piatti1.add(p1);
-		piatti1.add(p4);
-		piatti1.add(p4);
-		model.addMenuTematico("Festa del pesce", piatti1, 20, elencoPeriodi);
-		;
-
+		piatti1.add(model.piattoScelto(0));
+		piatti1.add(model.piattoScelto(0));
+		piatti1.add(model.piattoScelto(3));
+		piatti1.add(model.piattoScelto(3));
+		model.addMenuTematico("Festa del pesce", piatti1, 20, elencoPeriodi);;
+		
 		// PRENOTAZIONI
-		HashMap<Piatto, Integer> comanda1 = new HashMap<Piatto, Integer>();
-		comanda1.put(p1, 3);
-		comanda1.put(p4, 7);
-		comanda1.put(p2, 6);
-		comanda1.put(p3, 2);
-
-		HashMap<Piatto, Integer> comanda2 = new HashMap<Piatto, Integer>();
-		comanda2.put(p1, 1);
-		comanda2.put(p4, 5);
-		comanda2.put(p2, 4);
-		comanda2.put(p3, 3);
+		HashMap<Piatto,Integer> comanda1 = new HashMap<Piatto,Integer>();
+		comanda1.put(model.piattoScelto(0), 3);
+		comanda1.put(model.piattoScelto(3), 1);
+		comanda1.put(model.piattoScelto(0), 1);
+		Prenotazione pre1 = new Prenotazione("Prima", 1, comanda1, dataprenotazione);
+		model.addPrenotazione(pre1);
+		
+		HashMap<Piatto,Integer> comanda2 = new HashMap<Piatto,Integer>();
+		comanda2.put(model.piattoScelto(0), 2);
+		comanda2.put(model.piattoScelto(3), 2);
+		Prenotazione pre2 = new Prenotazione("Seconda", 3, comanda2, dataprenotazione);
+		model.addPrenotazione(pre2);
 
 		model.addPrenotazione(dataprenotazione, comanda2, 3);
 		model.addPrenotazione(dataprenotazione, comanda1, 4);
@@ -162,7 +143,7 @@ public class ViewGenerale {
 	// permette al gestore di inizializzare i parametri del ristorante al primo
 	// avvio
 	public Ristorante loginInizializzazione() {
-		System.out.println("Per la fase di inizializzazione del programma è necessario il login del Gestore.");
+		System.out.println("Per la fase di inizializzazione del programma ï¿½ necessario il login del Gestore.");
 		Ristorante model = null;
 		boolean risposta = InputDati.yesOrNo("Sei il Gestore? ");
 		// Se l'utente risponde che non e' il gestore, allore il programma si arresta
@@ -173,7 +154,6 @@ public class ViewGenerale {
 		} else {
 			GestoreController gestore = new GestoreController();
 			model = gestore.inizializzaRistorante();
-			// Finita l'inizializzazione si dovrebbe rimanere nel GestoreController
 		}
 		return model;
 	}
@@ -209,7 +189,7 @@ public class ViewGenerale {
 				System.out.println(ERRORE);
 				break;
 			}
-		} while (appAttiva);
+		} while(appAttiva);
 
 	}
 }

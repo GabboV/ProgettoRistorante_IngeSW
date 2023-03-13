@@ -7,6 +7,7 @@ public class Piatto {
 
 	private String nomePiatto; 
 	private int caricoLavoro;
+	private Ricetta ricetta;
 	//array contentente coppie di date (dataInizio e dataFine)
 	private ArrayList<Periodo> periodiValidita;
 	
@@ -18,11 +19,12 @@ public class Piatto {
 		this.caricoLavoro = caricoLavoro;
 	}
 	
-	public Piatto(String nomePiatto,  int caricoLavoro, ArrayList<Periodo> periodiValidita) {
+	public Piatto(String nomePiatto,  int caricoLavoro, Ricetta ricetta, ArrayList<Periodo> periodiValidita) {
 		super();
 		this.nomePiatto = nomePiatto;
-		this.periodiValidita = periodiValidita;
 		this.caricoLavoro = caricoLavoro;
+		this.ricetta = ricetta;
+		this.periodiValidita = periodiValidita;
 	}
 
 	//cosa succede se non ho un Periodo non inizializzato (se può succedere)
@@ -59,6 +61,14 @@ public class Piatto {
 		this.caricoLavoro = caricoLavoro;
 	}
 
+	public Ricetta getRicetta() {
+		return ricetta;
+	}
+	
+	public void setRicetta() {
+		this.ricetta = ricetta;
+	}
+	
 	public ArrayList<Periodo> getPeriodiValidita() {
 		return periodiValidita;
 	}

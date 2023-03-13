@@ -80,12 +80,14 @@ public class MainProva {
 		Ricetta r4 = new Ricetta(3, 1);
 		r4.setElencoIngredienti(ingredienti4);
 
+		/*
 		HashMap<Piatto, Ricetta> corrispondenzeProva = new HashMap<>();
 		corrispondenzeProva.put(p1, r1);
 		corrispondenzeProva.put(p2, r2);
 		corrispondenzeProva.put(p3, r3);
 		corrispondenzeProva.put(p4, r4);
 		ristorante.setCorrispondenzePiattoRicetta(corrispondenzeProva);
+		*/
 
 		ArrayList<Piatto> elencoPiattiProva = new ArrayList<>();
 		elencoPiattiProva.add(p1);
@@ -100,7 +102,7 @@ public class MainProva {
 		ricetteProva.add(r4);
 		
 		ristorante.setElencoPiatti(elencoPiattiProva);
-		ristorante.setElencoRicette(ricetteProva);
+		//ristorante.setElencoRicette(ricetteProva);
 
 		HashMap<Piatto,Integer> comanda1 = new HashMap<Piatto,Integer>();
 		comanda1.put(p1, 3);
