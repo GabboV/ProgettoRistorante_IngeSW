@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ParametriRistorante numeroPosti="50" caricoLavoroPerPersona="20" caricoLavoroRistorante="1200">
+	<DataCorrente giorno="8" mese="3" anno="2023"></DataCorrente>
+	<ElencoRicette>
+		<Ricetta nomePiatto="Alga Nori" porzioni="3.0" caricoLavoro="7.0">
+			<Ingrediente nomeIngrediente="Alga Nori" dose="3.0" unitaMisura="unita"></Ingrediente>
+			<Ingrediente nomeIngrediente="Tonno" dose="100.0" unitaMisura="grammi"></Ingrediente>
+			<Ingrediente nomeIngrediente="Salsa" dose="80.0" unitaMisura="ml"></Ingrediente>
+			<Ingrediente nomeIngrediente="Riso" dose="200.0" unitaMisura="grammi"></Ingrediente>
+			<DataInizio giorno="10" mese="1" anno="2023"></DataInizio>
+			<DataFine giorno="17" mese="1" anno="2023"></DataFine>
+		</Ricetta>
+		<Ricetta nomePiatto="Risotto allo zafferano" porzioni="1.0" caricoLavoro="9.0">
+			<Ingrediente nomeIngrediente="Riso basmati" dose="500.0" unitaMisura="grammi"></Ingrediente>
+			<Ingrediente nomeIngrediente="Zafferano" dose="10.0" unitaMisura="grammi"></Ingrediente>
+			<DataInizio giorno="10" mese="1" anno="2023"></DataInizio>
+			<DataFine giorno="17" mese="1" anno="2023"></DataFine>
+		</Ricetta>
+		<Ricetta nomePiatto="Pollo halal" porzioni="3.0" caricoLavoro="4.0">
+			<Ingrediente nomeIngrediente="Pollo" dose="1000.0" unitaMisura="grammi"></Ingrediente>
+			<Ingrediente nomeIngrediente="Curry" dose="100.0" unitaMisura="grammi"></Ingrediente>
+			<Ingrediente nomeIngrediente="Olio" dose="20.0" unitaMisura="ml"></Ingrediente>
+			<DataInizio giorno="10" mese="1" anno="2023"></DataInizio>
+			<DataFine giorno="17" mese="1" anno="2023"></DataFine>
+		</Ricetta>
+		<Ricetta nomePiatto="Pasta al tonno" porzioni="3.0" caricoLavoro="4.0">
+			<Ingrediente nomeIngrediente="Pasta" dose="300.0" unitaMisura="grammi"></Ingrediente>
+			<Ingrediente nomeIngrediente="Tonno" dose="100.0" unitaMisura="grammi"></Ingrediente>
+			<Ingrediente nomeIngrediente="Sugo" dose="80.0" unitaMisura="grammi"></Ingrediente>
+			<Ingrediente nomeIngrediente="Olio" dose="20.0" unitaMisura="ml"></Ingrediente>
+			<DataInizio giorno="10" mese="1" anno="2023"></DataInizio>
+			<DataFine giorno="17" mese="1" anno="2023"></DataFine>
+		</Ricetta>
+	</ElencoRicette>
+</ParametriRistorante>
