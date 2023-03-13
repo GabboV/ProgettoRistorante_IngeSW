@@ -14,13 +14,10 @@ public class Ristorante {
 	private int numeroPostiASedere;
 	private int caricoLavoroRistorante;
 
-	private ArrayList<Ricetta> elencoRicette;
 	private ArrayList<Piatto> elencoPiatti;
 	private ArrayList<MenuTematico> elencoMenuTematici;
 	private ArrayList<Prodotto> insiemeBevande;
 	private ArrayList<Prodotto> insiemeGeneriExtra;
-
-	private HashMap<Piatto, Ricetta> corrispondenzePiattoRicetta;
 	private ArrayList<Prodotto> registroMagazzino;
 	private ArrayList<Prodotto> listaSpesa;
 
@@ -31,12 +28,10 @@ public class Ristorante {
 		this.caricoLavoroPerPersona = 1;
 		this.numeroPostiASedere = 1;
 		this.caricoLavoroRistorante = 1;
-		this.elencoRicette = new ArrayList<Ricetta>();
 		this.elencoPiatti = new ArrayList<Piatto>();
 		this.elencoMenuTematici = new ArrayList<MenuTematico>();
 		this.insiemeBevande = new ArrayList<Prodotto>();
 		this.insiemeGeneriExtra = new ArrayList<Prodotto>();
-		this.corrispondenzePiattoRicetta = new HashMap<Piatto, Ricetta>();
 		this.registroMagazzino = new ArrayList<Prodotto>();
 		this.listaSpesa = new ArrayList<Prodotto>();
 		this.elencoPrenotazioni = new ArrayList<Prenotazione>();
@@ -206,14 +201,6 @@ public class Ristorante {
 		this.caricoLavoroRistorante = caricoLavoroRistorante;
 	}
 
-	public ArrayList<Ricetta> getElencoRicette() {
-		return elencoRicette;
-	}
-
-	public void setElencoRicette(ArrayList<Ricetta> elencoRicette) {
-		this.elencoRicette = elencoRicette;
-	}
-
 	public ArrayList<Piatto> getElencoPiatti() {
 		return elencoPiatti;
 	}
@@ -244,14 +231,6 @@ public class Ristorante {
 
 	public void setInsiemeGeneriExtra(ArrayList<Prodotto> insiemeGeneriExtra) {
 		this.insiemeGeneriExtra = insiemeGeneriExtra;
-	}
-
-	public HashMap<Piatto, Ricetta> getCorrispondenzePiattoRicetta() {
-		return corrispondenzePiattoRicetta;
-	}
-
-	public void setCorrispondenzePiattoRicetta(HashMap<Piatto, Ricetta> corrispondenzePiattoRicetta) {
-		this.corrispondenzePiattoRicetta = corrispondenzePiattoRicetta;
 	}
 
 	public ArrayList<Prodotto> getRegistroMagazzino() {
@@ -311,6 +290,7 @@ public class Ristorante {
 		return menuTematiciValidi;
 	}
 
+	//ritorna il valore del piatto in posizione data da scelta
 	public Piatto piattoScelto(int scelta) {
 		Piatto p = null;
 		for(int i = 0; i < elencoPiatti.size(); i++) {
@@ -322,27 +302,16 @@ public class Ristorante {
 		return p;
 	}
 	
+	//aggiunge un piatto e la rispettiva ricetta a elencoPiatti
 	public void addPiattoRicetta(ArrayList<Prodotto> elencoIngredienti, int porzioni, int caricoLavoro, String nomePiatto, ArrayList<Periodo> periodi) {
 		Ricetta ricetta = new Ricetta(elencoIngredienti, porzioni, caricoLavoro);
-		Piatto piatto = new Piatto(nomePiatto, caricoLavoro, periodi);
+		Piatto piatto = new Piatto(nomePiatto, caricoLavoro, ricetta, periodi);
 		elencoPiatti.add(piatto);
-		elencoRicette.add(ricetta);
-		corrispondenzePiattoRicetta.put(piatto, ricetta);
 	}
 
-	// Aggiunge una nuova ricetta a quelle esistenti
-	public void addRicetta(Ricetta r) {
-		elencoRicette.add(r);
-	}
-
-	// Aggiunge un piatto a quelli esistenti
+	//aggiunge un piatto a quelli esistenti
 	public void addPiatto(Piatto p) {
 		elencoPiatti.add(p);
-	}
-
-	// Aggiunge una nuova corrispondenza piatto-ricetta
-	public void addCorrispondenza(Piatto p, Ricetta r) {
-		corrispondenzePiattoRicetta.put(p, r);
 	}
 
 	//aggiunge un nuovo menu tematico
@@ -457,7 +426,7 @@ public class Ristorante {
 
 		for (Piatto piatto : piatti) {
 
-			Ricetta ricetta = corrispondenzePiattoRicetta.get(piatto); // Recupero la ricetta dalle corrispondenze
+			Ricetta ricetta = piatto.getRicetta(); // Recupero la ricetta dalle corrispondenze
 			ArrayList<Prodotto> ingredienti = ricetta.getElencoIngredientiPerPorzioni(piattiOrdinati.get(piatto));// Recupero
 																													// la
 																													// lista

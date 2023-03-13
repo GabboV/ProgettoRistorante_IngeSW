@@ -115,7 +115,7 @@ public class GestoreController{
 				break;
 			case VISUALIZZA_RICETTE:
 				view.stampaMsg("\nELENCO PIATTI-RICETTE");
-				view.stampaElencoPiattiRicette(ristorante.getElencoPiatti(), ristorante.getElencoRicette(), ristorante.getCorrispondenzePiattoRicetta());
+				view.stampaElencoPiattiRicette(ristorante.getElencoPiatti());
 				view.stampaMsg("");
 				break;
 			case VISUALIZZA_MENU_TEMATICI:

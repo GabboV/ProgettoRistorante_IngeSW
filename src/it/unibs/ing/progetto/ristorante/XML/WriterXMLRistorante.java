@@ -85,7 +85,7 @@ public class WriterXMLRistorante {
         try {
             xmlw.writeCharacters("\n");
             stampaParametri(model, xmlw);
-            stampaElencoRicette(model.getCorrispondenzePiattoRicetta(), xmlw);
+            stampaElencoRicette(model.getElencoPiatti(), xmlw);
             stampaElencoMenuTematici(model.getElencoMenuTematici(), xmlw);
             stampaElencoPrenotazioni(model.getElencoPrenotazioni(), xmlw);
         } catch (Exception e) { // se trova un errore viene eseguita questa parte
@@ -119,26 +119,24 @@ public class WriterXMLRistorante {
         xmlw.writeCharacters("\n"+"\t");
     }
     
-    private void stampaElencoRicette(HashMap<Piatto, Ricetta> corrispondenzePiattoRicetta, XMLStreamWriter xmlw) throws XMLStreamException{
+    private void stampaElencoRicette(ArrayList<Piatto> elencoPiattiRicette, XMLStreamWriter xmlw) throws XMLStreamException{
     	xmlw.writeStartElement(ELENCO_RICETTE);
         xmlw.writeCharacters("\n"+"\t");
-        for (Entry<Piatto, Ricetta> set : corrispondenzePiattoRicetta.entrySet()) {
-        	Piatto p = set.getKey();
-        	Ricetta r = set.getValue();
-        	stampaRicetta(p, r, xmlw);
+        for(Piatto p : elencoPiattiRicette) {
+        	stampaRicetta(p, xmlw);
         }
         xmlw.writeEndElement();
         xmlw.writeCharacters("\n"+"\t");
     }
     
-    private void stampaRicetta(Piatto p, Ricetta r, XMLStreamWriter xmlw) throws XMLStreamException {
+    private void stampaRicetta(Piatto p, XMLStreamWriter xmlw) throws XMLStreamException {
     	xmlw.writeCharacters("\t");
         xmlw.writeStartElement(RICETTA);
         xmlw.writeAttribute(NOME_PIATTO, p.getNomePiatto());
-        xmlw.writeAttribute(PORZIONI, Float.toString(r.getNumeroPorzioni()));
+        xmlw.writeAttribute(PORZIONI, Float.toString(p.getRicetta().getNumeroPorzioni()));
         xmlw.writeAttribute(CARICO_LAVORO, Float.toString(p.getCaricoLavoro()));	
         xmlw.writeCharacters("\n");
-        stampaElencoIngredienti(r.getElencoIngredienti(), xmlw);
+        stampaElencoIngredienti(p.getRicetta().getElencoIngredienti(), xmlw);
         stampaElencoPeriodiValidita(p.getPeriodiValidita(), xmlw);
         xmlw.writeCharacters("\t"+"\t");
         xmlw.writeEndElement();
