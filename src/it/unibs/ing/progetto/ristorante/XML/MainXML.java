@@ -110,13 +110,11 @@ public class MainXML {
 		comanda1.put(model.piattoScelto(3), 1);
 		comanda1.put(model.piattoScelto(0), 1);
 		Prenotazione pre1 = new Prenotazione("Prima", 1, comanda1, dataprenotazione);
-		model.addPrenotazione(pre1);
 		
 		HashMap<Piatto,Integer> comanda2 = new HashMap<Piatto,Integer>();
 		comanda2.put(model.piattoScelto(0), 2);
 		comanda2.put(model.piattoScelto(3), 2);
 		Prenotazione pre2 = new Prenotazione("Seconda", 3, comanda2, dataprenotazione);
-		model.addPrenotazione(pre2);
 		
 		WriterXMLRistorante scrittore = new WriterXMLRistorante();
 		System.out.println(STRINGA_INIZIO_STAMPA);

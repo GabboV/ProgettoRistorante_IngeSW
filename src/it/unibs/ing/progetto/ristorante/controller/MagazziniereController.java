@@ -31,8 +31,6 @@ public class MagazziniereController {
 	private static final int AGGIUNGI_PRODOTTI = 4;
 	private static final int RIMUOVI_PRODOTTI_DETERIORATI = 5;
 	
-	private static final int AGGIORNA_REGISTRO_MAGAZZINO = 6;
-
 
 	private Ristorante model;
 	private MagazziniereView view;
@@ -67,9 +65,6 @@ public class MagazziniereController {
 			case RIMUOVI_PRODOTTI_DETERIORATI:
 				this.rimuoviProdottiInventario();
 				break;
-			case AGGIORNA_REGISTRO_MAGAZZINO:
-				this.aggiornaRegistroMagazzino();
-				break;
 			default:
 				this.view.print(ERRORE);
 				break;
@@ -80,7 +75,7 @@ public class MagazziniereController {
 
 	public void creaListaSpesa() {
 		LocalDate data = view.richiestaData(INSERIRE_LA_DATA_PER_CUI_CREARE_LA_LISTA_DELLA_SPESA);
-		this.model.creaListaSpesa(data);
+		this.model.generaListaSpesa(data);
 	}
 
 	public void visualizzaListaSpesa() {

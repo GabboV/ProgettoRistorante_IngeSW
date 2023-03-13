@@ -3,7 +3,9 @@ package it.unibs.ing.progetto.ristorante.model;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 
 public class Ristorante {
 
@@ -142,6 +144,24 @@ public class Ristorante {
 
 	public float getCaricoLavoroSostenibileRimasto(LocalDate data) {
 		return this.caricoLavoroRistorante - this.getCaricoLavoroDaSostenereInData(data);
+	}
+
+	public boolean ciSonoMenuValidiInData(LocalDate date) {
+		ArrayList<MenuTematico> menuTematici = this.getMenuTematiciValidiInData(date);
+		if (menuTematici.isEmpty()) {
+			return false;
+		} else
+			return true;
+
+	}
+
+	public boolean esisteMenuCartaValidoInData(LocalDate date) {
+		ArrayList<Piatto> piattiValidi = this.getMenuCartaValidiInData(date);
+		if (piattiValidi.isEmpty()) {
+			return false;
+		} else {
+			return false;
+		}
 	}
 
 	public void removePrenotazioniScadute(LocalDate data) {
@@ -287,7 +307,7 @@ public class Ristorante {
 		return menuTematiciValidi;
 	}
 
-	//ritorna il valore del piatto in posizione data da scelta
+	// ritorna il valore del piatto in posizione data da scelta
 	public Piatto piattoScelto(int scelta) {
 		Piatto p = null;
 		for (int i = 0; i < elencoPiatti.size(); i++) {
@@ -298,21 +318,23 @@ public class Ristorante {
 		}
 		return p;
 	}
-	
-	//aggiunge un piatto e la rispettiva ricetta a elencoPiatti
-	public void addPiattoRicetta(ArrayList<Prodotto> elencoIngredienti, int porzioni, int caricoLavoro, String nomePiatto, ArrayList<Periodo> periodi) {
+
+	// aggiunge un piatto e la rispettiva ricetta a elencoPiatti
+	public void addPiattoRicetta(ArrayList<Prodotto> elencoIngredienti, int porzioni, int caricoLavoro,
+			String nomePiatto, ArrayList<Periodo> periodi) {
 		Ricetta ricetta = new Ricetta(elencoIngredienti, porzioni, caricoLavoro);
 		Piatto piatto = new Piatto(nomePiatto, caricoLavoro, ricetta, periodi);
 		elencoPiatti.add(piatto);
 	}
 
-	//aggiunge un piatto a quelli esistenti
+	// aggiunge un piatto a quelli esistenti
 	public void addPiatto(Piatto p) {
 		elencoPiatti.add(p);
 	}
 
-	//aggiunge un nuovo menu tematico
-	public void addMenuTematico(String nomeMenuTematico, ArrayList<Piatto> piatti, int caricoLavoroMenuTematico, ArrayList<Periodo> periodi) {
+	// aggiunge un nuovo menu tematico
+	public void addMenuTematico(String nomeMenuTematico, ArrayList<Piatto> piatti, int caricoLavoroMenuTematico,
+			ArrayList<Periodo> periodi) {
 		MenuTematico menuTematico = new MenuTematico(nomeMenuTematico, piatti, caricoLavoroMenuTematico, periodi);
 		elencoMenuTematici.add(menuTematico);
 	}
@@ -333,43 +355,51 @@ public class Ristorante {
 	 * ATTENZIONE equals() non implementato nella classe Prodotto, quindi il metodo
 	 * non funziona per ora
 	 */
-	public void creaListaSpesa(LocalDate data) {
-
-		// Prendo tutte le prenotazioni valide per la data
+	public void generaListaSpesa(LocalDate data) {
+		this.dataCorrente = data;
 
 		ArrayList<Prenotazione> prenotazioniInData = this.creaElencoPrenotazioniInData(data);
 
-		// Unisco tutte le comande -> Ogni piatto prenotato avra una voce con la sua
-		// molteplicita
-		// Questo si rende necessario siccome in diverse prenotazioni ci possono essere
-		// piatti
-		// uguali
+		HashMap<Piatto, Integer> comanda_unica = combinaAllcomande(prenotazioniInData);
 
-		HashMap<Piatto, Integer> totaleComande = unisciComande(prenotazioniInData);
+		int prenotati = this.getNumeroClientiPrenotatiInData(data);
 
-		// Costruisco la lista INIZIALE di tutti gli ingredienti necessari
+		ArrayList<Prodotto> lista_provvisoria = this.costruisciListaProdottiDaComanda(comanda_unica, prenotati);
 
-		ArrayList<Prodotto> listaIniziale = this.costruisciListaSpesa(totaleComande, data);
+		maggiorazionePercentuale(lista_provvisoria, 10);
 
-		// Confronto con registroMagazzino per togliere dalla lista precedente
-		// ingredienti gia presenti e in quantita sufficiente
+		aggiornaListaSpesa(lista_provvisoria);
 
+	}
+
+	public void aggiornaListaSpesa(ArrayList<Prodotto> listaIniziale) {
 		this.listaSpesa = new ArrayList<Prodotto>();
+		for (Prodotto prodotto : listaIniziale) {
+			if (!this.contieneProdottoSufficiente(registroMagazzino, prodotto)) {
+				float daAcquistare = (float) (prodotto.getQuantita() - this.quantitaInMagazzino(prodotto));
+				prodotto.setQuantita(daAcquistare);
+				this.listaSpesa.add(prodotto);
 
-		for (Prodotto voce : listaIniziale) {
-			if (!this.contieneProdottoSufficiente(registroMagazzino, voce)) {
-
-				float daAcquistare = (float) (voce.getQuantita() * FATTORE_10_PER_CENTO
-						- this.quantitaInMagazzino(voce));
-
-				Prodotto voceDaInserire = new Prodotto(voce.getNome(), daAcquistare, voce.getUnitaMisura());
-				this.listaSpesa.add(voceDaInserire);
 			}
+			
+		}
+	}
+
+	private static void maggiorazionePercentuale(ArrayList<Prodotto> lista, float percentuale) {
+		float fattore = 1 + (percentuale / 100);
+		for (Prodotto prodotto : lista) {
+			float quantitaNew = prodotto.getQuantita() * fattore;
+			prodotto.setQuantita(quantitaNew);
 		}
 
 	}
 
-	// crea elenco prenotazioni valide in data
+	/**
+	 * Definitivo
+	 * 
+	 * @param data
+	 * @return
+	 */
 	private ArrayList<Prenotazione> creaElencoPrenotazioniInData(LocalDate data) {
 		ArrayList<Prenotazione> prenotazioniInData = new ArrayList<Prenotazione>();
 		for (Prenotazione p : this.elencoPrenotazioni) {
@@ -389,68 +419,58 @@ public class Ristorante {
 		return 0;
 	}
 
-	private static HashMap<Piatto, Integer> unisciComande(ArrayList<Prenotazione> prenotazioni) {
+	/**
+	 * Definitivo, combina tutte le comande -> output = unica comanda
+	 * 
+	 * @param prenotazioni
+	 * @return
+	 */
+	private static HashMap<Piatto, Integer> combinaAllcomande(ArrayList<Prenotazione> prenotazioni) {
 
 		HashMap<Piatto, Integer> elenco = new HashMap<>();
-
 		for (Prenotazione pre : prenotazioni) {
 			HashMap<Piatto, Integer> comanda = pre.getComanda();
-			List<Piatto> piattiInComanda = new ArrayList<Piatto>(comanda.keySet());
-
-			for (Piatto p : piattiInComanda) {
-				if (elenco.containsKey(p)) {
-					int ValoreOld = elenco.get(p);
-					int daAggiungere = comanda.get(p);
-					int nuovoValore = ValoreOld + daAggiungere;
-					elenco.replace(p, nuovoValore);
+			Iterator<Entry<Piatto, Integer>> iter = comanda.entrySet().iterator();
+			while (iter.hasNext()) {
+				Entry<Piatto, Integer> entry = iter.next();
+				Piatto piatto = entry.getKey();
+				if (elenco.containsKey(piatto)) {
+					int old_value = elenco.get(piatto);
+					int incremento = entry.getValue();
+					int new_value = old_value + incremento;
+					elenco.replace(piatto, new_value);
 				} else {
-					elenco.put(p, comanda.get(p));
+					elenco.put(piatto, entry.getValue());
 				}
+
 			}
 		}
 
 		return elenco;
 	}
 
-	private ArrayList<Prodotto> costruisciListaSpesa(HashMap<Piatto, Integer> piattiOrdinati, LocalDate date) {
+	private ArrayList<Prodotto> costruisciListaProdottiDaComanda(HashMap<Piatto, Integer> piattiOrdinati,
+			int prenotati) {
 
 		ArrayList<Prodotto> prodotti = new ArrayList<Prodotto>();
-		ArrayList<Piatto> piatti = new ArrayList<Piatto>(piattiOrdinati.keySet());
-		int numeroClientiIndata = this.getNumeroClientiPrenotatiInData(date);
+		Iterator<Entry<Piatto, Integer>> iter = piattiOrdinati.entrySet().iterator();
+		while (iter.hasNext()) {
+			Entry<Piatto, Integer> entry = iter.next();
+			Ricetta recipe = entry.getKey().getRicetta();
+			int porzioni = entry.getValue();
+			ArrayList<Prodotto> ingredientiInRicetta = recipe.getElencoIngredientiPerPorzioni(porzioni);
+			aggiornaListaConProdotti(prodotti, ingredientiInRicetta);
 
-		prodotti.addAll(this.ricalcolaInBaseNumeroClienti(insiemeBevande, numeroClientiIndata));
-		prodotti.addAll(this.ricalcolaInBaseNumeroClienti(insiemeGeneriExtra, numeroClientiIndata));
-
-		for (Piatto piatto : piatti) {
-
-			Ricetta ricetta = piatto.getRicetta(); // Recupero la ricetta dalle corrispondenze
-			ArrayList<Prodotto> ingredienti = ricetta.getElencoIngredientiPerPorzioni(piattiOrdinati.get(piatto));// Recupero
-																													// la
-																													// lista
-																													// degli
-																													// ingredienti
-			aggiungiVoceUnivoco(prodotti, ingredienti);
 		}
-//		maggiorazionePercentuale(prodotti, PERCENTUALE);
+		aggiornaListaConProdotti(prodotti, this.ricalcolaInBaseNumeroClienti(insiemeBevande, prenotati));
+		aggiornaListaConProdotti(prodotti, this.ricalcolaInBaseNumeroClienti(insiemeGeneriExtra, prenotati));
 		return prodotti;
 
 	}
 
-	public boolean ciSonoMenuValidiInData(LocalDate date) {
-		ArrayList<MenuTematico> menuTematici = this.getMenuTematiciValidiInData(date);
-		if (menuTematici.isEmpty()) {
-			return false;
-		} else
-			return true;
-
-	}
-
-	public boolean esisteMenuCartaValidoInData(LocalDate date) {
-		ArrayList<Piatto> piattiValidi = this.getMenuCartaValidiInData(date);
-		if (piattiValidi.isEmpty()) {
-			return false;
-		} else {
-			return false;
+	public static void unisciListaProdotti(ArrayList<Prodotto> mainList, ArrayList<Prodotto> prodotti) {
+		for (Prodotto p : prodotti) {
+			aggiornaListaConProdotto(mainList, p);
 		}
 	}
 
@@ -473,21 +493,21 @@ public class Ristorante {
 		return carico;
 	}
 
-	private void aggiungiVoceUnivoco(ArrayList<Prodotto> prodottiLista, ArrayList<Prodotto> ingredienti) {
+	private void aggiornaListaConProdotti(ArrayList<Prodotto> prodottiLista, ArrayList<Prodotto> ingredienti) {
 		for (Prodotto prodotto : ingredienti) {
 			aggiornaListaConProdotto(prodottiLista, prodotto);
 		}
 	}
 
-	private void aggiornaListaConProdotto(ArrayList<Prodotto> listaProdotti, Prodotto prodotto) {
-		if (this.listaContieneProdotto(listaProdotti, prodotto)) {
-			this.aggiornaQuantitaProdotto(listaProdotti, prodotto);
+	private static void aggiornaListaConProdotto(ArrayList<Prodotto> listaProdotti, Prodotto prodotto) {
+		if (listaContieneProdotto(listaProdotti, prodotto)) {
+			aggiornaQuantitaProdotto(listaProdotti, prodotto);
 		} else {
 			listaProdotti.add(prodotto);
 		}
 	}
 
-	private boolean aggiornaQuantitaProdotto(ArrayList<Prodotto> prodotti, Prodotto i) {
+	private static boolean aggiornaQuantitaProdotto(ArrayList<Prodotto> prodotti, Prodotto i) {
 		for (Prodotto product : prodotti) {
 			if (product.getNome().equalsIgnoreCase(i.getNome())) {
 				product.setQuantita(product.getQuantita() + i.getQuantita());
@@ -497,7 +517,7 @@ public class Ristorante {
 		return false;
 	}
 
-	private boolean listaContieneProdotto(ArrayList<Prodotto> prodotti, Prodotto prodotto) {
+	private static boolean listaContieneProdotto(ArrayList<Prodotto> prodotti, Prodotto prodotto) {
 		String nomeCercato = prodotto.getNome();
 		for (Prodotto p : prodotti) {
 			String prodottoCorrente = p.getNome();
@@ -512,15 +532,20 @@ public class Ristorante {
 		String nomeCercato = prodotto.getNome();
 		for (Prodotto p : prodotti) {
 			String prodottoCorrente = p.getNome();
-			if (prodottoCorrente.equalsIgnoreCase(nomeCercato) && prodotto.getQuantita() >= p.getQuantita()) {
+			if (prodottoCorrente.equalsIgnoreCase(nomeCercato) && p.getQuantita() >= prodotto.getQuantita()) {
 				return true;
+			} else {
+				return false;
 			}
 		}
 		return false;
 	}
 
 	public void addProdottoInventario(Prodotto prodotto) {
-		this.aggiornaListaConProdotto(this.registroMagazzino, prodotto);
+		aggiornaListaConProdotto(this.registroMagazzino, prodotto);
+		if (!this.listaSpesa.isEmpty()) {
+			this.aggiornaListaSpesa(this.listaSpesa);
+		}
 	}
 
 	private int getNumeroClientiPrenotatiInData(LocalDate date) {
@@ -553,6 +578,9 @@ public class Ristorante {
 				}
 				break;
 			}
+		}
+		if(!this.listaSpesa.isEmpty()) {
+			this.generaListaSpesa(dataCorrente);
 		}
 	}
 

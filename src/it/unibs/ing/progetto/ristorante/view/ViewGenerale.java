@@ -125,18 +125,15 @@ public class ViewGenerale {
 		comanda1.put(model.piattoScelto(3), 1);
 		comanda1.put(model.piattoScelto(0), 1);
 		Prenotazione pre1 = new Prenotazione("Prima", 1, comanda1, dataprenotazione);
-		model.addPrenotazione(pre1);
 		
 		HashMap<Piatto,Integer> comanda2 = new HashMap<Piatto,Integer>();
 		comanda2.put(model.piattoScelto(0), 2);
 		comanda2.put(model.piattoScelto(3), 2);
 		Prenotazione pre2 = new Prenotazione("Seconda", 3, comanda2, dataprenotazione);
-		model.addPrenotazione(pre2);
 
 		model.addPrenotazione(dataprenotazione, comanda2, 3);
 		model.addPrenotazione(dataprenotazione, comanda1, 4);
 
-		System.out.println(model.getCorrispondenzePiattoRicetta().isEmpty());
 		loginUtente(model);
 	}
 
