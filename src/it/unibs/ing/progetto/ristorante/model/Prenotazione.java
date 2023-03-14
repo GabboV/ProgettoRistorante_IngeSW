@@ -1,13 +1,17 @@
 package it.unibs.ing.progetto.ristorante.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
-public class Prenotazione {
+public class Prenotazione implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String codice_cliente;
 	private int numeroCoperti;
 	private HashMap<Piatto, Integer> comanda;

@@ -1,9 +1,7 @@
 package it.unibs.ing.progetto.ristorante.controller;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
-import it.unibs.ing.progetto.ristorante.model.Prodotto;
 import it.unibs.ing.progetto.ristorante.model.Ristorante;
 import it.unibs.ing.progetto.ristorante.view.MagazziniereView;
 import it.unibs.ing.progetto.ristorante.view.OutputFormatter;

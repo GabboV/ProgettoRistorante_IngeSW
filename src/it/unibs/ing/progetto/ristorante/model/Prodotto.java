@@ -1,9 +1,14 @@
 package it.unibs.ing.progetto.ristorante.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Prodotto {
+public class Prodotto implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String nome;
 	private Float quantita;
 	private String unitaMisura;

@@ -1,10 +1,15 @@
 package it.unibs.ing.progetto.ristorante.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Piatto {
+public class Piatto implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String nomePiatto; 
 	private int caricoLavoro;
 	private Ricetta ricetta;
@@ -65,7 +70,7 @@ public class Piatto {
 		return ricetta;
 	}
 	
-	public void setRicetta() {
+	public void setRicetta(Ricetta ricetta) {
 		this.ricetta = ricetta;
 	}
 	

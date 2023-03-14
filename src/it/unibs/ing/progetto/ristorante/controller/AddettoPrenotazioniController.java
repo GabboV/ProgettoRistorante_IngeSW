@@ -6,7 +6,6 @@ import java.util.HashMap;
 
 import it.unibs.ing.progetto.ristorante.model.MenuTematico;
 import it.unibs.ing.progetto.ristorante.model.Piatto;
-import it.unibs.ing.progetto.ristorante.model.Prenotazione;
 import it.unibs.ing.progetto.ristorante.model.Ristorante;
 import it.unibs.ing.progetto.ristorante.view.AddettoPrenotazioniView;
 import it.unibs.ing.progetto.ristorante.view.OutputFormatter;

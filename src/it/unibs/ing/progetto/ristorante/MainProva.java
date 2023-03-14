@@ -1,18 +1,5 @@
 package it.unibs.ing.progetto.ristorante;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import it.unibs.ing.progetto.ristorante.controller.*;
-import it.unibs.ing.progetto.ristorante.model.Periodo;
-import it.unibs.ing.progetto.ristorante.model.Piatto;
-import it.unibs.ing.progetto.ristorante.model.Prenotazione;
-import it.unibs.ing.progetto.ristorante.model.Prodotto;
-import it.unibs.ing.progetto.ristorante.model.Ricetta;
-import it.unibs.ing.progetto.ristorante.model.Ristorante;
-import it.unibs.ing.progetto.ristorante.model.UnitaMisura;
-
 public class MainProva {
 
 	public static void main(String[] args) {

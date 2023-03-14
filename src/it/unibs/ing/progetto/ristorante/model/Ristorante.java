@@ -1,5 +1,6 @@
 package it.unibs.ing.progetto.ristorante.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,10 +8,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
-public class Ristorante {
+public class Ristorante implements Serializable{
 
-	private static final double FATTORE_10_PER_CENTO = 1.10;
-	private static final int PERCENTUALE = 10;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private LocalDate dataCorrente;
 	private int caricoLavoroPerPersona;
 	private int numeroPostiASedere;
@@ -20,9 +23,10 @@ public class Ristorante {
 	private ArrayList<MenuTematico> elencoMenuTematici;
 	private ArrayList<Prodotto> insiemeBevande;
 	private ArrayList<Prodotto> insiemeGeneriExtra;
+	
 	private ArrayList<Prodotto> registroMagazzino;
 	private ArrayList<Prodotto> listaSpesa;
-
+	
 	private ArrayList<Prenotazione> elencoPrenotazioni;
 
 	public Ristorante() {
@@ -53,7 +57,7 @@ public class Ristorante {
 	}
 
 	public boolean nonCiSonoPrenotazioni() {
-		return (this.elencoPrenotazioni.size() == 0);
+		return (this.elencoPrenotazioni.isEmpty());
 	}
 
 	public boolean removePrenotazione(Prenotazione prenotazione) {
@@ -97,23 +101,6 @@ public class Ristorante {
 		return (this.getMenuCartaInData(data).size() > 0);
 	}
 
-	public boolean isPrenotazioneFattibileInData(Prenotazione prenotazione, LocalDate data) {
-
-		float caricoDaSostenereInData = this.getCaricoLavoroDaSostenereInData(data);
-		float caricoDaSostenereAggiuntivo = prenotazione.getCaricoLavoroTotalePrenotazione();
-		float nuovoCarico = caricoDaSostenereInData + caricoDaSostenereAggiuntivo;
-
-		int postiLiberi = this.getPostiDisponibiliInData(data);
-		int nuoviPrenotati = prenotazione.getNumeroCoperti();
-
-		/*
-		 * Fattibile se e solo se il carico di lavoro nuovo non supera quello settato e
-		 * se i postiLiberi sono sufficienti
-		 */
-		return (nuovoCarico <= this.caricoLavoroRistorante && postiLiberi >= nuoviPrenotati);
-
-	}
-
 	/*
 	 * Carico di lavoro della totalita delle prenotazioni -> somma del valore del
 	 * carico di lavoro di tutti i menu tematici, estesa a tutte le persone che
@@ -147,31 +134,13 @@ public class Ristorante {
 		if (piattiValidi.isEmpty()) {
 			return false;
 		} else {
-			return false;
+			return true;
 		}
 	}
 
 	public void removePrenotazioniScadute(LocalDate data) {
 		// Con che base si stabilisce se una prenotazione sia scaduta o meno (?)
 	}
-
-	/*
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 */
 
 	// GETTER AND SETTER
 	public LocalDate getDataCorrente() {
@@ -262,16 +231,6 @@ public class Ristorante {
 		this.elencoPrenotazioni = elencoPrenotazioni;
 	}
 
-	// METODI DA CONTROLLARE SE ANCORA VALIDI O SERVONO
-
-	// MenuCarta contiene elenco dei piatti validi nella data
-	// serve classe MenuCarta? No, perche' e' piu facile generarlo con un metodo
-	// solo quando serve
-	// altrimenti dovrei ogni volta che e' richiesta generare una istanza di
-	// MenuCarta per quando mi serve,
-	// ma non ha senso conservarla da qualche parte perche ogni giorno puo
-	// cambiare
-
 	// ritorna un ArrayList<Piatto> contenente solo i piatti singoli memorizzati nel
 	// DataBase e validi nella data
 	public List<Piatto> getMenuCartaInData(LocalDate date) {
@@ -339,21 +298,13 @@ public class Ristorante {
 	}
 
 	public void generaListaSpesa(LocalDate data) {
-		
 		this.dataCorrente = data;
-
 		ArrayList<Prenotazione> prenotazioniInData = this.creaElencoPrenotazioniInData(data);
-
 		HashMap<Piatto, Integer> comanda_unica = combinaAllcomande(prenotazioniInData);
-
 		int prenotati = this.getNumeroClientiPrenotatiInData(data);
-
 		ArrayList<Prodotto> lista_provvisoria = this.costruisciListaProdottiDaComanda(comanda_unica, prenotati);
-
 		maggiorazionePercentuale(lista_provvisoria, 10);
-
 		aggiornaListaSpesa(lista_provvisoria);
-
 	}
 
 	public void aggiornaListaSpesa(ArrayList<Prodotto> listaIniziale) {
@@ -410,7 +361,6 @@ public class Ristorante {
 	 * @return
 	 */
 	private static HashMap<Piatto, Integer> combinaAllcomande(ArrayList<Prenotazione> prenotazioni) {
-
 		HashMap<Piatto, Integer> elenco = new HashMap<>();
 		for (Prenotazione pre : prenotazioni) {
 			HashMap<Piatto, Integer> comanda = pre.getComanda();
@@ -429,13 +379,11 @@ public class Ristorante {
 
 			}
 		}
-
 		return elenco;
 	}
 
 	private ArrayList<Prodotto> costruisciListaProdottiDaComanda(HashMap<Piatto, Integer> piattiOrdinati,
 			int prenotati) {
-
 		ArrayList<Prodotto> prodotti = new ArrayList<Prodotto>();
 		Iterator<Entry<Piatto, Integer>> iter = piattiOrdinati.entrySet().iterator();
 		while (iter.hasNext()) {
@@ -444,12 +392,10 @@ public class Ristorante {
 			int porzioni = entry.getValue();
 			ArrayList<Prodotto> ingredientiInRicetta = recipe.getElencoIngredientiPerPorzioni(porzioni);
 			aggiornaListaConProdotti(prodotti, ingredientiInRicetta);
-
 		}
 		aggiornaListaConProdotti(prodotti, this.ricalcolaInBaseNumeroClienti(insiemeBevande, prenotati));
 		aggiornaListaConProdotti(prodotti, this.ricalcolaInBaseNumeroClienti(insiemeGeneriExtra, prenotati));
 		return prodotti;
-
 	}
 
 	public static void unisciListaProdotti(ArrayList<Prodotto> mainList, ArrayList<Prodotto> prodotti) {

@@ -1,9 +1,14 @@
 package it.unibs.ing.progetto.ristorante.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Periodo {
+public class Periodo implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final LocalDate dataInizio;
 	private final LocalDate dataFine;
 

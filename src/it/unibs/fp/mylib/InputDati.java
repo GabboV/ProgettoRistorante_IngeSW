@@ -16,7 +16,7 @@ public class InputDati {
 	private final static String ERRORE_MINIMO = "Attenzione: e' richiesto un valore maggiore o uguale a ";
 	private final static String ERRORE_STRINGA_VUOTA = "Attenzione: non hai inserito alcun carattere";
 	private final static String ERRORE_MASSIMO = "Attenzione: e' richiesto un valore minore o uguale a ";
-	private final static String ERRORE_DATA_NON_VALIDA = "Attenzione: la data scelta non è valida";
+	private final static String ERRORE_DATA_NON_VALIDA = "Attenzione: la data scelta non ï¿½ valida";
 	private final static String MESSAGGIO_AMMISSIBILI = "Attenzione: i caratteri ammissibili sono: ";
 	private final static char RISPOSTA_SI = 'S';
 	private final static char RISPOSTA_NO = 'N';
