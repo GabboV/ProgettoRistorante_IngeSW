@@ -3,22 +3,30 @@ package it.unibs.ing.progetto.ristorante.view;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+
 import it.unibs.fp.mylib.InputDati;
 import it.unibs.fp.mylib.MyMenu;
 import it.unibs.ing.progetto.ristorante.model.MenuTematico;
 import it.unibs.ing.progetto.ristorante.model.Periodo;
 import it.unibs.ing.progetto.ristorante.model.Piatto;
 import it.unibs.ing.progetto.ristorante.model.Prodotto;
-import it.unibs.ing.progetto.ristorante.model.Ricetta;
 import it.unibs.ing.progetto.ristorante.model.UnitaMisura;
 
-public class RuoloView {
+public class View {
 
-	private static String[] ELENCO_COMANDI;
+	private String[] ELENCO_COMANDI;
+	private String ruolo_nome;
 	private MyMenu menu;
 
-	public RuoloView() {
-		
+	public View(String ruolo_nome, String[] elenco_comandi) {
+		super();
+		ELENCO_COMANDI = elenco_comandi;
+		this.ruolo_nome = ruolo_nome;
+		this.setMenu();
+	}
+
+	private void setMenu() {
+		menu = new MyMenu(ruolo_nome, ELENCO_COMANDI);
 	}
 
 	public LocalDate richiestaData(String messaggio) {
@@ -49,14 +57,6 @@ public class RuoloView {
 		return InputDati.leggiIntero(messaggio, min, max);
 	}
 
-	public int richiestaInteroPositivo(String messaggio) {
-		return InputDati.leggiInteroPositivo(messaggio);
-	}
-
-	public int richiestaInteroNonNegativo(String messaggio) {
-		return InputDati.leggiInteroNonNegativo(messaggio);
-	}
-
 	public int richiestaInteroConMinimoMassimo(String messaggio, int min, int max) {
 		return InputDati.leggiIntero(messaggio, min, max);
 	}
@@ -64,21 +64,7 @@ public class RuoloView {
 	public UnitaMisura richiestaUnitaMisura(String messaggio) {
 		return InputDati.leggiUnitaMisura(messaggio);
 	}
-
-	public Float richiestaFloatPositivo(String messaggio) {
-		return InputDati.leggiFloatPositivo(messaggio);
-	}
-
-	public void stampaElencoPiattiRicette(ArrayList<Piatto> elencoPiatti) {
-		int contatore = 0;
-		for (Piatto p : elencoPiatti) {
-			Ricetta r = p.getRicetta();
-			stampaMsg(" ----------- " + contatore + " ----------- ");
-			stampaPiattoRicetta(p, r);
-			contatore++;
-		}
-	}
-
+	
 	public void stampaElencoMenuTematici(ArrayList<MenuTematico> elencoMenuTematici) {
 		if (elencoMenuTematici.isEmpty()) {
 			stampaMsg("La lista e' vuota.");
@@ -117,30 +103,6 @@ public class RuoloView {
 		}
 	}
 
-	public void stampaPiattoRicetta(Piatto p, Ricetta r) {
-		System.out.println("PIATTO:");
-		System.out.println("Nome: " + p.getNomePiatto());
-		System.out.println("Carico di lavoro: " + p.getCaricoLavoro());
-		System.out.println("Periodi di validita': ");
-		for (Periodo d : p.getPeriodiValidita()) {
-			LocalDate dInizio = d.getDataInizio();
-			LocalDate dFine = d.getDataFine();
-			stampaPeriodo(dInizio, dFine);
-		}
-		System.out.println("RICETTA: ");
-		System.out.println("Numero porzioni: " + r.getNumeroPorzioni());
-		System.out.println("Carico di lavoro per porzione: " + r.getCaricoLavoroPorzione());
-		System.out.println("INGREDIENTI:");
-		for (Prodotto i : r.getElencoIngredienti()) {
-			stampaIngrediente(i);
-		}
-	}
-
-	public void stampaIngrediente(Prodotto p) {
-		System.out.println("Nome: " + p.getNome());
-		System.out.println("Dose: " + p.getQuantita() + p.getUnitaMisura());
-	}
-
 	public void stampaInsiemeProdotti(ArrayList<Prodotto> elencoProdotti) {
 		int contatore = 0;
 		if (elencoProdotti.isEmpty()) {
@@ -171,5 +133,6 @@ public class RuoloView {
 		stampaData(dataFine);
 		System.out.println();
 	}
+
 
 }

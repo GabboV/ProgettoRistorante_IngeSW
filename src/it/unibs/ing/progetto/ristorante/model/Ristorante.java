@@ -1,6 +1,7 @@
 package it.unibs.ing.progetto.ristorante.model;
 
 import java.io.Serializable;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -417,8 +418,19 @@ public class Ristorante implements Serializable {
 			aggiornaListaConProdotto(mainList, p);
 		}
 	}
+	
+	private boolean isGiornoFeriale(LocalDate data) {
+		DayOfWeek dayOfWeek = data.getDayOfWeek();
+        if (dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY) {
+        	return false;
+        } else {
+        	return true;
+        }
+		
+	}
 
-	public boolean checkPrenotazione(LocalDate date, HashMap<Piatto, Integer> piatti, int numeroCoperti) {
+	public boolean verificaAccettabilitaPrenotazione(LocalDate date, HashMap<Piatto, Integer> piatti, int numeroCoperti) {
+		if(!isGiornoFeriale(date)) return false;
 		if (numeroCoperti > this.getPostiDisponibiliInData(date))
 			return false;
 		float caricoRimasto = this.getCaricoLavoroSostenibileRimasto(date);
