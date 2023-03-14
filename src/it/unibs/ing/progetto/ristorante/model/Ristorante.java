@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
-public class Ristorante implements Serializable{
+public class Ristorante implements Serializable {
 
 	/**
 	 * 
@@ -23,10 +23,10 @@ public class Ristorante implements Serializable{
 	private ArrayList<MenuTematico> elencoMenuTematici;
 	private ArrayList<Prodotto> insiemeBevande;
 	private ArrayList<Prodotto> insiemeGeneriExtra;
-	
+
 	private ArrayList<Prodotto> registroMagazzino;
 	private ArrayList<Prodotto> listaSpesa;
-	
+
 	private ArrayList<Prenotazione> elencoPrenotazioni;
 
 	public Ristorante() {
@@ -119,19 +119,19 @@ public class Ristorante implements Serializable{
 	public float getCaricoLavoroSostenibileRimasto(LocalDate data) {
 		return this.caricoLavoroRistorante - this.getCaricoLavoroDaSostenereInData(data);
 	}
-	
+
 	public boolean esisteGenereExtra(String nome) {
-		for(Prodotto p : this.insiemeGeneriExtra) {
-			if(p.getNome().equalsIgnoreCase(nome)) {
+		for (Prodotto p : this.insiemeGeneriExtra) {
+			if (p.getNome().equalsIgnoreCase(nome)) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	public boolean esisteBevanda(String nome) {
-		for(Prodotto p : this.insiemeBevande) {
-			if(p.getNome().equalsIgnoreCase(nome)) {
+		for (Prodotto p : this.insiemeBevande) {
+			if (p.getNome().equalsIgnoreCase(nome)) {
 				return true;
 			}
 		}
@@ -227,10 +227,6 @@ public class Ristorante implements Serializable{
 
 	public ArrayList<Prodotto> getRegistroMagazzino() {
 		return registroMagazzino;
-	}
-
-	public void setRegistroMagazzino(ArrayList<Prodotto> registroMagazzino) {
-		this.registroMagazzino = registroMagazzino;
 	}
 
 	public ArrayList<Prodotto> getListaSpesa() {

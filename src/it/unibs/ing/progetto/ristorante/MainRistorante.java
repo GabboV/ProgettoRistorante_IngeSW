@@ -8,6 +8,5 @@ public class MainRistorante {
 		
 		ViewGenerale schermataPrincipale = new ViewGenerale();
 		schermataPrincipale.avvioProgramma();	
-		
 	}
 }
