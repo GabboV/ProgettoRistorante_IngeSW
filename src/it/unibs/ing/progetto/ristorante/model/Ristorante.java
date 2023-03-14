@@ -119,6 +119,24 @@ public class Ristorante implements Serializable{
 	public float getCaricoLavoroSostenibileRimasto(LocalDate data) {
 		return this.caricoLavoroRistorante - this.getCaricoLavoroDaSostenereInData(data);
 	}
+	
+	public boolean esisteGenereExtra(String nome) {
+		for(Prodotto p : this.insiemeGeneriExtra) {
+			if(p.getNome().equalsIgnoreCase(nome)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean esisteBevanda(String nome) {
+		for(Prodotto p : this.insiemeBevande) {
+			if(p.getNome().equalsIgnoreCase(nome)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public boolean ciSonoMenuValidiInData(LocalDate date) {
 		ArrayList<MenuTematico> menuTematici = this.getMenuTematiciValidiInData(date);
