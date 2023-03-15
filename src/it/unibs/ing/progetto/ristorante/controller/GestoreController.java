@@ -240,11 +240,11 @@ public class GestoreController {
 
 	private String richiestaNomeBevandaValido() {
 		String nomeProdotto;
-		boolean nomeValido = false;
+		boolean esiste = false;
 		do {
 			nomeProdotto = view.richiestaNome("Inserisci il nome di un prodotto: ");
-			nomeValido = this.ristorante.esisteBevanda(nomeProdotto);
-		} while (!nomeValido);
+			esiste = this.ristorante.esisteBevanda(nomeProdotto);
+		} while (esiste);
 		return nomeProdotto;
 	}
 	
@@ -272,17 +272,18 @@ public class GestoreController {
 	// Ritorna il nome valido
 	private String richiestaNomeGenereExtraValido() {
 		String nomeProdotto;
-		boolean nomeValido = false;
+		boolean esiste = false;
 		do {
 			nomeProdotto = view.richiestaNome("Inserisci il nome di un prodotto: ");
-			nomeValido = this.ristorante.esisteGenereExtra(nomeProdotto);
-		} while (!nomeValido);
+			esiste = this.ristorante.esisteGenereExtra(nomeProdotto);
+		} while (esiste);
 		return nomeProdotto;
 	}
 
 	// possibile implementazione di menu tematici con soli piatti validi
 	// crea un menu tematico e lo aggiunge a elencoMenuTematici del ristorante
 	private void aggiungiMenuTematico() {
+		//DA FARE IN MODEL
 		String nomeMenuTematico = richiestaNomeMenuTematicoValido(ristorante.getElencoMenuTematici());
 
 		ArrayList<Piatto> elencoPiatti = richiediElencoPiattiDelMenuTematico();

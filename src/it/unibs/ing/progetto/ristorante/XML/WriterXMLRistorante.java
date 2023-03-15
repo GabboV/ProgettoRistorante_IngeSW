@@ -21,29 +21,17 @@ import java.util.Map.Entry;
 
 public class WriterXMLRistorante {
     private static final String ELENCO_INGREDIENTI = "ElencoIngredienti";
-
 	private static final String ELENCO_PERIODI = "ElencoPeriodi";
-
 	private static final String MENU_TEMATICO = "MenuTematico";
-
 	private static final String ELENCO_MENU_TEMATICI = "ElencoMenuTematici";
-
 	private static final String PIATTO = "Piatto";
-
 	private static final String ELENCO_PIATTI = "ElencoPiatti";
-
 	private static final String DATA_CORRENTE = "DataCorrente";
-
 	private static final String CARICO_LAVORO_RISTORANTE = "caricoLavoroRistorante";
-
 	private static final String CARICO_LAVORO_PER_PERSONA = "caricoLavoroPerPersona";
-
 	private static final String NUMERO_POSTI = "numeroPosti";
-
 	private static final String PARAMETRI_RISTORANTE = "ParametriRistorante";
-
 	private static final String MSG_ERROR_WRITER = "Errore nell'inizializzazione del writer:";
-    
     private static final String ELENCO_RICETTE = "ElencoRicette";
     private static final String RICETTA = "Ricetta";
     private static final String NOME_PIATTO = "nomePiatto";
@@ -274,7 +262,7 @@ public class WriterXMLRistorante {
         xmlw.writeCharacters("\t"+"\t"+"\t"+"\t");
         xmlw.writeStartElement(PIATTO);
         xmlw.writeAttribute(NOME, p.getNomePiatto());
-        xmlw.writeAttribute("numero", Integer.toString(i));
+        xmlw.writeAttribute("quantita", Integer.toString(i));
         xmlw.writeEndElement();
         xmlw.writeCharacters("\n");
     }
