@@ -75,6 +75,8 @@ public class WriterXMLRistorante {
             stampaParametri(model, xmlw);
             stampaElencoRicette(model.getElencoPiatti(), xmlw);
             stampaElencoMenuTematici(model.getElencoMenuTematici(), xmlw);
+            stampaInsiemeBevande(model.getInsiemeBevande(), xmlw);
+            stampaInsiemeGeneriExtra(model.getInsiemeGeneriExtra(), xmlw);
             stampaElencoPrenotazioni(model.getElencoPrenotazioni(), xmlw);
         } catch (Exception e) { // se trova un errore viene eseguita questa parte
             System.out.println(e.getMessage());
@@ -121,8 +123,8 @@ public class WriterXMLRistorante {
     	xmlw.writeCharacters("\t");
         xmlw.writeStartElement(RICETTA);
         xmlw.writeAttribute(NOME_PIATTO, p.getNomePiatto());
-        xmlw.writeAttribute(PORZIONI, Float.toString(p.getRicetta().getNumeroPorzioni()));
-        xmlw.writeAttribute(CARICO_LAVORO, Float.toString(p.getCaricoLavoro()));	
+        xmlw.writeAttribute(PORZIONI, Integer.toString(p.getRicetta().getNumeroPorzioni()));
+        xmlw.writeAttribute(CARICO_LAVORO, Integer.toString(p.getCaricoLavoro()));	
         xmlw.writeCharacters("\n");
         stampaElencoIngredienti(p.getRicetta().getElencoIngredienti(), xmlw);
         stampaElencoPeriodiValidita(p.getPeriodiValidita(), xmlw);
@@ -190,7 +192,7 @@ public class WriterXMLRistorante {
     	xmlw.writeCharacters("\t");
         xmlw.writeStartElement(MENU_TEMATICO);
         xmlw.writeAttribute(NOME, menuTematico.getNome());
-        xmlw.writeAttribute(CARICO_LAVORO, Float.toString(menuTematico.getCaricoLavoro()));	
+        xmlw.writeAttribute(CARICO_LAVORO, Integer.toString(menuTematico.getCaricoLavoro()));	
         xmlw.writeCharacters("\n");
         stampaElencoNomiPiatti(menuTematico.getElencoPiatti(), xmlw);
         stampaElencoPeriodiValidita(menuTematico.getPeriodiValidita(), xmlw);
@@ -211,6 +213,42 @@ public class WriterXMLRistorante {
             xmlw.writeCharacters("\n");
     	}
     	xmlw.writeCharacters("\t"+"\t"+"\t");
+    	xmlw.writeEndElement();
+    	xmlw.writeCharacters("\n");
+    }
+    
+    public void stampaInsiemeBevande(ArrayList<Prodotto> insiemeBevande, XMLStreamWriter xmlw) throws XMLStreamException{
+    	xmlw.writeCharacters("\t");
+    	xmlw.writeStartElement("InsiemeBevande");
+    	xmlw.writeCharacters("\n");
+    	for (Prodotto p : insiemeBevande) {
+            xmlw.writeCharacters("\t"+"\t");
+            xmlw.writeStartElement("Bevanda");
+            xmlw.writeAttribute(NOME, p.getNome());
+            xmlw.writeAttribute("consumoProCapite", Float.toString(p.getQuantita()));
+            xmlw.writeAttribute("unitaMisura", p.getUnitaMisura());
+            xmlw.writeEndElement();
+            xmlw.writeCharacters("\n");
+    	}
+    	xmlw.writeCharacters("\t");
+    	xmlw.writeEndElement();
+    	xmlw.writeCharacters("\n");
+    }
+    
+    public void stampaInsiemeGeneriExtra(ArrayList<Prodotto> insiemeGeneriExtra, XMLStreamWriter xmlw) throws XMLStreamException{
+    	xmlw.writeCharacters("\t");
+    	xmlw.writeStartElement("InsiemeGeneriExtra");
+    	xmlw.writeCharacters("\n");
+    	for (Prodotto p : insiemeGeneriExtra) {
+            xmlw.writeCharacters("\t"+"\t");
+            xmlw.writeStartElement("GenereExtra");
+            xmlw.writeAttribute(NOME, p.getNome());
+            xmlw.writeAttribute("consumoProCapite", Float.toString(p.getQuantita()));
+            xmlw.writeAttribute("unitaMisura", p.getUnitaMisura());
+            xmlw.writeEndElement();
+            xmlw.writeCharacters("\n");
+    	}
+    	xmlw.writeCharacters("\t");
     	xmlw.writeEndElement();
     	xmlw.writeCharacters("\n");
     }

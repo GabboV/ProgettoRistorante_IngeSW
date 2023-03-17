@@ -160,8 +160,6 @@ public class GestoreController {
 		view.stampaMsg("\nE' stato aggiunto un nuovo elemento al menu.");
 	}
 
-	// si puo' usare uno stesso metodo per i vari richiestaNomeValido? forse usando
-	// getNome per tt gli elem (e non getNomePiatto)
 	// richiede un nome di piatto. Se gia' esiste in elencoPiatti, lo richiede.
 	// Ritorna il nome valido
 	private String richiestaNomePiattoValido(ArrayList<Piatto> elencoPiatti) {
@@ -309,6 +307,7 @@ public class GestoreController {
 		do {
 			nomeValido = true;
 			nomeMenuTematico = view.richiestaNome("Inserisci il nome del menu tematico: ");
+			
 			for (MenuTematico m : elencoMenuTematici) {
 				if (m.getNome().equalsIgnoreCase(nomeMenuTematico)) {
 					view.stampaMsg("Il nome del menu tematico e' gia' stato utilizzato.");

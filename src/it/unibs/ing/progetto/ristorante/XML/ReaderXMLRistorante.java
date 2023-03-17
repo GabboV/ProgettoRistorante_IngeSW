@@ -52,7 +52,7 @@ public class ReaderXMLRistorante {
     //fatto male
     //da dividere in piu metodi se possibile
     //manca lettura insiemeBevande e insiemeGeneriExtra
-    public Ristorante leggiXML (String filename) {
+    public static Ristorante leggiXML (String filename) {
     	LocalDate dataCorrente = null;
     	int caricoLavoroPerPersona = 0;
     	int numeroPostiASedere = 0;
@@ -110,6 +110,8 @@ public class ReaderXMLRistorante {
     								int annoInizio = Integer.parseInt(xmlr.getAttributeValue(null, "anno"));
     								LocalDate dataInizio = LocalDate.of(annoInizio, meseInizio, giornoInizio);
     								xmlr.next();
+    								xmlr.next();
+    								xmlr.next();
     								int giornoFine = Integer.parseInt(xmlr.getAttributeValue(null, "giorno"));
     								int meseFine = Integer.parseInt(xmlr.getAttributeValue(null, "mese"));
     								int annoFine = Integer.parseInt(xmlr.getAttributeValue(null, "anno"));
@@ -119,12 +121,14 @@ public class ReaderXMLRistorante {
     								break;
     							}
     						}
+    						if (xmlr.isEndElement() && xmlr.getLocalName().equals("Ricetta")) {
+    							Ricetta ricetta = new Ricetta(elencoIngredienti, porzioni, caricoLavoro);
+    							Piatto piatto = new Piatto(nomePiatto, caricoLavoro, ricetta, elencoPeriodi);
+    							elencoPiatti.add(piatto);
+    							break;
+    						}
     					}
-    					if (xmlr.isEndElement() && xmlr.getLocalName().equals("Ricetta")) {
-    						Ricetta ricetta = new Ricetta(elencoIngredienti, porzioni, caricoLavoro);
-    						Piatto piatto = new Piatto(nomePiatto, caricoLavoro, ricetta, elencoPeriodi);
-    						elencoPiatti.add(piatto);
-    					}
+    					break;
     					
     				case "MenuTematico":
     					String nomeMenu = xmlr.getAttributeValue(null, "nome");
@@ -148,6 +152,8 @@ public class ReaderXMLRistorante {
     								int annoInizio = Integer.parseInt(xmlr.getAttributeValue(null, "anno"));
     								LocalDate dataInizio = LocalDate.of(annoInizio, meseInizio, giornoInizio);
     								xmlr.next();
+    								xmlr.next();
+    								xmlr.next();
     								int giornoFine = Integer.parseInt(xmlr.getAttributeValue(null, "giorno"));
     								int meseFine = Integer.parseInt(xmlr.getAttributeValue(null, "mese"));
     								int annoFine = Integer.parseInt(xmlr.getAttributeValue(null, "anno"));
@@ -157,11 +163,29 @@ public class ReaderXMLRistorante {
     								break;
     							}
     						}
+    						if (xmlr.isEndElement() && xmlr.getLocalName().equals("MenuTematico")) {
+        						MenuTematico menuTematico = new MenuTematico(nomeMenu, elencoPiattiMenuTematico, caricoLavoroMenuTematico, elencoPeriodiMenuTematico);
+        						elencoMenuTematici.add(menuTematico);
+        						break;
+        					}
     					}
-    					if (xmlr.isEndElement() && xmlr.getLocalName().equals("MenuTematico")) {
-    						MenuTematico menuTematico = new MenuTematico(nomeMenu, elencoPiattiMenuTematico, caricoLavoroMenuTematico, elencoPeriodiMenuTematico);
-    						elencoMenuTematici.add(menuTematico);
-    					}
+    					break;
+    					
+    				case "Bevanda":
+    					String nomeBevanda = xmlr.getAttributeValue(null, "nome");
+    					float consumoProCapiteBevanda = Float.parseFloat(xmlr.getAttributeValue(null, "consumoProCapite"));
+    					String unitaMisuraBevanda = xmlr.getAttributeValue(null, "unitaMisura");
+    					Prodotto bevanda = new Prodotto(nomeBevanda, consumoProCapiteBevanda, unitaMisuraBevanda);
+    					insiemeBevande.add(bevanda);
+    					break;
+    					
+    				case "GenereExtra":
+    					String nomeGenereExtra = xmlr.getAttributeValue(null, "nome");
+    					float consumoProCapiteGenereExtra = Float.parseFloat(xmlr.getAttributeValue(null, "consumoProCapite"));
+    					String unitaMisuraGenereExtra = xmlr.getAttributeValue(null, "unitaMisura");
+    					Prodotto genereExtra = new Prodotto(nomeGenereExtra, consumoProCapiteGenereExtra, unitaMisuraGenereExtra);
+    					insiemeGeneriExtra.add(genereExtra);
+    					break;
     					
     				case "Prenotazione":
 						String codiceCliente = xmlr.getAttributeValue(null, "codiceCliente");
@@ -186,11 +210,13 @@ public class ReaderXMLRistorante {
     								break;
     							}
     						}
+    						if (xmlr.isEndElement() && xmlr.getLocalName().equals("Prenotazione")) {
+        						Prenotazione prenotazione = new Prenotazione(numeroCoperti, piattiComanda, dataPrenotazione);
+        						elencoPrenotazioni.add(prenotazione);
+        						break;
+        					}
     					}
-    					if (xmlr.isEndElement() && xmlr.getLocalName().equals("Prenotazione")) {
-    						Prenotazione prenotazione = new Prenotazione(numeroCoperti, piattiComanda, dataPrenotazione);
-    						elencoPrenotazioni.add(prenotazione);
-    					}
+    					break;
     				}
     				//Passa all’evento successivo
     				xmlr.next();
@@ -215,7 +241,7 @@ public class ReaderXMLRistorante {
     }
     
     
-    public Piatto prendiPiattoConNome(String nomeScelto, ArrayList<Piatto> elencoPiatti) {
+    public static Piatto prendiPiattoConNome(String nomeScelto, ArrayList<Piatto> elencoPiatti) {
 		Piatto piattoScelto = null;
 		for (Piatto p : elencoPiatti) {
 			if (nomeScelto.equalsIgnoreCase(p.getNomePiatto())) {

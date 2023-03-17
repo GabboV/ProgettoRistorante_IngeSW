@@ -2,7 +2,7 @@
 <ParametriRistorante numeroPosti="50" caricoLavoroPerPersona="20" caricoLavoroRistorante="1200">
 	<DataCorrente giorno="8" mese="3" anno="2023"></DataCorrente>
 	<ElencoRicette>
-		<Ricetta nomePiatto="Pasta al tonno" porzioni="3.0" caricoLavoro="4.0">
+		<Ricetta nomePiatto="Pasta al tonno" porzioni="3" caricoLavoro="4">
 			<ElencoIngredienti>
 				<Ingrediente nome="Pasta" dose="300.0" unitaMisura="grammi"></Ingrediente>
 				<Ingrediente nome="Tonno" dose="100.0" unitaMisura="grammi"></Ingrediente>
@@ -14,7 +14,7 @@
 				<DataFine giorno="17" mese="1" anno="2023"></DataFine>
 			</ElencoPeriodi>
 		</Ricetta>
-		<Ricetta nomePiatto="Pollo halal" porzioni="3.0" caricoLavoro="4.0">
+		<Ricetta nomePiatto="Pollo halal" porzioni="3" caricoLavoro="4">
 			<ElencoIngredienti>
 				<Ingrediente nome="Pollo" dose="1000.0" unitaMisura="grammi"></Ingrediente>
 				<Ingrediente nome="Curry" dose="100.0" unitaMisura="grammi"></Ingrediente>
@@ -25,7 +25,7 @@
 				<DataFine giorno="17" mese="1" anno="2023"></DataFine>
 			</ElencoPeriodi>
 		</Ricetta>
-		<Ricetta nomePiatto="Risotto allo zafferano" porzioni="1.0" caricoLavoro="9.0">
+		<Ricetta nomePiatto="Risotto allo zafferano" porzioni="1" caricoLavoro="9">
 			<ElencoIngredienti>
 				<Ingrediente nome="Riso basmati" dose="500.0" unitaMisura="grammi"></Ingrediente>
 				<Ingrediente nome="Zafferano" dose="10.0" unitaMisura="grammi"></Ingrediente>
@@ -35,7 +35,7 @@
 				<DataFine giorno="17" mese="1" anno="2023"></DataFine>
 			</ElencoPeriodi>
 		</Ricetta>
-		<Ricetta nomePiatto="Alga Nori" porzioni="3.0" caricoLavoro="7.0">
+		<Ricetta nomePiatto="Alga Nori" porzioni="3" caricoLavoro="7">
 			<ElencoIngredienti>
 				<Ingrediente nome="Alga Nori" dose="3.0" unitaMisura="unita"></Ingrediente>
 				<Ingrediente nome="Tonno" dose="100.0" unitaMisura="grammi"></Ingrediente>
@@ -49,7 +49,7 @@
 		</Ricetta>
 	</ElencoRicette>
 	<ElencoMenuTematici>
-		<MenuTematico nome="Festa del pesce" caricoLavoro="20.0">
+		<MenuTematico nome="Festa del pesce" caricoLavoro="20">
 			<ElencoPiatti>
 				<Piatto nome="Pasta al tonno"></Piatto>
 				<Piatto nome="Pasta al tonno"></Piatto>
@@ -62,20 +62,16 @@
 			</ElencoPeriodi>
 		</MenuTematico>
 	</ElencoMenuTematici>
+	<InsiemeBevande>
+		<Bevanda nome="Acqua" consumoProCapite="1.0" unitaMisura="l"></Bevanda>
+		<Bevanda nome="Birra" consumoProCapite="0.5" unitaMisura="l"></Bevanda>
+		<Bevanda nome="Vino" consumoProCapite="0.2" unitaMisura="l"></Bevanda>
+	</InsiemeBevande>
+	<InsiemeGeneriExtra>
+		<GenereExtra nome="Pane" consumoProCapite="0.3" unitaMisura="hg"></GenereExtra>
+		<GenereExtra nome="Grissini" consumoProCapite="0.1" unitaMisura="hg"></GenereExtra>
+		<GenereExtra nome="Bruschette" consumoProCapite="0.2" unitaMisura="hg"></GenereExtra>
+	</InsiemeGeneriExtra>
 	<ElencoPrenotazioni>
-		<Prenotazione codiceCliente="Prima" numeroCoperti="1">
-			<DataPrenotazione giorno="14" mese="1" anno="2023"></DataPrenotazione>
-			<ElencoPiattiComanda>
-				<Piatto nome="Alga Nori" numero="1"></Piatto>
-				<Piatto nome="Pasta al tonno" numero="1"></Piatto>
-			</ElencoPiattiComanda>
-		</Prenotazione>
-		<Prenotazione codiceCliente="Seconda" numeroCoperti="3">
-			<DataPrenotazione giorno="14" mese="1" anno="2023"></DataPrenotazione>
-			<ElencoPiattiComanda>
-				<Piatto nome="Alga Nori" numero="2"></Piatto>
-				<Piatto nome="Pasta al tonno" numero="2"></Piatto>
-			</ElencoPiattiComanda>
-		</Prenotazione>
 	</ElencoPrenotazioni>
 </ParametriRistorante>

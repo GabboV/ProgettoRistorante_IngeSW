@@ -3,6 +3,7 @@ package it.unibs.ing.progetto.ristorante.view;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Writer;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,6 +11,8 @@ import java.util.HashMap;
 import it.unibs.fp.mylib.InputDati;
 import it.unibs.fp.mylib.MyMenu;
 import it.unibs.fp.mylib.ServizioFile;
+import it.unibs.ing.progetto.ristorante.XML.ReaderXMLRistorante;
+import it.unibs.ing.progetto.ristorante.XML.WriterXMLRistorante;
 import it.unibs.ing.progetto.ristorante.controller.AddettoPrenotazioniController;
 import it.unibs.ing.progetto.ristorante.controller.GestoreController;
 import it.unibs.ing.progetto.ristorante.controller.MagazziniereController;
@@ -42,7 +45,7 @@ public class ViewGenerale {
 		
 		Ristorante model = null;
 		
-		
+		//DA TENERE
 		if(file_memoria.exists()) {
 			try {
 				BoxMemoria memoriaBox = (BoxMemoria) ServizioFile.caricaSingoloOggetto(file_memoria);
