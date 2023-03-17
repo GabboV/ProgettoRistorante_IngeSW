@@ -11,12 +11,16 @@ public class Prodotto implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String nome;
 	private Float quantita;
-	private String unitaMisura;
+	private UnitaMisura unitaMis;
 	
-	public Prodotto(String nome, Float quantita, String unitaMisura) {
+	
+	public Prodotto(String nome, Float quantita, UnitaMisura unitaMisura) {
+		if (quantita < 0) {
+            throw new IllegalArgumentException("La quantità non può essere negativa");
+        }
 		this.nome = nome;
 		this.quantita = quantita;
-		this.unitaMisura = unitaMisura;
+		this.unitaMis = unitaMisura;
 	}
 	
 	public Prodotto(String nome, Float quantita) {
@@ -36,22 +40,8 @@ public class Prodotto implements Serializable{
 	public void setQuantita(Float quantita) {
 		this.quantita = quantita;
 	}
-	public String getUnitaMisura() {
-		return unitaMisura;
-	}
-	public void setUnitaMisura(String unitaMisura) {
-		this.unitaMisura = unitaMisura;
-	}
-	
-	public boolean esisteIn(ArrayList<Prodotto> ingredienti) {
-		boolean esiste = false;
-		for(Prodotto i : ingredienti) {
-			if(i.getNome().equalsIgnoreCase(nome)) {
-				esiste = true;
-				break;
-			}
-		}
-		return esiste;
+	public UnitaMisura getUnitaMisura() {
+		return unitaMis;
 	}
 	
 }

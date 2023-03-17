@@ -8,6 +8,7 @@ import it.unibs.ing.progetto.ristorante.model.Periodo;
 import it.unibs.ing.progetto.ristorante.model.Piatto;
 import it.unibs.ing.progetto.ristorante.model.Prodotto;
 import it.unibs.ing.progetto.ristorante.model.Ristorante;
+import it.unibs.ing.progetto.ristorante.model.UnitaMisura;
 import it.unibs.ing.progetto.ristorante.view.GestoreView;
 
 public class GestoreController extends Controller {
@@ -166,7 +167,7 @@ public class GestoreController extends Controller {
 		boolean altroIngrediente;
 		do {
 			String nomeIngrediente = richiestaNomeIngredienteValido(elencoIngredienti);
-			String unitaMisura = view.richiestaNome("Inserisci unita di misura: ");
+			UnitaMisura unitaMisura = view.richiestaUnitaMisura("Inserisci unita di misura: ");
 			float dose = view.richiestaFloatPositivo("Inserisci dose: ");
 
 			Prodotto ingrediente = new Prodotto(nomeIngrediente, dose, unitaMisura);

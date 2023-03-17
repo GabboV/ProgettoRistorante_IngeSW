@@ -12,7 +12,7 @@ import it.unibs.ing.progetto.ristorante.view.AddettoPrenotazioniView;
 
 public class AddettoPrenotazioniController extends Controller {
 
-	private static final String NON_CI_SONO_PRENOTAZIONI = "Non ci sono prenotazioni \n";
+	private static final String NO_PRENOTAZIONI = "Non ci sono prenotazioni \n";
 	private static final int VISUALIZZA_PRENOTAZIONI = 3;
 	private static final int RIMUOVI_PRENOTAZIONE = 2;
 	private static final int AGGIUNGI_PRENOTAZIONE = 1;
@@ -55,20 +55,20 @@ public class AddettoPrenotazioniController extends Controller {
 	}
 
 	public void visualizzaPrenotazioni() {
-		if (this.getModel().nonCiSonoPrenotazioni()) {
-			view.stampaMsg(NON_CI_SONO_PRENOTAZIONI);
+		if (this.getModel().getElencoPrenotazioni().isEmpty()) {
+			view.stampaMsg(NO_PRENOTAZIONI);
 		} else {
 			view.stampaListaPrenotazioni(this.getModel().getElencoPrenotazioni());
 		}
 
 	}
 
-	// (?) in base a che data?
-	public void removePrenotazioniScadute(LocalDate data) {
+	public void removePrenotazioniScadute() {
+		LocalDate data = LocalDate.now();
 		this.getModel().removePrenotazioniScadute(data);
 	}
 
-	// semi-def
+	
 	public void inserisciPrenotazione() {
 		LocalDate dataPrenotazione;
 		dataPrenotazione = getDataFeriale();
@@ -102,7 +102,7 @@ public class AddettoPrenotazioniController extends Controller {
 		do {
 			dataPrenotazione = view.richiestaData("Inserire data della prenotazione:\n");
 			if(!this.isGiornoFeriale(dataPrenotazione)) {
-				this.view.stampaMsg("Il ristorante è aperto solo nei giorni feriali, riprovare!\n");
+				this.view.stampaMsg("Il ristorante ï¿½ aperto solo nei giorni feriali, riprovare!\n");
 			} else {
 				feriale = true;
 			}
@@ -112,12 +112,7 @@ public class AddettoPrenotazioniController extends Controller {
 	
 	private boolean isGiornoFeriale(LocalDate data) {
 		DayOfWeek dayOfWeek = data.getDayOfWeek();
-        if (dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY) {
-        	return false;
-        } else {
-        	return true;
-        }
-		
+		return dayOfWeek != DayOfWeek.SATURDAY && dayOfWeek != DayOfWeek.SUNDAY;
 	}
 
 	private boolean ordinazioneHandler(LocalDate dataPrenotazione, int numCoperti, ArrayList<Piatto> piattiOrdinati) {

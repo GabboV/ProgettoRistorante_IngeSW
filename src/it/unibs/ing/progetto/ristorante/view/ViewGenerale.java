@@ -16,6 +16,7 @@ import it.unibs.ing.progetto.ristorante.model.Periodo;
 import it.unibs.ing.progetto.ristorante.model.Piatto;
 import it.unibs.ing.progetto.ristorante.model.Prodotto;
 import it.unibs.ing.progetto.ristorante.model.Ristorante;
+import it.unibs.ing.progetto.ristorante.model.UnitaMisura;
 
 public class ViewGenerale {
 
@@ -50,25 +51,24 @@ public class ViewGenerale {
 				} catch (NullPointerException e) {
 					System.out.println(ERRORE);
 				}
+			} 
+		} else {
+			System.out.println("A quanto risulta non esistono elementi in memoria");
+			boolean scelta = InputDati
+					.yesOrNo("Vuoi iniziare da zero? Se scegli di no verrano caricati dei valori predefiniti ");
+			if (scelta) {
+				model = this.loginInizializzazione();
 			} else {
-				boolean scelta = InputDati
-						.yesOrNo("Vuoi iniziare da zero? Se scegli di no verrano caricati dei valori predefiniti ");
-				if (scelta) {
-					model = this.loginInizializzazione();
-				} else {
-					model = caricaElementiPredefiniti();
-				}
+				model = caricaElementiPredefiniti();
 			}
 		}
 
 		if (model != null) {
 			loginUtente(model);
+			this.gestisciMemoria(model, file_memoria);
 		} else {
 			System.out.println("Problema model == null controllare view generale");
 		}
-
-		this.gestisciMemoria(model, file_memoria);
-		
 		System.out.println(this.MSG_ARRESTO_PROGRAMMA);
 
 	}
@@ -151,6 +151,7 @@ public class ViewGenerale {
 					boolean conferma = InputDati.yesOrNo("Vuoi confermare la tua scelta? ");
 					if (conferma) {
 						memoria_file.delete();
+						model = null; // Si elimina l'unico riferimento al modello e si lascia il lavoro al Garbage collector di eliminare i dati
 						System.out.println("File eliminato");
 					} else {
 						System.out.println("Hai annullato l'operazione");
@@ -184,10 +185,10 @@ public class ViewGenerale {
 		elencoPeriodi.add(periodo);
 
 		// PIATTO-RICETTA 0
-		Prodotto i1 = new Prodotto("Pasta", 300.0f, "grammi");
-		Prodotto i2 = new Prodotto("Tonno", 100.0f, "grammi");
-		Prodotto i3 = new Prodotto("Sugo", 80.0f, "grammi");
-		Prodotto i4 = new Prodotto("Olio", 20.0f, "ml");
+		Prodotto i1 = new Prodotto("Pasta", 300.0f, UnitaMisura.GRAMMI);
+		Prodotto i2 = new Prodotto("Tonno", 100.0f, UnitaMisura.GRAMMI);
+		Prodotto i3 = new Prodotto("Sugo", 80.0f, UnitaMisura.GRAMMI);
+		Prodotto i4 = new Prodotto("Olio", 20.0f, UnitaMisura.LITRI);
 		ArrayList<Prodotto> ingredienti0 = new ArrayList<>();
 		ingredienti0.add(i1);
 		ingredienti0.add(i2);
@@ -196,9 +197,9 @@ public class ViewGenerale {
 		model.addPiattoRicetta(ingredienti0, 3, 4, "Pasta al tonno", elencoPeriodi);
 
 		// PIATTO-RICETTA 1
-		Prodotto i5 = new Prodotto("Pollo", (float) 1000.0, "grammi");
-		Prodotto i6 = new Prodotto("Curry", (float) 100.0, "grammi");
-		Prodotto i7 = new Prodotto("Olio", (float) 20.0, "ml");
+		Prodotto i5 = new Prodotto("Pollo", (float) 1000.0, UnitaMisura.GRAMMI);
+		Prodotto i6 = new Prodotto("Curry", (float) 100.0, UnitaMisura.GRAMMI);
+		Prodotto i7 = new Prodotto("Olio", (float) 20.0, UnitaMisura.LITRI);
 		ArrayList<Prodotto> ingredienti1 = new ArrayList<>();
 		ingredienti1.add(i5);
 		ingredienti1.add(i6);
@@ -206,18 +207,18 @@ public class ViewGenerale {
 		model.addPiattoRicetta(ingredienti1, 3, 4, "Pollo halal", elencoPeriodi);
 
 		// PIATTO-RICETTA 2
-		Prodotto i8 = new Prodotto("Riso basmati", (float) 500.0, "grammi");
-		Prodotto i9 = new Prodotto("Zafferano", (float) 10.0, "grammi");
+		Prodotto i8 = new Prodotto("Riso basmati", (float) 500.0, UnitaMisura.GRAMMI);
+		Prodotto i9 = new Prodotto("Zafferano", (float) 10.0, UnitaMisura.GRAMMI);
 		ArrayList<Prodotto> ingredienti2 = new ArrayList<>();
 		ingredienti2.add(i8);
 		ingredienti2.add(i9);
 		model.addPiattoRicetta(ingredienti2, 1, 9, "Risotto allo zafferano", elencoPeriodi);
 
 		// PIATTO-RICETTA 4
-		Prodotto i10 = new Prodotto("Alga Nori", (float) 3, "unita");
-		Prodotto i12 = new Prodotto("Tonno", (float) 100.0, "grammi");
-		Prodotto i13 = new Prodotto("Salsa", (float) 80.0, "ml");
-		Prodotto i14 = new Prodotto("Riso", (float) 200.0, "grammi");
+		Prodotto i10 = new Prodotto("Alga Nori", (float) 3, UnitaMisura.UNITA);
+		Prodotto i12 = new Prodotto("Tonno", (float) 100.0, UnitaMisura.GRAMMI);
+		Prodotto i13 = new Prodotto("Salsa", (float) 80.0, UnitaMisura.LITRI);
+		Prodotto i14 = new Prodotto("Riso", (float) 200.0, UnitaMisura.GRAMMI);
 		ArrayList<Prodotto> ingredienti3 = new ArrayList<>();
 		ingredienti3.add(i10);
 		ingredienti3.add(i12);
@@ -226,9 +227,9 @@ public class ViewGenerale {
 		model.addPiattoRicetta(ingredienti3, 3, 7, "Alga Nori", elencoPeriodi);
 
 		// BEVANDE
-		Prodotto b1 = new Prodotto("Acqua", (float) 1, "l");
-		Prodotto b2 = new Prodotto("Birra", (float) 0.5, "l");
-		Prodotto b3 = new Prodotto("Vino", (float) 0.2, "l");
+		Prodotto b1 = new Prodotto("Acqua", (float) 1, UnitaMisura.LITRI);
+		Prodotto b2 = new Prodotto("Birra", (float) 0.5, UnitaMisura.LITRI);
+		Prodotto b3 = new Prodotto("Vino", (float) 0.2, UnitaMisura.LITRI);
 		ArrayList<Prodotto> bevande = new ArrayList<>();
 		bevande.add(b1);
 		bevande.add(b2);
@@ -236,9 +237,9 @@ public class ViewGenerale {
 		model.setInsiemeBevande(bevande);
 
 		// GENERI EXTRA
-		Prodotto g1 = new Prodotto("Pane", (float) 0.3, "hg");
-		Prodotto g2 = new Prodotto("Grissini", (float) 0.1, "hg");
-		Prodotto g3 = new Prodotto("Bruschette", (float) 0.2, "hg");
+		Prodotto g1 = new Prodotto("Pane", (float) 0.3, UnitaMisura.HG);
+		Prodotto g2 = new Prodotto("Grissini", (float) 0.1, UnitaMisura.HG);
+		Prodotto g3 = new Prodotto("Bruschette", (float) 0.2, UnitaMisura.HG);
 		ArrayList<Prodotto> generiExtra = new ArrayList<>();
 		generiExtra.add(g1);
 		generiExtra.add(g2);

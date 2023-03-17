@@ -152,7 +152,7 @@ public class WriterXMLRistorante {
             xmlw.writeStartElement(INGREDIENTE);
             xmlw.writeAttribute(NOME, i.getNome());
             xmlw.writeAttribute(DOSE, Float.toString(i.getQuantita()));
-            xmlw.writeAttribute(UNITA_MISURA, i.getUnitaMisura());
+            xmlw.writeAttribute(UNITA_MISURA, i.getUnitaMisura().getName());
             xmlw.writeEndElement();
             xmlw.writeCharacters("\n");
     	}

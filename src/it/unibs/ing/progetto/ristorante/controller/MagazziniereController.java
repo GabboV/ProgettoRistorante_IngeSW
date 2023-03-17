@@ -2,7 +2,9 @@
 
 import java.time.LocalDate;
 
+import it.unibs.fp.mylib.BelleStringhe;
 import it.unibs.ing.progetto.ristorante.model.Ristorante;
+import it.unibs.ing.progetto.ristorante.model.UnitaMisura;
 import it.unibs.ing.progetto.ristorante.view.MagazziniereView;
 import it.unibs.ing.progetto.ristorante.view.OutputFormatter;
 
@@ -78,7 +80,7 @@ public class MagazziniereController extends Controller {
 		if (this.getModel().isListaSpesaEmpty()) {
 			listaFormattata = NESSUNA_LISTA_DELLA_SPESA;
 		} else {
-			listaFormattata = OutputFormatter.formatListaProdotti(this.getModel().getListaSpesa());
+			listaFormattata = BelleStringhe.incornicia(OutputFormatter.formatListaProdotti(this.getModel().getListaSpesa()));
 		}
 		view.stampaMsg(listaFormattata);
 	}
@@ -88,16 +90,15 @@ public class MagazziniereController extends Controller {
 	 */
 	public void addProdottoRegistroMagazzino() {
 		String nome = view.richiestaNome(INSERISCI_NOME_DEL_PRODOTTO);
-		String unitaMisura = view.richiestaNome(INSERISCI_UNITA_DI_MISURA_DEL_PRODOTTO);
+		UnitaMisura unitaMisura = view.richiestaUnitaMisura(INSERISCI_UNITA_DI_MISURA_DEL_PRODOTTO);
 		float quantita = view.richiestaQuantita(INSERISCI_QUANTITA_DEL_PRODOTTO);
-
 		this.addProdottoRegistro(nome, quantita, unitaMisura);
 
 		String feedback = "Aggiungto\n";
 		view.stampaMsg(feedback);
 	}
 
-	public void addProdottoRegistro(String nome, float quantita, String unitaMisura) {
+	public void addProdottoRegistro(String nome, float quantita, UnitaMisura unitaMisura) {
 		this.getModel().addProdottoInventario(nome, quantita, unitaMisura);
 	}
 

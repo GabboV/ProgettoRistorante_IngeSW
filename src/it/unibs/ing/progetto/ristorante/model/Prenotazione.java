@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
-public class Prenotazione implements Serializable{
+public class Prenotazione implements Serializable {
 
 	/**
 	 * 
@@ -17,9 +17,11 @@ public class Prenotazione implements Serializable{
 	private HashMap<Piatto, Integer> comanda;
 	private LocalDate dataPrenotazione;
 
-	public Prenotazione(int numeroCoperti, HashMap<Piatto, Integer> comanda,
-			LocalDate dataPrenotazione) {
+	public Prenotazione(int numeroCoperti, HashMap<Piatto, Integer> comanda, LocalDate dataPrenotazione) {
 		super();
+		if (comanda == null || numeroCoperti < 1) {
+			throw new IllegalArgumentException("Input invalidi");
+		}
 		this.numeroCoperti = numeroCoperti;
 		this.comanda = comanda;
 		this.dataPrenotazione = dataPrenotazione;
@@ -46,13 +48,7 @@ public class Prenotazione implements Serializable{
 	}
 
 	public boolean isPrenotazioneInData(LocalDate data) {
-		if (data.getDayOfMonth() == this.dataPrenotazione.getDayOfMonth()
-				&& data.getMonth() == this.dataPrenotazione.getMonth()
-				&& data.getYear() == this.dataPrenotazione.getYear()) {
-			return true;
-		} else {
-			return false;
-		}
+	    return this.dataPrenotazione.equals(data);
 	}
 
 	public float getCaricoLavoroTotalePrenotazione() {

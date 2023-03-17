@@ -15,8 +15,8 @@ public class OutputFormatter {
 	private static final String FORMAT_PERIODO = "- [%2d/%2d/%4d] - [%2d/%2d/%4d]\n";
 	private static final String QUANTITA_PIATTO = "Quantita: %d\n";
 	private static final String DENOMINAZIONE_PIATTO = "Denominazione: %10s\n";
-	private static final String FORMAT_VOCI_LISTA = "-%d  %20s  %3.2f  %5s\n";
-	private static final String ELENCO = "ELENCO\n";
+	private static final String FORMAT_VOCI_LISTA = "-%d  %20s\t%6.2f  %8s\n";
+	private static final String ELENCO = "Indice     Denominazione      Quantita    Misura\n";
 
 	/**
 	 * Formatta una lista di prodotti
@@ -31,7 +31,7 @@ public class OutputFormatter {
 		for (Prodotto voce : lista) {
 			String denominazione = voce.getNome();
 			float quantita = voce.getQuantita();
-			String unitaMisura = voce.getUnitaMisura();
+			String unitaMisura = voce.getUnitaMisura().getName();
 			String voceFormattata = String.format(FORMAT_VOCI_LISTA, indice, denominazione, quantita, unitaMisura);
 			builder.append(voceFormattata);
 			indice++;

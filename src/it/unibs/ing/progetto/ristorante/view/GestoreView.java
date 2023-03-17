@@ -91,7 +91,7 @@ public class GestoreView extends View {
 
 	public void stampaIngrediente(Prodotto p) {
 		System.out.println("Nome: " + p.getNome());
-		System.out.println("Dose: " + p.getQuantita() + p.getUnitaMisura());
+		System.out.println("Dose: " + p.getQuantita() +"  "+ p.getUnitaMisura().getName());
 	}
 
 
