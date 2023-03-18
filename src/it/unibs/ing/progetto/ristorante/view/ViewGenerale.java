@@ -20,6 +20,10 @@ import it.unibs.ing.progetto.ristorante.model.UnitaMisura;
 
 public class ViewGenerale {
 
+	private static final String MODEL_IS_NULL = "Problema model == null controllare view generale";
+	private static final String DEFAULT_VALUE = "Vuoi iniziare da zero? Se scegli di no verrano caricati dei valori predefiniti ";
+	private static final String NO_DATI_IN_MEMORIA = "A quanto risulta non esistono elementi in memoria";
+	private static final String DATI_IN_MEMORIA = "Sono presenti dei dati salvati in memoria, vuoi caricarli? ";
 	private static final int ELIMINA_DATI = 2;
 	private static final int SALVA_MODIFICHE = 1;
 	private static final String ERRORE = "Errore";
@@ -43,7 +47,7 @@ public class ViewGenerale {
 
 		if (file_memoria.exists()) {
 
-			boolean caricaMemoria = InputDati.yesOrNo("Sono presenti dei dati salvati in memoria, vuoi caricarli? ");
+			boolean caricaMemoria = InputDati.yesOrNo(DATI_IN_MEMORIA);
 			if (caricaMemoria) {
 				try {
 					BoxMemoria memoriaBox = (BoxMemoria) ServizioFile.caricaSingoloOggetto(file_memoria);
@@ -53,9 +57,9 @@ public class ViewGenerale {
 				}
 			} 
 		} else {
-			System.out.println("A quanto risulta non esistono elementi in memoria");
+			System.out.println(NO_DATI_IN_MEMORIA);
 			boolean scelta = InputDati
-					.yesOrNo("Vuoi iniziare da zero? Se scegli di no verrano caricati dei valori predefiniti ");
+					.yesOrNo(DEFAULT_VALUE);
 			if (scelta) {
 				model = this.loginInizializzazione();
 			} else {
@@ -67,9 +71,9 @@ public class ViewGenerale {
 			loginUtente(model);
 			this.gestisciMemoria(model, file_memoria);
 		} else {
-			System.out.println("Problema model == null controllare view generale");
+			System.out.println(MODEL_IS_NULL);
 		}
-		System.out.println(this.MSG_ARRESTO_PROGRAMMA);
+		System.out.println(MSG_ARRESTO_PROGRAMMA);
 
 	}
 

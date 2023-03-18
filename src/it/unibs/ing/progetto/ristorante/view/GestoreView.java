@@ -22,7 +22,6 @@ public class GestoreView extends View {
 	private static final String AGGIUNGI_BEVANDA = "Aggiungi bevanda";
 	private static final String AGGIUNGI_MENU_TEMATICO = "Aggiungi menu tematico";
 	private static final String AGGIUNGI_RICETTA = "Aggiungi ricetta";
-	final static private String TITOLO = "COMANDI GESTORE";
 	final static private String[] ELENCO_COMANDI = { AGGIUNGI_RICETTA, AGGIUNGI_MENU_TEMATICO, AGGIUNGI_BEVANDA,
 			AGGIUNGI_GENERE_EXTRA, VISUALIZZA_PARAMETRI, VISUALIZZA_RICETTE, VISUALIZZA_MENU_TEMATICI,
 			VISUALIZZA_BEVANDE, VISUALIZZA_GENERI_EXTRA };
@@ -62,11 +61,7 @@ public class GestoreView extends View {
 		System.out.println("Carico lavoro gestibile dal ristorante per un pasto: " + caricoLavoroRistorante);
 	}
 
-	// da togliere (?)
-	public int stampaMenuGestore() {
-		MyMenu menu = new MyMenu(TITOLO, ELENCO_COMANDI);
-		return menu.scegli();
-	}
+	
 
 
 	public void stampaPiattoRicetta(Piatto p, Ricetta r) {

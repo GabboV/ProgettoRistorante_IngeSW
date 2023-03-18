@@ -12,6 +12,7 @@ public class Prenotazione implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	private String codice_cliente;
 	private int numeroCoperti;
 	private HashMap<Piatto, Integer> comanda;
@@ -19,18 +20,29 @@ public class Prenotazione implements Serializable {
 
 	public Prenotazione(int numeroCoperti, HashMap<Piatto, Integer> comanda, LocalDate dataPrenotazione) {
 		super();
-		if (comanda == null || numeroCoperti < 1) {
+		if (comanda == null || numeroCoperti < 1 || dataPrenotazione == null) {
 			throw new IllegalArgumentException("Input invalidi");
 		}
 		this.numeroCoperti = numeroCoperti;
 		this.comanda = comanda;
 		this.dataPrenotazione = dataPrenotazione;
 	}
-
-	public void setDataPrenotazione(LocalDate dataPrenotazione) {
-		this.dataPrenotazione = dataPrenotazione;
+	
+	public float getCaricoLavoroTotalePrenotazione() {
+		return calcolaCaricoLavoroComanda(this.comanda);
 	}
-
+	
+	public static float calcolaCaricoLavoroComanda(HashMap<Piatto, Integer> comanda) {
+		float totale = 0.0f;
+		for (Entry<Piatto, Integer> entry : comanda.entrySet()) {
+			int personeOrdinatoP = entry.getValue();
+			Piatto p = entry.getKey();
+			float parziale = p.getCaricoLavoro() * personeOrdinatoP;
+			totale += parziale;
+		}
+		return totale;
+	}
+	
 	public HashMap<Piatto, Integer> getComanda() {
 		return comanda;
 	}
@@ -48,20 +60,7 @@ public class Prenotazione implements Serializable {
 	}
 
 	public boolean isPrenotazioneInData(LocalDate data) {
-	    return this.dataPrenotazione.equals(data);
-	}
-
-	public float getCaricoLavoroTotalePrenotazione() {
-		float caricoTotale = 0;
-		Iterator<Entry<Piatto, Integer>> iter = this.comanda.entrySet().iterator();
-		while (iter.hasNext()) {
-			Entry<Piatto, Integer> entry = iter.next();
-			int personeOrdinatoP = entry.getValue();
-			Piatto p = entry.getKey();
-			float caricoParziale = p.getCaricoLavoro() * personeOrdinatoP;
-			caricoTotale += caricoParziale;
-		}
-		return caricoTotale;
+		return this.dataPrenotazione.equals(data);
 	}
 
 }

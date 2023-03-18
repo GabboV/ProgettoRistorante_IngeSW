@@ -1,7 +1,6 @@
 package it.unibs.ing.progetto.ristorante.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Prodotto implements Serializable{
 	
@@ -16,7 +15,7 @@ public class Prodotto implements Serializable{
 	
 	public Prodotto(String nome, Float quantita, UnitaMisura unitaMisura) {
 		if (quantita < 0) {
-            throw new IllegalArgumentException("La quantità non può essere negativa");
+            throw new IllegalArgumentException("La quantitï¿½ non puï¿½ essere negativa");
         }
 		this.nome = nome;
 		this.quantita = quantita;

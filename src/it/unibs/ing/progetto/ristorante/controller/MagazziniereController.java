@@ -77,7 +77,7 @@ public class MagazziniereController extends Controller {
 
 	public void visualizzaListaSpesa() {
 		String listaFormattata;
-		if (this.getModel().isListaSpesaEmpty()) {
+		if (this.getModel().getListaSpesa().isEmpty()) {
 			listaFormattata = NESSUNA_LISTA_DELLA_SPESA;
 		} else {
 			listaFormattata = BelleStringhe.incornicia(OutputFormatter.formatListaProdotti(this.getModel().getListaSpesa()));
@@ -103,7 +103,7 @@ public class MagazziniereController extends Controller {
 	}
 
 	public void rimuoviProdottiInventario() {
-		if (!this.getModel().isRegistroMagazzinoEmpty()) {
+		if (!this.getModel().getRegistroMagazzino().isEmpty()) {
 			view.stampaInsiemeProdotti(this.getModel().getRegistroMagazzino());
 			int indiceProdottoSelezionato = view.leggiInteroCompreso(
 					SELEZIONE_IL_PRODOTTO_NUMERO_DA_ELIMINARE_O_RIDURRE, ZERO,
@@ -119,7 +119,7 @@ public class MagazziniereController extends Controller {
 
 	public void visualizzaInventario() {
 		String inventario;
-		if (this.getModel().isRegistroMagazzinoEmpty()) {
+		if (this.getModel().getRegistroMagazzino().isEmpty()) {
 			inventario = MAGAZZINO_VUOTO;
 		} else {
 			inventario = OutputFormatter.formatListaProdotti(this.getModel().getRegistroMagazzino());

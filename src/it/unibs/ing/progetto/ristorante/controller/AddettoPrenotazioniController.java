@@ -188,7 +188,7 @@ public class AddettoPrenotazioniController extends Controller {
 
 	// def
 	public MenuTematico selezionaMenuTematico(LocalDate date) {
-		ArrayList<MenuTematico> menuTematici = this.getModel().getMenuTematiciValidiInData(date);
+		ArrayList<MenuTematico> menuTematici = (ArrayList<MenuTematico>) this.getModel().getMenuTematiciInData(date);
 		view.stampaElencoMenuTematici(menuTematici);
 		int indiceScelto = view.leggiInteroCompreso("Selezione l'indice del menu da ordinare -> ", 0,
 				menuTematici.size() - 1);
@@ -198,7 +198,7 @@ public class AddettoPrenotazioniController extends Controller {
 
 	// def
 	public ArrayList<Piatto> selezionaMenuCarta(LocalDate date) {
-		ArrayList<Piatto> piattiValidi = this.getModel().getMenuCartaValidiInData(date);
+		ArrayList<Piatto> piattiValidi = (ArrayList<Piatto>) this.getModel().getMenuCartaInData(date);
 		ArrayList<Piatto> piattiScelti = new ArrayList<>();
 		boolean continua = false;
 		do {

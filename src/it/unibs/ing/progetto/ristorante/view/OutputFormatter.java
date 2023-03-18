@@ -15,8 +15,8 @@ public class OutputFormatter {
 	private static final String FORMAT_PERIODO = "- [%2d/%2d/%4d] - [%2d/%2d/%4d]\n";
 	private static final String QUANTITA_PIATTO = "Quantita: %d\n";
 	private static final String DENOMINAZIONE_PIATTO = "Denominazione: %10s\n";
-	private static final String FORMAT_VOCI_LISTA = "-%d  %20s\t%6.2f  %8s\n";
-	private static final String ELENCO = "Indice     Denominazione      Quantita    Misura\n";
+	private static final String FORMAT_VOCI_LISTA = "-%3d  %20s\t%8.2f  %10s\n";
+	private static final String ELENCO = "Indice       Denominazione      Quantita      Misura\n";
 
 	/**
 	 * Formatta una lista di prodotti

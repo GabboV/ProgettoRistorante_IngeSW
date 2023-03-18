@@ -11,6 +11,7 @@ public class Ricetta implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	private ArrayList<Prodotto> elencoIngredienti;
 	private int numeroPorzioni;
 	private int caricoLavoroPorzione;
@@ -28,18 +29,9 @@ public class Ricetta implements Serializable {
 	 * @return
 	 */
 	public List<Prodotto> getElencoIngredientiPerPorzioni(int porzioni) {
-		ArrayList<Prodotto> elenco = new ArrayList<Prodotto>();
-		elenco = (ArrayList<Prodotto>) this.elencoIngredienti.stream().map(
-				p -> new Prodotto(p.getNome(), (porzioni * p.getQuantita()) / this.numeroPorzioni, p.getUnitaMisura()))
-				.collect(Collectors.toList());
-		//Meglio usare gli stream, google sostiene che siano piu leggibili e mantenibili
-		/* Vecchia implementazione
-		 * for (Prodotto p
-		 * : elencoIngredienti) { float quantita = (porzioni * p.getQuantita()) /
-		 * this.numeroPorzioni; elenco.add(new Prodotto(p.getNome(), quantita,
-		 * p.getUnitaMisura())); }
-		 */
-		return elenco;
+		return this.elencoIngredienti.stream().map(
+			p -> new Prodotto(p.getNome(), (porzioni * p.getQuantita()) / this.numeroPorzioni, p.getUnitaMisura()))
+			.collect(Collectors.toList());
 	}
 
 	public ArrayList<Prodotto> getElencoIngredienti() {
