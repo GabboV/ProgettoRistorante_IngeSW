@@ -220,7 +220,7 @@ public class GestoreController extends Controller {
 		boolean esiste = false;
 		do {
 			nomeProdotto = view.richiestaNome("Inserisci il nome di un prodotto: ");
-			esiste = this.ristorante.esisteBevanda(nomeProdotto);
+			esiste = this.getModel().esisteBevanda(nomeProdotto);
 		} while (esiste);
 		return nomeProdotto;
 	}
@@ -251,7 +251,7 @@ public class GestoreController extends Controller {
 		boolean esiste = false;
 		do {
 			nomeProdotto = view.richiestaNome("Inserisci il nome di un prodotto: ");
-			esiste = this.ristorante.esisteGenereExtra(nomeProdotto);
+			esiste = this.getModel().esisteGenereExtra(nomeProdotto);
 		} while (esiste);
 		return nomeProdotto;
 	}

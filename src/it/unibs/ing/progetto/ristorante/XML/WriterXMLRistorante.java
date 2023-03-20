@@ -226,7 +226,7 @@ public class WriterXMLRistorante {
             xmlw.writeStartElement("Bevanda");
             xmlw.writeAttribute(NOME, p.getNome());
             xmlw.writeAttribute("consumoProCapite", Float.toString(p.getQuantita()));
-            xmlw.writeAttribute("unitaMisura", p.getUnitaMisura());
+            xmlw.writeAttribute("unitaMisura", p.getUnitaMisura().getName());
             xmlw.writeEndElement();
             xmlw.writeCharacters("\n");
     	}
@@ -244,7 +244,7 @@ public class WriterXMLRistorante {
             xmlw.writeStartElement("GenereExtra");
             xmlw.writeAttribute(NOME, p.getNome());
             xmlw.writeAttribute("consumoProCapite", Float.toString(p.getQuantita()));
-            xmlw.writeAttribute("unitaMisura", p.getUnitaMisura());
+            xmlw.writeAttribute("unitaMisura", p.getUnitaMisura().getName());
             xmlw.writeEndElement();
             xmlw.writeCharacters("\n");
     	}

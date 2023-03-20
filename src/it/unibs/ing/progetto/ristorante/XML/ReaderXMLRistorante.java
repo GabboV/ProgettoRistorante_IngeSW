@@ -11,6 +11,7 @@ import it.unibs.ing.progetto.ristorante.model.Prenotazione;
 import it.unibs.ing.progetto.ristorante.model.Prodotto;
 import it.unibs.ing.progetto.ristorante.model.Ricetta;
 import it.unibs.ing.progetto.ristorante.model.Ristorante;
+import it.unibs.ing.progetto.ristorante.model.UnitaMisura;
 
 import java.beans.DefaultPersistenceDelegate;
 import java.io.FileInputStream;
@@ -100,8 +101,8 @@ public class ReaderXMLRistorante {
     							case "Ingrediente":
     								String nomeIngrediente = xmlr.getAttributeValue(null, "nome");
     								float dose = Float.parseFloat(xmlr.getAttributeValue(null, "dose"));
-    								String unitaMisura = xmlr.getAttributeValue(null, "unitaMisura");
-    								Prodotto ingrediente = new Prodotto(nomeIngrediente, dose, unitaMisura);
+    								UnitaMisura unitaMisura = UnitaMisura.valueOf(xmlr.getAttributeValue(null, "unitaMisura")) ;
+    								Prodotto ingrediente = new Prodotto(nomeIngrediente, dose, unitaMisura );
     								elencoIngredienti.add(ingrediente);
     								break;
     							case "DataInizio":
@@ -174,7 +175,7 @@ public class ReaderXMLRistorante {
     				case "Bevanda":
     					String nomeBevanda = xmlr.getAttributeValue(null, "nome");
     					float consumoProCapiteBevanda = Float.parseFloat(xmlr.getAttributeValue(null, "consumoProCapite"));
-    					String unitaMisuraBevanda = xmlr.getAttributeValue(null, "unitaMisura");
+    					UnitaMisura unitaMisuraBevanda = UnitaMisura.valueOf(xmlr.getAttributeValue(null, "unitaMisura")) ;
     					Prodotto bevanda = new Prodotto(nomeBevanda, consumoProCapiteBevanda, unitaMisuraBevanda);
     					insiemeBevande.add(bevanda);
     					break;
@@ -182,7 +183,7 @@ public class ReaderXMLRistorante {
     				case "GenereExtra":
     					String nomeGenereExtra = xmlr.getAttributeValue(null, "nome");
     					float consumoProCapiteGenereExtra = Float.parseFloat(xmlr.getAttributeValue(null, "consumoProCapite"));
-    					String unitaMisuraGenereExtra = xmlr.getAttributeValue(null, "unitaMisura");
+    					UnitaMisura unitaMisuraGenereExtra = UnitaMisura.valueOf(xmlr.getAttributeValue(null, "unitaMisura")) ;
     					Prodotto genereExtra = new Prodotto(nomeGenereExtra, consumoProCapiteGenereExtra, unitaMisuraGenereExtra);
     					insiemeGeneriExtra.add(genereExtra);
     					break;

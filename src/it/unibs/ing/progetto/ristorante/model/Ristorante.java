@@ -417,6 +417,18 @@ public class Ristorante implements Serializable {
 		}
 	}
 
+	public void setElencoPiatti(ArrayList<Piatto> elencoPiatti) {
+		this.elencoPiatti = elencoPiatti;
+	}
+
+	public void setElencoMenuTematici(ArrayList<MenuTematico> elencoMenuTematici) {
+		this.elencoMenuTematici = elencoMenuTematici;
+	}
+
+	public void setElencoPrenotazioni(ArrayList<Prenotazione> elencoPrenotazioni) {
+		this.elencoPrenotazioni = elencoPrenotazioni;
+	}
+
 	/**
 	 * Rimuove un prodotto da una lista di prodotto
 	 * 
