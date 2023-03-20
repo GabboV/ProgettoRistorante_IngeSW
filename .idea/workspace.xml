@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3e5c26d5-1f42-4895-8c63-bb3f723435e1" name="Changes" comment="" />
+    <list default="true" id="3e5c26d5-1f42-4895-8c63-bb3f723435e1" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/it/unibs/ing/progetto/ristorante/controller/MagazziniereController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibs/ing/progetto/ristorante/controller/MagazziniereController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/it/unibs/ing/progetto/ristorante/model/Prenotazione.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibs/ing/progetto/ristorante/model/Prenotazione.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/it/unibs/ing/progetto/ristorante/model/Ristorante.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibs/ing/progetto/ristorante/model/Ristorante.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/it/unibs/ing/progetto/ristorante/view/GestoreView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibs/ing/progetto/ristorante/view/GestoreView.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

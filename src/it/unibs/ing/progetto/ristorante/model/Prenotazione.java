@@ -3,7 +3,6 @@ package it.unibs.ing.progetto.ristorante.model;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map.Entry;
 
 public class Prenotazione implements Serializable {

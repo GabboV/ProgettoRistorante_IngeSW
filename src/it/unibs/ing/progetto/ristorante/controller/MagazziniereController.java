@@ -1,4 +1,4 @@
- package it.unibs.ing.progetto.ristorante.controller;
+package it.unibs.ing.progetto.ristorante.controller;
 
 import java.time.LocalDate;
 
@@ -10,9 +10,9 @@ import it.unibs.ing.progetto.ristorante.view.OutputFormatter;
 
 public class MagazziniereController extends Controller {
 
-	private static final String MAGAZZINO_VUOTO = "\nIl Magazzino è vuoto\n";
+	private static final String MAGAZZINO_VUOTO = "\nIl Magazzino is vuoto\n";
 	private static final String LOGOUT_END = "Hai effettuato il Logout";
-	private static final String NESSUNA_LISTA_DELLA_SPESA = "\nLa lista della spesa è vuota o non è mai stata creata\n";
+	private static final String NESSUNA_LISTA_DELLA_SPESA = "\nLa lista della spesa is vuota o mai stata creata\n";
 	private static final String INSERIRE_LA_DATA_PER_CUI_CREARE_LA_LISTA_DELLA_SPESA = "Inserire la data per cui creare la lista della spesa\n";
 	private static final String PROFILO_MAGAZZINIERE = "Profilo: Magazziniere\n";
 	private static final String ERRORE = "Something really really bad happened...riavviare il programma";
@@ -43,27 +43,27 @@ public class MagazziniereController extends Controller {
 		do {
 			int input = view.printMenu();
 			switch (input) {
-			case LOGOUT:
-				sessionOn = false;
-				break;
-			case CREA_LISTA_SPESA:
-				this.creaListaSpesa();
-				break;
-			case VISUALIZZA_INVENTARIO:
-				this.visualizzaInventario();
-				break;
-			case VISUALIZZA_LISTA_SPESA:
-				this.visualizzaListaSpesa();
-				break;
-			case AGGIUNGI_PRODOTTI:
-				this.addProdottoRegistroMagazzino();
-				break;
-			case RIMUOVI_PRODOTTI_DETERIORATI:
-				this.rimuoviProdottiInventario();
-				break;
-			default:
-				view.stampaMsg(ERRORE);
-				break;
+				case LOGOUT:
+					sessionOn = false;
+					break;
+				case CREA_LISTA_SPESA:
+					this.creaListaSpesa();
+					break;
+				case VISUALIZZA_INVENTARIO:
+					this.visualizzaInventario();
+					break;
+				case VISUALIZZA_LISTA_SPESA:
+					this.visualizzaListaSpesa();
+					break;
+				case AGGIUNGI_PRODOTTI:
+					this.addProdottoRegistroMagazzino();
+					break;
+				case RIMUOVI_PRODOTTI_DETERIORATI:
+					this.rimuoviProdottiInventario();
+					break;
+				default:
+					view.stampaMsg(ERRORE);
+					break;
 			}
 		} while (sessionOn);
 		view.stampaMsg(LOGOUT_END);
@@ -80,7 +80,8 @@ public class MagazziniereController extends Controller {
 		if (this.getModel().getListaSpesa().isEmpty()) {
 			listaFormattata = NESSUNA_LISTA_DELLA_SPESA;
 		} else {
-			listaFormattata = BelleStringhe.incornicia(OutputFormatter.formatListaProdotti(this.getModel().getListaSpesa()));
+			listaFormattata = BelleStringhe
+					.incornicia(OutputFormatter.formatListaProdotti(this.getModel().getListaSpesa()));
 		}
 		view.stampaMsg(listaFormattata);
 	}
