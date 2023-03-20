@@ -98,7 +98,7 @@ public class ReaderXMLRistorante {
     						xmlr.next();
     						if (xmlr.isStartElement()) {
     							switch (xmlr.getLocalName()) {
-    							case "Ingrediente":
+    							case INGREDIENTE:
     								String nomeIngrediente = xmlr.getAttributeValue(null, "nome");
     								float dose = Float.parseFloat(xmlr.getAttributeValue(null, "dose"));
     								UnitaMisura unitaMisura = UnitaMisura.valueOf(xmlr.getAttributeValue(null, "unitaMisura")) ;
@@ -189,7 +189,6 @@ public class ReaderXMLRistorante {
     					break;
     					
     				case "Prenotazione":
-						String codiceCliente = xmlr.getAttributeValue(null, "codiceCliente");
 						LocalDate dataPrenotazione = null;
 						int numeroCoperti = Integer.parseInt( xmlr.getAttributeValue(null, "numeroCoperti"));
     					HashMap<Piatto, Integer> piattiComanda = new HashMap<>();
@@ -253,39 +252,6 @@ public class ReaderXMLRistorante {
 		return piattoScelto;
 	}
     
-    /*
-  	//Se trova un evento di tipo START.ELEMENT controlla il nome del tag dell'elemento corrente
-    if (xmlr.getEventType() == XMLStreamConstants.START_ELEMENT) {
-        String nomeTag = xmlr.getLocalName();
-        //Se il tag è "city" allora crea un nuovo oggetto Nodo e lo aggiunge all'elencoNodi
-        if (nomeTag.equals(CITY)) {
-            idNodoPartenza = Integer.parseInt(xmlr.getAttributeValue(0));
-            String name = xmlr.getAttributeValue(1);
-            int x = Integer.parseInt(xmlr.getAttributeValue(2));
-            int y = Integer.parseInt(xmlr.getAttributeValue(3));
-            int h = Integer.parseInt(xmlr.getAttributeValue(4));
-            elencoNodi.add(new Nodo(name, idNodoPartenza, x, y, h));
-            //Crea un arrayList in cui verranno inseriti gli id delle città a cui si collega
-            elencoIdNodiArrivo = new ArrayList<>();
-        }
-        //Se il tag è "link" allora inserisci l'id trovato in elencoNodiArrivo
-        else if (nomeTag.equals(LINK)){
-            //Continua finchè ci sono eventi di tipo START_ELEMENT (che hanno tag "link")
-            while (xmlr.getEventType() == XMLStreamConstants.START_ELEMENT) {
-                int idNodoArrivo = Integer.parseInt(xmlr.getAttributeValue(0));
-                elencoIdNodiArrivo.add(idNodoArrivo);
-                xmlr.next();
-                xmlr.next();
-            }
-        }
-    }
-    //Quando trova un evento di tipo END_ELEMENT
-    if (xmlr.getEventType() == XMLStreamConstants.END_ELEMENT){
-        String nomeTag = xmlr.getLocalName();
-        //Se il tag è "city" imposta la mappaArchi
-        if (nomeTag.equals(CITY)){
-            mappaArchi.put(idNodoPartenza, elencoIdNodiArrivo);
-        }
-    }*/
+
 	
 }

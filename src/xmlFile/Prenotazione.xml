@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ElencoPrenotazioni>
-	<Prenotazione nomeCliente="Mario" nCoperti="4" dataPrenotazione="2023-02-26">
-		<ElemOrdine nome="Pasta tonno e olive"></ElemOrdine>
-		<ElemOrdine nome="Seppie in umido"></ElemOrdine>
-		<ElemOrdine nome="Carote al vapore"></ElemOrdine>
-		<ElemOrdine nome="Finocchi al vapore"></ElemOrdine>
-	</Prenotazione>
-</ElencoPrenotazioni>
