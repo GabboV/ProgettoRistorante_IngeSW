@@ -1,6 +1,9 @@
 package it.unibs.ing.progetto.ristorante.view;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.Writer;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,6 +11,8 @@ import java.util.HashMap;
 import it.unibs.fp.mylib.InputDati;
 import it.unibs.fp.mylib.MyMenu;
 import it.unibs.fp.mylib.ServizioFile;
+import it.unibs.ing.progetto.ristorante.XML.ReaderXMLRistorante;
+import it.unibs.ing.progetto.ristorante.XML.WriterXMLRistorante;
 import it.unibs.ing.progetto.ristorante.controller.AddettoPrenotazioniController;
 import it.unibs.ing.progetto.ristorante.controller.GestoreController;
 import it.unibs.ing.progetto.ristorante.controller.MagazziniereController;
@@ -55,7 +60,7 @@ public class ViewGenerale {
 				} catch (NullPointerException e) {
 					System.out.println(ERRORE);
 				}
-			} 
+			}
 		} else {
 			System.out.println(NO_DATI_IN_MEMORIA);
 			boolean scelta = InputDati
@@ -103,26 +108,26 @@ public class ViewGenerale {
 		do {
 			int scelta = menu.scegli();
 			switch (scelta) {
-			case GESTORE:
-				GestoreController gestore = new GestoreController(model);
-				gestore.avviaSessione();
-				break;
-			case ADDETTO_PRENOTAZIONI:
-				AddettoPrenotazioniController addettoPrenotazioni = new AddettoPrenotazioniController(model);
-				addettoPrenotazioni.avviaSessione();
-				break;
-			case MAGAZZINIERE:
-				MagazziniereController magazziniere = new MagazziniereController(model);
-				magazziniere.avviaSessione();
-				break;
-			case ESCI:
-				appAttiva = false;
-				System.out.println("- - -");
-				break;
-			default:
-				appAttiva = false;
-				System.out.println(ERRORE);
-				break;
+				case GESTORE:
+					GestoreController gestore = new GestoreController(model);
+					gestore.avviaSessione();
+					break;
+				case ADDETTO_PRENOTAZIONI:
+					AddettoPrenotazioniController addettoPrenotazioni = new AddettoPrenotazioniController(model);
+					addettoPrenotazioni.avviaSessione();
+					break;
+				case MAGAZZINIERE:
+					MagazziniereController magazziniere = new MagazziniereController(model);
+					magazziniere.avviaSessione();
+					break;
+				case ESCI:
+					appAttiva = false;
+					System.out.println("- - -");
+					break;
+				default:
+					appAttiva = false;
+					System.out.println(ERRORE);
+					break;
 			}
 		} while (appAttiva);
 
@@ -135,39 +140,41 @@ public class ViewGenerale {
 		do {
 			int scelta = menu.scegli();
 			switch (scelta) {
-			case ESCI:
-				System.out.println(". . .");
-				appAttiva = false;
-				break;
-			case SALVA_MODIFICHE:
-				if (model != null) {
-					BoxMemoria memoria_new = new BoxMemoria(model);
-					ServizioFile.salvaSingoloOggetto(memoria_file, memoria_new);
-					System.out.println("Dati salvati");
-				} else {
-					System.out.println("Non ci sono elementi da salvare");
-				}
-				break;
-			case ELIMINA_DATI:
-				if (memoria_file.exists()) {
-					System.out
-							.println("ATTENZIONE: eliminando i dati, non si avra piu la possibilita di recuperarli\n");
-					boolean conferma = InputDati.yesOrNo("Vuoi confermare la tua scelta? ");
-					if (conferma) {
-						memoria_file.delete();
-						model = null; // Si elimina l'unico riferimento al modello e si lascia il lavoro al Garbage collector di eliminare i dati
-						System.out.println("File eliminato");
+				case ESCI:
+					System.out.println(". . .");
+					appAttiva = false;
+					break;
+				case SALVA_MODIFICHE:
+					if (model != null) {
+						BoxMemoria memoria_new = new BoxMemoria(model);
+						ServizioFile.salvaSingoloOggetto(memoria_file, memoria_new);
+						System.out.println("Dati salvati");
 					} else {
-						System.out.println("Hai annullato l'operazione");
+						System.out.println("Non ci sono elementi da salvare");
 					}
-				} else {
-					System.out.println("Non esistono file da eliminare, forse li hai gia eliminati");
-				}
-				break;
-			default:
-				appAttiva = false;
-				System.out.println(ERRORE);
-				break;
+					break;
+				case ELIMINA_DATI:
+					if (memoria_file.exists()) {
+						System.out
+								.println(
+										"ATTENZIONE: eliminando i dati, non si avra piu la possibilita di recuperarli\n");
+						boolean conferma = InputDati.yesOrNo("Vuoi confermare la tua scelta? ");
+						if (conferma) {
+							memoria_file.delete();
+							model = null; // Si elimina l'unico riferimento al modello e si lascia il lavoro al Garbage
+											// collector di eliminare i dati
+							System.out.println("File eliminato");
+						} else {
+							System.out.println("Hai annullato l'operazione");
+						}
+					} else {
+						System.out.println("Non esistono file da eliminare, forse li hai gia eliminati");
+					}
+					break;
+				default:
+					appAttiva = false;
+					System.out.println(ERRORE);
+					break;
 			}
 		} while (appAttiva);
 

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ParametriRistorante numeroPosti="50" caricoLavoroPerPersona="20" caricoLavoroRistorante="1200">
+	<DataCorrente giorno="1" mese="1" anno="2023"></DataCorrente>
+	<ElencoRicette>
+		<Ricetta nomePiatto="Pasta al tonno" porzioni="3" caricoLavoro="4">
+			<ElencoIngredienti>
+				<Ingrediente nome="Pasta" dose="0.3" unitaMisura="kg"></Ingrediente>
+				<Ingrediente nome="Tonno" dose="0.1" unitaMisura="kg"></Ingrediente>
+				<Ingrediente nome="Sugo" dose="0.08" unitaMisura="kg"></Ingrediente>
+				<Ingrediente nome="Olio" dose="0.02" unitaMisura="l"></Ingrediente>
+			</ElencoIngredienti>
+			<ElencoPeriodi>
+				<DataInizio giorno="1" mese="1" anno="2023"></DataInizio>
+				<DataFine giorno="31" mese="1" anno="2023"></DataFine>
+			</ElencoPeriodi>
+		</Ricetta>
+		<Ricetta nomePiatto="Pollo halal al curry" porzioni="3" caricoLavoro="4">
+			<ElencoIngredienti>
+				<Ingrediente nome="Pollo" dose="1.0" unitaMisura="kg"></Ingrediente>
+				<Ingrediente nome="Curry" dose="0.1" unitaMisura="kg"></Ingrediente>
+				<Ingrediente nome="Olio" dose="0.02" unitaMisura="l"></Ingrediente>
+			</ElencoIngredienti>
+			<ElencoPeriodi>
+				<DataInizio giorno="1" mese="1" anno="2023"></DataInizio>
+				<DataFine giorno="31" mese="1" anno="2023"></DataFine>
+			</ElencoPeriodi>
+		</Ricetta>
+		<Ricetta nomePiatto="Risotto allo zafferano" porzioni="2" caricoLavoro="4">
+			<ElencoIngredienti>
+				<Ingrediente nome="Riso" dose="0.3" unitaMisura="kg"></Ingrediente>
+				<Ingrediente nome="Zafferano" dose="0.01" unitaMisura="kg"></Ingrediente>
+			</ElencoIngredienti>
+			<ElencoPeriodi>
+				<DataInizio giorno="1" mese="1" anno="2023"></DataInizio>
+				<DataFine giorno="31" mese="1" anno="2023"></DataFine>
+			</ElencoPeriodi>
+		</Ricetta>
+		<Ricetta nomePiatto="Alga Nori" porzioni="3" caricoLavoro="7">
+			<ElencoIngredienti>
+				<Ingrediente nome="Alga Nori" dose="3.0" unitaMisura="unita"></Ingrediente>
+				<Ingrediente nome="Tonno" dose="0.1" unitaMisura="kg"></Ingrediente>
+				<Ingrediente nome="Salsa" dose="0.08" unitaMisura="l"></Ingrediente>
+				<Ingrediente nome="Riso" dose="0.2" unitaMisura="kg"></Ingrediente>
+			</ElencoIngredienti>
+			<ElencoPeriodi>
+				<DataInizio giorno="1" mese="1" anno="2023"></DataInizio>
+				<DataFine giorno="31" mese="1" anno="2023"></DataFine>
+			</ElencoPeriodi>
+		</Ricetta>
+		<Ricetta nomePiatto="Pasta alla carbonara" porzioni="4" caricoLavoro="6">
+			<ElencoIngredienti>
+				<Ingrediente nome="Pasta" dose="4.0" unitaMisura="kg"></Ingrediente>
+				<Ingrediente nome="Pancetta" dose="500.0" unitaMisura="kg"></Ingrediente>
+				<Ingrediente nome="Uova" dose="8.0" unitaMisura="unita"></Ingrediente>
+				<Ingrediente nome="Sale" dose="0.02" unitaMisura="kg"></Ingrediente>
+			</ElencoIngredienti>
+			<ElencoPeriodi>
+				<DataInizio giorno="1" mese="1" anno="2023"></DataInizio>
+				<DataFine giorno="31" mese="1" anno="2023"></DataFine>
+			</ElencoPeriodi>
+		</Ricetta>
+		<Ricetta nomePiatto="Risotto ai funghi" porzioni="4" caricoLavoro="4">
+			<ElencoIngredienti>
+				<Ingrediente nome="Riso" dose="0.3" unitaMisura="kg"></Ingrediente>
+				<Ingrediente nome="Funghi" dose="0.05" unitaMisura="kg"></Ingrediente>
+				<Ingrediente nome="Olio" dose="0.02" unitaMisura="l"></Ingrediente>
+				<Ingrediente nome="Sale" dose="0.03" unitaMisura="kg"></Ingrediente>
+			</ElencoIngredienti>
+			<ElencoPeriodi>
+				<DataInizio giorno="1" mese="1" anno="2023"></DataInizio>
+				<DataFine giorno="31" mese="1" anno="2023"></DataFine>
+			</ElencoPeriodi>
+		</Ricetta>
+		<Ricetta nomePiatto="Spezzatino di manzo con piselli" porzioni="1" caricoLavoro="7">
+			<ElencoIngredienti>
+				<Ingrediente nome="Carne di manzo" dose="0.3" unitaMisura="kg"></Ingrediente>
+				<Ingrediente nome="Piselli" dose="0.1" unitaMisura="kg"></Ingrediente>
+				<Ingrediente nome="Olio" dose="0.02" unitaMisura="l"></Ingrediente>
+				<Ingrediente nome="Sale" dose="0.02" unitaMisura="kg"></Ingrediente>
+			</ElencoIngredienti>
+			<ElencoPeriodi>
+				<DataInizio giorno="1" mese="1" anno="2023"></DataInizio>
+				<DataFine giorno="31" mese="1" anno="2023"></DataFine>
+			</ElencoPeriodi>
+		</Ricetta>
+		<Ricetta nomePiatto="Salsiccia con patate" porzioni="4" caricoLavoro="5">
+			<ElencoIngredienti>
+				<Ingrediente nome="Salsicce" dose="1.0" unitaMisura="kg"></Ingrediente>
+				<Ingrediente nome="Patate" dose="0.8" unitaMisura="kg"></Ingrediente>
+				<Ingrediente nome="Salsa" dose="0.04" unitaMisura="l"></Ingrediente>
+				<Ingrediente nome="Sale" dose="0.02" unitaMisura="kg"></Ingrediente>
+			</ElencoIngredienti>
+			<ElencoPeriodi>
+				<DataInizio giorno="1" mese="1" anno="2023"></DataInizio>
+				<DataFine giorno="31" mese="1" anno="2023"></DataFine>
+			</ElencoPeriodi>
+		</Ricetta>
+	</ElencoRicette>
+	<ElencoMenuTematici>
+		<MenuTematico nome="Festa del pesce" caricoLavoro="20">
+			<ElencoPiatti>
+				<Piatto nome="Pasta al tonno"></Piatto>
+				<Piatto nome="Pasta al tonno"></Piatto>
+				<Piatto nome="Alga Nori"></Piatto>
+				<Piatto nome="Alga Nori"></Piatto>
+			</ElencoPiatti>
+			<ElencoPeriodi>
+				<DataInizio giorno="1" mese="1" anno="2023"></DataInizio>
+				<DataFine giorno="31" mese="1" anno="2023"></DataFine>
+			</ElencoPeriodi>
+		</MenuTematico>
+		<MenuTematico nome="Lunedi in Uni" caricoLavoro="15">
+			<ElencoPiatti>
+				<Piatto nome="Pasta al tonno"></Piatto>
+				<Piatto nome="Pollo halal al curry"></Piatto>
+				<Piatto nome="Salsiccia con patate"></Piatto>
+			</ElencoPiatti>
+			<ElencoPeriodi>
+				<DataInizio giorno="1" mese="1" anno="2023"></DataInizio>
+				<DataFine giorno="31" mese="1" anno="2023"></DataFine>
+			</ElencoPeriodi>
+		</MenuTematico>
+		<MenuTematico nome="Comincia il weekend" caricoLavoro="17">
+			<ElencoPiatti>
+				<Piatto nome="Pasta alla carbonara"></Piatto>
+				<Piatto nome="Risotto ai funghi"></Piatto>
+				<Piatto nome="Spezzatino di manzo con piselli"></Piatto>
+			</ElencoPiatti>
+			<ElencoPeriodi>
+				<DataInizio giorno="1" mese="1" anno="2023"></DataInizio>
+				<DataFine giorno="31" mese="1" anno="2023"></DataFine>
+			</ElencoPeriodi>
+		</MenuTematico>
+	</ElencoMenuTematici>
+	<InsiemeBevande>
+		<Bevanda nome="Acqua" consumoProCapite="1.0" unitaMisura="l"></Bevanda>
+		<Bevanda nome="Birra" consumoProCapite="0.5" unitaMisura="l"></Bevanda>
+		<Bevanda nome="Vino" consumoProCapite="0.2" unitaMisura="l"></Bevanda>
+	</InsiemeBevande>
+	<InsiemeGeneriExtra>
+		<GenereExtra nome="Pane" consumoProCapite="0.3" unitaMisura="hg"></GenereExtra>
+		<GenereExtra nome="Grissini" consumoProCapite="0.1" unitaMisura="hg"></GenereExtra>
+		<GenereExtra nome="Bruschette" consumoProCapite="0.2" unitaMisura="hg"></GenereExtra>
+	</InsiemeGeneriExtra>
+	<ElencoPrenotazioni>
+	</ElencoPrenotazioni>
+</ParametriRistorante>

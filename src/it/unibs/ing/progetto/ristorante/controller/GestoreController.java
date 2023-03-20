@@ -25,7 +25,7 @@ public class GestoreController extends Controller {
 	private static final int AGGIUNGI_INGREDIENTE = 1;
 
 	private GestoreView view;
-	
+
 	public GestoreController(Ristorante model) {
 		super(model);
 		this.view = new GestoreView();
@@ -34,7 +34,8 @@ public class GestoreController extends Controller {
 	// GETTER AND SETTER
 	// CONTROLLER METHODS
 
-	// richiede all'utente i parametri del this.getModel() e almeno una ricetta, minimo
+	// richiede all'utente i parametri del this.getModel() e almeno una ricetta,
+	// minimo
 	// necessario per un buon funzionamento del programma
 	public Ristorante inizializzaRistorante() {
 		Ristorante ristorante = new Ristorante();
@@ -50,7 +51,7 @@ public class GestoreController extends Controller {
 		int caricoLavoroPersona = view.richiestaInteroPositivo("Inserisci il carico di lavoro per persona: ");
 		this.getModel().setCaricoLavoroPerPersona(caricoLavoroPersona);
 
-		int caricoLavoroRistorante= caricoLavoroPersona * nPosti;
+		int caricoLavoroRistorante = caricoLavoroPersona * nPosti;
 		caricoLavoroRistorante += Math.floor(caricoLavoroRistorante / 100.0 * 20);
 		this.getModel().setCaricoLavoroRistorante(caricoLavoroRistorante);
 
@@ -75,47 +76,48 @@ public class GestoreController extends Controller {
 		do {
 			int scelta = view.printMenu();
 			switch (scelta) {
-			case AGGIUNGI_INGREDIENTE:
-				aggiungiPiattoRicetta();
-				break;
-			case AGGIUNGI_MENU_TEMATICO:
-				aggiungiMenuTematico();
-				break;
-			case AGGIUNGI_BEVANDA:
-				aggiungiBevanda();
-				break;
-			case AGGIUNGI_GENERE_EXTRA:
-				aggiungiGenereExtra();
-				break;
-			case VISUALIZZA_PARAMETRI:
-				view.stampaParametriRistorante(this.getModel().getDataCorrente(), this.getModel().getNumeroPostiASedere(),
-						this.getModel().getCaricoLavoroPerPersona(), this.getModel().getCaricoLavoroRistorante());
-				view.stampaMsg("");
-				break;
-			case VISUALIZZA_RICETTE:
-				view.stampaMsg("\nELENCO PIATTI-RICETTE");
-				view.stampaElencoPiattiRicette(this.getModel().getElencoPiatti());
-				view.stampaMsg("");
-				break;
-			case VISUALIZZA_MENU_TEMATICI:
-				view.stampaMsg("\nELENCO MENU TEMATICI");
-				view.stampaElencoMenuTematici(this.getModel().getElencoMenuTematici());
-				view.stampaMsg("");
-				break;
-			case VISUALIZZA_BEVANDE:
-				view.stampaMsg("\nELENCO BEVANDE");
-				view.stampaInsiemeProdotti(this.getModel().getInsiemeBevande());
-				view.stampaMsg("");
-				break;
-			case VISUALIZZA_GENERI_EXTRA:
-				view.stampaMsg("\nELENCO GENERI EXTRA");
-				view.stampaInsiemeProdotti(this.getModel().getInsiemeGeneriExtra());
-				view.stampaMsg("");
-				break;
-			case ESCI:
-				sessioneOn = false;
-				System.out.println("Fine sessione Gestore...");
-				break;
+				case AGGIUNGI_INGREDIENTE:
+					aggiungiPiattoRicetta();
+					break;
+				case AGGIUNGI_MENU_TEMATICO:
+					aggiungiMenuTematico();
+					break;
+				case AGGIUNGI_BEVANDA:
+					aggiungiBevanda();
+					break;
+				case AGGIUNGI_GENERE_EXTRA:
+					aggiungiGenereExtra();
+					break;
+				case VISUALIZZA_PARAMETRI:
+					view.stampaParametriRistorante(this.getModel().getDataCorrente(),
+							this.getModel().getNumeroPostiASedere(),
+							this.getModel().getCaricoLavoroPerPersona(), this.getModel().getCaricoLavoroRistorante());
+					view.stampaMsg("");
+					break;
+				case VISUALIZZA_RICETTE:
+					view.stampaMsg("\nELENCO PIATTI-RICETTE");
+					view.stampaElencoPiattiRicette(this.getModel().getElencoPiatti());
+					view.stampaMsg("");
+					break;
+				case VISUALIZZA_MENU_TEMATICI:
+					view.stampaMsg("\nELENCO MENU TEMATICI");
+					view.stampaElencoMenuTematici(this.getModel().getElencoMenuTematici());
+					view.stampaMsg("");
+					break;
+				case VISUALIZZA_BEVANDE:
+					view.stampaMsg("\nELENCO BEVANDE");
+					view.stampaInsiemeProdotti(this.getModel().getInsiemeBevande());
+					view.stampaMsg("");
+					break;
+				case VISUALIZZA_GENERI_EXTRA:
+					view.stampaMsg("\nELENCO GENERI EXTRA");
+					view.stampaInsiemeProdotti(this.getModel().getInsiemeGeneriExtra());
+					view.stampaMsg("");
+					break;
+				case ESCI:
+					sessioneOn = false;
+					System.out.println("Fine sessione Gestore...");
+					break;
 			}
 		} while (sessioneOn);
 
@@ -139,8 +141,6 @@ public class GestoreController extends Controller {
 		view.stampaMsg("\nE' stato aggiunto un nuovo elemento al menu.");
 	}
 
-	// si puo' usare uno stesso metodo per i vari richiestaNomeValido? forse usando
-	// getNome per tt gli elem (e non getNomePiatto)
 	// richiede un nome di piatto. Se gia' esiste in elencoPiatti, lo richiede.
 	// Ritorna il nome valido
 	private String richiestaNomePiattoValido(ArrayList<Piatto> elencoPiatti) {
@@ -185,8 +185,8 @@ public class GestoreController extends Controller {
 		do {
 			nomeValido = true;
 			nomeProdotto = view.richiestaNome("Inserisci il nome di un prodotto: ");
-			for(Prodotto p : elencoIngredienti) {
-				if(p.getNome().equalsIgnoreCase(nomeProdotto)) {
+			for (Prodotto p : elencoIngredienti) {
+				if (p.getNome().equalsIgnoreCase(nomeProdotto)) {
 					nomeValido = false;
 					view.stampaMsg("Prodotto gia presente, riprovare\n");
 					break;
@@ -217,11 +217,11 @@ public class GestoreController extends Controller {
 
 	private String richiestaNomeBevandaValido() {
 		String nomeProdotto;
-		boolean nomeValido = false;
+		boolean esiste = false;
 		do {
 			nomeProdotto = view.richiestaNome("Inserisci il nome di un prodotto: ");
-			nomeValido =this.getModel().esisteBevanda(nomeProdotto);
-		} while (!nomeValido);
+			esiste = this.ristorante.esisteBevanda(nomeProdotto);
+		} while (esiste);
 		return nomeProdotto;
 	}
 
@@ -235,7 +235,8 @@ public class GestoreController extends Controller {
 		boolean altroGenereExtra = true;
 		do {
 			String nomeGenereExtra = richiestaNomeGenereExtraValido();
-			Float consumoProCapiteGenereExtra = view.richiestaFloatPositivo("Inserisci il consumo pro capite di " + nomeGenereExtra + " (hg) : ");
+			Float consumoProCapiteGenereExtra = view
+					.richiestaFloatPositivo("Inserisci il consumo pro capite di " + nomeGenereExtra + " (hg) : ");
 
 			this.getModel().addGenereExtra(nomeGenereExtra, consumoProCapiteGenereExtra);
 			view.stampaMsg("E' stata aggiunto un genere extra.");
@@ -247,11 +248,11 @@ public class GestoreController extends Controller {
 	// Ritorna il nome valido
 	private String richiestaNomeGenereExtraValido() {
 		String nomeProdotto;
-		boolean nomeValido = false;
+		boolean esiste = false;
 		do {
 			nomeProdotto = view.richiestaNome("Inserisci il nome di un prodotto: ");
-			nomeValido = this.getModel().esisteGenereExtra(nomeProdotto);
-		} while (!nomeValido);
+			esiste = this.ristorante.esisteGenereExtra(nomeProdotto);
+		} while (esiste);
 		return nomeProdotto;
 	}
 
@@ -283,6 +284,7 @@ public class GestoreController extends Controller {
 		do {
 			nomeValido = true;
 			nomeMenuTematico = view.richiestaNome("Inserisci il nome del menu tematico: ");
+
 			for (MenuTematico m : elencoMenuTematici) {
 				if (m.getNome().equalsIgnoreCase(nomeMenuTematico)) {
 					view.stampaMsg("Il nome del menu tematico e' gia' stato utilizzato.");
@@ -344,8 +346,8 @@ public class GestoreController extends Controller {
 		return piattoValido;
 	}
 
-	// controlla se è possibile aggiungere ancora un piatto al menu tematico
-	// questo è possibile se il carico lavoro del menu tematico e' minore del carico
+	// controlla se ï¿½ possibile aggiungere ancora un piatto al menu tematico
+	// questo ï¿½ possibile se il carico lavoro del menu tematico e' minore del carico
 	// lavoro massimo
 	private boolean controllaAggiuntaNuovoPiattoAlMenuTematico(int caricoLavoroMenuTematico, int caricoLavoroMax) {
 		boolean altroPiatto = true;
