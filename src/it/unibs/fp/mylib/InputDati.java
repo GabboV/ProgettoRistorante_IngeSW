@@ -249,13 +249,30 @@ public class InputDati {
 		float valoreLetto = 0;
 		do {
 			valoreLetto = leggiFloat(messaggio);
-			if (valoreLetto >= minimo)
+			if (valoreLetto >= minimo || valoreLetto == 0f)
 				finito = true;
 			else
 				System.out.println(ERRORE_MINIMO + minimo);
 		} while (!finito);
 
 		return valoreLetto;
+	}
+	
+	public static float leggiFloatCompreso(String messaggio, float minimo, float max) {
+		boolean finito = false;
+		float valoreLetto = 0;
+		do {
+			valoreLetto = leggiFloat(messaggio);
+			if ((valoreLetto >= minimo && valoreLetto <= max))
+				finito = true;
+			else
+				System.out.println(String.format("Il valore deve essere comepreso nell'intervallo [%.2f-%.2f]", minimo, max));
+		} while (!finito);
+		return valoreLetto;
+	}
+	
+	public static float leggiFloatPositivoConZero(String messaggio) {
+		return leggiFloatConMinimo(messaggio, 0f);
 	}
 
 	public static float leggiFloatPositivo(String messaggio) {

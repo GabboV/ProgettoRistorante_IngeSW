@@ -1,8 +1,11 @@
 package it.unibs.ing.progetto.ristorante.controller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import it.unibs.fp.mylib.BelleStringhe;
+import it.unibs.ing.progetto.ristorante.model.Prodotto;
 import it.unibs.ing.progetto.ristorante.model.Ristorante;
 import it.unibs.ing.progetto.ristorante.model.UnitaMisura;
 import it.unibs.ing.progetto.ristorante.view.MagazziniereView;
@@ -10,10 +13,10 @@ import it.unibs.ing.progetto.ristorante.view.OutputFormatter;
 
 public class MagazziniereController extends Controller {
 
+	
 	private static final String MAGAZZINO_VUOTO = "\nIl Magazzino is vuoto\n";
 	private static final String LOGOUT_END = "Hai effettuato il Logout";
 	private static final String NESSUNA_LISTA_DELLA_SPESA = "\nLa lista della spesa is vuota o mai stata creata\n";
-	private static final String INSERIRE_LA_DATA_PER_CUI_CREARE_LA_LISTA_DELLA_SPESA = "Inserire la data per cui creare la lista della spesa\n";
 	private static final String PROFILO_MAGAZZINIERE = "Profilo: Magazziniere\n";
 	private static final String ERRORE = "Something really really bad happened...riavviare il programma";
 	private static final String INSERISCI_QUANTITA_DA_RIDURRE = "Inserisci quantita da ridurre -> ";
@@ -24,7 +27,7 @@ public class MagazziniereController extends Controller {
 
 	private static final int ZERO = 0;
 	private static final int LOGOUT = 0;
-	private static final int CREA_LISTA_SPESA = 1;
+	private static final int CONTROLLO = 1;
 	private static final int VISUALIZZA_INVENTARIO = 2;
 	private static final int VISUALIZZA_LISTA_SPESA = 3;
 	private static final int AGGIUNGI_PRODOTTI = 4;
@@ -39,51 +42,63 @@ public class MagazziniereController extends Controller {
 
 	public void avviaSessione() {
 		view.stampaMsg(PROFILO_MAGAZZINIERE);
+		this.creaListaSpesa();
 		boolean sessionOn = true;
 		do {
 			int input = view.printMenu();
 			switch (input) {
-				case LOGOUT:
-					sessionOn = false;
-					break;
-				case CREA_LISTA_SPESA:
-					this.creaListaSpesa();
-					break;
-				case VISUALIZZA_INVENTARIO:
-					this.visualizzaInventario();
-					break;
-				case VISUALIZZA_LISTA_SPESA:
-					this.visualizzaListaSpesa();
-					break;
-				case AGGIUNGI_PRODOTTI:
-					this.addProdottoRegistroMagazzino();
-					break;
-				case RIMUOVI_PRODOTTI_DETERIORATI:
-					this.rimuoviProdottiInventario();
-					break;
-				default:
-					view.stampaMsg(ERRORE);
-					break;
+			case LOGOUT:
+				sessionOn = false;
+				break;
+			case CONTROLLO:
+				this.controllaMagazzino();
+				break;
+			case VISUALIZZA_INVENTARIO:
+				this.visualizzaInventario();
+				break;
+			case VISUALIZZA_LISTA_SPESA:
+				this.visualizzaListaSpesa();
+				break;
+			case AGGIUNGI_PRODOTTI:
+				this.addProdottoRegistroMagazzino();
+				break;
+			case RIMUOVI_PRODOTTI_DETERIORATI:
+				this.rimuoviProdottiInventario();
+				break;
+			default:
+				view.stampaMsg(ERRORE);
+				break;
 			}
 		} while (sessionOn);
 		view.stampaMsg(LOGOUT_END);
 	}
 
+
+	public void controllaMagazzino() {
+		ArrayList<Prodotto> prodotti = (ArrayList<Prodotto>) this.getModel().prodottiInsufficienti();
+		if(prodotti != null) {
+			this.view.stampaMsg("Mancano questi ingredienti per soddisfare le prenotazioni:\n");
+			this.view.stampaMsg(OutputFormatter.formatElencoProdotti2(prodotti));
+		} else {
+			this.view.stampaMsg("Nel magazzino sono presenti, in quantita sufficiente,\n"
+					+ " tutti i prodotti per soddisfare le prenotazione della giornata");
+		}
+	}
+
 	public void creaListaSpesa() {
-		LocalDate data = view.richiestaData(INSERIRE_LA_DATA_PER_CUI_CREARE_LA_LISTA_DELLA_SPESA);
-		this.getModel().generaListaSpesa(data);
-		this.visualizzaListaSpesa();
+		this.getModel().generaListaSpesa();
 	}
 
 	public void visualizzaListaSpesa() {
 		String listaFormattata;
 		if (this.getModel().getListaSpesa().isEmpty()) {
 			listaFormattata = NESSUNA_LISTA_DELLA_SPESA;
+			view.stampaMsg(listaFormattata);
 		} else {
 			listaFormattata = BelleStringhe
 					.incornicia(OutputFormatter.formatListaProdotti(this.getModel().getListaSpesa()));
+			view.stampaMsg(listaFormattata);
 		}
-		view.stampaMsg(listaFormattata);
 	}
 
 	/**
@@ -94,9 +109,6 @@ public class MagazziniereController extends Controller {
 		UnitaMisura unitaMisura = view.richiestaUnitaMisura(INSERISCI_UNITA_DI_MISURA_DEL_PRODOTTO);
 		float quantita = view.richiestaQuantita(INSERISCI_QUANTITA_DEL_PRODOTTO);
 		this.addProdottoRegistro(nome, quantita, unitaMisura);
-
-		String feedback = "Aggiungto\n";
-		view.stampaMsg(feedback);
 	}
 
 	public void addProdottoRegistro(String nome, float quantita, UnitaMisura unitaMisura) {
@@ -109,15 +121,16 @@ public class MagazziniereController extends Controller {
 			int indiceProdottoSelezionato = view.leggiInteroCompreso(
 					SELEZIONE_IL_PRODOTTO_NUMERO_DA_ELIMINARE_O_RIDURRE, ZERO,
 					this.getModel().getRegistroMagazzino().size() - 1);
-			float quantitaDaRidurre = view.richiestaQuantita(INSERISCI_QUANTITA_DA_RIDURRE);
+			Prodotto prodotto = this.getModel().prodottoScleto(indiceProdottoSelezionato);
+			float quantitaDaRidurre = view.richiestaQuantitaCompreso(INSERISCI_QUANTITA_DA_RIDURRE,0f, prodotto.getQuantita());
 			this.getModel().rimuoviQuantitaProdottoDaRegistro(
 					this.getModel().getRegistroMagazzino().get(indiceProdottoSelezionato), quantitaDaRidurre);
+			this.getModel().generaListaSpesa();
 		} else {
-			view.stampaMsg(MAGAZZINO_VUOTO);
+			view.stampaMsg(BelleStringhe.incornicia(MAGAZZINO_VUOTO));
 		}
-
 	}
-
+	
 	public void visualizzaInventario() {
 		String inventario;
 		if (this.getModel().getRegistroMagazzino().isEmpty()) {

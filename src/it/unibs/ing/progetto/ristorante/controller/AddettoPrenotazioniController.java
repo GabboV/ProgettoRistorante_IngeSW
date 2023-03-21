@@ -47,7 +47,6 @@ public class AddettoPrenotazioniController extends Controller {
 			default:
 				view.stampaMsg("Errore");
 				break;
-
 			}
 
 		} while (sessioneON);
@@ -71,7 +70,7 @@ public class AddettoPrenotazioniController extends Controller {
 	
 	public void inserisciPrenotazione() {
 		LocalDate dataPrenotazione;
-		dataPrenotazione = getDataFeriale();
+		dataPrenotazione = getDataValida();
 		if (dataPrenotazione != null ) {
 			int numCoperti = 0;
 			if (!this.getModel().isRistorantePienoInData(dataPrenotazione)) {
@@ -95,14 +94,22 @@ public class AddettoPrenotazioniController extends Controller {
 			}
 		}
 	}
+	
 
-	private LocalDate getDataFeriale() {
+	private LocalDate getDataValida() {
 		LocalDate dataPrenotazione;
 		boolean feriale = false;
 		do {
 			dataPrenotazione = view.richiestaData("Inserire data della prenotazione:\n");
-			if(!this.isGiornoFeriale(dataPrenotazione)) {
-				this.view.stampaMsg("Il ristorante � aperto solo nei giorni feriali, riprovare!\n");
+			boolean tematici = this.getModel().ciSonoMenuTematiciValidiInData(dataPrenotazione);
+			boolean carta = this.getModel().ciSonoMenuValidiInData(dataPrenotazione);
+			if(!this.isGiornoFeriale(dataPrenotazione) || !(tematici || carta)) {
+				if(!this.isGiornoFeriale(dataPrenotazione)) {
+					this.view.stampaMsg("Il ristorante is aperto solo nei giorni feriali, riprovare!\n");
+				}
+				if(tematici == false && carta == false) {
+					this.view.stampaMsg("Non ci sono piatti validi da scegliere, scegli un altro giorno\n");
+				}
 			} else {
 				feriale = true;
 			}

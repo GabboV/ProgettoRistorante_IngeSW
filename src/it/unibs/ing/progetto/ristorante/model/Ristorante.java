@@ -2,12 +2,12 @@ package it.unibs.ing.progetto.ristorante.model;
 
 import java.io.Serializable;
 import java.util.stream.Collectors;
-
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
 
 import java.util.List;
 import java.util.Map.Entry;
@@ -15,6 +15,7 @@ import java.util.Map.Entry;
 public class Ristorante implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	public final static double EPSILON = 1E-3;
 
 	private LocalDate dataCorrente;
 	private int caricoLavoroPerPersona;
@@ -28,6 +29,9 @@ public class Ristorante implements Serializable {
 
 	private ArrayList<Prodotto> registroMagazzino;
 	private ArrayList<Prodotto> listaSpesa;
+
+	private boolean listaSpesaComprata;
+	private boolean pastoConcluso;
 
 	private ArrayList<Prenotazione> elencoPrenotazioni;
 
@@ -43,6 +47,9 @@ public class Ristorante implements Serializable {
 		this.registroMagazzino = new ArrayList<>();
 		this.listaSpesa = new ArrayList<>();
 		this.elencoPrenotazioni = new ArrayList<>();
+		this.setListaSpesaComprata(false);
+		this.setPastoConcluso(false);
+
 	}
 
 	public boolean isRistorantePienoInData(LocalDate data) {
@@ -270,18 +277,43 @@ public class Ristorante implements Serializable {
 				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, Integer::sum, HashMap::new));
 	}
 
-	public void generaListaSpesa(LocalDate data) {
-		this.dataCorrente = data;
-		ArrayList<Prenotazione> prenotazioniInData = (ArrayList<Prenotazione>) this.getPrenotazioniInData(data);
-		HashMap<Piatto, Integer> comanda_unica = combinaAllcomande(prenotazioniInData);
-		int prenotati = this.getNumeroClientiPrenotatiInData(data);
-		ArrayList<Prodotto> lista_provvisoria = this.costruisciListaProdottiDaComanda(comanda_unica);
+	public void generaListaSpesa() {
+		ArrayList<Prodotto> lista_provvisoria = (ArrayList<Prodotto>) this.generaProdottiUsatiInCucina();
 		maggiorazionePercentuale(lista_provvisoria, 10);
-		aggiornaListaConProdotti(lista_provvisoria,
-				(ArrayList<Prodotto>) this.ricalcolaInBaseNumeroClienti(insiemeGeneriExtra, prenotati));
-		aggiornaListaConProdotti(lista_provvisoria,
-				(ArrayList<Prodotto>) this.ricalcolaInBaseNumeroClienti(insiemeBevande, prenotati));
 		aggiornaListaSpesaConInventario(lista_provvisoria);
+	}
+
+	public List<Prodotto> generaProdottiUsatiInCucina() {
+		ArrayList<Prenotazione> prenotazioniInData = (ArrayList<Prenotazione>) this.getPrenotazioniInData(dataCorrente);
+		HashMap<Piatto, Integer> comanda_unica = combinaAllcomande(prenotazioniInData);
+		ArrayList<Prodotto> list = costruisciListaProdottiDaComanda(comanda_unica);
+		aggiungiBevandeEGeneriExtra(list);
+		return list;
+	}
+
+	private void aggiungiBevandeEGeneriExtra(ArrayList<Prodotto> list) {
+		int prenotati = getNumeroClientiPrenotatiInData(dataCorrente);
+		aggiornaListaConProdotti(list,
+				(ArrayList<Prodotto>) ricalcolaInBaseNumeroClienti(insiemeGeneriExtra, prenotati));
+		aggiornaListaConProdotti(list, (ArrayList<Prodotto>) ricalcolaInBaseNumeroClienti(insiemeBevande, prenotati));
+	}
+
+	public List<Prodotto> generaProdottiNonUsati() {
+		if (!this.listaSpesa.isEmpty()) {
+			return this.listaSpesa.stream().map(
+					p -> new Prodotto(p.getNome(), (p.getQuantita() - (p.getQuantita() / 1.1f)), p.getUnitaMisura()))
+					.collect(Collectors.toList());
+		}
+		return null;
+	}
+
+	public void aggiorna(ArrayList<Prodotto> list) {
+		for (Prodotto p : this.generaProdottiUsatiInCucina()) {
+			this.rimuoviQuantitaProdottoDaRegistro(p, p.getQuantita());
+		}
+		for (Prodotto p : list) {
+			this.rimuoviQuantitaProdottoDaRegistro(p, p.getQuantita());
+		}
 	}
 
 	private ArrayList<Prodotto> costruisciListaProdottiDaComanda(HashMap<Piatto, Integer> piattiOrdinati) {
@@ -371,7 +403,7 @@ public class Ristorante implements Serializable {
 		Prodotto prodotto = new Prodotto(nome, quantita, unitaMisura);
 		aggiornaListaConProdotto(this.registroMagazzino, prodotto);
 		if (!this.listaSpesa.isEmpty()) {
-			this.generaListaSpesa(dataCorrente);
+			this.generaListaSpesa();
 		}
 	}
 
@@ -404,16 +436,16 @@ public class Ristorante implements Serializable {
 		String nomeCercato = prodotto.getNome();
 		for (Prodotto p : this.registroMagazzino) {
 			if (p.getNome().equalsIgnoreCase(nomeCercato)) {
-				if (p.getQuantita() > quantita) {
-					p.setQuantita(p.getQuantita() - quantita);
-				} else {
+				if (compareFloats(0f, p.getQuantita() - quantita)) {
 					rimuoviProdotto(registroMagazzino, prodotto);
+				} else {
+					p.setQuantita(p.getQuantita() - quantita);
 				}
 				break;
 			}
 		}
 		if (!this.listaSpesa.isEmpty()) {
-			this.generaListaSpesa(dataCorrente);
+			this.generaListaSpesa();
 		}
 	}
 
@@ -438,6 +470,52 @@ public class Ristorante implements Serializable {
 	private static void rimuoviProdotto(ArrayList<Prodotto> prodotti, Prodotto prodotto) {
 		String nome = prodotto.getNome();
 		prodotti.removeIf(p -> p.getNome().equalsIgnoreCase(nome));
+	}
+
+	public void acquistaProdotti() {
+		if (!this.listaSpesa.isEmpty()) {
+			this.listaSpesaComprata = true;
+			this.aggiornaListaConProdotti(this.registroMagazzino, this.listaSpesa);
+		}
+	}
+
+	public boolean isListaSpesaComprata() {
+		return listaSpesaComprata;
+	}
+
+	public void setListaSpesaComprata(boolean listaSpesaComprata) {
+		this.listaSpesaComprata = listaSpesaComprata;
+	}
+
+	public boolean isPastoConcluso() {
+		return pastoConcluso;
+	}
+
+	public void setPastoConcluso(boolean pastoPreparato) {
+		this.pastoConcluso = pastoPreparato;
+	}
+
+	public Prodotto prodottoScleto(int indice) {
+		if (indice >= 0 && indice < this.registroMagazzino.size() - 1) {
+			return registroMagazzino.get(indice);
+		}
+		return null;
+	}
+	
+
+	public static boolean compareFloats(float x, float y) {
+		if (Math.abs(x - y) <= EPSILON) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public List<Prodotto> prodottiInsufficienti(){
+		if(!listaSpesa.isEmpty()) {
+			return this.listaSpesa.stream().filter(p -> !this.contieneProdottoSufficiente(this.registroMagazzino, p)).collect(Collectors.toList());
+		}
+		return null;
 	}
 
 }

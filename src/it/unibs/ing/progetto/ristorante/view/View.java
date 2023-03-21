@@ -3,7 +3,6 @@ package it.unibs.ing.progetto.ristorante.view;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-
 import it.unibs.fp.mylib.InputDati;
 import it.unibs.fp.mylib.MyMenu;
 import it.unibs.ing.progetto.ristorante.model.MenuTematico;
@@ -49,6 +48,10 @@ public class View {
 		return InputDati.leggiFloatPositivo(messaggio);
 	}
 
+	public Float richiestaQuantitaCompreso(String messaggio, float min, float max) {
+		return InputDati.leggiFloatCompreso(messaggio, min, max);
+	}
+
 	public String richiestaNome(String messaggio) {
 		return InputDati.leggiStringaNonVuota(messaggio);
 	}
@@ -64,7 +67,7 @@ public class View {
 	public UnitaMisura richiestaUnitaMisura(String messaggio) {
 		return InputDati.leggiUnitaMisura(messaggio);
 	}
-	
+
 	public void stampaElencoMenuTematici(ArrayList<MenuTematico> elencoMenuTematici) {
 		if (elencoMenuTematici.isEmpty()) {
 			stampaMsg("La lista e' vuota.");
@@ -133,6 +136,5 @@ public class View {
 		stampaData(dataFine);
 		System.out.println();
 	}
-
 
 }
