@@ -143,4 +143,19 @@
 		<GenereExtra nome="Bruschette" consumoProCapite="0.2" unitaMisura="hg"></GenereExtra>
 	</InsiemeGeneriExtra>
 	<ElencoPrenotazioni>
-		<Prenotazione codiceCliente="
+		<Prenotazione numeroCoperti="3">
+			<DataPrenotazione giorno="2" mese="1" anno="2023"></DataPrenotazione>
+			<ElencoPiattiComanda>
+				<Piatto nome="Alga Nori" quantita="1"></Piatto>
+				<Piatto nome="Pasta al tonno" quantita="1"></Piatto>
+			</ElencoPiattiComanda>
+		</Prenotazione>
+		<Prenotazione numeroCoperti="3">
+			<DataPrenotazione giorno="2" mese="1" anno="2023"></DataPrenotazione>
+			<ElencoPiattiComanda>
+				<Piatto nome="Alga Nori" quantita="2"></Piatto>
+				<Piatto nome="Pasta al tonno" quantita="2"></Piatto>
+			</ElencoPiattiComanda>
+		</Prenotazione>
+	</ElencoPrenotazioni>
+</ParametriRistorante>

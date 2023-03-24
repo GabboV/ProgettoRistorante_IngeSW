@@ -266,7 +266,6 @@ public class WriterXMLRistorante {
     public void stampaPrenotazione(Prenotazione prenotazione, XMLStreamWriter xmlw) throws XMLStreamException{
     	xmlw.writeCharacters("\t");
     	xmlw.writeStartElement("Prenotazione");
-        xmlw.writeAttribute("codiceCliente", prenotazione.getCodiceCliente());
         xmlw.writeAttribute("numeroCoperti", Integer.toString(prenotazione.getNumeroCoperti()));
         xmlw.writeCharacters("\n"+"\t"+"\t"+"\t");
         LocalDate dataPrenotazione = prenotazione.getDataPrenotazione();
