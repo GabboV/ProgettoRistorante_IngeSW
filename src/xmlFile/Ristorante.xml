@@ -50,7 +50,7 @@
 		<Ricetta nomePiatto="Pasta alla carbonara" porzioni="4" caricoLavoro="6">
 			<ElencoIngredienti>
 				<Ingrediente nome="Pasta" dose="4.0" unitaMisura="kg"></Ingrediente>
-				<Ingrediente nome="Pancetta" dose="500.0" unitaMisura="kg"></Ingrediente>
+				<Ingrediente nome="Pancetta" dose="0.5" unitaMisura="kg"></Ingrediente>
 				<Ingrediente nome="Uova" dose="8.0" unitaMisura="unita"></Ingrediente>
 				<Ingrediente nome="Sale" dose="0.02" unitaMisura="kg"></Ingrediente>
 			</ElencoIngredienti>
@@ -143,5 +143,4 @@
 		<GenereExtra nome="Bruschette" consumoProCapite="0.2" unitaMisura="hg"></GenereExtra>
 	</InsiemeGeneriExtra>
 	<ElencoPrenotazioni>
-	</ElencoPrenotazioni>
-</ParametriRistorante>
+		<Prenotazione codiceCliente="

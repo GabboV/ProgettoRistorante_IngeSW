@@ -24,7 +24,7 @@ public class MainXML {
 		model.setCaricoLavoroPerPersona(20);
 		model.setCaricoLavoroRistorante((int) (20 * 50 + 20 * 50 * 0.2));
 		model.setDataCorrente(LocalDate.of(2023, 1, 1));
-		LocalDate dataprenotazione = LocalDate.of(2023, 5, 1);
+		LocalDate dataprenotazione = LocalDate.of(2023, 1, 2);
 	
 		LocalDate inizioValidita = LocalDate.of(2023, 01, 1);
 		LocalDate fineValidita = LocalDate.of(2023, 01, 31);
@@ -76,7 +76,7 @@ public class MainXML {
 		
 		// PIATTO-RICETTA 4
 		Prodotto i1piatto4 = new Prodotto("Pasta", 4f, "kg");
-		Prodotto i2piatto4 = new Prodotto("Pancetta", 500f, "kg");
+		Prodotto i2piatto4 = new Prodotto("Pancetta", 0.5f, "kg");
 		Prodotto i3piatto4 = new Prodotto("Uova", 8f, "unita");
 		Prodotto i4piatto4 = new Prodotto("Sale", 0.02f, "kg");
 		ArrayList<Prodotto> ingredienti4 = new ArrayList<>();
@@ -170,13 +170,13 @@ public class MainXML {
 		comanda1.put(model.piattoScelto(0), 3);
 		comanda1.put(model.piattoScelto(3), 1);
 		comanda1.put(model.piattoScelto(0), 1);
-		Prenotazione pre1 = new Prenotazione(1, comanda1, dataprenotazione);
+		model.addPrenotazione(dataprenotazione, comanda1, 3);
 		
 		//PRENOTAZIONE2
 		HashMap<Piatto,Integer> comanda2 = new HashMap<Piatto,Integer>();
 		comanda2.put(model.piattoScelto(0), 2);
 		comanda2.put(model.piattoScelto(3), 2);
-		Prenotazione pre2 = new Prenotazione(3, comanda2, dataprenotazione);
+		model.addPrenotazione(dataprenotazione, comanda2, 3);
 		
 		WriterXMLRistorante scrittore = new WriterXMLRistorante();
 		System.out.println(STRINGA_INIZIO_STAMPA);
