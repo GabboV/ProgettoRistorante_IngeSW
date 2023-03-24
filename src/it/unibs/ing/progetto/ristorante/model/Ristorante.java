@@ -108,9 +108,9 @@ public class Ristorante implements Serializable {
 		return !piattiValidi.isEmpty();
 	}
 
-	public void removePrenotazioniScadute(LocalDate data) {
+	public void removePrenotazioniScadute() {
 		elencoPrenotazioni = (ArrayList<Prenotazione>) this.elencoPrenotazioni.stream()
-				.filter(p -> !p.getDataPrenotazione().isBefore(data)).collect(Collectors.toList());
+				.filter(p -> !p.getDataPrenotazione().isBefore(dataCorrente)).collect(Collectors.toList());
 	}
 
 	// GETTER AND SETTER
@@ -293,9 +293,11 @@ public class Ristorante implements Serializable {
 
 	private void aggiungiBevandeEGeneriExtra(ArrayList<Prodotto> list) {
 		int prenotati = getNumeroClientiPrenotatiInData(dataCorrente);
-		aggiornaListaConProdotti(list,
-				(ArrayList<Prodotto>) ricalcolaInBaseNumeroClienti(insiemeGeneriExtra, prenotati));
-		aggiornaListaConProdotti(list, (ArrayList<Prodotto>) ricalcolaInBaseNumeroClienti(insiemeBevande, prenotati));
+		if(prenotati != 0) {
+			aggiornaListaConProdotti(list,
+					(ArrayList<Prodotto>) ricalcolaInBaseNumeroClienti(insiemeGeneriExtra, prenotati));
+			aggiornaListaConProdotti(list, (ArrayList<Prodotto>) ricalcolaInBaseNumeroClienti(insiemeBevande, prenotati));
+		}
 	}
 
 	public List<Prodotto> generaProdottiNonUsati() {
@@ -495,14 +497,13 @@ public class Ristorante implements Serializable {
 		this.pastoConcluso = pastoPreparato;
 	}
 
-	public Prodotto prodottoScleto(int indice) {
+	public Prodotto prodottoScelto(int indice) {
 		if (indice >= 0 && indice < this.registroMagazzino.size() - 1) {
 			return registroMagazzino.get(indice);
 		}
 		return null;
 	}
 	
-
 	public static boolean compareFloats(float x, float y) {
 		if (Math.abs(x - y) <= EPSILON) {
 			return true;

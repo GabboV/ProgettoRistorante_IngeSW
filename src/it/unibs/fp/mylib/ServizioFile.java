@@ -3,7 +3,7 @@ package it.unibs.fp.mylib;
 import java.io.*;
 
 public class ServizioFile {
-	
+
 	private final static String MSG_NO_FILE = "ATTENZIONE: NON TROVO IL FILE ";
 	private final static String MSG_NO_LETTURA = "ATTENZIONE: PROBLEMI CON LA LETTURA DEL FILE ";
 	private final static String MSG_NO_SCRITTURA = "ATTENZIONE: PROBLEMI CON LA SCRITTURA DEL FILE ";
@@ -61,5 +61,18 @@ public class ServizioFile {
 		} // finally
 
 	} // metodo salvaSingoloOggetto
+
+	public static boolean fileContieneDati(File file) {
+		if (file.exists()) {
+			try (FileInputStream fileInputStream = new FileInputStream(file);
+					ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
+				return (fileInputStream.available() > 0);
+			} catch (IOException e) {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
 
 }

@@ -17,12 +17,12 @@ public class AddettoPrenotazioniController extends Controller {
 	private static final int RIMUOVI_PRENOTAZIONE = 2;
 	private static final int AGGIUNGI_PRENOTAZIONE = 1;
 	private static final int LOGOUT = 0;
-	
+
 	private AddettoPrenotazioniView view;
 
 	public AddettoPrenotazioniController(Ristorante model) {
 		super(model);
-		this.view =new AddettoPrenotazioniView();
+		this.view = new AddettoPrenotazioniView();
 	}
 
 	public void avviaSessione() {
@@ -30,6 +30,7 @@ public class AddettoPrenotazioniController extends Controller {
 		view.stampaMsg("Addetto Prenotazioni\n");
 		boolean sessioneON = true;
 		do {
+			this.getModel().removePrenotazioniScadute();
 			int scelta = view.printMenu();
 			switch (scelta) {
 			case LOGOUT:
@@ -39,7 +40,7 @@ public class AddettoPrenotazioniController extends Controller {
 				this.inserisciPrenotazione();
 				break;
 			case RIMUOVI_PRENOTAZIONE:
-				// da implementare
+				//
 				break;
 			case VISUALIZZA_PRENOTAZIONI:
 				this.visualizzaPrenotazioni();
@@ -64,14 +65,13 @@ public class AddettoPrenotazioniController extends Controller {
 
 	public void removePrenotazioniScadute() {
 		LocalDate data = LocalDate.now();
-		this.getModel().removePrenotazioniScadute(data);
+		this.getModel().removePrenotazioniScadute();
 	}
 
-	
 	public void inserisciPrenotazione() {
 		LocalDate dataPrenotazione;
 		dataPrenotazione = getDataValida();
-		if (dataPrenotazione != null ) {
+		if (dataPrenotazione != null) {
 			int numCoperti = 0;
 			if (!this.getModel().isRistorantePienoInData(dataPrenotazione)) {
 				int postiLiberi = this.getModel().getPostiDisponibiliInData(dataPrenotazione);
@@ -83,7 +83,8 @@ public class AddettoPrenotazioniController extends Controller {
 			HashMap<Piatto, Integer> comanda;
 			if (!discard && !piattiOrdinati.isEmpty()) {
 				comanda = this.creaComandaConListaPiatti(piattiOrdinati);
-				boolean check = this.getModel().verificaAccettabilitaPrenotazione(dataPrenotazione, comanda, numCoperti);
+				boolean check = this.getModel().verificaAccettabilitaPrenotazione(dataPrenotazione, comanda,
+						numCoperti);
 				if (check) {
 					this.getModel().addPrenotazione(dataPrenotazione, comanda, numCoperti);
 				} else {
@@ -94,7 +95,6 @@ public class AddettoPrenotazioniController extends Controller {
 			}
 		}
 	}
-	
 
 	private LocalDate getDataValida() {
 		LocalDate dataPrenotazione;
@@ -103,20 +103,35 @@ public class AddettoPrenotazioniController extends Controller {
 			dataPrenotazione = view.richiestaData("Inserire data della prenotazione:\n");
 			boolean tematici = this.getModel().ciSonoMenuTematiciValidiInData(dataPrenotazione);
 			boolean carta = this.getModel().ciSonoMenuValidiInData(dataPrenotazione);
-			if(!this.isGiornoFeriale(dataPrenotazione) || !(tematici || carta)) {
-				if(!this.isGiornoFeriale(dataPrenotazione)) {
+			if (!this.isGiornoFeriale(dataPrenotazione) || !(tematici || carta) || !almenoUnGiornoFeriale(this.getModel().getDataCorrente(), dataPrenotazione)) {
+				if (!this.isGiornoFeriale(dataPrenotazione)) {
 					this.view.stampaMsg("Il ristorante is aperto solo nei giorni feriali, riprovare!\n");
 				}
-				if(tematici == false && carta == false) {
+				if (tematici == false && carta == false) {
 					this.view.stampaMsg("Non ci sono piatti validi da scegliere, scegli un altro giorno\n");
+				}
+				if(!almenoUnGiornoFeriale(this.getModel().getDataCorrente(), dataPrenotazione)) {
+					this.view.stampaMsg("La prenotazione deve pervenire con almeno un giorno feriale in anticipo");
 				}
 			} else {
 				feriale = true;
 			}
-		} while(!feriale);
+		} while (!feriale);
 		return dataPrenotazione;
 	}
-	
+
+	public static boolean almenoUnGiornoFeriale(LocalDate date1, LocalDate date2) {
+		LocalDate nextWorkingDay = getGiornoFerialeSuccessivo(date1);
+		return date2.isAfter(nextWorkingDay) || date2.isEqual(nextWorkingDay);
+	}
+
+	private static LocalDate getGiornoFerialeSuccessivo(LocalDate date) {
+		do {
+			date = date.plusDays(1);
+		} while (date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY);
+		return date;
+	}
+
 	private boolean isGiornoFeriale(LocalDate data) {
 		DayOfWeek dayOfWeek = data.getDayOfWeek();
 		return dayOfWeek != DayOfWeek.SATURDAY && dayOfWeek != DayOfWeek.SUNDAY;

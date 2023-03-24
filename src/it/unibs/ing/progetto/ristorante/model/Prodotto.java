@@ -21,11 +21,6 @@ public class Prodotto implements Serializable{
 		this.quantita = quantita;
 		this.unitaMis = unitaMisura;
 	}
-	
-	public Prodotto(String nome, Float quantita) {
-		this.nome = nome;
-		this.quantita = quantita;
-	}
 
 	public String getNome() {
 		return nome;

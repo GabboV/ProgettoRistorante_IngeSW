@@ -25,16 +25,17 @@ import it.unibs.ing.progetto.ristorante.model.UnitaMisura;
 
 public class ViewGenerale {
 
+	private static final String RISTORANTE_DAT = "ristorante.dat";
 	private static final String MODEL_IS_NULL = "Problema model == null controllare view generale";
 	private static final String DEFAULT_VALUE = "Vuoi iniziare da zero? Se scegli di no verrano caricati dei valori predefiniti ";
 	private static final String NO_DATI_IN_MEMORIA = "A quanto risulta non esistono elementi in memoria";
 	private static final String DATI_IN_MEMORIA = "Sono presenti dei dati salvati in memoria, vuoi caricarli? ";
 	private static final int ELIMINA_DATI = 2;
 	private static final int SALVA_MODIFICHE = 1;
-	private static final String ERRORE = "Errore";
-	final private static String MSG_BENVENUTO = "Benvenuto nel programma di supporto del tuo ristorante.";
-	final private static String TITOLO_SCHERMATA = "PAGINA DI LOGIN";
-	final private static String[] ELENCO_RUOLI = { "GESTORE", "ADDETTO PRENOTAZIONI", "MAGAZZINIERE" };
+	private static final String ERRORE = "Errore nella lettura dei dati";
+	final private static String MSG_BENVENUTO = "Hi, nice to see you again.";
+	final private static String TITOLO_SCHERMATA = "             Login              ";
+	final private static String[] ELENCO_RUOLI = { "Gestore", "Addetto Prenotazioni", "Magazziniere" };
 	final private static String[] OPZIONI_FILE = { "Salva ultime modifiche", "Cancella dati" };
 	final private static String MSG_ARRESTO_PROGRAMMA = "Arresto programma...";
 	final private static int GESTORE = 1;
@@ -46,49 +47,41 @@ public class ViewGenerale {
 
 		System.out.println(MSG_BENVENUTO);
 
-		File file_memoria = new File("ristorante.dat");
-
+		File file_memoria = new File(RISTORANTE_DAT);
 		Ristorante model = null;
 
-		if (file_memoria.exists()) {
-
-			boolean caricaMemoria = InputDati.yesOrNo(DATI_IN_MEMORIA);
-			if (caricaMemoria) {
-				try {
-					BoxMemoria memoriaBox = (BoxMemoria) ServizioFile.caricaSingoloOggetto(file_memoria);
-					model = memoriaBox.getRistorante();
-				} catch (NullPointerException e) {
-					System.out.println(ERRORE);
-				}
-			}
+		if (ServizioFile.fileContieneDati(file_memoria)) {
+			model = caricaDatiDaMemoria(file_memoria, model);
+			model.setDataCorrente(LocalDate.now());
 		} else {
-			System.out.println(NO_DATI_IN_MEMORIA);
-			boolean scelta = InputDati
-					.yesOrNo(DEFAULT_VALUE);
-			if (scelta) {
-				model = this.loginInizializzazione();
-			} else {
-				model = caricaElementiPredefiniti();
-			}
+			model = this.loginInizializzazione();
 		}
-
+		
 		if (model != null) {
 			loginUtente(model);
-			this.gestisciMemoria(model, file_memoria);
-		} else {
-			System.out.println(MODEL_IS_NULL);
+			gestisciMemoria(model, file_memoria);
 		}
 		System.out.println(MSG_ARRESTO_PROGRAMMA);
-
 	}
 
-	// permette al gestore di inizializzare i parametri del ristorante al primo
-	// avvio
+	private Ristorante caricaDatiDaMemoria(File file_memoria, Ristorante model) {
+		try {
+			BoxMemoria memoriaBox = (BoxMemoria) ServizioFile.caricaSingoloOggetto(file_memoria);
+			model = memoriaBox.getRistorante();
+			model.setDataCorrente(LocalDate.now());
+		} catch (NullPointerException e) {
+			System.out.println(ERRORE);
+		}
+		return model;
+	}
+
+	/*
+	 * Chiamao solo in caso di primo avvio
+	 */
 	public Ristorante loginInizializzazione() {
 		System.out.println("Per la fase di inizializzazione del programma � necessario il login del Gestore.");
 		Ristorante model = null;
 		boolean risposta = InputDati.yesOrNo("Sei il Gestore? ");
-		// Se l'utente risponde che non e' il gestore, allore il programma si arresta
 		if (risposta == false) {
 			System.out.println("Bisogna essere il Gestore per poter inizializzare il programma.");
 			System.out.println(MSG_ARRESTO_PROGRAMMA);
@@ -100,34 +93,48 @@ public class ViewGenerale {
 		return model;
 	}
 
-	// chiede il ruolo dell'utente apre il rispettivo menu
+	public Ristorante caricaDatiDaMemoria() {
+		Ristorante model = null;
+		File file_memoria = new File(RISTORANTE_DAT);
+		if (file_memoria.exists()) {
+			boolean caricaMemoria = InputDati.yesOrNo(DATI_IN_MEMORIA);
+			if (caricaMemoria) {
+				try {
+					BoxMemoria memoriaBox = (BoxMemoria) ServizioFile.caricaSingoloOggetto(file_memoria);
+					model = memoriaBox.getRistorante();
+				} catch (NullPointerException e) {
+					System.out.println(ERRORE);
+				}
+			}
+		}
+		return model;
+	}
+
 	public void loginUtente(Ristorante model) {
 		MyMenu menu = new MyMenu(TITOLO_SCHERMATA, ELENCO_RUOLI);
-		System.out.println();
 		boolean appAttiva = true;
 		do {
 			int scelta = menu.scegli();
 			switch (scelta) {
-				case GESTORE:
-					GestoreController gestore = new GestoreController(model);
-					gestore.avviaSessione();
-					break;
-				case ADDETTO_PRENOTAZIONI:
-					AddettoPrenotazioniController addettoPrenotazioni = new AddettoPrenotazioniController(model);
-					addettoPrenotazioni.avviaSessione();
-					break;
-				case MAGAZZINIERE:
-					MagazziniereController magazziniere = new MagazziniereController(model);
-					magazziniere.avviaSessione();
-					break;
-				case ESCI:
-					appAttiva = false;
-					System.out.println("- - -");
-					break;
-				default:
-					appAttiva = false;
-					System.out.println(ERRORE);
-					break;
+			case GESTORE:
+				GestoreController gestore = new GestoreController(model);
+				gestore.avviaSessione();
+				break;
+			case ADDETTO_PRENOTAZIONI:
+				AddettoPrenotazioniController addettoPrenotazioni = new AddettoPrenotazioniController(model);
+				addettoPrenotazioni.avviaSessione();
+				break;
+			case MAGAZZINIERE:
+				MagazziniereController magazziniere = new MagazziniereController(model);
+				magazziniere.avviaSessione();
+				break;
+			case ESCI:
+				appAttiva = false;
+				break;
+			default:
+				appAttiva = false;
+				System.out.println(ERRORE);
+				break;
 			}
 		} while (appAttiva);
 
@@ -135,46 +142,42 @@ public class ViewGenerale {
 
 	public void gestisciMemoria(Ristorante model, File memoria_file) {
 		MyMenu menu = new MyMenu("Gestione memoria", OPZIONI_FILE);
-
 		boolean appAttiva = true;
 		do {
 			int scelta = menu.scegli();
 			switch (scelta) {
-				case ESCI:
-					System.out.println(". . .");
-					appAttiva = false;
-					break;
-				case SALVA_MODIFICHE:
-					if (model != null) {
-						BoxMemoria memoria_new = new BoxMemoria(model);
-						ServizioFile.salvaSingoloOggetto(memoria_file, memoria_new);
-						System.out.println("Dati salvati");
+			case ESCI:
+				appAttiva = false;
+				break;
+			case SALVA_MODIFICHE:
+				if (model != null) {
+					BoxMemoria memoria_new = new BoxMemoria(model);
+					ServizioFile.salvaSingoloOggetto(memoria_file, memoria_new);
+					System.out.println("Dati salvati");
+				} else {
+					System.out.println("Non ci sono elementi da salvare");
+				}
+				break;
+			case ELIMINA_DATI:
+				if (memoria_file.exists()) {
+					System.out
+							.println("ATTENZIONE: eliminando i dati, non si avra piu la possibilita di recuperarli\n");
+					boolean conferma = InputDati.yesOrNo("Vuoi confermare la tua scelta? ");
+					if (conferma) {
+						memoria_file.delete();
+						model = null;
+						System.out.println("File eliminato");
 					} else {
-						System.out.println("Non ci sono elementi da salvare");
+						System.out.println("Hai annullato l'operazione");
 					}
-					break;
-				case ELIMINA_DATI:
-					if (memoria_file.exists()) {
-						System.out
-								.println(
-										"ATTENZIONE: eliminando i dati, non si avra piu la possibilita di recuperarli\n");
-						boolean conferma = InputDati.yesOrNo("Vuoi confermare la tua scelta? ");
-						if (conferma) {
-							memoria_file.delete();
-							model = null; // Si elimina l'unico riferimento al modello e si lascia il lavoro al Garbage
-											// collector di eliminare i dati
-							System.out.println("File eliminato");
-						} else {
-							System.out.println("Hai annullato l'operazione");
-						}
-					} else {
-						System.out.println("Non esistono file da eliminare, forse li hai gia eliminati");
-					}
-					break;
-				default:
-					appAttiva = false;
-					System.out.println(ERRORE);
-					break;
+				} else {
+					System.out.println("Non esistono file da eliminare, forse li hai gia eliminati");
+				}
+				break;
+			default:
+				appAttiva = false;
+				System.out.println(ERRORE);
+				break;
 			}
 		} while (appAttiva);
 
@@ -187,7 +190,7 @@ public class ViewGenerale {
 		model.setCaricoLavoroPerPersona(20);
 		model.setCaricoLavoroRistorante((int) (20 * 50 + 20 * 50 * 0.2));
 		model.setDataCorrente(LocalDate.of(2023, 1, 8));
-		LocalDate dataprenotazione = LocalDate.of(2023, 1, 14);
+		LocalDate dataprenotazione = LocalDate.now();
 
 		LocalDate _10gennaio2023 = LocalDate.of(2023, 01, 10);
 		LocalDate _17gennaio2023 = LocalDate.of(2023, 01, 17);
