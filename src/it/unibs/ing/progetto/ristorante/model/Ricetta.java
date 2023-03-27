@@ -17,6 +17,9 @@ public class Ricetta implements Serializable {
 	private int caricoLavoroPorzione;
 
 	public Ricetta(ArrayList<Prodotto> elencoIngredienti, int numeroPorzioni, int caricoLavoroPerPorzione) {
+		if(elencoIngredienti == null || elencoIngredienti.isEmpty() || numeroPorzioni <=0 || caricoLavoroPerPorzione <= 0){
+			throw new IllegalArgumentException("Problemi nella creazione di Ricetta");
+		}
 		this.elencoIngredienti = elencoIngredienti;
 		this.numeroPorzioni = numeroPorzioni;
 		this.caricoLavoroPorzione = caricoLavoroPerPorzione;
@@ -38,28 +41,12 @@ public class Ricetta implements Serializable {
 		return elencoIngredienti;
 	}
 
-	public void setElencoIngredienti(ArrayList<Prodotto> ingredienti) {
-		this.elencoIngredienti = ingredienti;
-	}
-
 	public int getNumeroPorzioni() {
 		return numeroPorzioni;
 	}
 
-	public void setNumeroPorzioni(int numeroPorzioni) {
-		this.numeroPorzioni = numeroPorzioni;
-	}
-
 	public int getCaricoLavoroPorzione() {
 		return caricoLavoroPorzione;
-	}
-
-	public void setCaricoLavoroPorzione(int caricoLavoroPerPorzione) {
-		this.caricoLavoroPorzione = caricoLavoroPerPorzione;
-	}
-
-	public void addIngrediente(Prodotto ingrediente) {
-		elencoIngredienti.add(ingrediente);
 	}
 
 }

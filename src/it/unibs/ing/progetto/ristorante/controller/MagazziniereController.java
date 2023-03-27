@@ -1,9 +1,5 @@
 package it.unibs.ing.progetto.ristorante.controller;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
 import it.unibs.fp.mylib.BelleStringhe;
 import it.unibs.ing.progetto.ristorante.model.Prodotto;
 import it.unibs.ing.progetto.ristorante.model.Ristorante;
@@ -18,7 +14,7 @@ public class MagazziniereController extends Controller {
 	private static final String LOGOUT_END = "Hai effettuato il Logout";
 	private static final String NESSUNA_LISTA_DELLA_SPESA = "\nLa lista della spesa is vuota o mai stata creata\n";
 	private static final String PROFILO_MAGAZZINIERE = "Profilo: Magazziniere\n";
-	private static final String ERRORE = "Something really really bad happened...riavviare il programma";
+	private static final String ERRORE = "Something really really bad just happened... riavviare il programma";
 	private static final String INSERISCI_QUANTITA_DA_RIDURRE = "Inserisci quantita da ridurre -> ";
 	private static final String SELEZIONE_IL_PRODOTTO_NUMERO_DA_ELIMINARE_O_RIDURRE = "Selezione il prodotto (numero) da eliminare o ridurre -> ";
 	private static final String INSERISCI_QUANTITA_DEL_PRODOTTO = "Inserisci quantita del prodotto -> ";

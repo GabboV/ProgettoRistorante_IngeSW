@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import it.unibs.ing.progetto.ristorante.model.Ristorante;
 
-public class BoxMemoria implements Serializable{
+public class BoxMemoria implements Serializable {
 
 	/**
 	 * 

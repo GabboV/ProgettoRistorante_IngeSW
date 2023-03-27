@@ -2,10 +2,8 @@ package it.unibs.fp.mylib;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
 
-import javax.xml.datatype.DatatypeConfigurationException;
+import java.util.*;
 
 import it.unibs.ing.progetto.ristorante.model.UnitaMisura;
 
@@ -20,47 +18,45 @@ public class InputDati {
 	private final static String MESSAGGIO_AMMISSIBILI = "Attenzione: i caratteri ammissibili sono: ";
 	private final static char RISPOSTA_SI = 'S';
 	private final static char RISPOSTA_NO = 'N';
-	  
+
 	private static Scanner creaScanner() {
 		Scanner creato = new Scanner(System.in);
 		// creato.useDelimiter(System.getProperty("line.separator"));
 		return creato;
 	}
 
-	public static String leggiStringa (String messaggio){
+	public static String leggiStringa(String messaggio) {
 		System.out.print(messaggio);
 		return lettore.next();
 	}
 
-	//chiede input di una stringa non vuota
-	public static String leggiStringaNonVuota(String messaggio){
-		boolean finito=false;
+	// chiede input di una stringa non vuota
+	public static String leggiStringaNonVuota(String messaggio) {
+		boolean finito = false;
 		String lettura = null;
-		do{
+		do {
 			System.out.print(messaggio);
 			lettura = lettore.nextLine();
-			//elimina spazi iniziali e finali, ed elimina spazi/tab duplicati
+			// elimina spazi iniziali e finali, ed elimina spazi/tab duplicati
 			lettura = lettura.trim().replaceAll("( |\t)+", " ");
 			if (lettura.length() > 0)
-				finito=true;
+				finito = true;
 			else
 				System.out.println(ERRORE_STRINGA_VUOTA);
 		} while (!finito);
 		return lettura;
 	}
-	
-	//accetta nomi che contengono solo lettere
-	public static String leggiStringaDiLettere(String messaggio)
-	{
-		boolean finito=false;
+
+	// accetta nomi che contengono solo lettere "[a-zA-Z\s]+"
+	public static String leggiStringaDiLettere(String messaggio) {
+		boolean finito = false;
 		String lettura = null;
-		do
-		{
+		do {
 			System.out.print(messaggio);
 			lettura = lettore.nextLine();
-			//elimina spazi iniziali e finali, ed elimina spazi/tab duplicati
+			// elimina spazi iniziali e finali, ed elimina spazi/tab duplicati
 			lettura = lettura.trim().replaceAll("( |\t)+", " ");
-			if (lettura.matches(("[a-zA-Z\s]+"))) {
+			if (lettura.matches(("[\\p{Alpha}\\s]+"))) {
 				finito = true;
 			} else {
 				System.out.println("Il nome deve contenere solo lettere e non deve essere vuota.");
@@ -69,18 +65,16 @@ public class InputDati {
 
 		return lettura;
 	}
-	  
-	public static char leggiChar (String messaggio)
-	{
+
+	public static char leggiChar(String messaggio) {
 		boolean finito = false;
 		char valoreLetto = '\0';
-		do
-		{
+		do {
 			System.out.print(messaggio);
 			String lettura = lettore.next();
 			String daButtare = lettore.nextLine();
 			daButtare.trim();
-			if(!(daButtare.isBlank()) || lettura.length() != 1) {
+			if (!(daButtare.isBlank()) || lettura.length() != 1) {
 				System.out.println(ERRORE_FORMATO);
 			} else {
 				valoreLetto = lettura.charAt(0);
@@ -89,23 +83,21 @@ public class InputDati {
 		} while (!finito);
 		return valoreLetto;
 	}
-	  
-	public static char leggiUpperChar (String messaggio, String ammissibili)
-	{
+
+	public static char leggiUpperChar(String messaggio, String ammissibili) {
 		boolean finito = false;
 		char valoreLetto = '\0';
-		do
-		{
+		do {
 			valoreLetto = leggiChar(messaggio);
 			valoreLetto = Character.toUpperCase(valoreLetto);
 			if (ammissibili.indexOf(valoreLetto) != -1)
-				finito  = true;
+				finito = true;
 			else
 				System.out.println(MESSAGGIO_AMMISSIBILI + ammissibili);
 		} while (!finito);
 		return valoreLetto;
 	}
-	  
+
 	public static int leggiIntero(String messaggio) {
 		boolean finito = false;
 		int valoreLetto = 0;
@@ -169,7 +161,7 @@ public class InputDati {
 
 		return valoreLetto;
 	}
-	  
+
 	public static int leggiIntero(String messaggio, int minimo, int massimo) {
 		boolean finito = false;
 		int valoreLetto = 0;
@@ -257,7 +249,7 @@ public class InputDati {
 
 		return valoreLetto;
 	}
-	
+
 	public static float leggiFloatCompreso(String messaggio, float minimo, float max) {
 		boolean finito = false;
 		float valoreLetto = 0;
@@ -266,11 +258,12 @@ public class InputDati {
 			if ((valoreLetto >= minimo && valoreLetto <= max))
 				finito = true;
 			else
-				System.out.println(String.format("Il valore deve essere comepreso nell'intervallo [%.2f-%.2f]", minimo, max));
+				System.out.println(
+						String.format("Il valore deve essere comepreso nell'intervallo [%.2f-%.2f]", minimo, max));
 		} while (!finito);
 		return valoreLetto;
 	}
-	
+
 	public static float leggiFloatPositivoConZero(String messaggio) {
 		return leggiFloatConMinimo(messaggio, 0f);
 	}
@@ -288,32 +281,33 @@ public class InputDati {
 		else
 			return false;
 	}
-	
-	//legge una stringa che deve coincidere con un valore dell'enum UnitaMisura
-	public static UnitaMisura leggiUnitaMisura(String messaggio)
-	{
+
+	// legge una stringa che deve coincidere con un valore dell'enum UnitaMisura
+	public static UnitaMisura leggiUnitaMisura(String messaggio) {
 		String kg = UnitaMisura.KG.getName();
 		String hg = UnitaMisura.HG.getName();
 		String g = UnitaMisura.GRAMMI.getName();
 		String l = UnitaMisura.LITRI.getName();
-		String valoriAmmissibili = "("+kg+"/"+hg+"/"+g+"/"+l+") ";
+		String valoriAmmissibili = "(" + kg + "/" + hg + "/" + g + "/" + l + ") ";
 		String valoreLetto = null;
-		do
-		{
+		do {
 			System.out.print(messaggio);
 			valoreLetto = lettore.next();
 			String daButtare = lettore.nextLine();
-			if(!(daButtare.isBlank())) {
+			if (!(daButtare.isBlank())) {
 				System.out.println(MESSAGGIO_AMMISSIBILI + valoriAmmissibili);
 			} else {
-				if(valoreLetto.equalsIgnoreCase(kg)) return UnitaMisura.KG;
-				if(valoreLetto.equalsIgnoreCase(hg)) return UnitaMisura.HG;
-				if(valoreLetto.equalsIgnoreCase(g)) return UnitaMisura.GRAMMI;
-				if(valoreLetto.equalsIgnoreCase(l)) return UnitaMisura.LITRI;
+				if (valoreLetto.equalsIgnoreCase(kg))
+					return UnitaMisura.KG;
+				if (valoreLetto.equalsIgnoreCase(hg))
+					return UnitaMisura.HG;
+				if (valoreLetto.equalsIgnoreCase(g))
+					return UnitaMisura.GRAMMI;
+				if (valoreLetto.equalsIgnoreCase(l))
+					return UnitaMisura.LITRI;
 				System.out.println(MESSAGGIO_AMMISSIBILI + valoriAmmissibili);
 			}
 		} while (true);
 	}
-	
-	
+
 }

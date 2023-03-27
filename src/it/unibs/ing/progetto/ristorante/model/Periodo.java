@@ -3,7 +3,7 @@ package it.unibs.ing.progetto.ristorante.model;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Periodo implements Serializable{
+public class Periodo implements Serializable {
 
 	/**
 	 * 
@@ -25,7 +25,9 @@ public class Periodo implements Serializable{
 		return dataFine;
 	}
 
-	// controlla se la data e' compresa tra dataInizio e dataFine estremi inclusi
+	/**
+	 * controlla se la data e' compresa tra dataInizio e dataFine estremi inclusi
+	 */
 	public boolean contieneDataEstremiInclusi(LocalDate data) {
 		if (((data.isAfter(this.getDataInizio()) && data.isBefore(this.getDataFine())))
 				|| data.isEqual(this.getDataInizio()) || data.isEqual(this.getDataFine())) {
@@ -34,8 +36,6 @@ public class Periodo implements Serializable{
 		return false;
 	}
 
-	// data di inizio deve essere prima o lo stesso giorno della data fine, e data
-	// fine deve essere dopo la data corrente
 	public boolean isValido(LocalDate dataCorrente) {
 		boolean valido = false;
 		if ((dataInizio.isBefore(dataFine) || dataInizio.isEqual(dataFine)) && dataFine.isAfter(dataCorrente)) {

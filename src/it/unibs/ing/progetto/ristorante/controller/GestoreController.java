@@ -3,10 +3,14 @@ package it.unibs.ing.progetto.ristorante.controller;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import it.unibs.ing.progetto.ristorante.model.Agenda;
+import it.unibs.ing.progetto.ristorante.model.Gestione;
+import it.unibs.ing.progetto.ristorante.model.Magazzino;
 import it.unibs.ing.progetto.ristorante.model.MenuTematico;
 import it.unibs.ing.progetto.ristorante.model.Periodo;
 import it.unibs.ing.progetto.ristorante.model.Piatto;
 import it.unibs.ing.progetto.ristorante.model.Prodotto;
+import it.unibs.ing.progetto.ristorante.model.Ristorante;
 import it.unibs.ing.progetto.ristorante.model.Ristorante;
 import it.unibs.ing.progetto.ristorante.model.UnitaMisura;
 import it.unibs.ing.progetto.ristorante.view.GestoreView;
@@ -25,6 +29,7 @@ public class GestoreController extends Controller {
 	private static final int AGGIUNGI_INGREDIENTE = 1;
 
 	private GestoreView view;
+	private IGestore iGestore;
 
 	public GestoreController(Ristorante model) {
 		super(model);
@@ -76,48 +81,48 @@ public class GestoreController extends Controller {
 		do {
 			int scelta = view.printMenu();
 			switch (scelta) {
-			case AGGIUNGI_INGREDIENTE:
-				aggiungiPiattoRicetta();
-				break;
-			case AGGIUNGI_MENU_TEMATICO:
-				aggiungiMenuTematico();
-				break;
-			case AGGIUNGI_BEVANDA:
-				aggiungiBevanda();
-				break;
-			case AGGIUNGI_GENERE_EXTRA:
-				aggiungiGenereExtra();
-				break;
-			case VISUALIZZA_PARAMETRI:
-				view.stampaParametriRistorante(this.getModel().getDataCorrente(),
-						this.getModel().getNumeroPostiASedere(), this.getModel().getCaricoLavoroPerPersona(),
-						this.getModel().getCaricoLavoroRistorante());
-				view.stampaMsg("");
-				break;
-			case VISUALIZZA_RICETTE:
-				view.stampaMsg("\nELENCO PIATTI-RICETTE");
-				view.stampaElencoPiattiRicette(this.getModel().getElencoPiatti());
-				view.stampaMsg("");
-				break;
-			case VISUALIZZA_MENU_TEMATICI:
-				view.stampaMsg("\nELENCO MENU TEMATICI");
-				view.stampaElencoMenuTematici(this.getModel().getElencoMenuTematici());
-				view.stampaMsg("");
-				break;
-			case VISUALIZZA_BEVANDE:
-				view.stampaMsg("\nELENCO BEVANDE");
-				view.stampaInsiemeProdotti(this.getModel().getInsiemeBevande());
-				view.stampaMsg("");
-				break;
-			case VISUALIZZA_GENERI_EXTRA:
-				view.stampaMsg("\nELENCO GENERI EXTRA");
-				view.stampaInsiemeProdotti(this.getModel().getInsiemeGeneriExtra());
-				view.stampaMsg("");
-				break;
-			case ESCI:
-				sessioneOn = false;
-				System.out.println("Fine sessione Gestore...");
-				break;
+				case AGGIUNGI_INGREDIENTE:
+					aggiungiPiattoRicetta();
+					break;
+				case AGGIUNGI_MENU_TEMATICO:
+					aggiungiMenuTematico();
+					break;
+				case AGGIUNGI_BEVANDA:
+					aggiungiBevanda();
+					break;
+				case AGGIUNGI_GENERE_EXTRA:
+					aggiungiGenereExtra();
+					break;
+				case VISUALIZZA_PARAMETRI:
+					view.stampaParametriRistorante(this.getModel().getDataCorrente(),
+							this.getModel().getNumeroPostiASedere(), this.getModel().getCaricoLavoroPerPersona(),
+							this.getModel().getCaricoLavoroRistorante());
+					view.stampaMsg("");
+					break;
+				case VISUALIZZA_RICETTE:
+					view.stampaMsg("\nELENCO PIATTI-RICETTE");
+					view.stampaElencoPiattiRicette(this.getModel().getElencoPiatti());
+					view.stampaMsg("");
+					break;
+				case VISUALIZZA_MENU_TEMATICI:
+					view.stampaMsg("\nELENCO MENU TEMATICI");
+					view.stampaElencoMenuTematici(this.getModel().getElencoMenuTematici());
+					view.stampaMsg("");
+					break;
+				case VISUALIZZA_BEVANDE:
+					view.stampaMsg("\nELENCO BEVANDE");
+					view.stampaInsiemeProdotti(this.getModel().getInsiemeBevande());
+					view.stampaMsg("");
+					break;
+				case VISUALIZZA_GENERI_EXTRA:
+					view.stampaMsg("\nELENCO GENERI EXTRA");
+					view.stampaInsiemeProdotti(this.getModel().getInsiemeGeneriExtra());
+					view.stampaMsg("");
+					break;
+				case ESCI:
+					sessioneOn = false;
+					System.out.println("Fine sessione Gestore...");
+					break;
 			}
 		} while (sessioneOn);
 

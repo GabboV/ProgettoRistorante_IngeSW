@@ -23,6 +23,10 @@ public class MenuTematico implements Serializable {
 	public MenuTematico(String nome, ArrayList<Piatto> elencoPiatti, int caricoLavoro,
 			ArrayList<Periodo> periodiValidita) {
 		super();
+		if (nome == null || elencoPiatti == null || elencoPiatti.isEmpty() || caricoLavoro <= 0
+				|| periodiValidita == null || periodiValidita.isEmpty()) {
+			throw new IllegalArgumentException("Problemi nella creazione del menu tematico");
+		}
 		this.nome = nome;
 		this.elencoPiatti = elencoPiatti;
 		this.caricoLavoro = caricoLavoro;
@@ -32,7 +36,7 @@ public class MenuTematico implements Serializable {
 	public boolean isDisponibileInData(LocalDate data) {
 		// prende ciascun Periodo presente in periodiValidita
 		for (Periodo d : periodiValidita) {
-			// se la data è compresa tra dataInizio e dataFine oppure coincide con una delle
+			// se la data ï¿½ compresa tra dataInizio e dataFine oppure coincide con una delle
 			// due date ritorna true
 			if (d.contieneDataEstremiInclusi(data))
 				return true;

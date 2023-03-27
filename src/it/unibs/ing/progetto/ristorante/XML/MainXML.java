@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import it.unibs.ing.progetto.ristorante.model.Agenda;
+import it.unibs.ing.progetto.ristorante.model.Gestione;
+import it.unibs.ing.progetto.ristorante.model.Magazzino;
 import it.unibs.ing.progetto.ristorante.model.Periodo;
 import it.unibs.ing.progetto.ristorante.model.Piatto;
 import it.unibs.ing.progetto.ristorante.model.Prenotazione;
@@ -21,9 +24,11 @@ public class MainXML {
 		// DATI DI PROVA (DA USARE IN XML)
 		// PARAMETRI
 		Ristorante model = new Ristorante();
-		model.setNumeroPostiASedere(50);
-		model.setCaricoLavoroPerPersona(20);
-		model.setCaricoLavoroRistorante((int) (20 * 50 + 20 * 50 * 0.2));
+		
+		Gestione gestione = new Gestione(20, (int) (20 * 50 + 20 * 50 * 0.2), 50,
+				null, null, null, null);
+		Agenda agenda = new Agenda();
+		
 		model.setDataCorrente(LocalDate.of(2023, 1, 1));
 		LocalDate dataprenotazione = LocalDate.of(2023, 5, 1);
 
@@ -131,7 +136,7 @@ public class MainXML {
 		bevande.add(b1);
 		bevande.add(b2);
 		bevande.add(b3);
-		model.setInsiemeBevande(bevande);
+		gestione.setInsiemeBevande(bevande);
 
 		// GENERI EXTRA
 		Prodotto g1 = new Prodotto("Pane", 0.3f, UnitaMisura.HG);
@@ -141,7 +146,7 @@ public class MainXML {
 		generiExtra.add(g1);
 		generiExtra.add(g2);
 		generiExtra.add(g3);
-		model.setInsiemeGeneriExtra(generiExtra);
+		gestione.setInsiemeGeneriExtra(generiExtra);
 
 		// MENU TEMATICO 0
 		ArrayList<Piatto> piatti0 = new ArrayList<>();
@@ -177,6 +182,8 @@ public class MainXML {
 		comanda2.put(model.piattoScelto(3), 2);
 		model.addPrenotazione(dataprenotazione, comanda2, 3);
 		
+		
+		model = new Ristorante(gestione,agenda,new Magazzino());
 		WriterXMLRistorante scrittore = new WriterXMLRistorante();
 		System.out.println(STRINGA_INIZIO_STAMPA);
 		scrittore.writeXMLRistorante(model, PATH_XML_RISTORANTE);

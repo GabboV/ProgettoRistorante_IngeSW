@@ -26,7 +26,6 @@ public class AddettoPrenotazioniController extends Controller {
 	}
 
 	public void avviaSessione() {
-
 		view.stampaMsg("Addetto Prenotazioni\n");
 		boolean sessioneON = true;
 		do {
@@ -49,7 +48,6 @@ public class AddettoPrenotazioniController extends Controller {
 				view.stampaMsg("Errore");
 				break;
 			}
-
 		} while (sessioneON);
 
 	}
@@ -64,7 +62,6 @@ public class AddettoPrenotazioniController extends Controller {
 	}
 
 	public void removePrenotazioniScadute() {
-		LocalDate data = LocalDate.now();
 		this.getModel().removePrenotazioniScadute();
 	}
 
@@ -218,7 +215,7 @@ public class AddettoPrenotazioniController extends Controller {
 
 	}
 
-	// def
+	
 	public ArrayList<Piatto> selezionaMenuCarta(LocalDate date) {
 		ArrayList<Piatto> piattiValidi = (ArrayList<Piatto>) this.getModel().getMenuCartaInData(date);
 		ArrayList<Piatto> piattiScelti = new ArrayList<>();

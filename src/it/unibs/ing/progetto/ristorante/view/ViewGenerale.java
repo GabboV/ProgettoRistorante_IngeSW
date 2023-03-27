@@ -21,6 +21,7 @@ import it.unibs.ing.progetto.ristorante.model.Periodo;
 import it.unibs.ing.progetto.ristorante.model.Piatto;
 import it.unibs.ing.progetto.ristorante.model.Prodotto;
 import it.unibs.ing.progetto.ristorante.model.Ristorante;
+import it.unibs.ing.progetto.ristorante.model.Ristorante;
 import it.unibs.ing.progetto.ristorante.model.UnitaMisura;
 
 public class ViewGenerale {
@@ -48,7 +49,7 @@ public class ViewGenerale {
 		System.out.println(MSG_BENVENUTO);
 
 		File file_memoria = new File(RISTORANTE_DAT);
-		Ristorante model = null;
+		Ristorante model = new Ristorante();
 
 		if (ServizioFile.fileContieneDati(file_memoria)) {
 			model = caricaDatiDaMemoria(file_memoria, model);
@@ -80,7 +81,8 @@ public class ViewGenerale {
 	 */
 	public Ristorante loginInizializzazione() {
 		System.out.println("Per la fase di inizializzazione del programma � necessario il login del Gestore.");
-		Ristorante model = null;
+		
+		Ristorante model = new Ristorante();
 		boolean risposta = InputDati.yesOrNo("Sei il Gestore? ");
 		if (risposta == false) {
 			System.out.println("Bisogna essere il Gestore per poter inizializzare il programma.");
@@ -182,7 +184,7 @@ public class ViewGenerale {
 		} while (appAttiva);
 
 	}
-
+/*
 	private Ristorante caricaElementiPredefiniti() {
 		Ristorante model;
 		model = new Ristorante();
@@ -283,5 +285,5 @@ public class ViewGenerale {
 		model.addPrenotazione(dataprenotazione, comanda1, 4);
 		return model;
 	}
-
+*/
 }
