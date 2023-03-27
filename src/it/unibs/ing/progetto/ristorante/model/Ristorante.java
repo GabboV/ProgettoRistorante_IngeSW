@@ -226,7 +226,7 @@ public class Ristorante implements Serializable, IGestore {
 	}
 
 	public void giornoDopo() {
-		this.dataCorrente.plusDays(1);
+		this.dataCorrente = dataCorrente.plusDays(1);
 		this.agenda.removePrenotazioniScadute(dataCorrente);
 		this.magazzino.generaListaSpesa((ArrayList<Prenotazione>) agenda.getPrenotazioniInData(dataCorrente),
 				getInsiemeGeneriExtra(), getInsiemeBevande(), agenda.getNumeroClientiPrenotatiInData(dataCorrente));

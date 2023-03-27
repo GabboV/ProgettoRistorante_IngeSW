@@ -42,7 +42,7 @@ public class MainXML {
 		Prodotto i1piatto0 = new Prodotto("Pasta", 0.3f, UnitaMisura.KG);
 		Prodotto i2piatto0 = new Prodotto("Tonno", 0.1f, UnitaMisura.KG);
 		Prodotto i3piatto0 = new Prodotto("Sugo", 0.08f, UnitaMisura.KG);
-		Prodotto i4piatto0 = new Prodotto("Olio", 0.02f, UnitaMisura.LITRI);
+		Prodotto i4piatto0 = new Prodotto("Olio", 0.02f, UnitaMisura.L);
 		ArrayList<Prodotto> ingredienti0 = new ArrayList<>();
 		ingredienti0.add(i1piatto0);
 		ingredienti0.add(i2piatto0);
@@ -53,7 +53,7 @@ public class MainXML {
 		// PIATTO-RICETTA 1
 		Prodotto i1piatto1 = new Prodotto("Pollo", 1f, UnitaMisura.KG);
 		Prodotto i2piatto1 = new Prodotto("Curry", 0.1f, UnitaMisura.KG);
-		Prodotto i3piatto1 = new Prodotto("Olio", 0.02f, UnitaMisura.LITRI);
+		Prodotto i3piatto1 = new Prodotto("Olio", 0.02f, UnitaMisura.L);
 		ArrayList<Prodotto> ingredienti1 = new ArrayList<>();
 		ingredienti1.add(i1piatto1);
 		ingredienti1.add(i2piatto1);
@@ -71,7 +71,7 @@ public class MainXML {
 		// PIATTO-RICETTA 3
 		Prodotto i1piatto3 = new Prodotto("Alga Nori", 3f, UnitaMisura.UNITA);
 		Prodotto i2piatto3 = new Prodotto("Tonno", 0.1f, UnitaMisura.KG);
-		Prodotto i3piatto3 = new Prodotto("Salsa", 0.08f, UnitaMisura.LITRI);
+		Prodotto i3piatto3 = new Prodotto("Salsa", 0.08f, UnitaMisura.L);
 		Prodotto i4piatto3 = new Prodotto("Riso", 0.2f, UnitaMisura.KG);
 		ArrayList<Prodotto> ingredienti3 = new ArrayList<>();
 		ingredienti3.add(i1piatto3);
@@ -95,7 +95,7 @@ public class MainXML {
 		// PIATTO-RICETTA 5
 		Prodotto i1piatto5 = new Prodotto("Riso", 0.3f, UnitaMisura.KG);
 		Prodotto i2piatto5 = new Prodotto("Funghi", 0.05f, UnitaMisura.KG);
-		Prodotto i3piatto5 = new Prodotto("Olio", 0.02f, UnitaMisura.LITRI);
+		Prodotto i3piatto5 = new Prodotto("Olio", 0.02f, UnitaMisura.L);
 		Prodotto i4piatto5 = new Prodotto("Sale", 0.03f, UnitaMisura.KG);
 		ArrayList<Prodotto> ingredienti5 = new ArrayList<>();
 		ingredienti5.add(i1piatto5);
@@ -107,7 +107,7 @@ public class MainXML {
 		// PIATTO-RICETTA 6
 		Prodotto i1piatto6 = new Prodotto("Carne di manzo", 0.3f, UnitaMisura.KG);
 		Prodotto i2piatto6 = new Prodotto("Piselli", 0.1f, UnitaMisura.KG);
-		Prodotto i3piatto6 = new Prodotto("Olio", 0.02f, UnitaMisura.LITRI);
+		Prodotto i3piatto6 = new Prodotto("Olio", 0.02f, UnitaMisura.L);
 		Prodotto i4piatto6 = new Prodotto("Sale", 0.02f, UnitaMisura.KG);
 		ArrayList<Prodotto> ingredienti6 = new ArrayList<>();
 		ingredienti6.add(i1piatto6);
@@ -119,7 +119,7 @@ public class MainXML {
 		// PIATTO-RICETTA 7
 		Prodotto i1piatto7 = new Prodotto("Salsicce", 1f, UnitaMisura.KG);
 		Prodotto i2piatto7 = new Prodotto("Patate", 0.8f, UnitaMisura.KG);
-		Prodotto i3piatto7 = new Prodotto("Salsa", 0.04f, UnitaMisura.LITRI);
+		Prodotto i3piatto7 = new Prodotto("Salsa", 0.04f, UnitaMisura.L);
 		Prodotto i4piatto7 = new Prodotto("Sale", 0.02f, UnitaMisura.KG);
 		ArrayList<Prodotto> ingredienti7 = new ArrayList<>();
 		ingredienti7.add(i1piatto7);
@@ -129,9 +129,9 @@ public class MainXML {
 		model.addPiattoRicetta(ingredienti7, 4, 5, "Salsiccia con patate", elencoPeriodi);
 
 		// BEVANDE
-		Prodotto b1 = new Prodotto("Acqua", 1f, UnitaMisura.LITRI);
-		Prodotto b2 = new Prodotto("Birra", 0.5f, UnitaMisura.LITRI);
-		Prodotto b3 = new Prodotto("Vino", 0.2f, UnitaMisura.LITRI);
+		Prodotto b1 = new Prodotto("Acqua", 1f, UnitaMisura.L);
+		Prodotto b2 = new Prodotto("Birra", 0.5f, UnitaMisura.L);
+		Prodotto b3 = new Prodotto("Vino", 0.2f, UnitaMisura.L);
 		ArrayList<Prodotto> bevande = new ArrayList<>();
 		bevande.add(b1);
 		bevande.add(b2);

@@ -287,7 +287,7 @@ public class InputDati {
 		String kg = UnitaMisura.KG.getName();
 		String hg = UnitaMisura.HG.getName();
 		String g = UnitaMisura.GRAMMI.getName();
-		String l = UnitaMisura.LITRI.getName();
+		String l = UnitaMisura.L.getName();
 		String valoriAmmissibili = "(" + kg + "/" + hg + "/" + g + "/" + l + ") ";
 		String valoreLetto = null;
 		do {
@@ -304,7 +304,7 @@ public class InputDati {
 				if (valoreLetto.equalsIgnoreCase(g))
 					return UnitaMisura.GRAMMI;
 				if (valoreLetto.equalsIgnoreCase(l))
-					return UnitaMisura.LITRI;
+					return UnitaMisura.L;
 				System.out.println(MESSAGGIO_AMMISSIBILI + valoriAmmissibili);
 			}
 		} while (true);

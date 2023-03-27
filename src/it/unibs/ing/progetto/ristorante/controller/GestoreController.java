@@ -43,19 +43,15 @@ public class GestoreController extends Controller {
 	// minimo
 	// necessario per un buon funzionamento del programma
 	public Ristorante inizializzaRistorante() {
-		Ristorante ristorante = new Ristorante();
 
 		view.stampaMsgBenvenutoInizializzazione();
-
-		LocalDate dataCorrente = LocalDate.now(); // view.richiestaData("Inserisci la dataCorrente.");
+		LocalDate dataCorrente =  view.richiestaData("Inserisci la dataCorrente.");
 		this.getModel().setDataCorrente(dataCorrente);
 
 		int nPosti = view.richiestaInteroPositivo("Inserisci il numero di posti del this.getModel(): ");
 		this.getModel().setNumeroPostiASedere(nPosti);
-
 		int caricoLavoroPersona = view.richiestaInteroPositivo("Inserisci il carico di lavoro per persona: ");
 		this.getModel().setCaricoLavoroPerPersona(caricoLavoroPersona);
-
 		int caricoLavoroRistorante = caricoLavoroPersona * nPosti;
 		caricoLavoroRistorante += Math.floor(caricoLavoroRistorante / 100.0 * 20);
 		this.getModel().setCaricoLavoroRistorante(caricoLavoroRistorante);
@@ -71,7 +67,7 @@ public class GestoreController extends Controller {
 
 		view.stampaMsg("\nHai completato l'inizializzazione del programma.\n");
 		avviaSessione();
-		return ristorante;
+		return this.getModel();
 	}
 
 	// presenta al gestore le operazioni che puo' eseguire e la esegue
@@ -118,6 +114,10 @@ public class GestoreController extends Controller {
 					view.stampaMsg("\nELENCO GENERI EXTRA");
 					view.stampaInsiemeProdotti(this.getModel().getInsiemeGeneriExtra());
 					view.stampaMsg("");
+					break;
+				case 10:
+					this.getModel().giornoDopo();
+					view.stampaData(this.getModel().getDataCorrente());
 					break;
 				case ESCI:
 					sessioneOn = false;

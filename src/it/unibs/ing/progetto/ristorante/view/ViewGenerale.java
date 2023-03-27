@@ -64,7 +64,7 @@ public class ViewGenerale {
 	//se si sceglie AVVIO_DA_ULTIMO_SALVATAGGIO si utilizzano i parametri che salvati nel BoxMemoria
 	public Ristorante avvioConSceltaInizializzazione(File file_memoria) {
 		System.out.println();
-		Ristorante model = null;
+		Ristorante model = new Ristorante();
 		boolean altraOpzione = true;
 		do {
 			int scelta = sceltaDatiAvvio();
@@ -75,6 +75,7 @@ public class ViewGenerale {
 					model = loginInizializzazione();
 					loginUtente(model);
 				}
+				altraOpzione = false;
 				break;
 			case AVVIO_DA_PREDEFINITO:
 				model = ReaderXMLRistorante.leggiXML(PATH_XML_RISTORANTE);
@@ -82,7 +83,7 @@ public class ViewGenerale {
 				altraOpzione = false;
 				break;
 			case AVVIO_DA_ULTIMO_SALVATAGGIO:
-				model = recuperaDatiDaMemoria(file_memoria);
+				model = this.caricaDatiDaMemoria(file_memoria);
 				if (model != null) {
 					loginUtente(model);
 				} else {
@@ -110,15 +111,14 @@ public class ViewGenerale {
 	
 	// permette al gestore di inizializzare i parametri del ristorante al primo avvio
 	public Ristorante loginInizializzazione() {
-		Ristorante model = null;
+		Ristorante model = new Ristorante();
 		GestoreController gestore = new GestoreController(model);
 		model = gestore.inizializzaRistorante();
 		return model;
 	}
 
-	public Ristorante caricaDatiDaMemoria() {
+	public Ristorante caricaDatiDaMemoria(File file_memoria) {
 		Ristorante model = null;
-		File file_memoria = new File("ristorante.dat");
 		if (file_memoria.exists()) {
 			boolean caricaMemoria = InputDati.yesOrNo(DATI_IN_MEMORIA);
 			if (caricaMemoria) {

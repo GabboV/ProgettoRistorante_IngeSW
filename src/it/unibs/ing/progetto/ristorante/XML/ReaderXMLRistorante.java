@@ -109,7 +109,7 @@ public class ReaderXMLRistorante {
 											String nomeIngrediente = xmlr.getAttributeValue(null, "nome");
 											float dose = Float.parseFloat(xmlr.getAttributeValue(null, "dose"));
 											UnitaMisura unitaMisura = UnitaMisura
-													.valueOf(xmlr.getAttributeValue(null, "unitaMisura"));
+													.valueOf(xmlr.getAttributeValue(null, "unitaMisura").toUpperCase());
 											Prodotto ingrediente = new Prodotto(nomeIngrediente, dose, unitaMisura);
 											elencoIngredienti.add(ingrediente);
 											break;
@@ -189,7 +189,7 @@ public class ReaderXMLRistorante {
 							float consumoProCapiteBevanda = Float
 									.parseFloat(xmlr.getAttributeValue(null, "consumoProCapite"));
 							UnitaMisura unitaMisuraBevanda = UnitaMisura
-									.valueOf(xmlr.getAttributeValue(null, "unitaMisura"));
+									.valueOf(xmlr.getAttributeValue(null, "unitaMisura").toUpperCase());
 							Prodotto bevanda = new Prodotto(nomeBevanda, consumoProCapiteBevanda, unitaMisuraBevanda);
 							insiemeBevande.add(bevanda);
 							break;
@@ -199,7 +199,7 @@ public class ReaderXMLRistorante {
 							float consumoProCapiteGenereExtra = Float
 									.parseFloat(xmlr.getAttributeValue(null, "consumoProCapite"));
 							UnitaMisura unitaMisuraGenereExtra = UnitaMisura
-									.valueOf(xmlr.getAttributeValue(null, "unitaMisura"));
+									.valueOf(xmlr.getAttributeValue(null, "unitaMisura").toUpperCase());
 							Prodotto genereExtra = new Prodotto(nomeGenereExtra, consumoProCapiteGenereExtra,
 									unitaMisuraGenereExtra);
 							insiemeGeneriExtra.add(genereExtra);
@@ -249,8 +249,8 @@ public class ReaderXMLRistorante {
 			System.out.println(ERRORE_READER);
 			System.out.println(e.getMessage());
 		}
-		Ristorante model = new Ristorante();
-		model.setDataCorrente(dataCorrente);
+		
+		
 		/*
 		model.setCaricoLavoroPerPersona(caricoLavoroPerPersona);
 		model.setCaricoLavoroRistorante(caricoLavoroRistorante);
@@ -264,8 +264,10 @@ public class ReaderXMLRistorante {
 		Gestione gestione = new Gestione(caricoLavoroPerPersona, caricoLavoroRistorante, numeroPostiASedere,
 				elencoPiatti, elencoMenuTematici, insiemeBevande, insiemeGeneriExtra);
 		Agenda agenda = new Agenda(elencoPrenotazioni);
+		Ristorante model = new Ristorante(gestione,agenda, new Magazzino());
+		model.setDataCorrente(dataCorrente);
 
-		return new Ristorante(gestione, agenda, new Magazzino());
+		return model;
 	}
 
 	public static Piatto prendiPiattoConNome(String nomeScelto, ArrayList<Piatto> elencoPiatti) {

@@ -6,7 +6,7 @@ package it.unibs.ing.progetto.ristorante.model;
  */
 public enum UnitaMisura {
 
-	KG("kg"), HG("hg"), LITRI("l"), GRAMMI("g"), UNITA("Unita");
+	KG("kg"), HG("hg"), L("l"), GRAMMI("g"), UNITA("Unita");
 
 	private final String unitaMisura;
 
@@ -17,5 +17,6 @@ public enum UnitaMisura {
 	public String getName() {
 		return unitaMisura;
 	}
+	
 	
 }

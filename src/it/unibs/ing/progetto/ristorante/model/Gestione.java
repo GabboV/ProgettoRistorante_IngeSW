@@ -144,7 +144,7 @@ public class Gestione implements Serializable{
 
 	// aggiunge una nuova benvanda a insiemeBevande
 	public void addBevanda(String nomeBevanda, float consumoProCapiteBevanda) {
-		Prodotto bevanda = new Prodotto(nomeBevanda, consumoProCapiteBevanda, UnitaMisura.LITRI);
+		Prodotto bevanda = new Prodotto(nomeBevanda, consumoProCapiteBevanda, UnitaMisura.L);
 		insiemeBevande.add(bevanda);
 	}
 
