@@ -5,13 +5,20 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import it.unibs.ing.progetto.ristorante.interfacce.Controller;
+import it.unibs.ing.progetto.ristorante.interfacce.IPrenotazioni;
 import it.unibs.ing.progetto.ristorante.model.MenuTematico;
 import it.unibs.ing.progetto.ristorante.model.Piatto;
 import it.unibs.ing.progetto.ristorante.model.Ristorante;
 import it.unibs.ing.progetto.ristorante.view.AddettoPrenotazioniView;
 
-public class AddettoPrenotazioniController extends Controller {
+public class AddettoPrenotazioniController implements Controller {
 
+	/**
+	 *
+	 */
+	private static final String INSERIRE_IL_NUMERO_DI_PERSONE = "Inserire il numero di persone -> ";
+	private static final String CI_SONO_D_POSTI_LIBERI = "Ci sono %d posti liberi";
 	private static final String NO_PRENOTAZIONI = "Non ci sono prenotazioni \n";
 	private static final int VISUALIZZA_PRENOTAZIONI = 3;
 	private static final int RIMUOVI_PRENOTAZIONE = 2;
@@ -19,9 +26,10 @@ public class AddettoPrenotazioniController extends Controller {
 	private static final int LOGOUT = 0;
 
 	private AddettoPrenotazioniView view;
+	private IPrenotazioni model;
 
-	public AddettoPrenotazioniController(Ristorante model) {
-		super(model);
+	public AddettoPrenotazioniController(IPrenotazioni model) {
+		this.model = model;
 		this.view = new AddettoPrenotazioniView();
 	}
 
@@ -29,7 +37,7 @@ public class AddettoPrenotazioniController extends Controller {
 		view.stampaMsg("Addetto Prenotazioni\n");
 		boolean sessioneON = true;
 		do {
-			this.getModel().removePrenotazioniScadute();
+			model.removePrenotazioniScadute();
 			int scelta = view.printMenu();
 			switch (scelta) {
 			case LOGOUT:
@@ -52,38 +60,40 @@ public class AddettoPrenotazioniController extends Controller {
 
 	}
 
+	/**
+	 * Visualizza le prenotazioni se presenti
+	 */
 	public void visualizzaPrenotazioni() {
-		if (this.getModel().getElencoPrenotazioni().isEmpty()) {
+		if (model.getElencoPrenotazioni().isEmpty()) {
 			view.stampaMsg(NO_PRENOTAZIONI);
 		} else {
-			view.stampaListaPrenotazioni(this.getModel().getElencoPrenotazioni());
+			view.stampaListaPrenotazioni(model.getElencoPrenotazioni());
 		}
 
 	}
 
-	public void removePrenotazioniScadute() {
-		this.getModel().removePrenotazioniScadute();
-	}
-
+	/**
+	 * Metodo per creare ed effettuare una prenotazione
+	 */
 	public void inserisciPrenotazione() {
 		LocalDate dataPrenotazione;
 		dataPrenotazione = getDataValida();
 		if (dataPrenotazione != null) {
 			int numCoperti = 0;
-			if (!this.getModel().isRistorantePienoInData(dataPrenotazione)) {
-				int postiLiberi = this.getModel().getPostiDisponibiliInData(dataPrenotazione);
-				view.stampaMsg(String.format("Ci sono %d posti liberi", postiLiberi));
-				numCoperti = view.leggiInteroCompreso("Inserire il numero di persone -> ", 1, postiLiberi);
+			if (!model.isRistorantePienoInData(dataPrenotazione)) {
+				int postiLiberi = model.getPostiDisponibiliInData(dataPrenotazione);
+				view.stampaMsg(String.format(CI_SONO_D_POSTI_LIBERI, postiLiberi));
+				numCoperti = view.leggiInteroCompreso(INSERIRE_IL_NUMERO_DI_PERSONE, 1, postiLiberi);
 			}
 			ArrayList<Piatto> piattiOrdinati = new ArrayList<>();
 			boolean discard = ordinazioneHandler(dataPrenotazione, numCoperti, piattiOrdinati);
 			HashMap<Piatto, Integer> comanda;
 			if (!discard && !piattiOrdinati.isEmpty()) {
 				comanda = this.creaComandaConListaPiatti(piattiOrdinati);
-				boolean check = this.getModel().verificaAccettabilitaPrenotazione(dataPrenotazione, comanda,
+				boolean check = model.verificaAccettabilitaPrenotazione(dataPrenotazione, comanda,
 						numCoperti);
 				if (check) {
-					this.getModel().addPrenotazione(dataPrenotazione, comanda, numCoperti);
+					model.addPrenotazione(dataPrenotazione, comanda, numCoperti);
 				} else {
 					view.stampaMsg("Prenotazione non fattibile");
 				}
@@ -93,21 +103,25 @@ public class AddettoPrenotazioniController extends Controller {
 		}
 	}
 
+	/**
+	 * Metodo per richiedere una data valida sotto le ipotesi del tema
+	 * @return
+	 */
 	private LocalDate getDataValida() {
 		LocalDate dataPrenotazione;
 		boolean feriale = false;
 		do {
 			dataPrenotazione = view.richiestaData("Inserire data della prenotazione:\n");
-			boolean tematici = this.getModel().ciSonoMenuTematiciValidiInData(dataPrenotazione);
-			boolean carta = this.getModel().ciSonoMenuValidiInData(dataPrenotazione);
-			if (!this.isGiornoFeriale(dataPrenotazione) || !(tematici || carta) || !almenoUnGiornoFeriale(this.getModel().getDataCorrente(), dataPrenotazione)) {
+			boolean tematici = model.ciSonoMenuTematiciValidiInData(dataPrenotazione);
+			boolean carta = model.ciSonoPiattiValidiInData(dataPrenotazione);
+			if (!this.isGiornoFeriale(dataPrenotazione) || !(tematici || carta) || !almenoUnGiornoFeriale(model.getDataCorrente(), dataPrenotazione)) {
 				if (!this.isGiornoFeriale(dataPrenotazione)) {
 					this.view.stampaMsg("Il ristorante is aperto solo nei giorni feriali, riprovare!\n");
 				}
 				if (tematici == false && carta == false) {
 					this.view.stampaMsg("Non ci sono piatti validi da scegliere, scegli un altro giorno\n");
 				}
-				if(!almenoUnGiornoFeriale(this.getModel().getDataCorrente(), dataPrenotazione)) {
+				if(!almenoUnGiornoFeriale(model.getDataCorrente(), dataPrenotazione)) {
 					this.view.stampaMsg("La prenotazione deve pervenire con almeno un giorno feriale in anticipo");
 				}
 			} else {
@@ -117,11 +131,22 @@ public class AddettoPrenotazioniController extends Controller {
 		return dataPrenotazione;
 	}
 
+	/**
+	 * Controlla se c'è almeno un giorno feriale di differenza tra due date
+	 * @param date1
+	 * @param date2
+	 * @return
+	 */
 	public static boolean almenoUnGiornoFeriale(LocalDate date1, LocalDate date2) {
 		LocalDate nextWorkingDay = getGiornoFerialeSuccessivo(date1);
 		return date2.isAfter(nextWorkingDay) || date2.isEqual(nextWorkingDay);
 	}
 
+	/**
+	 * Calcola il giorno feriale successivo
+	 * @param date
+	 * @return
+	 */
 	private static LocalDate getGiornoFerialeSuccessivo(LocalDate date) {
 		do {
 			date = date.plusDays(1);
@@ -129,11 +154,23 @@ public class AddettoPrenotazioniController extends Controller {
 		return date;
 	}
 
+	/**
+	 * Restituisce true se la data è giorno feriale
+	 * @param data
+	 * @return
+	 */
 	private boolean isGiornoFeriale(LocalDate data) {
 		DayOfWeek dayOfWeek = data.getDayOfWeek();
 		return dayOfWeek != DayOfWeek.SATURDAY && dayOfWeek != DayOfWeek.SUNDAY;
 	}
 
+	/**
+	 * Ordina per ogni cliente una ordinazione, restituisce true se la prenotazione viene annullata
+	 * @param dataPrenotazione
+	 * @param numCoperti
+	 * @param piattiOrdinati
+	 * @return
+	 */
 	private boolean ordinazioneHandler(LocalDate dataPrenotazione, int numCoperti, ArrayList<Piatto> piattiOrdinati) {
 		boolean discard = false;
 		for (int i = 0; i < numCoperti; i++) {
@@ -162,7 +199,11 @@ public class AddettoPrenotazioniController extends Controller {
 		return discard;
 	}
 
-	// def
+	/**
+	 * Prende una lista di piatti e li ordina in una mappa con la loro molteplicità
+	 * @param piatti
+	 * @return
+	 */
 	public HashMap<Piatto, Integer> creaComandaConListaPiatti(ArrayList<Piatto> piatti) {
 		HashMap<Piatto, Integer> comanda = new HashMap<>();
 		for (Piatto p : piatti) {
@@ -176,14 +217,24 @@ public class AddettoPrenotazioniController extends Controller {
 		return comanda;
 	}
 
-	// def
+	/**
+	 * Passa i parametri di una nuova prenotazione al modello
+	 * @param data
+	 * @param comanda
+	 * @param coperti
+	 */
 	public void addPrenotazione(LocalDate data, HashMap<Piatto, Integer> comanda, int coperti) {
-		this.getModel().addPrenotazione(data, comanda, coperti);
+		model.addPrenotazione(data, comanda, coperti);
 	}
 
-	// def
+	/**
+	 * Metodo per scegliere un menu tematico
+	 * @param dataPrenotazione
+	 * @param piatti
+	 * @return
+	 */
 	private boolean sceltaMenuTematico(LocalDate dataPrenotazione, ArrayList<Piatto> piatti) {
-		if (this.getModel().ciSonoMenuTematiciValidiInData(dataPrenotazione)) {
+		if (model.ciSonoMenuTematiciValidiInData(dataPrenotazione)) {
 			MenuTematico scelto = this.selezionaMenuTematico(dataPrenotazione);
 			piatti.addAll(scelto.getElencoPiatti());
 			return true;
@@ -193,9 +244,14 @@ public class AddettoPrenotazioniController extends Controller {
 		}
 	}
 
-	// def
+	/**
+	 * Metodo per scegliere un menu carta
+	 * @param dataPrenotazione
+	 * @param piatti
+	 * @return
+	 */
 	private boolean sceltaDaMenuCarta(LocalDate dataPrenotazione, ArrayList<Piatto> piatti) {
-		if (this.getModel().esisteMenuCartaValidoInData(dataPrenotazione)) {
+		if (model.ciSonoPiattiValidiInData(dataPrenotazione)) {
 			ArrayList<Piatto> piattiScelti = this.selezionaMenuCarta(dataPrenotazione);
 			piatti.addAll(piattiScelti);
 			return true;
@@ -205,9 +261,13 @@ public class AddettoPrenotazioniController extends Controller {
 		}
 	}
 
-	// def
+	/**
+	 * Metodo per selezionare un menu tematico
+	 * @param date
+	 * @return
+	 */
 	public MenuTematico selezionaMenuTematico(LocalDate date) {
-		ArrayList<MenuTematico> menuTematici = (ArrayList<MenuTematico>) this.getModel().getMenuTematiciInData(date);
+		ArrayList<MenuTematico> menuTematici = (ArrayList<MenuTematico>) model.getMenuTematiciInData(date);
 		view.stampaElencoMenuTematici(menuTematici);
 		int indiceScelto = view.leggiInteroCompreso("Selezione l'indice del menu da ordinare -> ", 0,
 				menuTematici.size() - 1);
@@ -215,16 +275,20 @@ public class AddettoPrenotazioniController extends Controller {
 
 	}
 
-	
+	/**
+	 * Metodo per selezionare dei piatti dal menu alla carta
+	 * @param date
+	 * @return
+	 */
 	public ArrayList<Piatto> selezionaMenuCarta(LocalDate date) {
-		ArrayList<Piatto> piattiValidi = (ArrayList<Piatto>) this.getModel().getMenuCartaInData(date);
+		ArrayList<Piatto> piattiValidi = (ArrayList<Piatto>) model.getMenuCartaInData(date);
 		ArrayList<Piatto> piattiScelti = new ArrayList<>();
 		boolean continua = false;
 		do {
 			view.stampaElencoPiatti(piattiValidi);
 			int scelto = view.leggiInteroCompreso("Scegli il piatto -> ", 0, piattiValidi.size() - 1);
 			piattiScelti.add(piattiValidi.get(scelto));
-			continua = view.richiestaNuovaAggiunta("Vuoi aggiungere un altro piatto? ");
+			continua = view.yesOrNo("Vuoi aggiungere un altro piatto? ");
 		} while (continua);
 		return piattiScelti;
 	}

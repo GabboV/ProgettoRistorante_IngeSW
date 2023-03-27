@@ -18,7 +18,7 @@ public class Ricetta implements Serializable {
 
 	public Ricetta(ArrayList<Prodotto> elencoIngredienti, int numeroPorzioni, int caricoLavoroPerPorzione) {
 		if(elencoIngredienti == null || elencoIngredienti.isEmpty() || numeroPorzioni <=0 || caricoLavoroPerPorzione <= 0){
-			throw new IllegalArgumentException("Problemi nella creazione di Ricetta");
+			throw new IllegalArgumentException("Problemi nella creazione della Ricetta");
 		}
 		this.elencoIngredienti = elencoIngredienti;
 		this.numeroPorzioni = numeroPorzioni;

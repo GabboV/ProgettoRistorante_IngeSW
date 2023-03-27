@@ -23,7 +23,7 @@ public class GestoreView extends View {
 	private static final String AGGIUNGI_RICETTA = "Aggiungi ricetta";
 	final static private String[] ELENCO_COMANDI = { AGGIUNGI_RICETTA, AGGIUNGI_MENU_TEMATICO, AGGIUNGI_BEVANDA,
 			AGGIUNGI_GENERE_EXTRA, VISUALIZZA_PARAMETRI, VISUALIZZA_RICETTE, VISUALIZZA_MENU_TEMATICI,
-			VISUALIZZA_BEVANDE, VISUALIZZA_GENERI_EXTRA,"Giorno dopo" };
+			VISUALIZZA_BEVANDE, VISUALIZZA_GENERI_EXTRA, "Giorno dopo" };
 
 	public GestoreView() {
 		super(GESTORE, ELENCO_COMANDI);
@@ -35,7 +35,6 @@ public class GestoreView extends View {
 				"Siccome si tratta del primo avvio del programma e' necessaria l'inizializzazione dei parametri.");
 	}
 
-
 	public int richiestaInteroPositivo(String messaggio) {
 		return InputDati.leggiInteroPositivo(messaggio);
 	}
@@ -43,11 +42,10 @@ public class GestoreView extends View {
 	public int richiestaInteroNonNegativo(String messaggio) {
 		return InputDati.leggiInteroNonNegativo(messaggio);
 	}
-	
+
 	public Float richiestaFloatPositivo(String messaggio) {
 		return InputDati.leggiFloatPositivo(messaggio);
 	}
-
 
 	public void stampaParametriRistorante(LocalDate dataCorrente, int nPosti, int caricoLavoroPersona,
 			int caricoLavoroRistorante) {
@@ -60,8 +58,9 @@ public class GestoreView extends View {
 		System.out.println("Carico lavoro gestibile dal ristorante per un pasto: " + caricoLavoroRistorante);
 	}
 
-	
-
+	public boolean yesOrNo(String messaggio) {
+		return InputDati.yesOrNo(messaggio);
+	}
 
 	public void stampaPiattoRicetta(Piatto p, Ricetta r) {
 		System.out.println("PIATTO:");
@@ -82,13 +81,10 @@ public class GestoreView extends View {
 		}
 	}
 
-
 	public void stampaIngrediente(Prodotto p) {
 		System.out.println("Nome: " + p.getNome());
-		System.out.println("Dose: " + p.getQuantita() +"  "+ p.getUnitaMisura().getName());
+		System.out.println("Dose: " + p.getQuantita() + "  " + p.getUnitaMisura().getName());
 	}
-
-
 
 	public void stampaElencoPiattiRicette(ArrayList<Piatto> elencoPiatti) {
 		int contatore = 0;
@@ -99,6 +95,5 @@ public class GestoreView extends View {
 			contatore++;
 		}
 	}
-
 
 }

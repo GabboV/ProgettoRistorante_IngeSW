@@ -8,10 +8,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import it.unibs.ing.progetto.ristorante.controller.IGestore;
+import it.unibs.ing.progetto.ristorante.interfacce.IGestore;
+import it.unibs.ing.progetto.ristorante.interfacce.IMagazzino;
+import it.unibs.ing.progetto.ristorante.interfacce.IPrenotazioni;
 
-
-public class Ristorante implements Serializable, IGestore {
+public class Ristorante implements Serializable, IGestore, IPrenotazioni, IMagazzino {
 
 	private static final long serialVersionUID = 1L;
 
@@ -63,14 +64,6 @@ public class Ristorante implements Serializable, IGestore {
 
 	public boolean esisteBevanda(String nome) {
 		return gestione.esisteBevanda(nome);
-	}
-
-	public boolean ciSonoMenuValidiInData(LocalDate date) {
-		return gestione.ciSonoMenuTematiciValidiInData(date);
-	}
-
-	public boolean esisteMenuCartaValidoInData(LocalDate date) {
-		return gestione.ciSonoPiattiValidiInData(date);
 	}
 
 	public void removePrenotazioniScadute() {
@@ -125,7 +118,9 @@ public class Ristorante implements Serializable, IGestore {
 		return magazzino.getListaSpesa();
 	}
 
-	// ritorna il valore del piatto in posizione data da scelta
+	/*
+	 * ritorna il valore del piatto in posizione data da scelta
+	 */
 	public Piatto piattoScelto(int scelta) {
 		return gestione.piattoScelto(scelta);
 	}
@@ -142,12 +137,16 @@ public class Ristorante implements Serializable, IGestore {
 		gestione.addMenuTematico(nomeMenuTematico, piatti, caricoLavoroMenuTematico, periodi);
 	}
 
-	// aggiunge una nuova benvanda a insiemeBevande
+	/**
+	 * aggiunge una nuova benvanda a insiemeBevande
+	 */
 	public void addBevanda(String nomeBevanda, float consumoProCapiteBevanda) {
 		gestione.addBevanda(nomeBevanda, consumoProCapiteBevanda);
 	}
 
-	// aggiunge un nuovo genere extra a insiemeGeneriExtra
+	/**
+	 * aggiunge un nuovo genere extra a insiemeGeneriExtra
+	 */
 	public void addGenereExtra(String nomeGenereExtra, float consumoProCapiteGenereExtra) {
 		gestione.addGenereExtra(nomeGenereExtra, consumoProCapiteGenereExtra);
 	}
@@ -221,38 +220,56 @@ public class Ristorante implements Serializable, IGestore {
 		this.generaListaSpesa();
 	}
 
+	/**
+	 * Ritorna il prodotto scelto in base all'indice
+	 */
 	public Prodotto prodottoScelto(int indice) {
 		return magazzino.prodottoScelto(indice);
 	}
 
+	/**
+	 * Passo successivo
+	 */
 	public void giornoDopo() {
 		this.dataCorrente = dataCorrente.plusDays(1);
 		this.agenda.removePrenotazioniScadute(dataCorrente);
 		this.magazzino.generaListaSpesa((ArrayList<Prenotazione>) agenda.getPrenotazioniInData(dataCorrente),
 				getInsiemeGeneriExtra(), getInsiemeBevande(), agenda.getNumeroClientiPrenotatiInData(dataCorrente));
 	}
-	
+
+	/**
+	 * Ritorna i piatti disponibili in una certa data
+	 */
 	public List<Piatto> getMenuCartaInData(LocalDate date) {
 		return gestione.getMenuCartaInData(date);
 	}
 
-	// ritorna un ArrayList<MenuTematico> contenente solo i menu tematici
-	// memorizzati nel DataBase e validi nella data
+	/**
+	 * Ritorna i menu tematici disponibili per una certa data
+	 */
 	public List<MenuTematico> getMenuTematiciInData(LocalDate date) {
 		return gestione.getMenuTematiciInData(date);
 	}
-	
 
+	/**
+	 * Imposta il carico di lavoro per persona
+	 */
 	public void setCaricoLavoroPerPersona(int caricoDilavoroPerPersona) {
-		this.gestione.setCaricoLavoroPerPersona(caricoDilavoroPerPersona);;
+		this.gestione.setCaricoLavoroPerPersona(caricoDilavoroPerPersona);
 	}
 
+	/**
+	 * Imposta il numero di posti a sedere
+	 */
 	public void setNumeroPostiASedere(int numeroPostiASedere) {
-		this.gestione.setNumeroPostiASedere(numeroPostiASedere);;
+		this.gestione.setNumeroPostiASedere(numeroPostiASedere);
 	}
-	
+
+	/**
+	 * Imposta il carico di lavoro del ristorante
+	 */
 	public void setCaricoLavoroRistorante(int caricoLavoroRistorante) {
-		this.gestione.setCaricoLavoroRistorante(caricoLavoroRistorante);;
+		this.gestione.setCaricoLavoroRistorante(caricoLavoroRistorante);
 	}
 
 }

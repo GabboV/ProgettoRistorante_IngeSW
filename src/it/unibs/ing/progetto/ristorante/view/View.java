@@ -36,7 +36,7 @@ public class View {
 		System.out.println(messaggio);
 	}
 
-	public boolean richiestaNuovaAggiunta(String messaggio) {
+	public boolean yesOrNo(String messaggio) {
 		return InputDati.yesOrNo(messaggio);
 	}
 
