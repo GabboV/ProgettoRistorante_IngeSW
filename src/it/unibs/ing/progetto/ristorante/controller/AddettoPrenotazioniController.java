@@ -9,7 +9,6 @@ import it.unibs.ing.progetto.ristorante.interfacce.Controller;
 import it.unibs.ing.progetto.ristorante.interfacce.IPrenotazioni;
 import it.unibs.ing.progetto.ristorante.model.MenuTematico;
 import it.unibs.ing.progetto.ristorante.model.Piatto;
-import it.unibs.ing.progetto.ristorante.model.Ristorante;
 import it.unibs.ing.progetto.ristorante.view.AddettoPrenotazioniView;
 
 public class AddettoPrenotazioniController implements Controller {

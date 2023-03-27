@@ -1,7 +1,6 @@
 package it.unibs.ing.progetto.ristorante.XML;
 
 import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamReader;
 
 import it.unibs.ing.progetto.ristorante.model.Agenda;
@@ -14,15 +13,12 @@ import it.unibs.ing.progetto.ristorante.model.Prenotazione;
 import it.unibs.ing.progetto.ristorante.model.Prodotto;
 import it.unibs.ing.progetto.ristorante.model.Ricetta;
 import it.unibs.ing.progetto.ristorante.model.Ristorante;
-import it.unibs.ing.progetto.ristorante.model.Ristorante;
 import it.unibs.ing.progetto.ristorante.model.UnitaMisura;
 
-import java.beans.DefaultPersistenceDelegate;
 import java.io.FileInputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class ReaderXMLRistorante {
 	private static final String ERRORE_READER = "Errore nell'inizializzazione del reader: ";

@@ -40,6 +40,7 @@ public class ViewGenerale {
 
 	public void avvioProgramma() {
 
+		
 		System.out.println(MSG_BENVENUTO);
 		File file_memoria = new File("ristorante.dat");
 		Ristorante model = avvioConSceltaInizializzazione(file_memoria);
