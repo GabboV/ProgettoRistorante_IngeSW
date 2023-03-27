@@ -183,7 +183,9 @@ public class GestoreController extends Controller {
 		} while (altroIngrediente);
 		return elencoIngredienti;
 	}
-
+	
+	// richiede un nome di ingrediente. Se gia' esiste in elencoIngredienti della ricetta in questione, chiede un altro nome
+	// Ritorna il nome valido
 	private String richiestaNomeIngredienteValido(ArrayList<Prodotto> elencoIngredienti) {
 		String nomeProdotto;
 		boolean nomeValido;
@@ -220,6 +222,8 @@ public class GestoreController extends Controller {
 
 	}
 
+	// richiede un nome di bevanda. Se gia' esiste in insiemeBavande del model, chiede un altro nome
+	// Ritorna il nome valido
 	private String richiestaNomeBevandaValido() {
 		String nomeProdotto;
 		boolean esiste = false;
@@ -231,8 +235,7 @@ public class GestoreController extends Controller {
 	}
 
 	// Chiede a utente dati di un nuovo genere extra
-	// Controlla se in insiemeGeneriExtra esiste gia' un genereExtra con il nome
-	// uguale
+	// Controlla se in insiemeGeneriExtra esiste gia' un genereExtra con il nome uguale
 	// Se gia' esiste, stampa a video un msg
 	// Se non esiste la aggiunge a inisemeGeneriExtra e stampa a video un msg
 	// Chiede a utente se vuole aggiungere un altro genere extra
@@ -249,7 +252,7 @@ public class GestoreController extends Controller {
 		} while (altroGenereExtra);
 	}
 
-	// richiede un nome di prodotto. Se gia' esiste in insiemeProdotti, lo richiede.
+	// richiede un nome di genere extra. Se gia' esiste in insimeGeneriExtra del model, chiede un altro nome
 	// Ritorna il nome valido
 	private String richiestaNomeGenereExtraValido() {
 		String nomeProdotto;
@@ -275,11 +278,6 @@ public class GestoreController extends Controller {
 		this.getModel().addMenuTematico(nomeMenuTematico, elencoPiatti, caricoLavoroMenuTematico, periodi);
 		view.stampaMsg("\nE' stato aggiunto un nuovo menu tematico.");
 	}
-
-	// esiste un modo di mettere tutti i metodi di controllo nome in uno solo?
-	// per farlo nelle rispettive classi ho bisogno di creare l'istanza prima
-	// per farlo nel controller come metodo che controlla una String, devo
-	// trasformare l'elenco in lista di nomi
 
 	// chiede un nome di menu tematico. Se gia' esiste in elencoMenuTematici, lo
 	// richiede. Ritorna il nome valido

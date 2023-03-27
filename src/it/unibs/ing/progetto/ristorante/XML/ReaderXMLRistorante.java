@@ -278,5 +278,4 @@ public class ReaderXMLRistorante {
 		}
 		return piattoScelto;
 	}
-
 }

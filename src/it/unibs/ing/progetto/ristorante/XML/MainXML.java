@@ -30,8 +30,8 @@ public class MainXML {
 		Agenda agenda = new Agenda();
 		
 		model.setDataCorrente(LocalDate.of(2023, 1, 1));
-		LocalDate dataprenotazione = LocalDate.of(2023, 5, 1);
-
+		LocalDate dataprenotazione = LocalDate.of(2023, 1, 2);
+	
 		LocalDate inizioValidita = LocalDate.of(2023, 01, 1);
 		LocalDate fineValidita = LocalDate.of(2023, 01, 31);
 		Periodo periodo = new Periodo(inizioValidita, fineValidita);
