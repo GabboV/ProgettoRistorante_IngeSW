@@ -42,8 +42,8 @@ public class Ristorante implements Serializable, IGestore, IPrenotazioni, IMagaz
 		return gestione.getNumeroPostiASedere() - agenda.getNumeroClientiPrenotatiInData(data);
 	}
 
-	public void addPrenotazione(LocalDate data, HashMap<Piatto, Integer> comanda, int coperti) {
-		this.agenda.addPrenotazione(data, comanda, coperti);
+	public void addPrenotazione(String cliente, LocalDate data, HashMap<Piatto, Integer> comanda, int coperti) {
+		this.agenda.addPrenotazione(cliente, data, comanda, coperti);
 	}
 
 	public boolean ciSonoMenuTematiciValidiInData(LocalDate data) {
@@ -107,7 +107,7 @@ public class Ristorante implements Serializable, IGestore, IPrenotazioni, IMagaz
 	}
 
 	public ArrayList<Prodotto> getInsiemeGeneriExtra() {
-		return gestione.getInsiemeBevande();
+		return gestione.getInsiemeGeneriExtra();
 	}
 
 	public ArrayList<Prodotto> getRegistroMagazzino() {
@@ -215,17 +215,12 @@ public class Ristorante implements Serializable, IGestore, IPrenotazioni, IMagaz
 	 * @param prodotto
 	 * @param quantita
 	 */
-	public void rimuoviQuantitaProdottoDaRegistro(Prodotto prodotto, float quantita) {
-		this.magazzino.rimuoviQuantitaProdottoDaRegistro(prodotto, quantita);
+	public void rimuoviQuantitaProdottoMagazzino(Prodotto prodotto, float quantita) {
+		this.magazzino.rimuoviQuantitaProdottoMagazzino(prodotto, quantita);
 		this.generaListaSpesa();
 	}
 
-	/**
-	 * Ritorna il prodotto scelto in base all'indice
-	 */
-	public Prodotto prodottoScelto(int indice) {
-		return magazzino.prodottoScelto(indice);
-	}
+
 
 	/**
 	 * Passo successivo
@@ -271,5 +266,30 @@ public class Ristorante implements Serializable, IGestore, IPrenotazioni, IMagaz
 	public void setCaricoLavoroRistorante(int caricoLavoroRistorante) {
 		this.gestione.setCaricoLavoroRistorante(caricoLavoroRistorante);
 	}
+
+	@Override
+	public void removePrenotazione(int indice) {
+		this.agenda.removePrenotazione(indice);
+	}
+	
+	public void setInsiemeBevande(ArrayList<Prodotto> insiemeBevande) {
+		this.gestione.setInsiemeBevande(insiemeBevande);
+	}
+	
+	public void setInsiemeGeneriExtra(ArrayList<Prodotto> insiemeGeneriExtra) {
+		this.gestione.setInsiemeGeneriExtra(insiemeGeneriExtra);
+	}
+
+	@Override
+	public boolean esisteProdottoInMagazzino(String nome) {
+		return this.magazzino.esisteProdottoInMagazzino(nome);
+	}
+
+	@Override
+	public void addQuantitaProdottoMagazzino(Prodotto prodotto, float quantita) {
+		this.magazzino.addQuantitaProdottoMagazzino(prodotto, quantita);
+	}
+
+	
 
 }

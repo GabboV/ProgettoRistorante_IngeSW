@@ -15,8 +15,9 @@ public interface IMagazzino {
 
     public void addProdottoInventario(String nome, float quantita, UnitaMisura unitaMisura);
 
-    public void rimuoviQuantitaProdottoDaRegistro(Prodotto prodotto, float quantita);
+    public void rimuoviQuantitaProdottoMagazzino(Prodotto prodotto, float quantita);
 
-    public Prodotto prodottoScelto(int indice);
-
+    public boolean esisteProdottoInMagazzino(String nome);
+    
+    public void addQuantitaProdottoMagazzino(Prodotto prodotto, float quantita);
 }

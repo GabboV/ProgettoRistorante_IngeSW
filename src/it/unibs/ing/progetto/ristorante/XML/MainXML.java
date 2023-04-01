@@ -23,9 +23,10 @@ public class MainXML {
 		// PARAMETRI
 		Ristorante model = new Ristorante();
 		
-		Gestione gestione = new Gestione(20, (int) (20 * 50 + 20 * 50 * 0.2), 50,
-				null, null, null, null);
-		Agenda agenda = new Agenda();
+		
+		model.setCaricoLavoroPerPersona(20);
+		model.setNumeroPostiASedere(50);
+		model.setCaricoLavoroRistorante((int) ((20 * 50)*1.2));
 		
 		model.setDataCorrente(LocalDate.of(2023, 1, 1));
 		LocalDate dataprenotazione = LocalDate.of(2023, 1, 2);
@@ -134,7 +135,7 @@ public class MainXML {
 		bevande.add(b1);
 		bevande.add(b2);
 		bevande.add(b3);
-		gestione.setInsiemeBevande(bevande);
+		model.setInsiemeBevande(bevande);
 
 		// GENERI EXTRA
 		Prodotto g1 = new Prodotto("Pane", 0.3f, UnitaMisura.HG);
@@ -144,7 +145,7 @@ public class MainXML {
 		generiExtra.add(g1);
 		generiExtra.add(g2);
 		generiExtra.add(g3);
-		gestione.setInsiemeGeneriExtra(generiExtra);
+		model.setInsiemeGeneriExtra(generiExtra);
 
 		// MENU TEMATICO 0
 		ArrayList<Piatto> piatti0 = new ArrayList<>();
@@ -172,16 +173,14 @@ public class MainXML {
 		HashMap<Piatto, Integer> comanda1 = new HashMap<Piatto, Integer>();
 		comanda1.put(model.piattoScelto(0), 3);
 		comanda1.put(model.piattoScelto(3), 1);
-		model.addPrenotazione(dataprenotazione, comanda1, 4);
+		model.addPrenotazione("Cliente1",dataprenotazione, comanda1, 4);
 
 		// PRENOTAZIONE2
 		HashMap<Piatto, Integer> comanda2 = new HashMap<Piatto, Integer>();
 		comanda2.put(model.piattoScelto(0), 2);
 		comanda2.put(model.piattoScelto(3), 2);
-		model.addPrenotazione(dataprenotazione, comanda2, 3);
+		model.addPrenotazione("Cliente2",dataprenotazione, comanda2, 3);
 		
-		
-		model = new Ristorante(gestione,agenda,new Magazzino());
 		WriterXMLRistorante scrittore = new WriterXMLRistorante();
 		System.out.println(STRINGA_INIZIO_STAMPA);
 		scrittore.writeXMLRistorante(model, PATH_XML_RISTORANTE);

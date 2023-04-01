@@ -16,21 +16,20 @@ import it.unibs.ing.progetto.ristorante.model.Ristorante;
 
 public class ViewGenerale {
 
-	private static final String MODEL_IS_NULL = "Impossibile salvare i parametri del ristorante";
 	private static final String DATI_IN_MEMORIA = "Sono presenti dei dati salvati in memoria, vuoi caricarli? ";
 	private static final int ELIMINA_DATI = 2;
 	private static final int SALVA_MODIFICHE = 1;
 	private static final String ERRORE_RECUPERO_DATI = "Errore nel recupero dei dati da memoria";
 	final private static String MSG_BENVENUTO = "Benvenuto nel programma di supporto del tuo ristorante.";
-	final private static String TITOLO_SCHERMATA_LOGIN = "PAGINA DI LOGIN";
-	final private static String TITOLO_SCELTA_DATI = "OPZIONI DI AVVIO";
-	final private static String[] ELENCO_RUOLI = { "GESTORE", "ADDETTO PRENOTAZIONI", "MAGAZZINIERE" };
+	final private static String TITOLO_SCHERMATA_LOGIN = "Login";
+	final private static String TITOLO_SCELTA_DATI = "Opzioni di Avvio";
+	final private static String[] ELENCO_RUOLI = { "Gestore", "Addetto Prenotazioni", "Magazziniere" };
 	final private static int GESTORE = 1;
 	private static final int ADDETTO_PRENOTAZIONI = 2;
 	private static final int MAGAZZINIERE = 3;
 	private static final int ESCI = 0;
 	final private static String[] OPZIONI_DATI = { "Avvio da zero (necessita inizializzazione da parte del gestore)",
-			"Avvio da dati predefiniti", "Avvio da ultimo salvataggio", };
+			"Avvio da dati predefiniti", "Avvio da ultimo salvataggio" };
 	final private static int AVVIO_DA_ZERO = 1;
 	private static final int AVVIO_DA_PREDEFINITO = 2;
 	private static final int AVVIO_DA_ULTIMO_SALVATAGGIO = 3;
@@ -80,22 +79,26 @@ public class ViewGenerale {
 					if (risposta) {
 						model = loginInizializzazione();
 						loginUtente(model);
+						altraOpzione = false;
 					}
-					altraOpzione = false;
 					break;
 				case AVVIO_DA_PREDEFINITO:
 					model = ReaderXMLRistorante.leggiXML(PATH_XML_RISTORANTE);
-					loginUtente(model);
-					altraOpzione = false;
+					if(model != null) {
+						loginUtente(model);
+						altraOpzione = false;
+					} else {
+						System.out.println("C'è stato un problema col caricamento dei dati, scegliere un altra alternativa");
+					}
 					break;
 				case AVVIO_DA_ULTIMO_SALVATAGGIO:
 					model = this.caricaDatiDaMemoria(file_memoria);
 					if (model != null) {
 						loginUtente(model);
+						altraOpzione = false;
 					} else {
-						System.out.println(MODEL_IS_NULL);
+						System.out.println("\nScegliere un altra alternativa...\n");
 					}
-					altraOpzione = false;
 					break;
 				case ESCI:
 					altraOpzione = false;
@@ -196,9 +199,11 @@ public class ViewGenerale {
 					if (model != null) {
 						BoxMemoria memoria_new = new BoxMemoria(model);
 						ServizioFile.salvaSingoloOggetto(memoria_file, memoria_new);
-						System.out.println("Dati salvati");
-					} else
-						System.out.println("Non ci sono elementi da salvare");
+						System.out.println("\nDati salvati\n");
+					} else {
+						System.out.println("Non ci sono elementi da salvare!!");
+					}
+						
 					break;
 				case ELIMINA_DATI:
 					if (memoria_file.exists()) {

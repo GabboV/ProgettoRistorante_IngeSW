@@ -121,14 +121,32 @@ public class Gestione implements Serializable{
 	}
 
 
+	/**
+	 * Restiuisce true se il genere extra è gia presente
+	 * @param nome
+	 * @return
+	 */
 	public boolean esisteGenereExtra(String nome) {
 		return insiemeGeneriExtra.stream().anyMatch(g -> g.getNome().equalsIgnoreCase(nome));
 	}
 
+	/**
+	 * Restituisce true se la bevanda esiste gia
+	 * @param nome
+	 * @return
+	 */
 	public boolean esisteBevanda(String nome) {
 		return insiemeBevande.stream().anyMatch(b -> b.getNome().equalsIgnoreCase(nome));
 	}
 
+	/**
+	 * Aggiunge un piatto e una ricetta dopo averli creati
+	 * @param elencoIngredienti
+	 * @param porzioni
+	 * @param caricoLavoro
+	 * @param nomePiatto
+	 * @param periodi
+	 */
 	public void addPiattoRicetta(ArrayList<Prodotto> elencoIngredienti, int porzioni, int caricoLavoro,
 			String nomePiatto, ArrayList<Periodo> periodi) {
 		Ricetta ricetta = new Ricetta(elencoIngredienti, porzioni, caricoLavoro);
@@ -136,6 +154,13 @@ public class Gestione implements Serializable{
 		elencoPiatti.add(piatto);
 	}
 
+	/**
+	 * Aggiunge un menu tematico
+	 * @param nomeMenuTematico
+	 * @param piatti
+	 * @param caricoLavoroMenuTematico
+	 * @param periodi
+	 */
 	public void addMenuTematico(String nomeMenuTematico, ArrayList<Piatto> piatti, int caricoLavoroMenuTematico,
 			ArrayList<Periodo> periodi) {
 		MenuTematico menuTematico = new MenuTematico(nomeMenuTematico, piatti, caricoLavoroMenuTematico, periodi);

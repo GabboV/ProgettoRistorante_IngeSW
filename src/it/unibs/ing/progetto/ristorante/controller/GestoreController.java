@@ -113,7 +113,8 @@ public class GestoreController implements Controller {
 				break;
 			case 10:
 				model.giornoDopo();
-				view.stampaData(model.getDataCorrente());
+				view.stampaMsg("Il giorno corrente is: " + model.getDataCorrente().toString() + "\n");
+				view.stampaMsg("");
 				break;
 			case ESCI:
 				sessioneOn = false;
@@ -175,13 +176,17 @@ public class GestoreController implements Controller {
 		boolean altroIngrediente;
 		do {
 			String nomeIngrediente = richiestaNomeIngredienteValido(elencoIngredienti);
-			UnitaMisura unitaMisura = view.richiestaUnitaMisura("Inserisci unita di misura: ");
 			float dose = view.richiestaFloatPositivo("Inserisci dose: ");
+			UnitaMisura unitaMisura = view.leggiUnitaMisura();
 
-			Prodotto ingrediente = new Prodotto(nomeIngrediente, dose, unitaMisura);
-			elencoIngredienti.add(ingrediente);
-			view.stampaMsg("E' stata aggiunto un ingrediente.");
-
+			if (nomeIngrediente != null && dose > 0f && unitaMisura != null) {
+				Prodotto ingrediente = new Prodotto(nomeIngrediente, dose, unitaMisura);
+				elencoIngredienti.add(ingrediente);
+				view.stampaMsg("E' stata aggiunto un ingrediente.");
+			} else {
+				view.stampaMsg("L'elemento non è valido");
+			}
+			
 			altroIngrediente = view.yesOrNo("Vuoi aggiungere un altro ingrediente? ");
 		} while (altroIngrediente);
 		return elencoIngredienti;

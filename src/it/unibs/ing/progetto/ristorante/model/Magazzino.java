@@ -30,7 +30,6 @@ public class Magazzino implements Serializable {
 	}
 
 	public ArrayList<Prodotto> getRegistroMagazzino() {
-		
 		return registroMagazzino;
 	}
 
@@ -39,29 +38,8 @@ public class Magazzino implements Serializable {
 	}
 
 	/**
-	 * Dando in input un prodotto e una quantita, la cerca nel registro e ne riduce
-	 * della quantita indicata
-	 * 
-	 * @param prodotto
-	 * @param quantita
-	 */
-	public void rimuoviQuantitaProdottoDaRegistro(Prodotto prodotto, float quantita) {
-		String nomeCercato = prodotto.getNome();
-		for (Prodotto p : this.registroMagazzino) {
-			if (p.getNome().equalsIgnoreCase(nomeCercato)) {
-				if (compareFloats(0f, p.getQuantita() - quantita)) {
-					rimuoviProdotto(registroMagazzino, prodotto);
-				} else {
-					p.setQuantita(p.getQuantita() - quantita);
-				}
-				break;
-			}
-		}
-
-	}
-
-	/**
 	 * Genera la lista della spesa
+	 * 
 	 * @param prenotazioni
 	 * @param generi
 	 * @param bevande
@@ -76,19 +54,6 @@ public class Magazzino implements Serializable {
 	}
 
 	/**
-	 * Restituisce il prodotto scelto in base all'indice
-	 * 
-	 * @param indice
-	 * @return
-	 */
-	public Prodotto prodottoScelto(int indice) {
-		if (indice >= 0 && indice < this.registroMagazzino.size() - 1) {
-			return registroMagazzino.get(indice);
-		}
-		return null;
-	}
-
-	/**
 	 * Aggiunge una voce alla lista con un nuovo prodotto
 	 * 
 	 * @param nome
@@ -97,7 +62,74 @@ public class Magazzino implements Serializable {
 	 */
 	public void addProdottoInventario(String nome, float quantita, UnitaMisura unitaMisura) {
 		Prodotto prodotto = new Prodotto(nome, quantita, unitaMisura);
-		aggiornaListaConProdotto(this.registroMagazzino, prodotto);
+		this.registroMagazzino.add(prodotto);
+	}
+
+	/**
+	 * True se esiste il prodotto esiste
+	 * 
+	 * @param nome
+	 * @return
+	 */
+	public boolean esisteProdottoInMagazzino(String nome) {
+		return this.registroMagazzino.stream().anyMatch(p -> p.getNome().equalsIgnoreCase(nome));
+
+	}
+
+	/**
+	 * Dando in input un prodotto e una quantita, la cerca nel registro e ne aumenta
+	 * della quantita indicata
+	 * 
+	 * @param prodotto
+	 * @param quantita
+	 */
+	public void addQuantitaProdottoMagazzino(Prodotto prodotto, float quantita) {
+		String pNome = prodotto.getNome();
+		UnitaMisura pMisura = prodotto.getUnitaMisura();
+		for (Prodotto p : registroMagazzino) {
+			if (p.getNome().equalsIgnoreCase(pNome) && p.getUnitaMisura().equals(pMisura)) {
+				p.setQuantita(quantita + p.getQuantita());
+			}
+		}
+	}
+
+	/**
+	 * Dando in input un prodotto e una quantita, la cerca nel registro e ne riduce
+	 * della quantita indicata, nel caso la quantita finale sia prossima allo 0
+	 * allora la rimuove definitivamente
+	 * 
+	 * @param prodotto
+	 * @param quantita
+	 */
+	public void rimuoviQuantitaProdottoMagazzino(Prodotto prodotto, float quantita) {
+		String nomeCercato = prodotto.getNome();
+		UnitaMisura misura = prodotto.getUnitaMisura();
+		for (Prodotto p : this.registroMagazzino) {
+			if (p.getNome().equalsIgnoreCase(nomeCercato) && p.getUnitaMisura().equals(misura)) {
+				if (compareFloats(0f, p.getQuantita() - quantita)) {
+					rimuoviProdotto(registroMagazzino, prodotto);
+				} else {
+					p.setQuantita(p.getQuantita() - quantita);
+				}
+				break;
+			}
+		}
+
+	}
+
+	/**
+	 * Confronta due float, se sono vicini restituisce true
+	 * 
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	private static boolean compareFloats(float x, float y) {
+		if (Math.abs(x - y) <= EPSILON) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -110,8 +142,7 @@ public class Magazzino implements Serializable {
 		for (Prodotto prodotto : listaIniziale) {
 			if (!this.contieneProdottoSufficiente(registroMagazzino, prodotto)) {
 				float daAcquistare = prodotto.getQuantita() - this.quantitaInMagazzino(prodotto);
-				prodotto.setQuantita(daAcquistare);
-				this.listaSpesa.add(prodotto);
+				this.listaSpesa.add(new Prodotto(prodotto.getNome(), daAcquistare, prodotto.getUnitaMisura()));
 			}
 		}
 	}
@@ -174,9 +205,15 @@ public class Magazzino implements Serializable {
 	private void aggiungiBevandeEGeneriExtra(ArrayList<Prodotto> list, ArrayList<Prodotto> generi,
 			ArrayList<Prodotto> bevande, int prenotati) {
 		if (prenotati > 0) {
-			aggiornaListaConProdotti(list, generi);
-			aggiornaListaConProdotti(list, bevande);
+
+			aggiornaListaConProdotti(list, (ArrayList<Prodotto>) this.moltiplicaPerPrenotati(generi, prenotati));
+			aggiornaListaConProdotti(list, (ArrayList<Prodotto>) this.moltiplicaPerPrenotati(bevande, prenotati));
 		}
+	}
+
+	private List<Prodotto> moltiplicaPerPrenotati(ArrayList<Prodotto> list, int prenotati) {
+		return list.stream().map(p -> new Prodotto(p.getNome(), (p.getQuantita() * prenotati), p.getUnitaMisura()))
+				.collect(Collectors.toList());
 	}
 
 	/**
@@ -248,8 +285,7 @@ public class Magazzino implements Serializable {
 	 */
 	private static boolean listaContieneProdotto(ArrayList<Prodotto> prodotti, Prodotto prodotto) {
 		String cercato = prodotto.getNome();
-		UnitaMisura misura = prodotto.getUnitaMisura();
-		return prodotti.stream().anyMatch(p -> p.getNome().equalsIgnoreCase(cercato) && p.getUnitaMisura().equals(misura));
+		return prodotti.stream().anyMatch(p -> p.getNome().equalsIgnoreCase(cercato));
 	}
 
 	/**
@@ -272,32 +308,14 @@ public class Magazzino implements Serializable {
 	}
 
 	/**
-	 * Confronta due float, se sono vicini restituisce true
-	 * 
-	 * @param x
-	 * @param y
-	 * @return
-	 */
-	private static boolean compareFloats(float x, float y) {
-		if (Math.abs(x - y) <= EPSILON) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * Rimuove un prodotto da una lista di prodotto
+	 * Rimuove un prodotto da una lista di prodotti
 	 * 
 	 * @param prodotti
 	 * @param prodotto
 	 */
 	private static void rimuoviProdotto(ArrayList<Prodotto> prodotti, Prodotto prodotto) {
-		float quantita = prodotto.getQuantita();
 		UnitaMisura misura = prodotto.getUnitaMisura();
 		String nome = prodotto.getNome();
-		prodotti.removeIf(p -> p.getNome().equalsIgnoreCase(nome) && p.getQuantita() == quantita
-				&& p.getUnitaMisura().equals(misura));
+		prodotti.removeIf(p -> p.getNome().equalsIgnoreCase(nome) && p.getUnitaMisura().equals(misura));
 	}
-
 }

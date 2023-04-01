@@ -13,7 +13,7 @@ public interface IPrenotazioni {
 
     public int getPostiDisponibiliInData(LocalDate data);
 
-    public void addPrenotazione(LocalDate data, HashMap<Piatto, Integer> comanda, int coperti);
+    public void addPrenotazione(String cliente, LocalDate data, HashMap<Piatto, Integer> comanda, int coperti);
 
     public boolean ciSonoMenuTematiciValidiInData(LocalDate data);
 
@@ -27,8 +27,10 @@ public interface IPrenotazioni {
 
     public List<MenuTematico> getMenuTematiciInData(LocalDate date);
 
-	public LocalDate getDataCorrente();
+    public LocalDate getDataCorrente();
 
-	public boolean verificaAccettabilitaPrenotazione(LocalDate dataPrenotazione, HashMap<Piatto, Integer> comanda,
-			int numCoperti);
+    public boolean verificaAccettabilitaPrenotazione(LocalDate dataPrenotazione, HashMap<Piatto, Integer> comanda,
+            int numCoperti);
+            
+    public void removePrenotazione(int indice);
 }

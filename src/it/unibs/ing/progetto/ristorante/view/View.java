@@ -64,8 +64,8 @@ public class View {
 		return InputDati.leggiIntero(messaggio, min, max);
 	}
 
-	public UnitaMisura richiestaUnitaMisura(String messaggio) {
-		return InputDati.leggiUnitaMisura(messaggio);
+	public UnitaMisura leggiUnitaMisura() {
+		return InputDati.richiestaUnitaMisura();
 	}
 
 	public void stampaElencoMenuTematici(ArrayList<MenuTematico> elencoMenuTematici) {
@@ -121,9 +121,34 @@ public class View {
 		}
 	}
 
+	public void stampaInsiemeProdottiMagazzino(ArrayList<Prodotto> elencoProdotti) {
+		int contatore = 0;
+		if (elencoProdotti.isEmpty()) {
+			System.out.println();
+			System.out.println("La lista e' vuota.");
+			System.out.println();
+		} else {
+			System.out.println();
+			System.out.println("+----------------+ Aggiungi flusso +----------------+");
+			System.out.println();
+			for (Prodotto p : elencoProdotti) {
+				System.out.println("------------------------- " + contatore + " -------------------------");
+				stampaProdottoMagazzino(p);
+				System.out.println();
+				contatore++;
+			}
+			System.out.println();
+		}
+	}
+
 	public void stampaProdotto(Prodotto p) {
 		System.out.println("Nome: " + p.getNome());
 		System.out.println("Consumo pro capite: " + p.getQuantita() + p.getUnitaMisura());
+	}
+
+	public void stampaProdottoMagazzino(Prodotto p) {
+		System.out.println(
+				String.format("Nome: %10s\tGiacienza: %5.2f\t%5s", p.getNome(), p.getQuantita(), p.getUnitaMisura()));
 	}
 
 	public void stampaData(LocalDate data) {

@@ -9,10 +9,12 @@ import it.unibs.ing.progetto.ristorante.interfacce.Controller;
 import it.unibs.ing.progetto.ristorante.interfacce.IPrenotazioni;
 import it.unibs.ing.progetto.ristorante.model.MenuTematico;
 import it.unibs.ing.progetto.ristorante.model.Piatto;
+import it.unibs.ing.progetto.ristorante.model.Prenotazione;
 import it.unibs.ing.progetto.ristorante.view.AddettoPrenotazioniView;
 
 public class AddettoPrenotazioniController implements Controller {
 
+	private static final String ERRORE = "Errore";
 	/**
 	 *
 	 */
@@ -34,9 +36,9 @@ public class AddettoPrenotazioniController implements Controller {
 
 	public void avviaSessione() {
 		view.stampaMsg("Addetto Prenotazioni\n");
+		model.removePrenotazioniScadute();
 		boolean sessioneON = true;
 		do {
-			model.removePrenotazioniScadute();
 			int scelta = view.printMenu();
 			switch (scelta) {
 			case LOGOUT:
@@ -46,13 +48,13 @@ public class AddettoPrenotazioniController implements Controller {
 				this.inserisciPrenotazione();
 				break;
 			case RIMUOVI_PRENOTAZIONE:
-				//
+				this.removePrenotazione();
 				break;
 			case VISUALIZZA_PRENOTAZIONI:
 				this.visualizzaPrenotazioni();
 				break;
 			default:
-				view.stampaMsg("Errore");
+				view.stampaMsg(ERRORE);
 				break;
 			}
 		} while (sessioneON);
@@ -76,6 +78,7 @@ public class AddettoPrenotazioniController implements Controller {
 	 */
 	public void inserisciPrenotazione() {
 		LocalDate dataPrenotazione;
+		String cliente = view.richiestaNome("Inserisci il nome del cliente -> ");
 		dataPrenotazione = getDataValida();
 		if (dataPrenotazione != null) {
 			int numCoperti = 0;
@@ -89,10 +92,9 @@ public class AddettoPrenotazioniController implements Controller {
 			HashMap<Piatto, Integer> comanda;
 			if (!discard && !piattiOrdinati.isEmpty()) {
 				comanda = this.creaComandaConListaPiatti(piattiOrdinati);
-				boolean check = model.verificaAccettabilitaPrenotazione(dataPrenotazione, comanda,
-						numCoperti);
+				boolean check = model.verificaAccettabilitaPrenotazione(dataPrenotazione, comanda, numCoperti);
 				if (check) {
-					model.addPrenotazione(dataPrenotazione, comanda, numCoperti);
+					model.addPrenotazione(cliente, dataPrenotazione, comanda, numCoperti);
 				} else {
 					view.stampaMsg("Prenotazione non fattibile");
 				}
@@ -104,6 +106,7 @@ public class AddettoPrenotazioniController implements Controller {
 
 	/**
 	 * Metodo per richiedere una data valida sotto le ipotesi del tema
+	 * 
 	 * @return
 	 */
 	private LocalDate getDataValida() {
@@ -113,14 +116,15 @@ public class AddettoPrenotazioniController implements Controller {
 			dataPrenotazione = view.richiestaData("Inserire data della prenotazione:\n");
 			boolean tematici = model.ciSonoMenuTematiciValidiInData(dataPrenotazione);
 			boolean carta = model.ciSonoPiattiValidiInData(dataPrenotazione);
-			if (!this.isGiornoFeriale(dataPrenotazione) || !(tematici || carta) || !almenoUnGiornoFeriale(model.getDataCorrente(), dataPrenotazione)) {
+			if (!this.isGiornoFeriale(dataPrenotazione) || !(tematici || carta)
+					|| !almenoUnGiornoFeriale(model.getDataCorrente(), dataPrenotazione)) {
 				if (!this.isGiornoFeriale(dataPrenotazione)) {
 					this.view.stampaMsg("Il ristorante is aperto solo nei giorni feriali, riprovare!\n");
 				}
 				if (tematici == false && carta == false) {
 					this.view.stampaMsg("Non ci sono piatti validi da scegliere, scegli un altro giorno\n");
 				}
-				if(!almenoUnGiornoFeriale(model.getDataCorrente(), dataPrenotazione)) {
+				if (!almenoUnGiornoFeriale(model.getDataCorrente(), dataPrenotazione)) {
 					this.view.stampaMsg("La prenotazione deve pervenire con almeno un giorno feriale in anticipo");
 				}
 			} else {
@@ -131,7 +135,8 @@ public class AddettoPrenotazioniController implements Controller {
 	}
 
 	/**
-	 * Controlla se c'è almeno un giorno feriale di differenza tra due date
+	 * Controlla se c'e' almeno un giorno feriale di differenza tra due date
+	 * 
 	 * @param date1
 	 * @param date2
 	 * @return
@@ -143,6 +148,7 @@ public class AddettoPrenotazioniController implements Controller {
 
 	/**
 	 * Calcola il giorno feriale successivo
+	 * 
 	 * @param date
 	 * @return
 	 */
@@ -154,7 +160,8 @@ public class AddettoPrenotazioniController implements Controller {
 	}
 
 	/**
-	 * Restituisce true se la data è giorno feriale
+	 * Restituisce true se la data is giorno feriale
+	 * 
 	 * @param data
 	 * @return
 	 */
@@ -164,7 +171,9 @@ public class AddettoPrenotazioniController implements Controller {
 	}
 
 	/**
-	 * Ordina per ogni cliente una ordinazione, restituisce true se la prenotazione viene annullata
+	 * Ordina per ogni cliente una ordinazione, restituisce true se la prenotazione
+	 * viene annullata
+	 * 
 	 * @param dataPrenotazione
 	 * @param numCoperti
 	 * @param piattiOrdinati
@@ -188,7 +197,7 @@ public class AddettoPrenotazioniController implements Controller {
 					ordinato = sceltaDaMenuCarta(dataPrenotazione, piattiOrdinati);
 					break;
 				default:
-					view.stampaMsg("Errore");
+					view.stampaMsg(ERRORE);
 					break;
 				}
 			} while (!ordinato && !discard);
@@ -200,6 +209,7 @@ public class AddettoPrenotazioniController implements Controller {
 
 	/**
 	 * Prende una lista di piatti e li ordina in una mappa con la loro molteplicità
+	 * 
 	 * @param piatti
 	 * @return
 	 */
@@ -218,16 +228,18 @@ public class AddettoPrenotazioniController implements Controller {
 
 	/**
 	 * Passa i parametri di una nuova prenotazione al modello
+	 * 
 	 * @param data
 	 * @param comanda
 	 * @param coperti
 	 */
-	public void addPrenotazione(LocalDate data, HashMap<Piatto, Integer> comanda, int coperti) {
-		model.addPrenotazione(data, comanda, coperti);
+	public void addPrenotazione(String cliente, LocalDate data, HashMap<Piatto, Integer> comanda, int coperti) {
+		model.addPrenotazione(cliente, data, comanda, coperti);
 	}
 
 	/**
 	 * Metodo per scegliere un menu tematico
+	 * 
 	 * @param dataPrenotazione
 	 * @param piatti
 	 * @return
@@ -245,6 +257,7 @@ public class AddettoPrenotazioniController implements Controller {
 
 	/**
 	 * Metodo per scegliere un menu carta
+	 * 
 	 * @param dataPrenotazione
 	 * @param piatti
 	 * @return
@@ -262,6 +275,7 @@ public class AddettoPrenotazioniController implements Controller {
 
 	/**
 	 * Metodo per selezionare un menu tematico
+	 * 
 	 * @param date
 	 * @return
 	 */
@@ -276,6 +290,7 @@ public class AddettoPrenotazioniController implements Controller {
 
 	/**
 	 * Metodo per selezionare dei piatti dal menu alla carta
+	 * 
 	 * @param date
 	 * @return
 	 */
@@ -290,6 +305,19 @@ public class AddettoPrenotazioniController implements Controller {
 			continua = view.yesOrNo("Vuoi aggiungere un altro piatto? ");
 		} while (continua);
 		return piattiScelti;
+	}
+
+	public void removePrenotazione() {
+		ArrayList<Prenotazione> lista = model.getElencoPrenotazioni();
+		if (lista != null && !lista.isEmpty()) {
+			view.stampaListaPrenotazioni(model.getElencoPrenotazioni());
+			int indice = view.richiestaInteroConMinimoMassimo("Scegli la prenotazione da rimuovere > ", 0,
+					lista.size() - 1);
+			model.removePrenotazione(indice);
+			view.stampaMsg("Prenotazione rimossa");
+		} else {
+			view.stampaMsg("Non sono prensenti prenotazioni!");
+		}
 	}
 
 }

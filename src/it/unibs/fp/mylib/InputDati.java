@@ -115,7 +115,8 @@ public class InputDati {
 				}
 			} catch (InputMismatchException e) {
 				System.out.println(ERRORE_FORMATO);
-				String daButtare = lettore.nextLine();
+				@SuppressWarnings("unused")
+				String daButtare = lettore.nextLine(); // Serve per buttare delle stringhe
 			}
 		} while (!finito);
 		return valoreLetto;
@@ -194,7 +195,8 @@ public class InputDati {
 				}
 			} catch (InputMismatchException e) {
 				System.out.println(ERRORE_FORMATO);
-				String daButtare = lettore.next();
+				@SuppressWarnings("unused")
+				String daButtare = lettore.next();// Serve per buttare delle stringhe
 			}
 		} while (!finito);
 		return valoreLetto;
@@ -230,7 +232,8 @@ public class InputDati {
 				}
 			} catch (InputMismatchException e) {
 				System.out.println(ERRORE_FORMATO);
-				String daButtare = lettore.next();
+				@SuppressWarnings("unused")
+				String daButtare = lettore.next(); // Serve per buttare delle stringhe
 			}
 		} while (!finito);
 		return valoreLetto;
@@ -282,32 +285,15 @@ public class InputDati {
 			return false;
 	}
 
-	// legge una stringa che deve coincidere con un valore dell'enum UnitaMisura
-	public static UnitaMisura leggiUnitaMisura(String messaggio) {
-		String kg = UnitaMisura.KG.getName();
-		String hg = UnitaMisura.HG.getName();
-		String g = UnitaMisura.GRAMMI.getName();
-		String l = UnitaMisura.L.getName();
-		String valoriAmmissibili = "(" + kg + "/" + hg + "/" + g + "/" + l + ") ";
-		String valoreLetto = null;
-		do {
-			System.out.print(messaggio);
-			valoreLetto = lettore.next();
-			String daButtare = lettore.nextLine();
-			if (!(daButtare.isBlank())) {
-				System.out.println(MESSAGGIO_AMMISSIBILI + valoriAmmissibili);
-			} else {
-				if (valoreLetto.equalsIgnoreCase(kg))
-					return UnitaMisura.KG;
-				if (valoreLetto.equalsIgnoreCase(hg))
-					return UnitaMisura.HG;
-				if (valoreLetto.equalsIgnoreCase(g))
-					return UnitaMisura.GRAMMI;
-				if (valoreLetto.equalsIgnoreCase(l))
-					return UnitaMisura.L;
-				System.out.println(MESSAGGIO_AMMISSIBILI + valoriAmmissibili);
-			}
-		} while (true);
+	public static UnitaMisura richiestaUnitaMisura() {
+		String[] u = UnitaMisura.getValues();
+		System.out.println("\n----------- Unita di misure ---------");
+		for (int i = 0; i < u.length; i++) {
+			System.out.println(String.format("%d - %s", i, u[i]));
+		}
+		int scelto = leggiIntero("\nScegli un unita di misura > ", 0, UnitaMisura.getValues().length - 1);
+		UnitaMisura scelta = UnitaMisura.valueOf(u[scelto]);
+		return scelta;
 	}
 
 }

@@ -50,9 +50,7 @@ public class ReaderXMLRistorante {
 	private static final String MESE = "mese";
 	private static final String ANNO = "anno";
 
-	// fatto male
-	// da dividere in piu metodi se possibile
-	// manca lettura insiemeBevande e insiemeGeneriExtra
+	
 	public static Ristorante leggiXML(String filename) {
 		LocalDate dataCorrente = null;
 		int caricoLavoroPerPersona = 0;
@@ -78,159 +76,165 @@ public class ReaderXMLRistorante {
 				xmlr.next();
 				if (xmlr.isStartElement()) {
 					switch (xmlr.getLocalName()) {
-					case "ParametriRistorante":
-						numeroPostiASedere = Integer.parseInt(xmlr.getAttributeValue(null, "numeroPosti"));
-						caricoLavoroPerPersona = Integer
-								.parseInt(xmlr.getAttributeValue(null, "caricoLavoroPerPersona"));
-						caricoLavoroRistorante = Integer
-								.parseInt(xmlr.getAttributeValue(null, "caricoLavoroRistorante"));
-						break;
-					case "DataCorrente":
-						int giorno = Integer.parseInt(xmlr.getAttributeValue(null, "giorno"));
-						int mese = Integer.parseInt(xmlr.getAttributeValue(null, "mese"));
-						int anno = Integer.parseInt(xmlr.getAttributeValue(null, "anno"));
-						dataCorrente = LocalDate.of(anno, mese, giorno);
-						break;
-					case "Ricetta":
-						String nomePiatto = xmlr.getAttributeValue(null, "nomePiatto");
-						int porzioni = Integer.parseInt(xmlr.getAttributeValue(null, "porzioni"));
-						int caricoLavoro = Integer.parseInt(xmlr.getAttributeValue(null, "caricoLavoro"));
-						ArrayList<Prodotto> elencoIngredienti = new ArrayList<>();
-						ArrayList<Periodo> elencoPeriodi = new ArrayList<>();
-						while (xmlr.hasNext()) {
-							xmlr.next();
-							if (xmlr.isStartElement()) {
-								switch (xmlr.getLocalName()) {
-								case INGREDIENTE:
-									String nomeIngrediente = xmlr.getAttributeValue(null, "nome");
-									float dose = Float.parseFloat(xmlr.getAttributeValue(null, "dose"));
-									UnitaMisura unitaMisura = UnitaMisura
-											.valueOf(xmlr.getAttributeValue(null, "unitaMisura").toUpperCase());
-									Prodotto ingrediente = new Prodotto(nomeIngrediente, dose, unitaMisura);
-									elencoIngredienti.add(ingrediente);
-									break;
-								case "DataInizio":
-									int giornoInizio = Integer.parseInt(xmlr.getAttributeValue(null, "giorno"));
-									int meseInizio = Integer.parseInt(xmlr.getAttributeValue(null, "mese"));
-									int annoInizio = Integer.parseInt(xmlr.getAttributeValue(null, "anno"));
-									LocalDate dataInizio = LocalDate.of(annoInizio, meseInizio, giornoInizio);
-									xmlr.next();
-									xmlr.next();
-									xmlr.next();
-									int giornoFine = Integer.parseInt(xmlr.getAttributeValue(null, "giorno"));
-									int meseFine = Integer.parseInt(xmlr.getAttributeValue(null, "mese"));
-									int annoFine = Integer.parseInt(xmlr.getAttributeValue(null, "anno"));
-									LocalDate dataFine = LocalDate.of(annoFine, meseFine, giornoFine);
-									Periodo periodo = new Periodo(dataInizio, dataFine);
-									elencoPeriodi.add(periodo);
+						case "ParametriRistorante":
+							numeroPostiASedere = Integer.parseInt(xmlr.getAttributeValue(null, NUMERO_POSTI));
+							caricoLavoroPerPersona = Integer
+									.parseInt(xmlr.getAttributeValue(null, CARICO_LAVORO_PER_PERSONA));
+							caricoLavoroRistorante = Integer
+									.parseInt(xmlr.getAttributeValue(null, CARICO_LAVORO_RISTORANTE));
+							break;
+						case "DataCorrente":
+							int giorno = Integer.parseInt(xmlr.getAttributeValue(null, GIORNO));
+							int mese = Integer.parseInt(xmlr.getAttributeValue(null, MESE));
+							int anno = Integer.parseInt(xmlr.getAttributeValue(null, ANNO));
+							dataCorrente = LocalDate.of(anno, mese, giorno);
+							break;
+						case "Ricetta":
+							String nomePiatto = xmlr.getAttributeValue(null, NOME_PIATTO);
+							int porzioni = Integer.parseInt(xmlr.getAttributeValue(null, PORZIONI));
+							int caricoLavoro = Integer.parseInt(xmlr.getAttributeValue(null, CARICO_LAVORO));
+							ArrayList<Prodotto> elencoIngredienti = new ArrayList<>();
+							ArrayList<Periodo> elencoPeriodi = new ArrayList<>();
+							while (xmlr.hasNext()) {
+								xmlr.next();
+								if (xmlr.isStartElement()) {
+									switch (xmlr.getLocalName()) {
+										case INGREDIENTE:
+											String nomeIngrediente = xmlr.getAttributeValue(null, NOME);
+											float dose = Float.parseFloat(xmlr.getAttributeValue(null, DOSE));
+											UnitaMisura unitaMisura = UnitaMisura
+													.valueOf(xmlr.getAttributeValue(null, UNITA_MISURA).toUpperCase());
+											Prodotto ingrediente = new Prodotto(nomeIngrediente, dose, unitaMisura);
+											elencoIngredienti.add(ingrediente);
+											break;
+										case "DataInizio":
+											int giornoInizio = Integer.parseInt(xmlr.getAttributeValue(null, GIORNO));
+											int meseInizio = Integer.parseInt(xmlr.getAttributeValue(null, MESE));
+											int annoInizio = Integer.parseInt(xmlr.getAttributeValue(null, ANNO));
+											LocalDate dataInizio = LocalDate.of(annoInizio, meseInizio, giornoInizio);
+											xmlr.next();
+											xmlr.next();
+											xmlr.next();
+											int giornoFine = Integer.parseInt(xmlr.getAttributeValue(null, GIORNO));
+											int meseFine = Integer.parseInt(xmlr.getAttributeValue(null, MESE));
+											int annoFine = Integer.parseInt(xmlr.getAttributeValue(null, ANNO));
+											LocalDate dataFine = LocalDate.of(annoFine, meseFine, giornoFine);
+											Periodo periodo = new Periodo(dataInizio, dataFine);
+											elencoPeriodi.add(periodo);
+											break;
+									}
+								}
+								if (xmlr.isEndElement() && xmlr.getLocalName().equals(RICETTA)) {
+									Ricetta ricetta = new Ricetta(elencoIngredienti, porzioni, caricoLavoro);
+									Piatto piatto = new Piatto(nomePiatto, caricoLavoro, ricetta, elencoPeriodi);
+									elencoPiatti.add(piatto);
 									break;
 								}
 							}
-							if (xmlr.isEndElement() && xmlr.getLocalName().equals("Ricetta")) {
-								Ricetta ricetta = new Ricetta(elencoIngredienti, porzioni, caricoLavoro);
-								Piatto piatto = new Piatto(nomePiatto, caricoLavoro, ricetta, elencoPeriodi);
-								elencoPiatti.add(piatto);
-								break;
-							}
-						}
-						break;
+							break;
 
-					case "MenuTematico":
-						String nomeMenu = xmlr.getAttributeValue(null, "nome");
-						int caricoLavoroMenuTematico = Integer.parseInt(xmlr.getAttributeValue(null, "caricoLavoro"));
-						ArrayList<Piatto> elencoPiattiMenuTematico = new ArrayList<>();
-						ArrayList<Periodo> elencoPeriodiMenuTematico = new ArrayList<>();
-						while (xmlr.hasNext()) {
-							xmlr.next();
-							if (xmlr.isStartElement()) {
-								switch (xmlr.getLocalName()) {
-								case "Piatto":
-									String nomePiattoMenuTematico = xmlr.getAttributeValue(null, "nome");
-									// metodo che data una stringa, ritorna il piatto da elenco piatti che ha
-									// come nome quella stringa
-									Piatto piattoMenuTematico = prendiPiattoConNome(nomePiattoMenuTematico,
-											elencoPiatti);
-									elencoPiattiMenuTematico.add(piattoMenuTematico);
+						case "MenuTematico":
+							String nomeMenu = xmlr.getAttributeValue(null, "nome");
+							int caricoLavoroMenuTematico = Integer
+									.parseInt(xmlr.getAttributeValue(null, "caricoLavoro"));
+							ArrayList<Piatto> elencoPiattiMenuTematico = new ArrayList<>();
+							ArrayList<Periodo> elencoPeriodiMenuTematico = new ArrayList<>();
+							while (xmlr.hasNext()) {
+								xmlr.next();
+								if (xmlr.isStartElement()) {
+									switch (xmlr.getLocalName()) {
+										case "Piatto":
+											String nomePiattoMenuTematico = xmlr.getAttributeValue(null, "nome");
+											// metodo che data una stringa, ritorna il piatto da elenco piatti che ha
+											// come nome quella stringa
+											Piatto piattoMenuTematico = prendiPiattoConNome(nomePiattoMenuTematico,
+													elencoPiatti);
+											elencoPiattiMenuTematico.add(piattoMenuTematico);
 
-									break;
-								case "DataInizio":
-									int giornoInizio = Integer.parseInt(xmlr.getAttributeValue(null, "giorno"));
-									int meseInizio = Integer.parseInt(xmlr.getAttributeValue(null, "mese"));
-									int annoInizio = Integer.parseInt(xmlr.getAttributeValue(null, "anno"));
-									LocalDate dataInizio = LocalDate.of(annoInizio, meseInizio, giornoInizio);
-									xmlr.next();
-									xmlr.next();
-									xmlr.next();
-									int giornoFine = Integer.parseInt(xmlr.getAttributeValue(null, "giorno"));
-									int meseFine = Integer.parseInt(xmlr.getAttributeValue(null, "mese"));
-									int annoFine = Integer.parseInt(xmlr.getAttributeValue(null, "anno"));
-									LocalDate dataFine = LocalDate.of(annoFine, meseFine, giornoFine);
-									Periodo periodo = new Periodo(dataInizio, dataFine);
-									elencoPeriodiMenuTematico.add(periodo);
+											break;
+										case "DataInizio":
+											int giornoInizio = Integer.parseInt(xmlr.getAttributeValue(null, "giorno"));
+											int meseInizio = Integer.parseInt(xmlr.getAttributeValue(null, "mese"));
+											int annoInizio = Integer.parseInt(xmlr.getAttributeValue(null, "anno"));
+											LocalDate dataInizio = LocalDate.of(annoInizio, meseInizio, giornoInizio);
+											xmlr.next();
+											xmlr.next();
+											xmlr.next();
+											int giornoFine = Integer.parseInt(xmlr.getAttributeValue(null, "giorno"));
+											int meseFine = Integer.parseInt(xmlr.getAttributeValue(null, "mese"));
+											int annoFine = Integer.parseInt(xmlr.getAttributeValue(null, "anno"));
+											LocalDate dataFine = LocalDate.of(annoFine, meseFine, giornoFine);
+											Periodo periodo = new Periodo(dataInizio, dataFine);
+											elencoPeriodiMenuTematico.add(periodo);
+											break;
+									}
+								}
+								if (xmlr.isEndElement() && xmlr.getLocalName().equals("MenuTematico")) {
+									MenuTematico menuTematico = new MenuTematico(nomeMenu, elencoPiattiMenuTematico,
+											caricoLavoroMenuTematico, elencoPeriodiMenuTematico);
+									elencoMenuTematici.add(menuTematico);
 									break;
 								}
 							}
-							if (xmlr.isEndElement() && xmlr.getLocalName().equals("MenuTematico")) {
-								MenuTematico menuTematico = new MenuTematico(nomeMenu, elencoPiattiMenuTematico,
-										caricoLavoroMenuTematico, elencoPeriodiMenuTematico);
-								elencoMenuTematici.add(menuTematico);
-								break;
-							}
-						}
-						break;
+							break;
 
-					case "Bevanda":
-						String nomeBevanda = xmlr.getAttributeValue(null, "nome");
-						float consumoProCapiteBevanda = Float
-								.parseFloat(xmlr.getAttributeValue(null, "consumoProCapite"));
-						UnitaMisura unitaMisuraBevanda = UnitaMisura
-								.valueOf(xmlr.getAttributeValue(null, "unitaMisura").toUpperCase());
-						Prodotto bevanda = new Prodotto(nomeBevanda, consumoProCapiteBevanda, unitaMisuraBevanda);
-						insiemeBevande.add(bevanda);
-						break;
+						case "Bevanda":
+							String nomeBevanda = xmlr.getAttributeValue(null, "nome");
+							float consumoProCapiteBevanda = Float
+									.parseFloat(xmlr.getAttributeValue(null, "consumoProCapite"));
+							UnitaMisura unitaMisuraBevanda = UnitaMisura
+									.valueOf(xmlr.getAttributeValue(null, "unitaMisura").toUpperCase());
+							Prodotto bevanda = new Prodotto(nomeBevanda, consumoProCapiteBevanda, unitaMisuraBevanda);
+							insiemeBevande.add(bevanda);
+							break;
 
-					case "GenereExtra":
-						String nomeGenereExtra = xmlr.getAttributeValue(null, "nome");
-						float consumoProCapiteGenereExtra = Float
-								.parseFloat(xmlr.getAttributeValue(null, "consumoProCapite"));
-						UnitaMisura unitaMisuraGenereExtra = UnitaMisura
-								.valueOf(xmlr.getAttributeValue(null, "unitaMisura").toUpperCase());
-						Prodotto genereExtra = new Prodotto(nomeGenereExtra, consumoProCapiteGenereExtra,
-								unitaMisuraGenereExtra);
-						insiemeGeneriExtra.add(genereExtra);
-						break;
+						case "GenereExtra":
+							String nomeGenereExtra = xmlr.getAttributeValue(null, "nome");
+							float consumoProCapiteGenereExtra = Float
+									.parseFloat(xmlr.getAttributeValue(null, "consumoProCapite"));
+							UnitaMisura unitaMisuraGenereExtra = UnitaMisura
+									.valueOf(xmlr.getAttributeValue(null, "unitaMisura").toUpperCase());
+							Prodotto genereExtra = new Prodotto(nomeGenereExtra, consumoProCapiteGenereExtra,
+									unitaMisuraGenereExtra);
+							insiemeGeneriExtra.add(genereExtra);
+							break;
 
-					case "Prenotazione":
-						LocalDate dataPrenotazione = null;
-						int numeroCoperti = Integer.parseInt(xmlr.getAttributeValue(null, "numeroCoperti"));
-						HashMap<Piatto, Integer> piattiComanda = new HashMap<>();
-						while (xmlr.hasNext()) {
-							xmlr.next();
-							if (xmlr.isStartElement()) {
-								switch (xmlr.getLocalName()) {
-								case "DataPrenotazione":
-									int giornoPrenotazione = Integer.parseInt(xmlr.getAttributeValue(null, "giorno"));
-									int mesePrenotazione = Integer.parseInt(xmlr.getAttributeValue(null, "mese"));
-									int annoPrenotazione = Integer.parseInt(xmlr.getAttributeValue(null, "anno"));
-									dataPrenotazione = LocalDate.of(annoPrenotazione, mesePrenotazione,
-											giornoPrenotazione);
-									break;
-								case "Piatto":
-									String nomePiattoComanda = xmlr.getAttributeValue(null, "nome");
-									int quantita = Integer.parseInt(xmlr.getAttributeValue(null, "quantita"));
-									Piatto piattoComanda = prendiPiattoConNome(nomePiattoComanda, elencoPiatti);
-									piattiComanda.put(piattoComanda, quantita);
+						case "Prenotazione":
+							LocalDate dataPrenotazione = null;
+							int numeroCoperti = Integer.parseInt(xmlr.getAttributeValue(null, "numeroCoperti"));
+							String cliente = xmlr.getAttributeValue(null, "cliente");
+							HashMap<Piatto, Integer> piattiComanda = new HashMap<>();
+							while (xmlr.hasNext()) {
+								xmlr.next();
+								if (xmlr.isStartElement()) {
+									switch (xmlr.getLocalName()) {
+
+										case "DataPrenotazione":
+											int giornoPrenotazione = Integer
+													.parseInt(xmlr.getAttributeValue(null, "giorno"));
+											int mesePrenotazione = Integer
+													.parseInt(xmlr.getAttributeValue(null, "mese"));
+											int annoPrenotazione = Integer
+													.parseInt(xmlr.getAttributeValue(null, "anno"));
+											dataPrenotazione = LocalDate.of(annoPrenotazione, mesePrenotazione,
+													giornoPrenotazione);
+											break;
+										case "Piatto":
+											String nomePiattoComanda = xmlr.getAttributeValue(null, "nome");
+											int quantita = Integer.parseInt(xmlr.getAttributeValue(null, "quantita"));
+											Piatto piattoComanda = prendiPiattoConNome(nomePiattoComanda, elencoPiatti);
+											piattiComanda.put(piattoComanda, quantita);
+											break;
+									}
+								}
+								if (xmlr.isEndElement() && xmlr.getLocalName().equals("Prenotazione")) {
+									Prenotazione prenotazione = new Prenotazione(cliente, numeroCoperti, piattiComanda,
+											dataPrenotazione);
+									elencoPrenotazioni.add(prenotazione);
 									break;
 								}
 							}
-							if (xmlr.isEndElement() && xmlr.getLocalName().equals("Prenotazione")) {
-								Prenotazione prenotazione = new Prenotazione(numeroCoperti, piattiComanda,
-										dataPrenotazione);
-								elencoPrenotazioni.add(prenotazione);
-								break;
-							}
-						}
-						break;
+							break;
 					}
 					// Passa all�evento successivo
 					xmlr.next();

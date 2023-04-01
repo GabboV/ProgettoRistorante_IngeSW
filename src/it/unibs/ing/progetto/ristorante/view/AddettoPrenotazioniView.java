@@ -29,7 +29,7 @@ public class AddettoPrenotazioniView extends View {
 	public void stampaPrenotazione(Prenotazione prenotazione) {
 		StringBuilder s = new StringBuilder();
 
-		String codice_cliente = "Non definito";
+		String codice_cliente = prenotazione.getCodiceCliente();
 		LocalDate data = prenotazione.getDataPrenotazione();
 		int day = data.getDayOfMonth(), month = data.getMonthValue(), year = data.getYear();
 		HashMap<Piatto, Integer> comanda = prenotazione.getComanda();

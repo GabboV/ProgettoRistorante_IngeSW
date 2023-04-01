@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Agenda implements Serializable{
+public class Agenda implements Serializable {
 
 	/**
 	 * 
@@ -45,14 +45,19 @@ public class Agenda implements Serializable{
 				.mapToInt(Prenotazione::getNumeroCoperti).sum();
 	}
 
-	public void addPrenotazione(LocalDate data, HashMap<Piatto, Integer> comanda, int coperti) {
-		this.elencoPrenotazioni.add(new Prenotazione(coperti, comanda, data));
+	public void addPrenotazione(String cliente, LocalDate data, HashMap<Piatto, Integer> comanda, int coperti) {
+		this.elencoPrenotazioni.add(new Prenotazione(cliente, coperti, comanda, data));
 	}
 
+	/**
+	 * Restituisce il carico di lavoro da sostenere in una data
+	 * @param data
+	 * @return
+	 */
 	public float getCaricoLavoroDaSostenereInData(LocalDate data) {
 		float caricoDaSostenere = 0;
-		for (Prenotazione p : this.getPrenotazioniInData(data)) {
-			caricoDaSostenere += p.getCaricoLavoroTotalePrenotazione();
+		for (Prenotazione p : this.getPrenotazioniInData(data)) { // Recupera le prenotazioni per la data indicata
+			caricoDaSostenere += p.getCaricoLavoroTotalePrenotazione(); // somma i carichi di lavoro per ogni prenotazione
 		}
 		return caricoDaSostenere;
 	}
@@ -73,6 +78,13 @@ public class Agenda implements Serializable{
 	public void removePrenotazioniScadute(LocalDate dataCorrente) {
 		elencoPrenotazioni = (ArrayList<Prenotazione>) this.elencoPrenotazioni.stream()
 				.filter(p -> !p.getDataPrenotazione().isBefore(dataCorrente)).collect(Collectors.toList());
+	}
+
+	public void removePrenotazione(int indice){
+		if(indice >= 0 && indice < elencoPrenotazioni.size()) {
+			elencoPrenotazioni.remove(indice);
+		}
+		
 	}
 
 }

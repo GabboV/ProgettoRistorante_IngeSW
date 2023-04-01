@@ -1,14 +1,20 @@
 package it.unibs.ing.progetto.ristorante.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import it.unibs.fp.mylib.BelleStringhe;
 import it.unibs.ing.progetto.ristorante.interfacce.Controller;
 import it.unibs.ing.progetto.ristorante.interfacce.IMagazzino;
 import it.unibs.ing.progetto.ristorante.model.Prodotto;
 import it.unibs.ing.progetto.ristorante.model.UnitaMisura;
 import it.unibs.ing.progetto.ristorante.view.MagazziniereView;
-import it.unibs.ing.progetto.ristorante.view.OutputFormatter;
 
 public class MagazziniereController implements Controller {
+
+	/**
+	 *
+	 */
 
 	private static final String MAGAZZINO_VUOTO = "\nIl Magazzino is vuoto\n";
 	private static final String LOGOUT_END = "Hai effettuato il Logout";
@@ -18,15 +24,15 @@ public class MagazziniereController implements Controller {
 	private static final String INSERISCI_QUANTITA_DA_RIDURRE = "Inserisci quantita da ridurre -> ";
 	private static final String SELEZIONE_IL_PRODOTTO_NUMERO_DA_ELIMINARE_O_RIDURRE = "Selezione il prodotto (numero) da eliminare o ridurre -> ";
 	private static final String INSERISCI_QUANTITA_DEL_PRODOTTO = "Inserisci quantita del prodotto -> ";
-	private static final String INSERISCI_UNITA_DI_MISURA_DEL_PRODOTTO = "Inserisci unita di misura del prodotto -> ";
 	private static final String INSERISCI_NOME_DEL_PRODOTTO = "Inserisci nome del prodotto -> ";
 
 	private static final int ZERO = 0;
 	private static final int LOGOUT = 0;
 	private static final int VISUALIZZA_INVENTARIO = 1;
 	private static final int VISUALIZZA_LISTA_SPESA = 2;
-	private static final int AGGIUNGI_PRODOTTI = 3;
-	private static final int RIMUOVI_PRODOTTI_DETERIORATI = 4;
+	private static final int REGISTRA_PRODOTTO = 3;
+	private static final int AGGIUNGI_PRODOTTI = 4;
+	private static final int RIMUOVI_PRODOTTI = 5;
 
 	private MagazziniereView view;
 	private IMagazzino model;
@@ -38,105 +44,111 @@ public class MagazziniereController implements Controller {
 
 	public void avviaSessione() {
 		view.stampaMsg(PROFILO_MAGAZZINIERE);
+		model.generaListaSpesa();
 		boolean sessionOn = true;
 		do {
-			this.creaListaSpesa();
 			int input = view.printMenu();
 			switch (input) {
-				case LOGOUT:
-					sessionOn = false;
-					break;
-				case VISUALIZZA_INVENTARIO:
-					this.visualizzaInventario();
-					break;
-				case VISUALIZZA_LISTA_SPESA:
-					this.visualizzaListaSpesa();
-					break;
-				case AGGIUNGI_PRODOTTI:
-					this.addProdottoRegistroMagazzino();
-					break;
-				case RIMUOVI_PRODOTTI_DETERIORATI:
-					this.rimuoviProdottiInventario();
-					break;
-				default:
-					view.stampaMsg(ERRORE);
-					break;
+			case LOGOUT:
+				sessionOn = false;
+				break;
+			case VISUALIZZA_INVENTARIO:
+				this.visualizzaInventario();
+				break;
+			case VISUALIZZA_LISTA_SPESA:
+				this.visualizzaListaSpesa();
+				break;
+			case REGISTRA_PRODOTTO:
+				this.addProdottoRegistroMagazzino();
+				break;
+			case AGGIUNGI_PRODOTTI:
+				this.aggiungiFlussoEntrante();
+				break;
+			case RIMUOVI_PRODOTTI:
+				this.aggiungiFlussoUscente();
+				break;
+			default:
+				view.stampaMsg(ERRORE);
+				break;
 			}
 		} while (sessionOn);
 		view.stampaMsg(LOGOUT_END);
 	}
 
 	/**
-	 * Genera la lista della spesa
+	 * Visualizza l'inventario
 	 */
-	public void creaListaSpesa() {
-		model.generaListaSpesa();
+	public void visualizzaInventario() {
+		if (model.getRegistroMagazzino().isEmpty()) {
+			view.stampaMsg(MAGAZZINO_VUOTO);
+		} else {
+			view.stampaMagazzino(model.getRegistroMagazzino());
+		}
+
 	}
 
 	/**
 	 * Visualizza la lista della spesa
 	 */
 	public void visualizzaListaSpesa() {
-		String listaFormattata;
 		if (model.getListaSpesa().isEmpty()) {
-			listaFormattata = NESSUNA_LISTA_DELLA_SPESA;
+			view.stampaMsg(NESSUNA_LISTA_DELLA_SPESA);
 		} else {
-			listaFormattata = BelleStringhe.incornicia(OutputFormatter.formatListaProdotti(model.getListaSpesa()));
+			view.stampaListaSpesa(model.getListaSpesa());
 		}
-		view.stampaMsg(listaFormattata);
 	}
 
 	/**
 	 * Aggiunge un prodotto al registro del magazzino, dopo aver chiesto le
-	 * informazioni al riguardo
+	 * informazioni al riguardo, Non fa aggiungere prodotti gia esistenti
 	 */
 	public void addProdottoRegistroMagazzino() {
 		String nome = view.richiestaNome(INSERISCI_NOME_DEL_PRODOTTO);
-		UnitaMisura unitaMisura = view.richiestaUnitaMisura(INSERISCI_UNITA_DI_MISURA_DEL_PRODOTTO);
-		float quantita = view.richiestaQuantita(INSERISCI_QUANTITA_DEL_PRODOTTO);
-		model.addProdottoInventario(nome, quantita, unitaMisura);
+		if (!model.esisteProdottoInMagazzino(nome)) {
+			float quantita = view.richiestaQuantita(INSERISCI_QUANTITA_DEL_PRODOTTO);
+			UnitaMisura unitaMisura = view.leggiUnitaMisura();
+			model.addProdottoInventario(nome, quantita, unitaMisura);
+			model.generaListaSpesa();
+		} else {
+			view.stampaMsg("Prodotto gia presente, per aggiornarne la quantita scegliere la funzionalita apposita");
+		}
 	}
 
 	/**
-	 * Passa al modello i parametri di un prodotto
-	 * @param nome
-	 * @param quantita
-	 * @param unitaMisura
+	 * Metodo per aggiungere quantita ad un prodotto nell'inventario
 	 */
-	public void addProdottoRegistro(String nome, float quantita, UnitaMisura unitaMisura) {
-		model.addProdottoInventario(nome, quantita, unitaMisura);
-	}
-
-	/**
-	 * Metodo per rimuovere un prodotto dall'inventario
-	 */
-	public void rimuoviProdottiInventario() {
+	public void aggiungiFlussoEntrante() {
 		if (!model.getRegistroMagazzino().isEmpty()) {
-			view.stampaInsiemeProdotti(model.getRegistroMagazzino()); // stampa i prodotti
-			int indiceProdottoSelezionato = view.leggiInteroCompreso(
-					SELEZIONE_IL_PRODOTTO_NUMERO_DA_ELIMINARE_O_RIDURRE, ZERO, model.getRegistroMagazzino().size() - 1); // sceglie l'indice
-			Prodotto prodotto = model.prodottoScelto(indiceProdottoSelezionato);
-			float quantitaDaRidurre = view.richiestaQuantitaCompreso(INSERISCI_QUANTITA_DA_RIDURRE, 0f,
-					prodotto.getQuantita()); // Richiede la quantita da rimuovere
-			model.rimuoviQuantitaProdottoDaRegistro(model.getRegistroMagazzino().get(indiceProdottoSelezionato),
-					quantitaDaRidurre);
-			model.generaListaSpesa(); // Si rigenera la lista della spesa 
+			ArrayList<Prodotto> magazzino = model.getRegistroMagazzino();
+			view.stampaInsiemeProdottiMagazzino(magazzino);
+			int scelto = view.leggiInteroCompreso("Indica il prodotto da aggiornare > ", 0, magazzino.size() - 1);
+			Prodotto scelta = magazzino.get(scelto);
+			float quantita = view.richiestaQuantita("Indica la quantita da aggiungere > ");
+			this.model.addQuantitaProdottoMagazzino(scelta, quantita);
+			model.generaListaSpesa();
 		} else {
-			view.stampaMsg(BelleStringhe.incornicia(MAGAZZINO_VUOTO)); 
+			view.stampaMsg("Magazzino vuoto");
 		}
 	}
 
 	/**
-	 * Visualizza l'inventario
+	 * Metodo per rimuovere quantita ad un prodotto nell'inventario
 	 */
-	public void visualizzaInventario() {
-		String inventario;
-		if (model.getRegistroMagazzino().isEmpty()) {
-			inventario = MAGAZZINO_VUOTO;
+	public void aggiungiFlussoUscente() {
+		if (!model.getRegistroMagazzino().isEmpty()) {
+			ArrayList<Prodotto> magazzino = model.getRegistroMagazzino();
+			view.stampaInsiemeProdottiMagazzino(magazzino); // stampa i prodotti
+			int indiceProdottoSelezionato = view.leggiInteroCompreso(
+					SELEZIONE_IL_PRODOTTO_NUMERO_DA_ELIMINARE_O_RIDURRE, ZERO, magazzino.size() - 1);
+			Prodotto prodotto = magazzino.get(indiceProdottoSelezionato);
+			float quantitaDaRidurre = view.richiestaQuantitaCompreso(INSERISCI_QUANTITA_DA_RIDURRE, 0f,
+					prodotto.getQuantita());
+			model.rimuoviQuantitaProdottoMagazzino(model.getRegistroMagazzino().get(indiceProdottoSelezionato),
+					quantitaDaRidurre);
+			model.generaListaSpesa(); // Si rigenera la lista della spesa
 		} else {
-			inventario = OutputFormatter.formatListaProdotti(model.getRegistroMagazzino());
+			view.stampaMsg(BelleStringhe.incornicia(MAGAZZINO_VUOTO));
 		}
-		view.stampaMsg(inventario);
 	}
 
 }

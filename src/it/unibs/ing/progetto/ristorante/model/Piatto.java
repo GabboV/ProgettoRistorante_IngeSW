@@ -25,6 +25,7 @@ public class Piatto implements Serializable {
 		this.caricoLavoro = caricoLavoro;
 		this.ricetta = ricetta;
 		this.periodiValidita = periodiValidita;
+		
 	}
 
 	public boolean isDisponibileInData(LocalDate data) {
