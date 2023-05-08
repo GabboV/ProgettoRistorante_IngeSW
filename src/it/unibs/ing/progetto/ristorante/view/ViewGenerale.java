@@ -37,9 +37,8 @@ public class ViewGenerale {
 	final private static String MSG_ARRESTO_PROGRAMMA = "Arresto programma...";
 	public final static String PATH_XML_RISTORANTE = "src/xmlFile/Ristorante.xml";
 
+	
 	public void avvioProgramma() {
-
-		
 		System.out.println(MSG_BENVENUTO);
 		File file_memoria = new File("ristorante.dat");
 		Ristorante model = avvioConSceltaInizializzazione(file_memoria);
@@ -55,18 +54,13 @@ public class ViewGenerale {
 		return scelta;
 	}
 
-	/**
-	 * // viene chiesto all'utente con quali dati si vuole utilizzare il programma
-	 * // se si sceglie AVVIO_DA_ZERO il gestore deve inizializzare i parametri del
-	 * // ristorante a mano
-	 * // se si sceglie AVVIO DA PREDEFINITO si utilizzano come parametri del
-	 * // ristorante quelli del file Ristorante.xml
-	 * // se si sceglie AVVIO_DA_ULTIMO_SALVATAGGIO si utilizzano i parametri che
-	 * // salvati nel BoxMemoria
-	 * 
-	 * @param file_memoria
-	 * @return
-	 */
+	// viene chiesto all'utente con quali dati si vuole utilizzare il programma
+	// se si sceglie AVVIO_DA_ZERO il gestore deve inizializzare i parametri del
+	// ristorante a mano
+	// se si sceglie AVVIO DA PREDEFINITO si utilizzano come parametri del
+	// ristorante quelli del file Ristorante.xml
+	// se si sceglie AVVIO_DA_ULTIMO_SALVATAGGIO si utilizzano i parametri che
+	// salvati nel BoxMemoria
 	public Ristorante avvioConSceltaInizializzazione(File file_memoria) {
 		System.out.println();
 		Ristorante model = new Ristorante();
@@ -88,7 +82,7 @@ public class ViewGenerale {
 						loginUtente(model);
 						altraOpzione = false;
 					} else {
-						System.out.println("C'è stato un problema col caricamento dei dati, scegliere un altra alternativa");
+						System.out.println("Problema col caricamento dei dati, scegliere un'altra alternativa");
 					}
 					break;
 				case AVVIO_DA_ULTIMO_SALVATAGGIO:
@@ -97,7 +91,7 @@ public class ViewGenerale {
 						loginUtente(model);
 						altraOpzione = false;
 					} else {
-						System.out.println("\nScegliere un altra alternativa...\n");
+						System.out.println("\nScegliere un'altra alternativa...\n");
 					}
 					break;
 				case ESCI:
@@ -108,12 +102,8 @@ public class ViewGenerale {
 		return model;
 	}
 
-	/**
-	 * Chiede all'utente se si identifica come Gestore, e ritorna la risposta
-	 * come true o false
-	 * 
-	 * @return
-	 */
+	// Chiede all'utente se si identifica come Gestore, e ritorna la risposta
+	// come true o false
 	public boolean identificazioneGestore() {
 		System.out.println("Per la fase di inizializzazione del programma e' necessario il login del Gestore.");
 		boolean risposta = InputDati.yesOrNo("Sei il Gestore? ");
@@ -132,12 +122,7 @@ public class ViewGenerale {
 		return model;
 	}
 
-	/**
-	 * Carica i dati dalla memoria
-	 * 
-	 * @param file_memoria
-	 * @return
-	 */
+	// Carica i dati dalla memoria
 	public Ristorante caricaDatiDaMemoria(File file_memoria) {
 		Ristorante model = null;
 		if (file_memoria.exists()) {
@@ -154,6 +139,7 @@ public class ViewGenerale {
 		return model;
 	}
 
+	//presenta la schermata di login e avvia la sessione dell'utente
 	public void loginUtente(Ristorante model) {
 		MyMenu menu = new MyMenu(TITOLO_SCHERMATA_LOGIN, ELENCO_RUOLI);
 		System.out.println();
@@ -180,12 +166,7 @@ public class ViewGenerale {
 		} while (appAttiva);
 	}
 
-	/**
-	 * opzioni per il salvataggio dei parametri del ristorante in un file di memoria
-	 * 
-	 * @param model
-	 * @param memoria_file
-	 */
+	// opzioni per il salvataggio dei parametri del ristorante in un file di memoria
 	public void salvataggioDati(Ristorante model, File memoria_file) {
 		MyMenu menu = new MyMenu("Gestione memoria", OPZIONI_FILE);
 		boolean appAttiva = true;
@@ -209,7 +190,7 @@ public class ViewGenerale {
 					if (memoria_file.exists()) {
 						System.out
 								.println(
-										"ATTENZIONE: eliminando i dati, non si avra piu la possibilita di recuperarli\n");
+										"ATTENZIONE: eliminando i dati, non si avra piu la possibilita' di recuperarli\n");
 						boolean conferma = InputDati.yesOrNo("Vuoi confermare la tua scelta? ");
 						if (conferma) {
 							memoria_file.delete();

@@ -50,12 +50,11 @@ public class GestoreView extends View {
 	public void stampaParametriRistorante(LocalDate dataCorrente, int nPosti, int caricoLavoroPersona,
 			int caricoLavoroRistorante) {
 		System.out.println("\nPARAMETRI RISTORANTE");
-		System.out.print("Data corrente: ");
-		stampaData(dataCorrente);
-		System.out.println(" " + dataCorrente.getDayOfWeek());
+		System.out.println("Data corrente: " + ottieniStringaData(dataCorrente) + " " + dataCorrente.getDayOfWeek());
 		System.out.println("Numero di posti a sedere del ristorante: " + nPosti);
 		System.out.println("Carico di lavoro per persona: " + caricoLavoroPersona);
 		System.out.println("Carico lavoro gestibile dal ristorante per un pasto: " + caricoLavoroRistorante);
+		System.out.println();
 	}
 
 	public boolean yesOrNo(String messaggio) {
@@ -87,6 +86,7 @@ public class GestoreView extends View {
 	}
 
 	public void stampaElencoPiattiRicette(ArrayList<Piatto> elencoPiatti) {
+		System.out.println("\nELENCO PIATTI-RICETTE");
 		int contatore = 0;
 		for (Piatto p : elencoPiatti) {
 			Ricetta r = p.getRicetta();
@@ -94,6 +94,7 @@ public class GestoreView extends View {
 			stampaPiattoRicetta(p, r);
 			contatore++;
 		}
+		System.out.println();
 	}
 
 }

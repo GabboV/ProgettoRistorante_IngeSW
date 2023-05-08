@@ -72,12 +72,14 @@ public class View {
 		if (elencoMenuTematici.isEmpty()) {
 			stampaMsg("La lista e' vuota.");
 		} else {
+			System.out.println("\nELENCO MENU TEMATICI");
 			int contatore = 0;
 			for (MenuTematico m : elencoMenuTematici) {
 				stampaMsg(" ----------- " + contatore + " ----------- ");
 				stampaMenuTematico(m);
 				contatore++;
 			}
+			System.out.println();
 		}
 	}
 
@@ -106,18 +108,18 @@ public class View {
 		}
 	}
 
-	public void stampaInsiemeProdotti(ArrayList<Prodotto> elencoProdotti) {
+	public void stampaInsiemeProdotti(ArrayList<Prodotto> elencoProdotti, String nomeElencoProdotti) {
 		int contatore = 0;
 		if (elencoProdotti.isEmpty()) {
-			System.out.println();
-			System.out.println("La lista e' vuota.");
-			System.out.println();
+			System.out.println("\nLa lista e' vuota.\n");
 		} else {
+			System.out.println(nomeElencoProdotti);
 			for (Prodotto p : elencoProdotti) {
 				System.out.println(" ----------- " + contatore + " ----------- ");
 				stampaProdotto(p);
 				contatore++;
 			}
+			System.out.println();
 		}
 	}
 
@@ -151,6 +153,10 @@ public class View {
 				String.format("Nome: %10s\tGiacienza: %5.2f\t%5s", p.getNome(), p.getQuantita(), p.getUnitaMisura()));
 	}
 
+	public String ottieniStringaData(LocalDate data) {
+		return data.getDayOfMonth() + "/" + data.getMonthValue() + "/" + data.getYear();
+	}
+	
 	public void stampaData(LocalDate data) {
 		System.out.print(data.getDayOfMonth() + "/" + data.getMonthValue() + "/" + data.getYear());
 	}

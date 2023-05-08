@@ -122,7 +122,7 @@ public class Gestione implements Serializable{
 
 
 	/**
-	 * Restiuisce true se il genere extra è gia presente
+	 * Restiuisce true se il genere extra e' gia' presente
 	 * @param nome
 	 * @return
 	 */
@@ -131,7 +131,7 @@ public class Gestione implements Serializable{
 	}
 
 	/**
-	 * Restituisce true se la bevanda esiste gia
+	 * Restituisce true se la bevanda esiste gia'
 	 * @param nome
 	 * @return
 	 */
