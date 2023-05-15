@@ -25,7 +25,7 @@ public class GestoreController implements Controller {
 	private static final int AGGIUNGI_GENERE_EXTRA = 4;
 	private static final int AGGIUNGI_BEVANDA = 3;
 	private static final int AGGIUNGI_MENU_TEMATICO = 2;
-	private static final int AGGIUNGI_INGREDIENTE = 1;
+	private static final int AGGIUNGI_RICETTA = 1;
 
 	private GestoreView view;
 	private IGestore model;
@@ -70,7 +70,7 @@ public class GestoreController implements Controller {
 		do {
 			int scelta = view.printMenu();
 			switch (scelta) {
-			case AGGIUNGI_INGREDIENTE:
+			case AGGIUNGI_RICETTA:
 				aggiungiPiattoRicetta(model.getElencoPiatti());
 				break;
 			case AGGIUNGI_MENU_TEMATICO:

@@ -20,7 +20,7 @@ public class ViewGenerale {
 	private static final int ELIMINA_DATI = 2;
 	private static final int SALVA_MODIFICHE = 1;
 	private static final String ERRORE_RECUPERO_DATI = "Errore nel recupero dei dati da memoria";
-	final private static String MSG_BENVENUTO = "Benvenuto nel programma di supporto del tuo ristorante.";
+	final private static String MSG_BENVENUTO = "Benvenuto nel programma di supporto del tuo ristorante.\n";
 	final private static String TITOLO_SCHERMATA_LOGIN = "Login";
 	final private static String TITOLO_SCELTA_DATI = "Opzioni di Avvio";
 	final private static String[] ELENCO_RUOLI = { "Gestore", "Addetto Prenotazioni", "Magazziniere" };
@@ -34,7 +34,7 @@ public class ViewGenerale {
 	private static final int AVVIO_DA_PREDEFINITO = 2;
 	private static final int AVVIO_DA_ULTIMO_SALVATAGGIO = 3;
 	final private static String[] OPZIONI_FILE = { "Salva ultime modifiche", "Cancella dati" };
-	final private static String MSG_ARRESTO_PROGRAMMA = "Arresto programma...";
+	final private static String MSG_ARRESTO_PROGRAMMA = "\nArresto programma...";
 	public final static String PATH_XML_RISTORANTE = "src/xmlFile/Ristorante.xml";
 
 	
@@ -44,7 +44,6 @@ public class ViewGenerale {
 		Ristorante model = avvioConSceltaInizializzazione(file_memoria);
 
 		this.salvataggioDati(model, file_memoria);
-		System.out.println();
 		System.out.println(MSG_ARRESTO_PROGRAMMA);
 	}
 
@@ -62,7 +61,6 @@ public class ViewGenerale {
 	// se si sceglie AVVIO_DA_ULTIMO_SALVATAGGIO si utilizzano i parametri che
 	// salvati nel BoxMemoria
 	public Ristorante avvioConSceltaInizializzazione(File file_memoria) {
-		System.out.println();
 		Ristorante model = new Ristorante();
 		boolean altraOpzione = true;
 		do {

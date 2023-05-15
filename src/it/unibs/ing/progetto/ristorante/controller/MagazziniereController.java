@@ -16,14 +16,14 @@ public class MagazziniereController implements Controller {
 	 *
 	 */
 
-	private static final String MAGAZZINO_VUOTO = "\nIl Magazzino is vuoto\n";
+	private static final String MAGAZZINO_VUOTO = "\nIl Magazzino e' vuoto\n";
 	private static final String LOGOUT_END = "Hai effettuato il Logout";
-	private static final String NESSUNA_LISTA_DELLA_SPESA = "\nLa lista della spesa is vuota o mai stata creata\n";
+	private static final String NESSUNA_LISTA_DELLA_SPESA = "\nLa lista della spesa e' vuota o mai stata creata\n";
 	private static final String PROFILO_MAGAZZINIERE = "Profilo: Magazziniere\n";
 	private static final String ERRORE = "Something really really bad just happened... riavviare il programma";
-	private static final String INSERISCI_QUANTITA_DA_RIDURRE = "Inserisci quantita da ridurre -> ";
+	private static final String INSERISCI_QUANTITA_DA_RIDURRE = "Inserisci quantita' da ridurre -> ";
 	private static final String SELEZIONE_IL_PRODOTTO_NUMERO_DA_ELIMINARE_O_RIDURRE = "Selezione il prodotto (numero) da eliminare o ridurre -> ";
-	private static final String INSERISCI_QUANTITA_DEL_PRODOTTO = "Inserisci quantita del prodotto -> ";
+	private static final String INSERISCI_QUANTITA_DEL_PRODOTTO = "Inserisci quantita' del prodotto -> ";
 	private static final String INSERISCI_NOME_DEL_PRODOTTO = "Inserisci nome del prodotto -> ";
 
 	private static final int ZERO = 0;
@@ -42,6 +42,7 @@ public class MagazziniereController implements Controller {
 		this.view = new MagazziniereView();
 	}
 
+	// presenta i comandi al magazziniere e esegue quello scelto
 	public void avviaSessione() {
 		view.stampaMsg(PROFILO_MAGAZZINIERE);
 		model.generaListaSpesa();
@@ -105,12 +106,12 @@ public class MagazziniereController implements Controller {
 	public void addProdottoRegistroMagazzino() {
 		String nome = view.richiestaNome(INSERISCI_NOME_DEL_PRODOTTO);
 		if (!model.esisteProdottoInMagazzino(nome)) {
-			float quantita = view.richiestaQuantita(INSERISCI_QUANTITA_DEL_PRODOTTO);
 			UnitaMisura unitaMisura = view.leggiUnitaMisura();
+			float quantita = view.richiestaQuantita(INSERISCI_QUANTITA_DEL_PRODOTTO);
 			model.addProdottoInventario(nome, quantita, unitaMisura);
 			model.generaListaSpesa();
 		} else {
-			view.stampaMsg("Prodotto gia presente, per aggiornarne la quantita scegliere la funzionalita apposita");
+			view.stampaMsg("Prodotto gia' presente, per aggiornarne la quantita scegliere la funzionalita' apposita");
 		}
 	}
 
@@ -123,7 +124,7 @@ public class MagazziniereController implements Controller {
 			view.stampaInsiemeProdottiMagazzino(magazzino);
 			int scelto = view.leggiInteroCompreso("Indica il prodotto da aggiornare > ", 0, magazzino.size() - 1);
 			Prodotto scelta = magazzino.get(scelto);
-			float quantita = view.richiestaQuantita("Indica la quantita da aggiungere > ");
+			float quantita = view.richiestaQuantita("Indica la quantita' da aggiungere > ");
 			this.model.addQuantitaProdottoMagazzino(scelta, quantita);
 			model.generaListaSpesa();
 		} else {

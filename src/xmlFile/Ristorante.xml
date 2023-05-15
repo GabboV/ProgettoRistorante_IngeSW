@@ -50,7 +50,7 @@
 		<Ricetta nomePiatto="Pasta alla carbonara" porzioni="4" caricoLavoro="6">
 			<ElencoIngredienti>
 				<Ingrediente nome="Pasta" dose="4.0" unitaMisura="kg"></Ingrediente>
-				<Ingrediente nome="Pancetta" dose="500.0" unitaMisura="kg"></Ingrediente>
+				<Ingrediente nome="Pancetta" dose="0.5" unitaMisura="kg"></Ingrediente>
 				<Ingrediente nome="Uova" dose="8.0" unitaMisura="Unita"></Ingrediente>
 				<Ingrediente nome="Sale" dose="0.02" unitaMisura="kg"></Ingrediente>
 			</ElencoIngredienti>
@@ -143,18 +143,18 @@
 		<GenereExtra nome="Bruschette" consumoProCapite="0.2" unitaMisura="hg"></GenereExtra>
 	</InsiemeGeneriExtra>
 	<ElencoPrenotazioni>
-		<Prenotazione numeroCoperti="4" cliente="Kev">
+		<Prenotazione numeroCoperti="4" cliente="Cliente1">
 			<DataPrenotazione giorno="2" mese="1" anno="2023"></DataPrenotazione>
 			<ElencoPiattiComanda>
-				<Piatto nome="Pasta al tonno" quantita="3"></Piatto>
 				<Piatto nome="Alga Nori" quantita="1"></Piatto>
+				<Piatto nome="Pasta al tonno" quantita="3"></Piatto>
 			</ElencoPiattiComanda>
 		</Prenotazione>
-		<Prenotazione numeroCoperti="3" cliente="Gabriel">
+		<Prenotazione numeroCoperti="3" cliente="Cliente2">
 			<DataPrenotazione giorno="2" mese="1" anno="2023"></DataPrenotazione>
 			<ElencoPiattiComanda>
-				<Piatto nome="Pasta al tonno" quantita="2"></Piatto>
 				<Piatto nome="Alga Nori" quantita="2"></Piatto>
+				<Piatto nome="Pasta al tonno" quantita="2"></Piatto>
 			</ElencoPiattiComanda>
 		</Prenotazione>
 	</ElencoPrenotazioni>

@@ -81,7 +81,7 @@ public class MainXML {
 
 		// PIATTO-RICETTA 4
 		Prodotto i1piatto4 = new Prodotto("Pasta", 4f, UnitaMisura.KG);
-		Prodotto i2piatto4 = new Prodotto("Pancetta", 500f, UnitaMisura.KG);
+		Prodotto i2piatto4 = new Prodotto("Pancetta", 0.5f, UnitaMisura.KG);
 		Prodotto i3piatto4 = new Prodotto("Uova", 8f, UnitaMisura.UNITA);
 		Prodotto i4piatto4 = new Prodotto("Sale", 0.02f, UnitaMisura.KG);
 		ArrayList<Prodotto> ingredienti4 = new ArrayList<>();
