@@ -41,21 +41,21 @@ public class AddettoPrenotazioniController implements Controller {
 		do {
 			int scelta = view.printMenu();
 			switch (scelta) {
-			case LOGOUT:
-				sessioneON = false;
-				break;
-			case AGGIUNGI_PRENOTAZIONE:
-				this.inserisciPrenotazione();
-				break;
-			case RIMUOVI_PRENOTAZIONE:
-				this.removePrenotazione();
-				break;
-			case VISUALIZZA_PRENOTAZIONI:
-				this.visualizzaPrenotazioni();
-				break;
-			default:
-				view.stampaMsg(ERRORE);
-				break;
+				case LOGOUT:
+					sessioneON = false;
+					break;
+				case AGGIUNGI_PRENOTAZIONE:
+					this.inserisciPrenotazione();
+					break;
+				case RIMUOVI_PRENOTAZIONE:
+					this.removePrenotazione();
+					break;
+				case VISUALIZZA_PRENOTAZIONI:
+					this.visualizzaPrenotazioni();
+					break;
+				default:
+					view.stampaMsg(ERRORE);
+					break;
 			}
 		} while (sessioneON);
 
@@ -70,7 +70,6 @@ public class AddettoPrenotazioniController implements Controller {
 		} else {
 			view.stampaListaPrenotazioni(model.getElencoPrenotazioni());
 		}
-
 	}
 
 	/**
@@ -187,18 +186,18 @@ public class AddettoPrenotazioniController implements Controller {
 				view.stampaMsg(String.format("Ordinazione per il cliente: %d\n", i));
 				int scelta = view.printSelezioneMenu();
 				switch (scelta) {
-				case 0:
-					discard = true;
-					break;
-				case 1:
-					ordinato = sceltaMenuTematico(dataPrenotazione, piattiOrdinati);
-					break;
-				case 2:
-					ordinato = sceltaDaMenuCarta(dataPrenotazione, piattiOrdinati);
-					break;
-				default:
-					view.stampaMsg(ERRORE);
-					break;
+					case 0:
+						discard = true;
+						break;
+					case 1:
+						ordinato = sceltaMenuTematico(dataPrenotazione, piattiOrdinati);
+						break;
+					case 2:
+						ordinato = sceltaDaMenuCarta(dataPrenotazione, piattiOrdinati);
+						break;
+					default:
+						view.stampaMsg(ERRORE);
+						break;
 				}
 			} while (!ordinato && !discard);
 			if (discard)

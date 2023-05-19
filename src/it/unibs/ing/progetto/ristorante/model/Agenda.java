@@ -30,10 +30,6 @@ public class Agenda implements Serializable {
 		return elencoPrenotazioni;
 	}
 
-	public void setElencoPrenotazioni(ArrayList<Prenotazione> elencoPrenotazioni) {
-		this.elencoPrenotazioni = elencoPrenotazioni;
-	}
-
 	/**
 	 * Restituisce il numero di posti prenotati per una data giornata
 	 * 
@@ -41,7 +37,7 @@ public class Agenda implements Serializable {
 	 * @return
 	 */
 	public int getNumeroClientiPrenotatiInData(LocalDate date) {
-		return this.elencoPrenotazioni.stream().filter(p -> p.isPrenotazioneInData(date))
+		return this.elencoPrenotazioni.stream().filter(p -> p.getDataPrenotazione().equals(date))
 				.mapToInt(Prenotazione::getNumeroCoperti).sum();
 	}
 
@@ -68,8 +64,8 @@ public class Agenda implements Serializable {
 	 * @param data
 	 * @return
 	 */
-	public List<Prenotazione> getPrenotazioniInData(LocalDate data) {
-		return elencoPrenotazioni.stream().filter(p -> p.isPrenotazioneInData(data)).collect(Collectors.toList());
+	public List<Prenotazione> getPrenotazioniInData(LocalDate date) {
+		return elencoPrenotazioni.stream().filter(p -> p.getDataPrenotazione().equals(date)).collect(Collectors.toList());
 	}
 
 	/**
@@ -84,7 +80,6 @@ public class Agenda implements Serializable {
 		if(indice >= 0 && indice < elencoPrenotazioni.size()) {
 			elencoPrenotazioni.remove(indice);
 		}
-		
 	}
 
 }

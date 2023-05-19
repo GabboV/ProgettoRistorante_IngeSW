@@ -1,2 +1,2 @@
 # ProgettoRistorante_IngeSW
-Progetto di Ingegneria del software di Visovan Gabriel, Liu Kevin, Colossi Diego
+Progetto di Ingegneria del software di Visovan Gabriel, Liu Kevin

@@ -16,6 +16,10 @@ import it.unibs.ing.progetto.ristorante.model.Ristorante;
 
 public class ViewGenerale {
 
+	/**
+	 *
+	 */
+	private static final String RISTORANTE_DAT = "ristorante.dat";
 	private static final String DATI_IN_MEMORIA = "Sono presenti dei dati salvati in memoria, vuoi caricarli? ";
 	private static final int ELIMINA_DATI = 2;
 	private static final int SALVA_MODIFICHE = 1;
@@ -39,9 +43,8 @@ public class ViewGenerale {
 
 	public void avvioProgramma() {
 
-		
 		System.out.println(MSG_BENVENUTO);
-		File file_memoria = new File("ristorante.dat");
+		File file_memoria = new File(RISTORANTE_DAT);
 		Ristorante model = avvioConSceltaInizializzazione(file_memoria);
 
 		this.salvataggioDati(model, file_memoria);
@@ -88,7 +91,7 @@ public class ViewGenerale {
 						loginUtente(model);
 						altraOpzione = false;
 					} else {
-						System.out.println("C'è stato un problema col caricamento dei dati, scegliere un altra alternativa");
+						System.out.println("C'ï¿½ stato un problema col caricamento dei dati, scegliere un altra alternativa");
 					}
 					break;
 				case AVVIO_DA_ULTIMO_SALVATAGGIO:

@@ -42,7 +42,7 @@ public class GestoreController implements Controller {
 		view.stampaMsgBenvenutoInizializzazione();
 		LocalDate dataCorrente = view.richiestaData("Inserisci la dataCorrente.");
 
-		int nPosti = view.richiestaInteroPositivo("Inserisci il numero di posti del iGestore: ");
+		int nPosti = view.richiestaInteroPositivo("Inserisci il numero di posti del ristorante: ");
 		int caricoLavoroPersona = view.richiestaInteroPositivo("Inserisci il carico di lavoro per persona: ");
 		int caricoLavoroRistorante = caricoLavoroPersona * nPosti;
 
@@ -228,7 +228,6 @@ public class GestoreController implements Controller {
 			view.stampaMsg("E' stata aggiunta una bevanda.");
 			altraBevanda = view.yesOrNo("Vuoi aggiungere un'altra bevanda? ");
 		} while (altraBevanda);
-
 	}
 
 	// richiede un nome di bevanda. Se gia' esiste in insiemeBavande del model,
@@ -299,7 +298,6 @@ public class GestoreController implements Controller {
 		do {
 			nomeValido = true;
 			nomeMenuTematico = view.richiestaNome("Inserisci il nome del menu tematico: ");
-
 			for (MenuTematico m : elencoMenuTematici) {
 				if (m.getNome().equalsIgnoreCase(nomeMenuTematico)) {
 					view.stampaMsg("Il nome del menu tematico e' gia' stato utilizzato.");

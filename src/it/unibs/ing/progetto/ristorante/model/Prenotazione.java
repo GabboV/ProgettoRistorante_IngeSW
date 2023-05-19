@@ -60,8 +60,6 @@ public class Prenotazione implements Serializable {
 		return codice_cliente;
 	}
 
-	public boolean isPrenotazioneInData(LocalDate data) {
-		return this.dataPrenotazione.equals(data);
-	}
+	
 
 }

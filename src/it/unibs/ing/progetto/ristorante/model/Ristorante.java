@@ -11,13 +11,14 @@ import java.util.List;
 import it.unibs.ing.progetto.ristorante.interfacce.IGestore;
 import it.unibs.ing.progetto.ristorante.interfacce.IMagazzino;
 import it.unibs.ing.progetto.ristorante.interfacce.IPrenotazioni;
+import it.unibs.ing.progetto.ristorante.pattern.MenuComponent;
 
 public class Ristorante implements Serializable, IGestore, IPrenotazioni, IMagazzino {
 
 	private static final long serialVersionUID = 1L;
 
 	private LocalDate dataCorrente;
-
+	
 	private Gestione gestione;
 	private Agenda agenda;
 	private Magazzino magazzino;
@@ -289,6 +290,28 @@ public class Ristorante implements Serializable, IGestore, IPrenotazioni, IMagaz
 	public void addQuantitaProdottoMagazzino(Prodotto prodotto, float quantita) {
 		this.magazzino.addQuantitaProdottoMagazzino(prodotto, quantita);
 	}
+
+	@Override
+	public boolean confermaOrdine(LocalDate dataPrenotazione, List<MenuComponent> ordine, int numCoperti) {
+		if (!isGiornoFeriale(dataPrenotazione)) {
+			return false;
+		}
+		int postiDisponibili = this.getPostiDisponibiliInData(dataPrenotazione);
+		if (numCoperti > postiDisponibili) {
+			return false;
+		}
+		float caricoLavoroSostenibileRimasto = this.getCaricoLavoroSostenibileRimasto(dataPrenotazione);
+		float caricoLavoroRichiesto = 0;
+		for(MenuComponent c: ordine){
+			caricoLavoroRichiesto += c.getCaricoLavoro();
+		}
+		if (caricoLavoroRichiesto > caricoLavoroSostenibileRimasto) {
+			return false;
+		}
+		return true;
+	}
+
+	
 
 	
 

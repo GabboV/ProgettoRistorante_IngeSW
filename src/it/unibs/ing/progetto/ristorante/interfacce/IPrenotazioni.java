@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import it.unibs.ing.progetto.ristorante.model.*;
+import it.unibs.ing.progetto.ristorante.pattern.MenuComponent;
 
 public interface IPrenotazioni {
 
@@ -33,4 +34,7 @@ public interface IPrenotazioni {
             int numCoperti);
             
     public void removePrenotazione(int indice);
+
+    public boolean confermaOrdine(LocalDate dataPrenotazione, List<MenuComponent> comanda,
+    int numCoperti);
 }

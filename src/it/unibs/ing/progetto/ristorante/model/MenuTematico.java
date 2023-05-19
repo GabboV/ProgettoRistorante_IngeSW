@@ -3,13 +3,17 @@ package it.unibs.ing.progetto.ristorante.model;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
+
+import it.unibs.ing.progetto.ristorante.pattern.MenuComponent;
+
 
 /**
  * Classe immutabile (Attributi privati e solo metodi getters)
  * 
  *
  */
-public class MenuTematico implements Serializable {
+public class MenuTematico implements Serializable, MenuComponent {
 
 	/**
 	 * 
@@ -53,11 +57,19 @@ public class MenuTematico implements Serializable {
 	}
 
 	public int getCaricoLavoro() {
+		
 		return caricoLavoro;
 	}
 
 	public ArrayList<Periodo> getPeriodiValidita() {
 		return periodiValidita;
 	}
+
+	@Override
+	public List<Piatto> getContenuto() {
+		return this.elencoPiatti;
+	}
+
+	
 
 }

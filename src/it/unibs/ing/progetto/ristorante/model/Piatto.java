@@ -3,8 +3,12 @@ package it.unibs.ing.progetto.ristorante.model;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
-public class Piatto implements Serializable {
+import it.unibs.ing.progetto.ristorante.pattern.MenuComponent;
+
+
+public class Piatto implements Serializable, MenuComponent {
 
 	/**
 	 * 
@@ -60,5 +64,15 @@ public class Piatto implements Serializable {
 	public ArrayList<Periodo> getPeriodiValidita() {
 		return periodiValidita;
 	}
+
+	@Override
+	public List<Piatto> getContenuto() {
+		List<Piatto> list = new ArrayList<>();
+		list.add(this);
+		return list;
+	}
+
+	
+	
 
 }

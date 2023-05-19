@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Gestione implements Serializable{
+public class Gestione implements Serializable {
 
 	/**
 	 * 
@@ -120,9 +120,9 @@ public class Gestione implements Serializable{
 		return this.elencoMenuTematici.stream().filter(m -> m.isDisponibileInData(date)).collect(Collectors.toList());
 	}
 
-
 	/**
 	 * Restiuisce true se il genere extra è gia presente
+	 * 
 	 * @param nome
 	 * @return
 	 */
@@ -132,6 +132,7 @@ public class Gestione implements Serializable{
 
 	/**
 	 * Restituisce true se la bevanda esiste gia
+	 * 
 	 * @param nome
 	 * @return
 	 */
@@ -139,14 +140,7 @@ public class Gestione implements Serializable{
 		return insiemeBevande.stream().anyMatch(b -> b.getNome().equalsIgnoreCase(nome));
 	}
 
-	/**
-	 * Aggiunge un piatto e una ricetta dopo averli creati
-	 * @param elencoIngredienti
-	 * @param porzioni
-	 * @param caricoLavoro
-	 * @param nomePiatto
-	 * @param periodi
-	 */
+	// Aggiunge un piatto e una ricetta dopo averli creati
 	public void addPiattoRicetta(ArrayList<Prodotto> elencoIngredienti, int porzioni, int caricoLavoro,
 			String nomePiatto, ArrayList<Periodo> periodi) {
 		Ricetta ricetta = new Ricetta(elencoIngredienti, porzioni, caricoLavoro);
@@ -154,13 +148,7 @@ public class Gestione implements Serializable{
 		elencoPiatti.add(piatto);
 	}
 
-	/**
-	 * Aggiunge un menu tematico
-	 * @param nomeMenuTematico
-	 * @param piatti
-	 * @param caricoLavoroMenuTematico
-	 * @param periodi
-	 */
+	// Aggiunge un menu tematico
 	public void addMenuTematico(String nomeMenuTematico, ArrayList<Piatto> piatti, int caricoLavoroMenuTematico,
 			ArrayList<Periodo> periodi) {
 		MenuTematico menuTematico = new MenuTematico(nomeMenuTematico, piatti, caricoLavoroMenuTematico, periodi);
