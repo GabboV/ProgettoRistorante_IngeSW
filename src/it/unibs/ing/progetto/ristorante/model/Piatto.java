@@ -5,22 +5,19 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.unibs.ing.progetto.ristorante.pattern.MenuComponent;
-
-
 public class Piatto implements Serializable, MenuComponent {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private String nomePiatto;
 	private int caricoLavoro;
 	private Ricetta ricetta;
-	private ArrayList<Periodo> periodiValidita;
+	private List<Periodo> periodiValidita;
 
-	public Piatto(String nomePiatto, int caricoLavoro, Ricetta ricetta, ArrayList<Periodo> periodiValidita) {
+	public Piatto(String nomePiatto, int caricoLavoro, Ricetta ricetta, List<Periodo> periodiValidita) {
 		super();
 		if (ricetta == null || periodiValidita == null || caricoLavoro <= 0) {
 			throw new IllegalArgumentException("Problemi nella creazione del piatto");
@@ -29,7 +26,7 @@ public class Piatto implements Serializable, MenuComponent {
 		this.caricoLavoro = caricoLavoro;
 		this.ricetta = ricetta;
 		this.periodiValidita = periodiValidita;
-		
+
 	}
 
 	public boolean isDisponibileInData(LocalDate data) {
@@ -61,7 +58,7 @@ public class Piatto implements Serializable, MenuComponent {
 		return ricetta;
 	}
 
-	public ArrayList<Periodo> getPeriodiValidita() {
+	public List<Periodo> getPeriodiValidita() {
 		return periodiValidita;
 	}
 
@@ -71,8 +68,5 @@ public class Piatto implements Serializable, MenuComponent {
 		list.add(this);
 		return list;
 	}
-
-	
-	
 
 }

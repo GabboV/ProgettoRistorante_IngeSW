@@ -1,4 +1,4 @@
-package it.unibs.ing.progetto.ristorante.pattern;
+package it.unibs.ing.progetto.ristorante.controllerGRASP;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -6,17 +6,16 @@ import java.util.HashMap;
 import java.util.List;
 
 import it.unibs.ing.progetto.ristorante.interfacce.IPrenotazioni;
+import it.unibs.ing.progetto.ristorante.model.MenuComponent;
 import it.unibs.ing.progetto.ristorante.model.MenuTematico;
 import it.unibs.ing.progetto.ristorante.model.Piatto;
 import it.unibs.ing.progetto.ristorante.model.Prenotazione;
 
 public class PrenotazioneController {
 
-    private PrenotazioneView view;
     private IPrenotazioni model;
 
-    public PrenotazioneController(PrenotazioneView view, IPrenotazioni model) {
-        this.view = view;
+    public PrenotazioneController(IPrenotazioni model) {
         this.model = model;
     }
 
@@ -37,12 +36,8 @@ public class PrenotazioneController {
      * @param coperti
      */
     public void addPrenotazione(String cliente, LocalDate data, List<MenuComponent> comanda, int coperti) {
-        if(confermaOrdine(data, comanda, coperti)){
-            model.addPrenotazione(cliente, data, toHashMap(comanda), coperti);
-        } else {
-            view.stampaMsgPrenotazioneRifiutata();
-        }
-        
+        model.addPrenotazione(cliente, data, toHashMap(comanda), coperti);
+       
     }
 
     /**
@@ -53,6 +48,28 @@ public class PrenotazioneController {
     public void removePrenotazione(int index) {
         model.removePrenotazione(index);
     }
+
+
+    public boolean confermaOrdine(LocalDate dataPrenotazione, List<MenuComponent> ordine, int numCoperti) {
+        return model.confermaOrdine(dataPrenotazione, ordine, numCoperti);
+    }
+    
+    private HashMap<Piatto, Integer> toHashMap(List<MenuComponent> list) {
+        HashMap<Piatto, Integer> comanda = new HashMap<>();
+        for (MenuComponent m : list) {
+            for (Piatto p : m.getContenuto()) {
+                if (comanda.containsKey(p)) {
+                    int oldValue = comanda.get(p);
+                    comanda.replace(p, oldValue + 1);
+                } else {
+                    comanda.put(p, 1);
+                }
+            }
+        }
+        return comanda;
+    }
+    
+   
 
     public boolean giornoValido(LocalDate date) {
         boolean almenoUnGiornoFeriale = almenoUnGiornoFeriale(model.getDataCorrente(), date);
@@ -115,22 +132,6 @@ public class PrenotazioneController {
         return model.verificaAccettabilitaPrenotazione(date, comanda, coperti);
     }
 
-    public boolean confermaOrdine(LocalDate dataPrenotazione, List<MenuComponent> ordine, int numCoperti) {
-        return model.confermaOrdine(dataPrenotazione, ordine, numCoperti);
-    }
+    
 
-    private HashMap<Piatto, Integer> toHashMap(List<MenuComponent> list) {
-        HashMap<Piatto, Integer> comanda = new HashMap<>();
-        for (MenuComponent m : list) {
-            for (Piatto p : m.getContenuto()) {
-                if (comanda.containsKey(p)) {
-                    int oldValue = comanda.get(p);
-                    comanda.replace(p, oldValue + 1);
-                } else {
-                    comanda.put(p, 1);
-                }
-            }
-        }
-        return comanda;
-    }
 }

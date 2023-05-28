@@ -11,14 +11,17 @@ import java.util.List;
 import it.unibs.ing.progetto.ristorante.interfacce.IGestore;
 import it.unibs.ing.progetto.ristorante.interfacce.IMagazzino;
 import it.unibs.ing.progetto.ristorante.interfacce.IPrenotazioni;
-import it.unibs.ing.progetto.ristorante.pattern.MenuComponent;
 
+/**
+ * Classe Facade
+ *
+ */
 public class Ristorante implements Serializable, IGestore, IPrenotazioni, IMagazzino {
 
 	private static final long serialVersionUID = 1L;
 
 	private LocalDate dataCorrente;
-	
+
 	private Gestione gestione;
 	private Agenda agenda;
 	private Magazzino magazzino;
@@ -95,27 +98,27 @@ public class Ristorante implements Serializable, IGestore, IPrenotazioni, IMagaz
 		return gestione.getCaricoLavoroRistorante();
 	}
 
-	public ArrayList<Piatto> getElencoPiatti() {
+	public List<Piatto> getElencoPiatti() {
 		return gestione.getElencoPiatti();
 	}
 
-	public ArrayList<MenuTematico> getElencoMenuTematici() {
+	public List<MenuTematico> getElencoMenuTematici() {
 		return gestione.getElencoMenuTematici();
 	}
 
-	public ArrayList<Prodotto> getInsiemeBevande() {
+	public List<Prodotto> getInsiemeBevande() {
 		return gestione.getInsiemeBevande();
 	}
 
-	public ArrayList<Prodotto> getInsiemeGeneriExtra() {
+	public List<Prodotto> getInsiemeGeneriExtra() {
 		return gestione.getInsiemeGeneriExtra();
 	}
 
-	public ArrayList<Prodotto> getRegistroMagazzino() {
+	public List<Prodotto> getRegistroMagazzino() {
 		return magazzino.getRegistroMagazzino();
 	}
 
-	public ArrayList<Prodotto> getListaSpesa() {
+	public List<Prodotto> getListaSpesa() {
 		return magazzino.getListaSpesa();
 	}
 
@@ -127,14 +130,14 @@ public class Ristorante implements Serializable, IGestore, IPrenotazioni, IMagaz
 	}
 
 	// aggiunge un piatto e la rispettiva ricetta a elencoPiatti
-	public void addPiattoRicetta(ArrayList<Prodotto> elencoIngredienti, int porzioni, int caricoLavoro,
-			String nomePiatto, ArrayList<Periodo> periodi) {
+	public void addPiattoRicetta(List<Prodotto> elencoIngredienti, int porzioni, int caricoLavoro,
+			String nomePiatto, List<Periodo> periodi) {
 		gestione.addPiattoRicetta(elencoIngredienti, porzioni, caricoLavoro, nomePiatto, periodi);
 	}
 
 	// aggiunge un nuovo menu tematico
-	public void addMenuTematico(String nomeMenuTematico, ArrayList<Piatto> piatti, int caricoLavoroMenuTematico,
-			ArrayList<Periodo> periodi) {
+	public void addMenuTematico(String nomeMenuTematico, List<Piatto> piatti, int caricoLavoroMenuTematico,
+			List<Periodo> periodi) {
 		gestione.addMenuTematico(nomeMenuTematico, piatti, caricoLavoroMenuTematico, periodi);
 	}
 
@@ -216,12 +219,11 @@ public class Ristorante implements Serializable, IGestore, IPrenotazioni, IMagaz
 	 * @param prodotto
 	 * @param quantita
 	 */
-	public void rimuoviQuantitaProdottoMagazzino(Prodotto prodotto, float quantita) {
-		this.magazzino.rimuoviQuantitaProdottoMagazzino(prodotto, quantita);
+	public boolean rimuoviQuantitaProdottoMagazzino(Prodotto prodotto, float quantita) {
+		boolean risultato = this.magazzino.rimuoviQuantitaProdottoMagazzino(prodotto, quantita);
 		this.generaListaSpesa();
+		return risultato;
 	}
-
-
 
 	/**
 	 * Passo successivo
@@ -272,11 +274,11 @@ public class Ristorante implements Serializable, IGestore, IPrenotazioni, IMagaz
 	public void removePrenotazione(int indice) {
 		this.agenda.removePrenotazione(indice);
 	}
-	
+
 	public void setInsiemeBevande(ArrayList<Prodotto> insiemeBevande) {
 		this.gestione.setInsiemeBevande(insiemeBevande);
 	}
-	
+
 	public void setInsiemeGeneriExtra(ArrayList<Prodotto> insiemeGeneriExtra) {
 		this.gestione.setInsiemeGeneriExtra(insiemeGeneriExtra);
 	}
@@ -287,8 +289,8 @@ public class Ristorante implements Serializable, IGestore, IPrenotazioni, IMagaz
 	}
 
 	@Override
-	public void addQuantitaProdottoMagazzino(Prodotto prodotto, float quantita) {
-		this.magazzino.addQuantitaProdottoMagazzino(prodotto, quantita);
+	public boolean addQuantitaProdottoMagazzino(Prodotto prodotto, float quantita) {
+		return this.magazzino.addQuantitaProdottoMagazzino(prodotto, quantita);
 	}
 
 	@Override
@@ -302,7 +304,7 @@ public class Ristorante implements Serializable, IGestore, IPrenotazioni, IMagaz
 		}
 		float caricoLavoroSostenibileRimasto = this.getCaricoLavoroSostenibileRimasto(dataPrenotazione);
 		float caricoLavoroRichiesto = 0;
-		for(MenuComponent c: ordine){
+		for (MenuComponent c : ordine) {
 			caricoLavoroRichiesto += c.getCaricoLavoro();
 		}
 		if (caricoLavoroRichiesto > caricoLavoroSostenibileRimasto) {
@@ -310,9 +312,5 @@ public class Ristorante implements Serializable, IGestore, IPrenotazioni, IMagaz
 		}
 		return true;
 	}
-
-	
-
-	
 
 }

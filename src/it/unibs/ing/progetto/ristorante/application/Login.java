@@ -1,8 +1,11 @@
-package it.unibs.ing.progetto.ristorante.pattern;
+package it.unibs.ing.progetto.ristorante.application;
 
 import it.unibs.fp.mylib.MyMenu;
+import it.unibs.ing.progetto.ristorante.UI.controllerMVC.AddettoPrenotazioniController;
+import it.unibs.ing.progetto.ristorante.UI.controllerMVC.GestoreController;
+import it.unibs.ing.progetto.ristorante.UI.controllerMVC.MagazziniereController;
 
-public class AccessView {
+public class Login {
 
     /**
      *
@@ -19,17 +22,18 @@ public class AccessView {
     private static final String HAI_EFFETTUATO_IL_LOGOUT = "Hai effettuato il Logout";
     private static final String[] ELENCO_RUOLI = { "Gestore", "Addetto Prenotazioni", "Magazziniere" };
 
-    private GestioneView gestioneView;
-    private PrenotazioneView prenotazioneView;
-    private MagazzinoView magazzinoView;
+    private GestoreController gestoreController;
+    private AddettoPrenotazioniController addettoPrenotazioniController;
+    private MagazziniereController magazziniereController;
 
-    public AccessView(GestioneView gestioneView, PrenotazioneView prenotazioneView, MagazzinoView magazzinoView) {
-        this.gestioneView = gestioneView;
-        this.prenotazioneView = prenotazioneView;
-        this.magazzinoView = magazzinoView;
+    public Login(GestoreController gestoreController, AddettoPrenotazioniController addettoPrenotazioniController,
+            MagazziniereController magazziniereController) {
+        this.gestoreController = gestoreController;
+        this.addettoPrenotazioniController = addettoPrenotazioniController;
+        this.magazziniereController = magazziniereController;
     }
 
-    public void richiestaAccessoLogin() {
+    public void accessoLogin() {
         System.out.println(MSG_BENVENUTO);
         MyMenu menuAccesso = new MyMenu(LOGIN, ELENCO_RUOLI);
         boolean attiva = true;
@@ -40,13 +44,13 @@ public class AccessView {
                     attiva = false;
                     break;
                 case LOGIN_GESTIONE:
-                    gestioneView.gestioneMenu();
+                gestoreController.avviaSessione();
                     break;
                 case LOGIN_PRENOTAZIONE:
-                    prenotazioneView.gestioneMenu();
+                addettoPrenotazioniController.avviaSessione();
                     break;
                 case LOGIN_MAGAZZINO:
-                    magazzinoView.gestioneMenu();
+                magazziniereController.avviaSessione();
                     break;
             }
         } while (attiva);

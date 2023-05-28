@@ -24,18 +24,9 @@ public class ReaderXMLRistorante {
 	private static final String ERRORE_READER = "Errore nell'inizializzazione del reader: ";
 	private static final String STRINGA_INIZIO_LETTURA = "Inzio lettura file: ";
 	private static final String STRINGA_FINE_LETTURA = "Fine lettura file: ";
-	private static final String ELENCO_INGREDIENTI = "ElencoIngredienti";
-	private static final String ELENCO_PERIODI = "ElencoPeriodi";
-	private static final String MENU_TEMATICO = "MenuTematico";
-	private static final String ELENCO_MENU_TEMATICI = "ElencoMenuTematici";
-	private static final String PIATTO = "Piatto";
-	private static final String ELENCO_PIATTI = "ElencoPiatti";
-	private static final String DATA_CORRENTE = "DataCorrente";
 	private static final String CARICO_LAVORO_RISTORANTE = "caricoLavoroRistorante";
 	private static final String CARICO_LAVORO_PER_PERSONA = "caricoLavoroPerPersona";
 	private static final String NUMERO_POSTI = "numeroPosti";
-	private static final String PARAMETRI_RISTORANTE = "ParametriRistorante";
-	private static final String ELENCO_RICETTE = "ElencoRicette";
 	private static final String RICETTA = "Ricetta";
 	private static final String NOME_PIATTO = "nomePiatto";
 	private static final String CARICO_LAVORO = "caricoLavoro";
@@ -44,13 +35,10 @@ public class ReaderXMLRistorante {
 	private static final String DOSE = "dose";
 	private static final String UNITA_MISURA = "unitaMisura";
 	private static final String PORZIONI = "porzioni";
-	private static final String DATA_INIZIO = "DataInizio";
-	private static final String DATA_FINE = "DataFine";
 	private static final String GIORNO = "giorno";
 	private static final String MESE = "mese";
 	private static final String ANNO = "anno";
 
-	
 	public static Ristorante leggiXML(String filename) {
 		LocalDate dataCorrente = null;
 		int caricoLavoroPerPersona = 0;
@@ -236,7 +224,6 @@ public class ReaderXMLRistorante {
 							}
 							break;
 					}
-					// Passa all�evento successivo
 					xmlr.next();
 				}
 			}

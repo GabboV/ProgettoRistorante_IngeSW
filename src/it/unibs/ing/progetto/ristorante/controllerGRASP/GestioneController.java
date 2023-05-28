@@ -1,4 +1,4 @@
-package it.unibs.ing.progetto.ristorante.pattern;
+package it.unibs.ing.progetto.ristorante.controllerGRASP;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,11 +13,9 @@ import it.unibs.ing.progetto.ristorante.model.Prodotto;
 public class GestioneController {
 
     private IGestore model;
-    private GestioneView view;
 
-    public GestioneController(IGestore model, GestioneView view) {
+    public GestioneController(IGestore model) {
         this.model = model;
-        this.view = view;
     }
 
     /**
@@ -111,11 +109,12 @@ public class GestioneController {
      * @param nomeBevanda
      * @param consumoProCapiteBevanda
      */
-    public void aggiungiBevanda(String nomeBevanda, float consumoProCapiteBevanda) {
+    public boolean aggiungiBevanda(String nomeBevanda, float consumoProCapiteBevanda) {
         if (model.esisteBevanda(nomeBevanda)) {
             model.addBevanda(nomeBevanda, consumoProCapiteBevanda);
+            return true;
         } else {
-            view.stampaMsgElementoEsistente();
+            return false;
         }
 
     }
@@ -126,11 +125,12 @@ public class GestioneController {
      * @param nomeGenereExtra
      * @param consumoProCapiteGenereExtra
      */
-    public void aggiungiGenereExtra(String nomeGenereExtra, float consumoProCapiteGenereExtra) {
+    public boolean aggiungiGenereExtra(String nomeGenereExtra, float consumoProCapiteGenereExtra) {
         if (!model.esisteGenereExtra(nomeGenereExtra)) {
             model.addGenereExtra(nomeGenereExtra, consumoProCapiteGenereExtra);
+            return true;
         } else {
-            view.stampaMsgElementoEsistente();
+            return false;
         }
     }
 
@@ -141,8 +141,8 @@ public class GestioneController {
      * @param elencoPiatti
      * @param periodi
      */
-    public void aggiungiMenuTematico(String nomeMenuTematico, ArrayList<Piatto> elencoPiatti,
-            ArrayList<Periodo> periodi) {
+    public void aggiungiMenuTematico(String nomeMenuTematico, List<Piatto> elencoPiatti,
+            List<Periodo> periodi) {
         int caricoLavoroMenuTematico = caricoLavoroPiatti(elencoPiatti);
         model.addMenuTematico(nomeMenuTematico, elencoPiatti, caricoLavoroMenuTematico, periodi);
     }
@@ -153,7 +153,7 @@ public class GestioneController {
      * @param piatti
      * @return
      */
-    private int caricoLavoroPiatti(ArrayList<Piatto> piatti) {
+    private int caricoLavoroPiatti(List<Piatto> piatti) {
         int caricoLavoroMenuTematico = 0;
         for (Piatto p : piatti) {
             caricoLavoroMenuTematico += p.getCaricoLavoro();
@@ -170,6 +170,18 @@ public class GestioneController {
     public boolean esisteBevanda(String nome) {
         return model.esisteBevanda(nome);
     }
+    
+ // dato un piatto, controlla se l'aggiunta di tale piatto al menu tematico
+ 	// supererebbe il carico lavoro massimo di un menu tematico
+ 	// se non lo supera ritorna true
+ 	public boolean controllaCaricoLavoroPiattoPerMenuTematico(Piatto piatto, int caricoLavoroMenuTematico,
+ 			int caricoLavoroMax) {
+ 		boolean piattoValido = false;
+ 		if (caricoLavoroMenuTematico + piatto.getCaricoLavoro() <= caricoLavoroMax) {
+ 			return true;
+ 		} 
+ 		return piattoValido;
+ 	}
 
     /**
      * Return true se il nome è gia presente nell'insieme genere extra
@@ -198,6 +210,16 @@ public class GestioneController {
 
     public int getCaricoLavoroRistorante() {
         return model.getCaricoLavoroRistorante();
+    }
+
+    public boolean piattoEsistente(String nome){
+        List<Piatto> piatti = model.getElencoPiatti();
+        for (Piatto p : piatti) {
+            if (p.getNomePiatto().equalsIgnoreCase(nome)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

@@ -1,4 +1,4 @@
-package it.unibs.ing.progetto.ristorante.pattern;
+package it.unibs.ing.progetto.ristorante.controllerGRASP;
 
 import java.util.List;
 
@@ -6,14 +6,17 @@ import it.unibs.ing.progetto.ristorante.interfacce.IMagazzino;
 import it.unibs.ing.progetto.ristorante.model.Prodotto;
 import it.unibs.ing.progetto.ristorante.model.UnitaMisura;
 
+/**
+ * Grasp Controller Magazzino
+ * @author Kevin
+ *
+ */
 public class MagazzinoController {
 
 	private IMagazzino model;
-	private MagazzinoView view;
 	
-	public MagazzinoController(IMagazzino model, MagazzinoView view) {
+	public MagazzinoController(IMagazzino model) {
 		this.model = model;
-		this.view = view;
 	}
 
 	/**
@@ -21,11 +24,13 @@ public class MagazzinoController {
 	 * informazioni al riguardo, Non fa aggiungere prodotti gia esistenti
 	 * @throws Exception 
 	 */
-	public void addProdottoRegistroMagazzino(String nome, float quantita, UnitaMisura misura) {
+	public boolean addProdottoRegistroMagazzino(String nome, float quantita, UnitaMisura misura) {
 		if(!model.esisteProdottoInMagazzino(nome)) {
 			model.addProdottoInventario(nome, quantita, misura);
+			model.generaListaSpesa();
+			return true;
 		} else {
-			view.printMsgProdottoGiaEsistente();
+			return false;
 		}
 	}
 
@@ -33,7 +38,8 @@ public class MagazzinoController {
 	 * Metodo per aggiungere quantita ad un prodotto nell'inventario
 	 */
 	public void aggiungiFlussoEntrante(Prodotto prodotto, float entrata) {
-		this.model.addQuantitaProdottoMagazzino(prodotto, entrata);
+		model.addQuantitaProdottoMagazzino(prodotto, entrata);
+		model.generaListaSpesa();
 	}
 
 	/**
@@ -41,6 +47,7 @@ public class MagazzinoController {
 	 */
 	public void aggiungiFlussoUscente(Prodotto prodotto, float uscita) {
 		model.rimuoviQuantitaProdottoMagazzino(prodotto, uscita);
+		model.generaListaSpesa();
 	}
 	
 	/**
@@ -67,5 +74,7 @@ public class MagazzinoController {
 	public boolean nomeProdottoGiaPresente(String nome) {
 		return model.esisteProdottoInMagazzino(nome);
 	}
+
+	
 
 }

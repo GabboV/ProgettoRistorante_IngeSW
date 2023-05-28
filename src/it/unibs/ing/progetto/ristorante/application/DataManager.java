@@ -1,11 +1,13 @@
-package it.unibs.ing.progetto.ristorante.pattern;
+package it.unibs.ing.progetto.ristorante.application;
 
 import java.io.File;
 
 import it.unibs.fp.mylib.InputDati;
 import it.unibs.fp.mylib.MyMenu;
 import it.unibs.fp.mylib.ServizioFile;
+import it.unibs.ing.progetto.ristorante.UI.controllerMVC.GestoreController;
 import it.unibs.ing.progetto.ristorante.XML.ReaderXMLRistorante;
+import it.unibs.ing.progetto.ristorante.controllerGRASP.GestioneController;
 import it.unibs.ing.progetto.ristorante.dati.BoxMemoria;
 import it.unibs.ing.progetto.ristorante.model.Ristorante;
 
@@ -23,13 +25,9 @@ public class DataManager {
     private static final int AVVIO_DA_ULTIMO_SALVATAGGIO = 3;
     private static final String[] OPZIONI_FILE = { "Salva ultime modifiche", "Cancella dati" };
     private static final String PATH_XML_RISTORANTE = "src/xmlFile/Ristorante.xml";
-
     final private static String CORNICE = "--------------------------------";
 
-    public DataManager() {
-
-    }
-
+  
     public Ristorante menuAvvioDatiRistorante(File fileDat) {
         System.out.println();
         Ristorante model = new Ristorante();
@@ -129,12 +127,12 @@ public class DataManager {
     // avvio
     public Ristorante primaConfigurazione() {
         Ristorante model = new Ristorante();
-        GestioneView view = new GestioneView(null);
-        GestioneController gestore = new GestioneController(model, view);
-        view.setController(gestore);
-        view.enterConfigurazione();
+        GestioneController controller = new GestioneController(model);
+        GestoreController gestore = new GestoreController(controller);
+
+        gestore.inizializzaRistorante();
         System.out.println("E' necessario inserire almeno una ricetta.");
-        view.enterPiattoRicetta();
+        gestore.aggiungiPiattoRicetta();
         System.out.println("Hai completato l'inizializzazione del programma.");
         return model;
     }

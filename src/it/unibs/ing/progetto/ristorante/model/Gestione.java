@@ -16,10 +16,10 @@ public class Gestione implements Serializable {
 	private int numeroPostiASedere;
 	private int caricoLavoroRistorante;
 
-	private ArrayList<Piatto> elencoPiatti;
-	private ArrayList<MenuTematico> elencoMenuTematici;
-	private ArrayList<Prodotto> insiemeBevande;
-	private ArrayList<Prodotto> insiemeGeneriExtra;
+	private List<Piatto> elencoPiatti;
+	private List<MenuTematico> elencoMenuTematici;
+	private List<Prodotto> insiemeBevande;
+	private List<Prodotto> insiemeGeneriExtra;
 
 	public Gestione(int caricoLavoroPerPersona, int numeroPostiASedere, int caricoLavoroRistorante,
 			ArrayList<Piatto> elencoPiatti, ArrayList<MenuTematico> elencoMenuTematici,
@@ -56,19 +56,19 @@ public class Gestione implements Serializable {
 		return caricoLavoroRistorante;
 	}
 
-	public ArrayList<Piatto> getElencoPiatti() {
+	public List<Piatto> getElencoPiatti() {
 		return elencoPiatti;
 	}
 
-	public ArrayList<MenuTematico> getElencoMenuTematici() {
+	public List<MenuTematico> getElencoMenuTematici() {
 		return elencoMenuTematici;
 	}
 
-	public ArrayList<Prodotto> getInsiemeBevande() {
+	public List<Prodotto> getInsiemeBevande() {
 		return insiemeBevande;
 	}
 
-	public ArrayList<Prodotto> getInsiemeGeneriExtra() {
+	public List<Prodotto> getInsiemeGeneriExtra() {
 		return insiemeGeneriExtra;
 	}
 
@@ -141,16 +141,16 @@ public class Gestione implements Serializable {
 	}
 
 	// Aggiunge un piatto e una ricetta dopo averli creati
-	public void addPiattoRicetta(ArrayList<Prodotto> elencoIngredienti, int porzioni, int caricoLavoro,
-			String nomePiatto, ArrayList<Periodo> periodi) {
+	public void addPiattoRicetta(List<Prodotto> elencoIngredienti, int porzioni, int caricoLavoro,
+			String nomePiatto, List<Periodo> periodi) {
 		Ricetta ricetta = new Ricetta(elencoIngredienti, porzioni, caricoLavoro);
 		Piatto piatto = new Piatto(nomePiatto, caricoLavoro, ricetta, periodi);
 		elencoPiatti.add(piatto);
 	}
 
 	// Aggiunge un menu tematico
-	public void addMenuTematico(String nomeMenuTematico, ArrayList<Piatto> piatti, int caricoLavoroMenuTematico,
-			ArrayList<Periodo> periodi) {
+	public void addMenuTematico(String nomeMenuTematico, List<Piatto> piatti, int caricoLavoroMenuTematico,
+			List<Periodo> periodi) {
 		MenuTematico menuTematico = new MenuTematico(nomeMenuTematico, piatti, caricoLavoroMenuTematico, periodi);
 		elencoMenuTematici.add(menuTematico);
 	}

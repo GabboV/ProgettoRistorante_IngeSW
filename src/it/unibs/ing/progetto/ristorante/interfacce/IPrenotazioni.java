@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import it.unibs.ing.progetto.ristorante.model.*;
-import it.unibs.ing.progetto.ristorante.pattern.MenuComponent;
 
 public interface IPrenotazioni {
 

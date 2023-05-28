@@ -15,6 +15,7 @@ import java.io.FileOutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 
 public class WriterXMLRistorante {
@@ -107,7 +108,7 @@ public class WriterXMLRistorante {
         xmlw.writeCharacters("\n" + "\t");
     }
 
-    private void stampaElencoRicette(ArrayList<Piatto> elencoPiattiRicette, XMLStreamWriter xmlw)
+    private void stampaElencoRicette(List<Piatto> elencoPiattiRicette, XMLStreamWriter xmlw)
             throws XMLStreamException {
         xmlw.writeStartElement(ELENCO_RICETTE);
         xmlw.writeCharacters("\n" + "\t");
@@ -132,7 +133,7 @@ public class WriterXMLRistorante {
         xmlw.writeCharacters("\n" + "\t");
     }
 
-    private void stampaElencoIngredienti(ArrayList<Prodotto> elencoIngredienti, XMLStreamWriter xmlw)
+    private void stampaElencoIngredienti(List<Prodotto> elencoIngredienti, XMLStreamWriter xmlw)
             throws XMLStreamException {
         xmlw.writeCharacters("\t" + "\t" + "\t");
         xmlw.writeStartElement(ELENCO_INGREDIENTI);
@@ -151,7 +152,7 @@ public class WriterXMLRistorante {
         xmlw.writeCharacters("\n");
     }
 
-    public void stampaElencoPeriodiValidita(ArrayList<Periodo> elencoPeriodiValidi, XMLStreamWriter xmlw)
+    public void stampaElencoPeriodiValidita(List<Periodo> elencoPeriodiValidi, XMLStreamWriter xmlw)
             throws XMLStreamException {
         xmlw.writeCharacters("\t" + "\t" + "\t");
         xmlw.writeStartElement(ELENCO_PERIODI);
@@ -179,7 +180,7 @@ public class WriterXMLRistorante {
         xmlw.writeCharacters("\n");
     }
 
-    public void stampaElencoMenuTematici(ArrayList<MenuTematico> elencoMenuTematici, XMLStreamWriter xmlw)
+    public void stampaElencoMenuTematici(List<MenuTematico> elencoMenuTematici, XMLStreamWriter xmlw)
             throws XMLStreamException {
         xmlw.writeStartElement(ELENCO_MENU_TEMATICI);
         xmlw.writeCharacters("\n" + "\t");
@@ -203,7 +204,7 @@ public class WriterXMLRistorante {
         xmlw.writeCharacters("\n" + "\t");
     }
 //////
-    public void stampaElencoNomiPiatti(ArrayList<Piatto> elencoPiattiDelMenuTematico, XMLStreamWriter xmlw)
+    public void stampaElencoNomiPiatti(List<Piatto> elencoPiattiDelMenuTematico, XMLStreamWriter xmlw)
             throws XMLStreamException {
         xmlw.writeCharacters("\t" + "\t" + "\t");
         xmlw.writeStartElement(ELENCO_PIATTI);
@@ -220,7 +221,7 @@ public class WriterXMLRistorante {
         xmlw.writeCharacters("\n");
     }
 
-    public void stampaInsiemeBevande(ArrayList<Prodotto> insiemeBevande, XMLStreamWriter xmlw)
+    public void stampaInsiemeBevande(List<Prodotto> insiemeBevande, XMLStreamWriter xmlw)
             throws XMLStreamException {
         xmlw.writeCharacters("\t");
         xmlw.writeStartElement("InsiemeBevande");
@@ -239,7 +240,7 @@ public class WriterXMLRistorante {
         xmlw.writeCharacters("\n");
     }
 
-    public void stampaInsiemeGeneriExtra(ArrayList<Prodotto> insiemeGeneriExtra, XMLStreamWriter xmlw)
+    public void stampaInsiemeGeneriExtra(List<Prodotto> insiemeGeneriExtra, XMLStreamWriter xmlw)
             throws XMLStreamException {
         xmlw.writeCharacters("\t");
         xmlw.writeStartElement("InsiemeGeneriExtra");

@@ -1,8 +1,6 @@
-package it.unibs.ing.progetto.ristorante.pattern;
+package it.unibs.ing.progetto.ristorante.model;
 
 import java.util.List;
-
-import it.unibs.ing.progetto.ristorante.model.Piatto;
 
 /**
  * Interfaccia per sfruttare il pattern Composite
