@@ -1,4 +1,4 @@
-package it.unibs.ing.progetto.ristorante.application;
+package it.unibs.ing.progetto.ristorante.dati;
 
 import java.io.File;
 
@@ -8,7 +8,6 @@ import it.unibs.fp.mylib.ServizioFile;
 import it.unibs.ing.progetto.ristorante.UI.controllerMVC.GestoreController;
 import it.unibs.ing.progetto.ristorante.XML.ReaderXMLRistorante;
 import it.unibs.ing.progetto.ristorante.controllerGRASP.GestioneController;
-import it.unibs.ing.progetto.ristorante.dati.BoxMemoria;
 import it.unibs.ing.progetto.ristorante.model.Ristorante;
 
 public class DataManager {

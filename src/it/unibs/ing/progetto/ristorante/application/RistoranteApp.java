@@ -8,6 +8,7 @@ import it.unibs.ing.progetto.ristorante.UI.controllerMVC.MagazziniereController;
 import it.unibs.ing.progetto.ristorante.controllerGRASP.GestioneController;
 import it.unibs.ing.progetto.ristorante.controllerGRASP.MagazzinoController;
 import it.unibs.ing.progetto.ristorante.controllerGRASP.PrenotazioneController;
+import it.unibs.ing.progetto.ristorante.dati.DataManager;
 import it.unibs.ing.progetto.ristorante.model.Ristorante;
 
 public class RistoranteApp {
