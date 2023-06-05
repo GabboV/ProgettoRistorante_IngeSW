@@ -6,6 +6,7 @@ import javax.xml.stream.XMLStreamReader;
 import it.unibs.ing.progetto.ristorante.model.Agenda;
 import it.unibs.ing.progetto.ristorante.model.Gestione;
 import it.unibs.ing.progetto.ristorante.model.Magazzino;
+import it.unibs.ing.progetto.ristorante.model.MenuComponent;
 import it.unibs.ing.progetto.ristorante.model.MenuTematico;
 import it.unibs.ing.progetto.ristorante.model.Periodo;
 import it.unibs.ing.progetto.ristorante.model.Piatto;
@@ -125,7 +126,7 @@ public class ReaderXMLRistorante {
 							String nomeMenu = xmlr.getAttributeValue(null, "nome");
 							int caricoLavoroMenuTematico = Integer
 									.parseInt(xmlr.getAttributeValue(null, "caricoLavoro"));
-							ArrayList<Piatto> elencoPiattiMenuTematico = new ArrayList<>();
+							ArrayList<MenuComponent> elencoPiattiMenuTematico = new ArrayList<>();
 							ArrayList<Periodo> elencoPeriodiMenuTematico = new ArrayList<>();
 							while (xmlr.hasNext()) {
 								xmlr.next();
@@ -245,7 +246,7 @@ public class ReaderXMLRistorante {
 	public static Piatto prendiPiattoConNome(String nomeScelto, ArrayList<Piatto> elencoPiatti) {
 		Piatto piattoScelto = null;
 		for (Piatto p : elencoPiatti) {
-			if (nomeScelto.equalsIgnoreCase(p.getNomePiatto())) {
+			if (nomeScelto.equalsIgnoreCase(p.getNome())) {
 				piattoScelto = p;
 				break;
 			}

@@ -136,7 +136,7 @@ public class Ristorante implements Serializable, IGestore, IPrenotazioni, IMagaz
 	}
 
 	// aggiunge un nuovo menu tematico
-	public void addMenuTematico(String nomeMenuTematico, List<Piatto> piatti, int caricoLavoroMenuTematico,
+	public void addMenuTematico(String nomeMenuTematico, List<MenuComponent> piatti, int caricoLavoroMenuTematico,
 			List<Periodo> periodi) {
 		gestione.addMenuTematico(nomeMenuTematico, piatti, caricoLavoroMenuTematico, periodi);
 	}
@@ -303,14 +303,24 @@ public class Ristorante implements Serializable, IGestore, IPrenotazioni, IMagaz
 			return false;
 		}
 		float caricoLavoroSostenibileRimasto = this.getCaricoLavoroSostenibileRimasto(dataPrenotazione);
-		float caricoLavoroRichiesto = 0;
-		for (MenuComponent c : ordine) {
-			caricoLavoroRichiesto += c.getCaricoLavoro();
-		}
+		float caricoLavoroRichiesto = calcolaCaricoLavoro(ordine);
 		if (caricoLavoroRichiesto > caricoLavoroSostenibileRimasto) {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Restituisce carico di lavoro di un ordine
+	 * @param ordine
+	 * @return
+	 */
+	private float calcolaCaricoLavoro(List<MenuComponent> ordine) {
+		float caricoLavoroRichiesto = 0;
+		for (MenuComponent c : ordine) {
+			caricoLavoroRichiesto += c.getCaricoLavoro();
+		}
+		return caricoLavoroRichiesto;
 	}
 
 }

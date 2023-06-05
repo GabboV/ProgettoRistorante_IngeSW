@@ -42,7 +42,7 @@ public class Piatto implements Serializable, MenuComponent {
 	}
 
 	// getters e setters
-	public String getNomePiatto() {
+	public String getNome() {
 		return nomePiatto;
 	}
 

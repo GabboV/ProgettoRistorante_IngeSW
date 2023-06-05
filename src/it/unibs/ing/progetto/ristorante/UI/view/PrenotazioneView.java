@@ -117,6 +117,11 @@ public class PrenotazioneView {
 		return ordine;
 	}
 
+	/**
+	 * Restiuisce il menu tematico scelto
+	 * @param menu
+	 * @return
+	 */
 	private MenuTematico enterSingoloOrdineMenuTematico(List<MenuTematico> menu) {
 		stampaMenuTematici(menu);
 		int scelta = InputDati.leggiIntero("Scegli il menu tematico (indice) > ", 0, menu.size() - 1);
@@ -131,7 +136,7 @@ public class PrenotazioneView {
 
 	public void stampaMenuCarta(List<Piatto> carta) {
 		for (int i = 0; i < carta.size(); i++) {
-			System.out.println(i + " - " + carta.get(i).getNomePiatto());
+			System.out.println(i + " - " + carta.get(i).getNome());
 		}
 	}
 
@@ -212,7 +217,7 @@ public class PrenotazioneView {
 			Entry<Piatto, Integer> entry = iter.next();
 			Piatto p = entry.getKey();
 			int i = entry.getValue();
-			String voce = String.format("| Piatto: %-17s   carico: %d   porzioni: %3d |", p.getNomePiatto(),
+			String voce = String.format("| Piatto: %-17s   carico: %d   porzioni: %3d |", p.getNome(),
 					p.getCaricoLavoro(), i);
 			builder.append(voce);
 			if (iter.hasNext())

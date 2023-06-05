@@ -6,6 +6,7 @@ import java.util.List;
 
 import it.unibs.fp.mylib.InputDati;
 import it.unibs.fp.mylib.MyMenu;
+import it.unibs.ing.progetto.ristorante.model.MenuComponent;
 import it.unibs.ing.progetto.ristorante.model.MenuTematico;
 import it.unibs.ing.progetto.ristorante.model.Periodo;
 import it.unibs.ing.progetto.ristorante.model.Piatto;
@@ -86,8 +87,8 @@ public class View {
 		System.out.println("Nome menu tematico: " + m.getNome());
 		System.out.println("Carico lavoro: " + m.getCaricoLavoro());
 		System.out.println("Piatti del menu: ");
-		for (Piatto p : m.getElencoPiatti()) {
-			System.out.println("Nome: " + p.getNomePiatto());
+		for (MenuComponent p : m.getElencoPiatti()) {
+			System.out.println("Nome: " + p.getNome());
 		}
 		System.out.println("Periodi di validita': ");
 		for (Periodo periodo : m.getPeriodiValidita()) {
@@ -101,7 +102,7 @@ public class View {
 		int contatore = 0;
 		for (Piatto p : elencoPiatti) {
 			System.out.println(" ----------- " + contatore + " ----------- ");
-			stampaMsg("Nome: " + p.getNomePiatto());
+			stampaMsg("Nome: " + p.getNome());
 			stampaMsg("Carico di lavoro: " + p.getCaricoLavoro());
 			contatore++;
 		}

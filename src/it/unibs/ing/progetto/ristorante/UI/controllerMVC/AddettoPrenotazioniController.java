@@ -36,7 +36,8 @@ public class AddettoPrenotazioniController implements Controller {
 	public void avviaSessione() {
 		boolean sessioneON = true;
 		do {
-			switch (1) {
+			int scelta = window.gestioneMenu();
+			switch (scelta) {
 				case LOGOUT:
 					sessioneON = false;
 					break;

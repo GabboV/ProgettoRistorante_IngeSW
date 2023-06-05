@@ -7,6 +7,7 @@ import java.util.List;
 import it.unibs.ing.progetto.ristorante.UI.view.GestioneView;
 import it.unibs.ing.progetto.ristorante.controllerGRASP.GestioneController;
 import it.unibs.ing.progetto.ristorante.interfacce.Controller;
+import it.unibs.ing.progetto.ristorante.model.MenuComponent;
 import it.unibs.ing.progetto.ristorante.model.MenuTematico;
 import it.unibs.ing.progetto.ristorante.model.Periodo;
 import it.unibs.ing.progetto.ristorante.model.Piatto;
@@ -251,7 +252,7 @@ public class GestoreController implements Controller {
 	// crea un menu tematico e lo aggiunge a elencoMenuTematici del iGestore
 	public void aggiungiMenuTematico() {
 		String nomeMenuTematico = richiestaNomeMenuTematicoValido(controller.getElencoMenuTematici());
-		List<Piatto> elencoPiatti = richiediElencoPiattiDelMenuTematico();
+		List<MenuComponent> elencoPiatti = richiediElencoPiattiDelMenuTematico();
 		view.stampaMsg("E' necessario indicare il periodo di validita'.");
 		List<Periodo> periodi = richiestaElencoPeriodiValidi();
 		controller.aggiungiMenuTematico(nomeMenuTematico, elencoPiatti, periodi);
@@ -283,8 +284,8 @@ public class GestoreController implements Controller {
 	 * 
 	 * @return
 	 */
-	private ArrayList<Piatto> richiediElencoPiattiDelMenuTematico() {
-		ArrayList<Piatto> elencoPiatti = new ArrayList<>();
+	private List<MenuComponent> richiediElencoPiattiDelMenuTematico() {
+		ArrayList<MenuComponent> elencoPiatti = new ArrayList<>();
 		int caricoLavoroMenuTematico = 0;
 		int caricoLavoroMax = (int) Math.floor(controller.getCaricoLavoroPerPersona() * 4.0 / 3);
 		boolean altroPiatto = false;

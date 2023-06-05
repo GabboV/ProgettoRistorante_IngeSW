@@ -149,7 +149,7 @@ public class Gestione implements Serializable {
 	}
 
 	// Aggiunge un menu tematico
-	public void addMenuTematico(String nomeMenuTematico, List<Piatto> piatti, int caricoLavoroMenuTematico,
+	public void addMenuTematico(String nomeMenuTematico, List<MenuComponent> piatti, int caricoLavoroMenuTematico,
 			List<Periodo> periodi) {
 		MenuTematico menuTematico = new MenuTematico(nomeMenuTematico, piatti, caricoLavoroMenuTematico, periodi);
 		elencoMenuTematici.add(menuTematico);

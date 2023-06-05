@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.unibs.ing.progetto.ristorante.interfacce.IGestore;
+import it.unibs.ing.progetto.ristorante.model.MenuComponent;
 import it.unibs.ing.progetto.ristorante.model.MenuTematico;
 import it.unibs.ing.progetto.ristorante.model.Periodo;
 import it.unibs.ing.progetto.ristorante.model.Piatto;
@@ -141,7 +142,7 @@ public class GestioneController {
      * @param elencoPiatti
      * @param periodi
      */
-    public void aggiungiMenuTematico(String nomeMenuTematico, List<Piatto> elencoPiatti,
+    public void aggiungiMenuTematico(String nomeMenuTematico, List<MenuComponent> elencoPiatti,
             List<Periodo> periodi) {
         int caricoLavoroMenuTematico = caricoLavoroPiatti(elencoPiatti);
         model.addMenuTematico(nomeMenuTematico, elencoPiatti, caricoLavoroMenuTematico, periodi);
@@ -150,12 +151,12 @@ public class GestioneController {
     /**
      * Calcolo del carico di lavoro
      * 
-     * @param piatti
+     * @param elencoPiatti
      * @return
      */
-    private int caricoLavoroPiatti(List<Piatto> piatti) {
+    private int caricoLavoroPiatti(List<MenuComponent> elencoPiatti) {
         int caricoLavoroMenuTematico = 0;
-        for (Piatto p : piatti) {
+        for (MenuComponent p : elencoPiatti) {
             caricoLavoroMenuTematico += p.getCaricoLavoro();
         }
         return caricoLavoroMenuTematico;
@@ -215,7 +216,7 @@ public class GestioneController {
     public boolean piattoEsistente(String nome){
         List<Piatto> piatti = model.getElencoPiatti();
         for (Piatto p : piatti) {
-            if (p.getNomePiatto().equalsIgnoreCase(nome)) {
+            if (p.getNome().equalsIgnoreCase(nome)) {
                 return true;
             }
         }
