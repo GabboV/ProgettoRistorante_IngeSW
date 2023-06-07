@@ -36,6 +36,7 @@ public class Periodo implements Serializable {
 		return false;
 	}
 
+	// ritorna true se la dataInizio coincide con la dataFine o se e' successiva, e se la data fine e' successiva alla data corrente
 	public boolean isValido(LocalDate dataCorrente) {
 		boolean valido = false;
 		if ((dataInizio.isBefore(dataFine) || dataInizio.isEqual(dataFine)) && dataFine.isAfter(dataCorrente)) {

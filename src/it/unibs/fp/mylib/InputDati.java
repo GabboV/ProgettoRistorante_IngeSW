@@ -244,7 +244,7 @@ public class InputDati {
 		float valoreLetto = 0;
 		do {
 			valoreLetto = leggiFloat(messaggio);
-			if (valoreLetto >= minimo || valoreLetto == 0f)
+			if (valoreLetto >= minimo)
 				finito = true;
 			else
 				System.out.println(ERRORE_MINIMO + minimo);
@@ -262,7 +262,7 @@ public class InputDati {
 				finito = true;
 			else
 				System.out.println(
-						String.format("Il valore deve essere comepreso nell'intervallo [%.2f-%.2f]", minimo, max));
+						String.format("Il valore deve essere compreso nell'intervallo [%.2f-%.2f]", minimo, max));
 		} while (!finito);
 		return valoreLetto;
 	}
@@ -287,11 +287,11 @@ public class InputDati {
 
 	public static UnitaMisura richiestaUnitaMisura() {
 		String[] u = UnitaMisura.getValues();
-		System.out.println("\n----------- Unita di misure ---------");
+		System.out.println("\n----------- Unita di misura ---------");
 		for (int i = 0; i < u.length; i++) {
 			System.out.println(String.format("%d - %s", i, u[i]));
 		}
-		int scelto = leggiIntero("\nScegli un unita di misura > ", 0, UnitaMisura.getValues().length - 1);
+		int scelto = leggiIntero("\nScegli un'unita di misura > ", 0, UnitaMisura.getValues().length - 1);
 		UnitaMisura scelta = UnitaMisura.valueOf(u[scelto]);
 		return scelta;
 	}

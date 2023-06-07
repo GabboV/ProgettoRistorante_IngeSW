@@ -25,7 +25,7 @@ public enum UnitaMisura {
 		for(int i = 0; i < misure.length; i++ ) {
 			valori[i] = misure[i].name();
 		}
-		if(valori.length <= 0 ) throw new NullPointerException("Problemi nelle unitÃ  di misura");
+		if(valori.length <= 0 ) throw new NullPointerException("Problemi nelle unita' di misura");
 		return valori;
 	}		
 }

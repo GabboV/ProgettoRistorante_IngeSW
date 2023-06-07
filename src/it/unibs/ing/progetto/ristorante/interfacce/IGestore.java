@@ -7,10 +7,6 @@ import java.util.List;
 
 public interface IGestore {
 
-    public boolean esisteBevanda(String nome);
-
-    public boolean esisteGenereExtra(String nome);
-
     public void setDataCorrente(LocalDate dataCorrente);
 
     public int getCaricoLavoroPerPersona();

@@ -17,6 +17,7 @@ public class Magazzino implements Serializable {
 	private List<Prodotto> registroMagazzino;
 	private List<Prodotto> listaSpesa;
 	public final static double EPSILON = 1E-3;
+	public final static float PERCENTUALE_MAGGIORAZIONE_PRODOTTI = 10;
 
 	public Magazzino(List<Prodotto> registroMagazzino, List<Prodotto> listaSpesa) {
 		this.registroMagazzino = registroMagazzino;
@@ -49,7 +50,7 @@ public class Magazzino implements Serializable {
 			List<Prodotto> bevande, int prenotati) {
 		List<Prodotto> lista_provvisoria = (List<Prodotto>) this.generaProdottiUsatiInCucina(prenotazioni,
 				generi, bevande, prenotati);
-		maggiorazionePercentuale(lista_provvisoria, 10);
+		maggiorazionePercentuale(lista_provvisoria, PERCENTUALE_MAGGIORAZIONE_PRODOTTI);
 		aggiornaListaSpesaConInventario(lista_provvisoria);
 	}
 

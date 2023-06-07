@@ -3,6 +3,7 @@ package it.unibs.ing.progetto.ristorante.UI.controllerMVC;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import it.unibs.ing.progetto.ristorante.UI.view.GestioneView;
 import it.unibs.ing.progetto.ristorante.controllerGRASP.GestioneController;
@@ -27,26 +28,61 @@ public class GestoreController implements Controller {
 	private static final int AGGIUNGI_GENERE_EXTRA = 4;
 	private static final int AGGIUNGI_BEVANDA = 3;
 	private static final int AGGIUNGI_MENU_TEMATICO = 2;
-	private static final int AGGIUNGI_INGREDIENTE = 1;
-
-	private GestioneView view;
-	private GestioneController controller;
-
-	public GestoreController(GestioneController controller) {
-		this.controller = controller;
-		this.view = new GestioneView();
+	private static final int AGGIUNGI_RICETTA = 1;
+	private static final String MSG_INSERISCI_DATA_CORRENTE = "Inserisci la data corrente: ";
+	private static final String MSG_INSERISCI_NUMERO_POSTI = "Inserisci il numero di posti del ristorante: ";
+	private static final String MSG_INSERISCI_CARICO_LAVORO_PERSONA = "Inserisci il carico di lavoro per persona: ";
+	private static final String MSG_INSERISCI_RICETTA = "E' necessario inserire almeno una ricetta.";
+	private static final String MSG_AGGIUNGI_ALTRA_RICETTA = "Vuoi aggiungere un'altra ricetta? ";
+	private static final String MSG_COMPLETATA_INIZIALIZZAZIONE = "\nHai completato l'inizializzazione del programma.\n";
+	private static final String MSG_ELENCO_BEVANDE = "\nELENCO BEVANDE";
+	private static final String MSG_ELENCO_GENERI_EXTRA = "\nELENCO GENERI EXTRA";
+	private static final String MSG_GIORNO_CORRENTE = "Ora il giorno corrente �: ";
+	private static final String MSG_FINE_SESSIONE_GESTORE = "Fine sessione Gestore... ";
+	private static final String MSG_INSERISCI_NOME_PIATTO = "Inserisci il nome del piatto: ";
+	private static final String MSG_PIATTO_GIA_ESISTE = "Il piatto gi� esiste, riprovare.";
+	private static final String MSG_INSERISCI_PORZIONI = "Inserisci il numero di porzioni del piatto: ";
+	private static final String MSG_INSERISCI_CARICO_LAVORO = "Inserisci il carico di lavoro per porzione: ";
+	private static final String MSG_INSERISCI_INGREDIENTI = "\nOra bisogna inserire l'elenco di ingredienti della ricetta e le rispettive dosi.";
+	private static final String MSG_AGGIUNTA_ELEMENTO_MENU = "\nE' stato aggiunto un nuovo elemento al menu.";
+	
+	private GestoreView view;
+	private IGestore model;
+	
+	public GestoreController(IGestore model) {
+		this.model = model;
+		this.view = new GestoreView();
 	}
-
+	
 	/**
-	 * richiede all'utente i parametri del iGestore e almeno una ricetta, minimo
+	 * richiede all'utente i parametri del ristorante e almeno una ricetta, minimo
 	 * necessario per il buon funzionamento del programma
 	 */
 	public void inizializzaRistorante() {
 		view.stampaMsgBenvenutoInizializzazione();
-		LocalDate dataCorrente = view.richiestaData("Inserisci la data corrente:");
-		int nPosti = view.richiestaInteroPositivo("Inserisci il numero di posti del ristorante: ");
-		int caricoLavoroPersona = view.richiestaInteroPositivo("Inserisci il carico di lavoro per persona: ");
-		controller.setConfigurazioneRistorante(caricoLavoroPersona, nPosti, dataCorrente);
+	    LocalDate dataCorrente = view.richiestaData(MSG_INSERISCI_DATA_CORRENTE);
+	    int nPosti = view.richiestaInteroPositivo(MSG_INSERISCI_NUMERO_POSTI);
+	    int caricoLavoroPersona = view.richiestaInteroPositivo(MSG_INSERISCI_CARICO_LAVORO_PERSONA);
+	    int caricoLavoroRistorante = caricoLavoroPersona * nPosti;
+
+	    caricoLavoroRistorante += Math.floor(caricoLavoroRistorante / 100.0 * 20);
+
+	    model.setDataCorrente(dataCorrente);
+	    model.setNumeroPostiASedere(nPosti);
+	    model.setCaricoLavoroPerPersona(caricoLavoroPersona);
+	    model.setCaricoLavoroRistorante(caricoLavoroRistorante);
+
+	    view.stampaParametriRistorante(dataCorrente, nPosti, caricoLavoroPersona, caricoLavoroRistorante);
+
+	    view.stampaMsg(MSG_INSERISCI_RICETTA);
+	    boolean altraRicetta;
+	    do {
+	        aggiungiPiattoRicetta(model.getElencoPiatti());
+	        altraRicetta = view.yesOrNo(MSG_AGGIUNGI_ALTRA_RICETTA);
+	    } while (altraRicetta);
+
+	    view.stampaMsg(MSG_COMPLETATA_INIZIALIZZAZIONE);
+	    avviaSessione();
 	}
 
 	/**
@@ -57,75 +93,100 @@ public class GestoreController implements Controller {
 		do {
 			int scelta = view.scegliMenu();
 			switch (scelta) {
-				case AGGIUNGI_INGREDIENTE:
-					aggiungiPiattoRicetta();
-					break;
-				case AGGIUNGI_MENU_TEMATICO:
-					aggiungiMenuTematico();
-					break;
-				case AGGIUNGI_BEVANDA:
-					aggiungiBevanda();
-					break;
-				case AGGIUNGI_GENERE_EXTRA:
-					aggiungiGenereExtra();
-					break;
-				case VISUALIZZA_PARAMETRI:
-					view.stampaParametriRistorante(controller.getDataCorrente(), controller.getNumeroPostiASedere(),
-							controller.getCaricoLavoroPerPersona(), controller.getCaricoLavoroRistorante());
-					view.stampaMsg("");
-					break;
-				case VISUALIZZA_RICETTE:
-					view.stampaMsg("\nELENCO PIATTI-RICETTE");
-					view.stampaElencoPiattiRicette(controller.getElencoPiatti());
-					view.stampaMsg("");
-					break;
-				case VISUALIZZA_MENU_TEMATICI:
-					view.stampaMsg("\nELENCO MENU TEMATICI");
-					view.stampaElencoMenuTematici(controller.getElencoMenuTematici());
-					view.stampaMsg("");
-					break;
-				case VISUALIZZA_BEVANDE:
-					view.stampaMsg("\nELENCO BEVANDE");
-					view.stampaInsiemeProdotti(controller.getInsiemeBevande());
-					view.stampaMsg("");
-					break;
-				case VISUALIZZA_GENERI_EXTRA:
-					view.stampaMsg("\nELENCO GENERI EXTRA");
-					view.stampaInsiemeProdotti(controller.getInsiemeGeneriExtra());
-					view.stampaMsg("");
-					break;
-				case 10:
-					controller.giornoDopo();
-					view.stampaMsg("Il giorno corrente is: " + controller.getDataCorrente().toString() + "\n");
-					view.stampaMsg("");
-					break;
-				case ESCI:
-					sessioneOn = false;
-					System.out.println("Fine sessione Gestore...");
-					break;
+			case AGGIUNGI_RICETTA:
+				aggiungiPiattoRicetta(model.getElencoPiatti());
+				break;
+			case AGGIUNGI_MENU_TEMATICO:
+				aggiungiMenuTematico(model.getElencoMenuTematici());
+				break;
+			case AGGIUNGI_BEVANDA:
+				aggiungiBevanda(model.getInsiemeBevande());
+				break;
+			case AGGIUNGI_GENERE_EXTRA:
+				aggiungiGenereExtra(model.getInsiemeGeneriExtra());
+				break;
+			case VISUALIZZA_PARAMETRI:
+				view.stampaParametriRistorante(model.getDataCorrente(), model.getNumeroPostiASedere(),
+						model.getCaricoLavoroPerPersona(), model.getCaricoLavoroRistorante());
+				break;
+			case VISUALIZZA_RICETTE:
+				view.stampaElencoPiattiRicette(model.getElencoPiatti());
+				break;
+			case VISUALIZZA_MENU_TEMATICI:
+				view.stampaElencoMenuTematici(model.getElencoMenuTematici());
+				break;
+			case VISUALIZZA_BEVANDE:
+				view.stampaInsiemeProdotti(model.getInsiemeBevande(), MSG_ELENCO_BEVANDE);
+				break;
+			case VISUALIZZA_GENERI_EXTRA:
+				view.stampaInsiemeProdotti(model.getInsiemeGeneriExtra(), MSG_ELENCO_GENERI_EXTRA);
+				break;
+			case 10:
+				model.giornoDopo();
+				view.stampaMsg(MSG_GIORNO_CORRENTE + view.ottieniStringaData(model.getDataCorrente()) + "\n");
+				break;
+			case ESCI:
+				sessioneOn = false;
+				view.stampaMsg(MSG_FINE_SESSIONE_GESTORE);
+				break;
 			}
 		} while (sessioneOn);
 
 	}
-
+	
 	/**
-	 * Richiede gli input per la creazione di un piatto e della sua ricetta Aggiunge
-	 * al graspC gli oggetti creati
+	 * Richiede gli input per la creazione di un piatto e della sua ricetta
+	 * Aggiunge al model gli oggetti creati
+	 * @param elencoPiatti l'elenco dei piatti presenti nel ristorante
 	 */
-	public void aggiungiPiattoRicetta() {
-		String nomePiatto = richiestaNomePiattoValido(controller.getElencoPiatti());
-		int porzioni = view.richiestaInteroPositivo("Inserisci il numero di porzioni del piatto: ");
-		int caricoLavoro = view.richiestaInteroConMinimoMassimo("Inserisci il carico di lavoro per porzione: ", 0,
-				controller.getCaricoLavoroPerPersona());
-		view.stampaMsg("\nOra bisogna inserire l'elenco di ingredienti della ricetta e le rispettive dosi.");
-		ArrayList<Prodotto> elencoIngredienti = richiestaElencoIngredienti();
-		view.stampaMsg("E' necessario indicare il periodo di validita' del piatto.");
-		ArrayList<Periodo> periodi = richiestaElencoPeriodiValidi();
+	private void aggiungiPiattoRicetta(List<Piatto> elencoPiatti) {
+		Predicate<String> condizioneValidita = nome -> elencoPiatti.stream()
+	            .anyMatch(p -> p.getNomePiatto().equalsIgnoreCase(nome));
+	    String nomePiatto = richiestaNomeValido(elencoPiatti, condizioneValidita, MSG_INSERISCI_NOME_PIATTO,
+	            MSG_PIATTO_GIA_ESISTE);
 
-		controller.aggiungiPiattoRicetta(nomePiatto, porzioni, caricoLavoro, elencoIngredienti, periodi);
-		view.stampaMsg("\nE' stato aggiunto un nuovo elemento al menu.");
+	    int porzioni = view.richiestaInteroPositivo(MSG_INSERISCI_PORZIONI);
+	    int caricoLavoro = view.richiestaInteroConMinimoMassimo(MSG_INSERISCI_CARICO_LAVORO, 0,
+	            model.getCaricoLavoroPerPersona());
+
+	    view.stampaMsg(MSG_INSERISCI_INGREDIENTI);
+	    ArrayList<Prodotto> elencoIngredienti = richiestaElencoIngredienti();
+
+	    ArrayList<Periodo> periodi = richiestaElencoPeriodiValidi();
+
+	    model.addPiattoRicetta(elencoIngredienti, porzioni, caricoLavoro, nomePiatto, periodi);
+	    view.stampaMsg(MSG_AGGIUNTA_ELEMENTO_MENU);
 	}
 
+	/**
+	 * richiede un nome, verifica la condizioneValidita nel nome su elencoOggetti
+	 * se il nome non e' valido chiede un altro nome, altrimenti ritorna il nome valido
+	 * @param elencoOggetti lista degli oggetti con cui confrontare il nuovo nuovo nome
+	 * @param condizioneValidita Predicate che indica la condizione di verifica del nome
+	 * @param messaggioRichiesta messaggio di richiesta del nome
+	 * @param messaggioErrore messaggio di errore
+	 * @return nome valido
+	 */
+	private String richiestaNomeValido(List<?> elencoOggetti, Predicate<String> condizioneValidita, String messaggioRichiesta, String messaggioErrore) {
+	    String nomeOggetto;
+	    boolean nomeValido;
+	    do {
+	        nomeValido = true;
+	        nomeOggetto = view.richiestaNome(messaggioRichiesta);
+	        for (Object o : elencoOggetti) {
+	            if (condizioneValidita.test(nomeOggetto)) {
+	                nomeValido = false;
+	                view.stampaMsg(messaggioErrore);
+	                break;
+	            }
+	        }
+	    } while (!nomeValido);
+	    return nomeOggetto;
+	}
+	
+	//QUESTI METODI SONO STATI SOSTITUITI DAL METODO richiestaNomeValido
+	
+	//1
 	/**
 	 * richiede un nome di piatto. Se gia' esiste in elencoPiatti, lo richiede.
 	 * Ritorna il nome valido
@@ -133,7 +194,7 @@ public class GestoreController implements Controller {
 	 * @param elencoPiatti
 	 * @return
 	 */
-	private String richiestaNomePiattoValido(List<Piatto> elencoPiatti) {
+	/*private String richiestaNomePiattoValido(ArrayList<Piatto> elencoPiatti) {
 		String nomePiatto;
 		boolean esiste = true;
 		do {
@@ -144,17 +205,92 @@ public class GestoreController implements Controller {
 			}
 		} while (esiste);
 		return nomePiatto;
-	}
+	}*/
 
-	// crea un elenco di ingredienti diversi (per nome), presi da input utente, con
-	// dose e unita' di misura
+	//2
+	// richiede un nome di ingrediente. Se gia' esiste in elencoIngredienti della
+		// ricetta in questione, chiede un altro nome
+		// Ritorna il nome valido
+		/*private String richiestaNomeIngredienteValido(List<Prodotto> elencoIngredienti) {
+			String nomeProdotto;
+			boolean nomeValido;
+			do {
+				nomeValido = true;
+				nomeProdotto = view.richiestaNome("Inserisci il nome di un ingrediente: ");
+				for (Prodotto p : elencoIngredienti) {
+					if (p.getNome().equalsIgnoreCase(nomeProdotto)) {
+						nomeValido = false;
+						view.stampaMsg("Prodotto gia presente, riprovare\n");
+						break;
+					}
+				}
+			} while (!nomeValido);
+			return nomeProdotto;
+		}*/
+	
+	//3
+	// richiede un nome di bevanda. Se gia' esiste in insiemeBavande del model,
+		// chiede un altro nome
+		// Ritorna il nome valido
+		/*private String richiestaNomeBevandaValido() {
+			String nomeProdotto;
+			boolean esiste = false;
+			do {
+				nomeProdotto = view.richiestaNome("Inserisci il nome di un prodotto: ");
+				esiste = model.esisteBevanda(nomeProdotto);
+			} while (esiste);
+			return nomeProdotto;
+		}*/
+	
+	//4
+	// richiede un nome di genere extra. Se gia' esiste in insimeGeneriExtra del
+		// model, chiede un altro nome
+		// Ritorna il nome valido
+		/*private String richiestaNomeGenereExtraValido() {
+			String nomeProdotto;
+			boolean esiste = false;
+			do {
+				nomeProdotto = view.richiestaNome("Inserisci il nome di un prodotto: ");
+				esiste = model.esisteGenereExtra(nomeProdotto);
+			} while (esiste);
+			return nomeProdotto;
+		}*/
+	
+	//5
+	// chiede un nome di menu tematico. Se gia' esiste in elencoMenuTematici, lo
+		// richiede. Ritorna il nome valido
+		/*private String richiestaNomeMenuTematicoValido(ArrayList<MenuTematico> elencoMenuTematici) {
+			String nomeMenuTematico;
+			boolean nomeValido = true;
+			do {
+				nomeValido = true;
+				nomeMenuTematico = view.richiestaNome("Inserisci il nome del menu tematico: ");
+
+				for (MenuTematico m : elencoMenuTematici) {
+					if (m.getNome().equalsIgnoreCase(nomeMenuTematico)) {
+						view.stampaMsg("Il nome del menu tematico e' gia' stato utilizzato.");
+						nomeValido = false;
+						break;
+					}
+				}
+			} while (!nomeValido);
+			return nomeMenuTematico;
+		}*/
+	
+	
+	/**
+	 * crea un elenco di ingredienti diversi (per nome), presi da input utente, con
+	 * dose e unita' di misura
+	 * @return elenco degli ingredienti inseriti dall'utente
+	 */
 	private ArrayList<Prodotto> richiestaElencoIngredienti() {
 		ArrayList<Prodotto> elencoIngredienti = new ArrayList<>();
 		boolean altroIngrediente;
 		do {
-			String nomeIngrediente = richiestaNomeIngredienteValido(elencoIngredienti);
-			float dose = view.richiestaFloatPositivo("Inserisci dose: ");
+			Predicate<String> condizioneValidita = nome -> elencoIngredienti.stream().anyMatch(p -> p.getNome().equalsIgnoreCase(nome));
+			String nomeIngrediente = richiestaNomeValido(elencoIngredienti, condizioneValidita, "Inserisci il nome di un ingrediente: ", "Ingrediente gia' aggiunto, riprovare\n");
 			UnitaMisura unitaMisura = view.leggiUnitaMisura();
+			float dose = view.richiestaFloatPositivo("Inserisci dose: ");
 
 			if (nomeIngrediente != null && dose > 0f && unitaMisura != null) {
 				Prodotto ingrediente = new Prodotto(nomeIngrediente, dose, unitaMisura);
@@ -163,125 +299,70 @@ public class GestoreController implements Controller {
 			} else {
 				view.stampaMsg("L'elemento non e' valido");
 			}
-
 			altroIngrediente = view.yesOrNo("Vuoi aggiungere un altro ingrediente? ");
 		} while (altroIngrediente);
 		return elencoIngredienti;
 	}
 
-	// richiede un nome di ingrediente. Se gia' esiste in elencoIngredienti della
-	// ricetta in questione, chiede un altro nome
-	// Ritorna il nome valido
-	private String richiestaNomeIngredienteValido(ArrayList<Prodotto> elencoIngredienti) {
-		String nomeProdotto;
-		boolean nomeValido;
-		do {
-			nomeValido = true;
-			nomeProdotto = view.richiestaNome("Inserisci il nome di un prodotto: ");
-			for (Prodotto p : elencoIngredienti) {
-				if (p.getNome().equalsIgnoreCase(nomeProdotto)) {
-					nomeValido = false;
-					view.stampaMsg("Prodotto gia presente, riprovare\n");
-					break;
-				}
-			}
-		} while (!nomeValido);
-		return nomeProdotto;
-	}
 
-	// Chiede a utente dati di una nuova bevanda
-	// Controlla se in insiemeBevande esiste gia' una bevanda con il nome uguale
-	// Se gia' esiste, stampa a video un msg
-	// Se non esiste la aggiunge a insiemeBevande e stampa a video un msg
-	// Chiede a utente se vuole aggiungere un'altra bevanda
-	public void aggiungiBevanda() {
-		String nomeBevanda = richiestaNomeBevandaValido();
+	/**
+	 * Chiede a utente dati di una nuova bevanda
+	 * Controlla se in insiemeBevande esiste gia' una bevanda con il nome uguale
+	 * Se gia' esiste, stampa a video un msg
+	 * Se non esiste la aggiunge a insiemeBevande e stampa a video un msg
+	 * @param elencoBevande elenco delle bevande presenti nel model ristorante
+	 */
+	private void aggiungiBevanda(List<Prodotto> elencoBevande) {
+		Predicate<String> condizioneValidita = nome -> elencoBevande.stream().anyMatch(p -> p.getNome().equalsIgnoreCase(nome));
+		String nomeBevanda = richiestaNomeValido(elencoBevande, condizioneValidita, "Inserisci il nome di una bevanda: ", "Bevanda gia' presente, riprovare\n");
 		Float consumoProCapiteBevanda = view
 				.richiestaFloatPositivo("Inserisci il consumo pro capite di " + nomeBevanda + " (litri) : ");
-		controller.aggiungiBevanda(nomeBevanda, consumoProCapiteBevanda);
+
+		model.addBevanda(nomeBevanda, consumoProCapiteBevanda);
 		view.stampaMsg("E' stata aggiunta una bevanda.");
+	}	
+	
+	
+	/**
+	 * Chiede a utente dati di un nuovo genere extra
+	 * Controlla se in insiemeGeneriExtra esiste gia' un genereExtra con il nome uguale
+	 * Se gia' esiste, stampa a video un msg
+	 * Se non esiste la aggiunge a inisemeGeneriExtra e stampa a video un msg
+	 * @param elencoGeneriExtra elenco dei generi extra presenti nel model ristorante
+	 */
+	private void aggiungiGenereExtra(ArrayList<Prodotto> elencoGeneriExtra) {
+		Predicate<String> condizioneValidita = nome -> elencoGeneriExtra.stream().anyMatch(p -> p.getNome().equalsIgnoreCase(nome));
+		String nomeGenereExtra = richiestaNomeValido(elencoGeneriExtra, condizioneValidita, "Inserisci il nome di un genere extra: ", "Genere extra gia' presente, riprovare\n");
+		Float consumoProCapiteGenereExtra = view
+				.richiestaFloatPositivo("Inserisci il consumo pro capite di " + nomeGenereExtra + " (hg) : ");
+
+		model.addGenereExtra(nomeGenereExtra, consumoProCapiteGenereExtra);
+		view.stampaMsg("E' stata aggiunto un genere extra.");
 	}
 
-	// richiede un nome di bevanda. Se gia' esiste in insiemeBavande del graspC,
-	// chiede un altro nome
-	// Ritorna il nome valido
-	private String richiestaNomeBevandaValido() {
-		String nomeProdotto;
-		boolean esiste = false;
-		do {
-			nomeProdotto = view.richiestaNome("Inserisci il nome di un prodotto: ");
-			esiste = controller.esisteBevanda(nomeProdotto);
-		} while (esiste);
-		return nomeProdotto;
-	}
 
-	// Chiede a utente dati di un nuovo genere extra
-	// Controlla se in insiemeGeneriExtra esiste gia' un genereExtra con il nome
-	// uguale
-	// Se gia' esiste, stampa a video un msg
-	// Se non esiste la aggiunge a inisemeGeneriExtra e stampa a video un msg
-	// Chiede a utente se vuole aggiungere un altro genere extra
-	public void aggiungiGenereExtra() {
-		boolean altroGenereExtra = true;
-		do {
-			String nomeGenereExtra = richiestaNomeGenereExtraValido();
-			Float consumoProCapiteGenereExtra = view
-					.richiestaFloatPositivo("Inserisci il consumo pro capite di " + nomeGenereExtra + " (hg) : ");
+	/**
+	 * possibile implementazione di menu tematici con soli piatti validi
+	 * crea un menu tematico e lo aggiunge a elencoMenuTematici del model
+	 */
+	private void aggiungiMenuTematico(List<MenuTematico> elencoMenuTematici) {
+		Predicate<String> condizioneValidita = nome -> elencoMenuTematici.stream().anyMatch(m -> m.getNome().equalsIgnoreCase(nome));
+		String nomeMenuTematico = richiestaNomeValido(elencoMenuTematici, condizioneValidita, "Inserisci il nome del menu tematico: ", "Il menu tematico gia' esiste, riprovare\n");
 
-			controller.aggiungiGenereExtra(nomeGenereExtra, consumoProCapiteGenereExtra);
-			view.stampaMsg("E' stata aggiunto un genere extra.");
-			altroGenereExtra = view.yesOrNo("Vuoi aggiungere un altro genere extra? ");
-		} while (altroGenereExtra);
-	}
+		ArrayList<Piatto> elencoPiatti = richiediElencoPiattiDelMenuTematico();
+		int caricoLavoroMenuTematico = calcolaCaricoLavoroMenuTematico(elencoPiatti);
 
-	// richiede un nome di genere extra. Se gia' esiste in insimeGeneriExtra del
-	// graspC, chiede un altro nome
-	// Ritorna il nome valido
-	private String richiestaNomeGenereExtraValido() {
-		String nomeProdotto;
-		boolean esiste = false;
-		do {
-			nomeProdotto = view.richiestaNome("Inserisci il nome di un prodotto: ");
-			esiste = controller.esisteGenereExtra(nomeProdotto);
-		} while (esiste);
-		return nomeProdotto;
-	}
+		ArrayList<Periodo> periodi = richiestaElencoPeriodiValidi();
 
-	// possibile implementazione di menu tematici con soli piatti validi
-	// crea un menu tematico e lo aggiunge a elencoMenuTematici del iGestore
-	public void aggiungiMenuTematico() {
-		String nomeMenuTematico = richiestaNomeMenuTematicoValido(controller.getElencoMenuTematici());
-		List<Piatto> elencoPiatti = richiediElencoPiattiDelMenuTematico();
-		view.stampaMsg("E' necessario indicare il periodo di validita'.");
-		List<Periodo> periodi = richiestaElencoPeriodiValidi();
-		controller.aggiungiMenuTematico(nomeMenuTematico, elencoPiatti, periodi);
+		model.addMenuTematico(nomeMenuTematico, elencoPiatti, caricoLavoroMenuTematico, periodi);
 		view.stampaMsg("\nE' stato aggiunto un nuovo menu tematico.");
 	}
 
-	// chiede un nome di menu tematico. Se gia' esiste in elencoMenuTematici, lo
-	// richiede. Ritorna il nome valido
-	private String richiestaNomeMenuTematicoValido(List<MenuTematico> elencoMenuTematici) {
-		String nomeMenuTematico;
-		boolean nomeValido = true;
-		do {
-			nomeValido = true;
-			nomeMenuTematico = view.richiestaNome("Inserisci il nome del menu tematico: ");
-			for (MenuTematico m : elencoMenuTematici) {
-				if (m.getNome().equalsIgnoreCase(nomeMenuTematico)) {
-					view.stampaMsg("Il nome del menu tematico e' gia' stato utilizzato.");
-					nomeValido = false;
-					break;
-				}
-			}
-		} while (!nomeValido);
-		return nomeMenuTematico;
-	}
 
 	/**
 	 * Crea una lista di piatti richiesti all'utente, controllando che non superino
 	 * il carico lavoro massimo del menu tematico
-	 * 
-	 * @return
+	 * @return elenco di piatti scelti valido per un nuovo menu tematico
 	 */
 	private ArrayList<Piatto> richiediElencoPiattiDelMenuTematico() {
 		ArrayList<Piatto> elencoPiatti = new ArrayList<>();
@@ -301,8 +382,13 @@ public class GestoreController implements Controller {
 		return elencoPiatti;
 	}
 
-	// presenta l'elenco contenente tutti i piatti del iGestore e chiede
-	// all'utente quale vuole aggiungere al menu tematico
+	/**
+	 * presenta l'elenco contenente tutti i piatti del model e chiede
+	 * all'utente quale vuole aggiungere al menu tematico
+	 * @param caricoLavoroMenuTematico carico di lavoro del menu tematico attuale
+	 * @param caricoLavoroMax carico di lavoro massimo raggiungibile dal menu tematico
+	 * @return piatto scelto che deve essere aggiunto al menu tematico
+	 */
 	private Piatto richiestaPiattoDaElenco(int caricoLavoroMenuTematico, int caricoLavoroMax) {
 		int numPiattiEsistenti = controller.getElencoPiatti().size();
 		view.stampaMsg("\nELENCO PIATTI DISPONIBILI: ");
@@ -315,9 +401,15 @@ public class GestoreController implements Controller {
 		return piatto;
 	}
 
-	// dato un piatto, controlla se l'aggiunta di tale piatto al menu tematico
-	// supererebbe il carico lavoro massimo di un menu tematico
-	// se non lo supera ritorna true
+	/**
+	 * dato un piatto, controlla se l'aggiunta di tale piatto al menu tematico
+	 * supererebbe il carico lavoro massimo di un menu tematico
+	 * se non lo supera ritorna true
+	 * @param piatto nuovo piatto scelto da aggiungere al menu tematico
+	 * @param caricoLavoroMenuTematico carico di lavoro raggiunto dal menu tematico
+	 * @param caricoLavoroMax carico di lavoro massimo raggiungibile dal menu tematico
+	 * @return piatto aggiungibile al menu tematico perche' rispetta i vincoli di carico di lavoro
+	 */
 	private boolean controllaCaricoLavoroPiattoPerMenuTematico(Piatto piatto, int caricoLavoroMenuTematico,
 			int caricoLavoroMax) {
 		boolean piattoValido = false;
@@ -331,10 +423,14 @@ public class GestoreController implements Controller {
 		return piattoValido;
 	}
 
-	// controlla se � possibile aggiungere ancora un piatto al menu tematico
-	// questo � possibile se il carico lavoro del menu tematico e' minore del
-	// carico
-	// lavoro massimo
+	/**
+	 * controlla se e' possibile aggiungere ancora un piatto al menu tematico
+	 * questo e' possibile se il carico lavoro del menu tematico e' minore del
+	 * carico lavoro massimo
+	 * @param caricoLavoroMenuTematico carico di lavoro raggiunto dal menu tematico
+	 * @param caricoLavoroMax carico di lavoro massimo raggiungibile dal menu tematico
+	 * @return true se si puo aggiungere un altro piatto al menu tematico, false altrimenti
+	 */
 	private boolean controllaAggiuntaNuovoPiattoAlMenuTematico(int caricoLavoroMenuTematico, int caricoLavoroMax) {
 		boolean altroPiatto = true;
 		if (caricoLavoroMenuTematico < caricoLavoroMax) {
@@ -346,7 +442,24 @@ public class GestoreController implements Controller {
 		return altroPiatto;
 	}
 
-		// richiede un periodo e controlla se avra' validita in almeno un giorno futuro
+	/**
+	 * prende la lista di piatti di un menu tematico e ne calcola il carico di
+	 * lavoro totale
+	 * @param piatti elenco di piatti che compongono il menu tematico
+	 * @return carico di lavoro del menu tematico
+	 */
+	private int calcolaCaricoLavoroMenuTematico(ArrayList<Piatto> piatti) {
+		int caricoLavoroMenuTematico = 0;
+		for (Piatto p : piatti) {
+			caricoLavoroMenuTematico += p.getCaricoLavoro();
+		}
+		return caricoLavoroMenuTematico;
+	}
+
+	/**
+	 * richiede un periodo e controlla se avra' validita in almeno un giorno futuro
+	 * @param periodi elenco di periodi validi
+	 */
 	private void aggiungiPeriodoValido(ArrayList<Periodo> periodi) {
 		boolean valido = false;
 		do {
@@ -362,8 +475,12 @@ public class GestoreController implements Controller {
 		} while (!valido);
 	}
 
-	// ritorna un ArrayList di periodi validi che chiede all'utente
+	/**
+	 * chiede all'utente almeno un periodo valido
+	 * @return elenco di periodi di validita' validi
+	 */
 	private ArrayList<Periodo> richiestaElencoPeriodiValidi() {
+		view.stampaMsg("E' necessario indicare il periodo di validita' del piatto.");
 		ArrayList<Periodo> periodi = new ArrayList<>();
 		boolean altroPeriodo;
 		do {
