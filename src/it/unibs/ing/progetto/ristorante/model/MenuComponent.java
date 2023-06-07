@@ -11,4 +11,5 @@ import java.util.List;
 public interface MenuComponent {
 	int getCaricoLavoro();
 	List<Piatto> getContenuto();
+	String getNome();
 }

@@ -2,6 +2,7 @@ package it.unibs.ing.progetto.ristorante.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -17,11 +18,11 @@ public class MenuTematico implements Serializable, MenuComponent {
 	 */
 	private static final long serialVersionUID = 1L;
 	private String nome;
-	private List<Piatto> elencoPiatti;
+	private List<MenuComponent> elencoPiatti;
 	private int caricoLavoro;
 	private List<Periodo> periodiValidita;
 
-	public MenuTematico(String nome, List<Piatto> elencoPiatti, int caricoLavoro,
+	public MenuTematico(String nome, List<MenuComponent> elencoPiatti, int caricoLavoro,
 			List<Periodo> periodiValidita) {
 		super();
 		if (nome == null || elencoPiatti == null || elencoPiatti.isEmpty() || caricoLavoro <= 0
@@ -49,7 +50,7 @@ public class MenuTematico implements Serializable, MenuComponent {
 		return nome;
 	}
 
-	public List<Piatto> getElencoPiatti() {
+	public List<MenuComponent> getElencoPiatti() {
 		return elencoPiatti;
 	}
 
@@ -64,9 +65,11 @@ public class MenuTematico implements Serializable, MenuComponent {
 
 	@Override
 	public List<Piatto> getContenuto() {
-		return this.elencoPiatti;
+		List<Piatto> contenuto = new ArrayList<>();
+		for(MenuComponent m: this.elencoPiatti) {
+			contenuto.addAll(m.getContenuto());
+		}
+		return contenuto;
 	}
-
-	
 
 }

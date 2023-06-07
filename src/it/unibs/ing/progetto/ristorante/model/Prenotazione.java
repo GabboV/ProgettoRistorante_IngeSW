@@ -33,6 +33,11 @@ public class Prenotazione implements Serializable {
 		return calcolaCaricoLavoroComanda(this.comanda);
 	}
 
+	/**
+	 * Calcola carico lavoro di un ordine
+	 * @param comanda
+	 * @return
+	 */
 	public static float calcolaCaricoLavoroComanda(HashMap<Piatto, Integer> comanda) {
 		float totale = 0.0f;
 		for (Entry<Piatto, Integer> entry : comanda.entrySet()) {

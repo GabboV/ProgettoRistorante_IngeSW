@@ -4,6 +4,7 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import it.unibs.ing.progetto.ristorante.model.MenuComponent;
 import it.unibs.ing.progetto.ristorante.model.MenuTematico;
 import it.unibs.ing.progetto.ristorante.model.Periodo;
 import it.unibs.ing.progetto.ristorante.model.Piatto;
@@ -122,7 +123,7 @@ public class WriterXMLRistorante {
     private void stampaRicetta(Piatto p, XMLStreamWriter xmlw) throws XMLStreamException {
         xmlw.writeCharacters("\t");
         xmlw.writeStartElement(RICETTA);
-        xmlw.writeAttribute(NOME_PIATTO, p.getNomePiatto());
+        xmlw.writeAttribute(NOME_PIATTO, p.getNome());
         xmlw.writeAttribute(PORZIONI, Integer.toString(p.getRicetta().getNumeroPorzioni()));
         xmlw.writeAttribute(CARICO_LAVORO, Integer.toString(p.getCaricoLavoro()));
         xmlw.writeCharacters("\n");
@@ -204,15 +205,15 @@ public class WriterXMLRistorante {
         xmlw.writeCharacters("\n" + "\t");
     }
 //////
-    public void stampaElencoNomiPiatti(List<Piatto> elencoPiattiDelMenuTematico, XMLStreamWriter xmlw)
+    public void stampaElencoNomiPiatti(List<MenuComponent> elencoPiattiDelMenuTematico, XMLStreamWriter xmlw)
             throws XMLStreamException {
         xmlw.writeCharacters("\t" + "\t" + "\t");
         xmlw.writeStartElement(ELENCO_PIATTI);
         xmlw.writeCharacters("\n");
-        for (Piatto p : elencoPiattiDelMenuTematico) {
+        for (MenuComponent p : elencoPiattiDelMenuTematico) {
             xmlw.writeCharacters("\t" + "\t" + "\t" + "\t");
             xmlw.writeStartElement(PIATTO);
-            xmlw.writeAttribute(NOME, p.getNomePiatto());
+            xmlw.writeAttribute(NOME, p.getNome());
             xmlw.writeEndElement();
             xmlw.writeCharacters("\n");
         }
@@ -307,7 +308,7 @@ public class WriterXMLRistorante {
     public void stampaPiattoComanda(Piatto p, Integer i, XMLStreamWriter xmlw) throws XMLStreamException {
         xmlw.writeCharacters("\t" + "\t" + "\t" + "\t");
         xmlw.writeStartElement(PIATTO);
-        xmlw.writeAttribute(NOME, p.getNomePiatto());
+        xmlw.writeAttribute(NOME, p.getNome());
         xmlw.writeAttribute("quantita", Integer.toString(i));
         xmlw.writeEndElement();
         xmlw.writeCharacters("\n");

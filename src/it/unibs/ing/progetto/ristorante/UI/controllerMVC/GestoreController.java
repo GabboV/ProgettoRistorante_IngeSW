@@ -8,7 +8,7 @@ import java.util.function.Predicate;
 import it.unibs.ing.progetto.ristorante.UI.view.GestioneView;
 import it.unibs.ing.progetto.ristorante.controllerGRASP.GestioneController;
 import it.unibs.ing.progetto.ristorante.interfacce.Controller;
-import it.unibs.ing.progetto.ristorante.interfacce.IGestore;
+import it.unibs.ing.progetto.ristorante.model.MenuComponent;
 import it.unibs.ing.progetto.ristorante.model.MenuTematico;
 import it.unibs.ing.progetto.ristorante.model.Periodo;
 import it.unibs.ing.progetto.ristorante.model.Piatto;
@@ -274,8 +274,8 @@ public class GestoreController implements Controller {
 	 * il carico lavoro massimo del menu tematico
 	 * @return elenco di piatti scelti valido per un nuovo menu tematico
 	 */
-	private ArrayList<Piatto> richiediElencoPiattiDelMenuTematico() {
-		ArrayList<Piatto> elencoPiatti = new ArrayList<>();
+	private List<MenuComponent> richiediElencoPiattiDelMenuTematico() {
+		ArrayList<MenuComponent> elencoPiatti = new ArrayList<>();
 		int caricoLavoroMenuTematico = 0;
 		int caricoLavoroMax = (int) Math.floor(controller.getCaricoLavoroPerPersona() * 4.0 / 3);
 		boolean altroPiatto = false;

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import it.unibs.ing.progetto.ristorante.model.MenuComponent;
 import it.unibs.ing.progetto.ristorante.model.Periodo;
 import it.unibs.ing.progetto.ristorante.model.Piatto;
 import it.unibs.ing.progetto.ristorante.model.Prodotto;
@@ -145,7 +146,7 @@ public class MainXML {
 		model.setInsiemeGeneriExtra(generiExtra);
 
 		// MENU TEMATICO 0
-		ArrayList<Piatto> piatti0 = new ArrayList<>();
+		ArrayList<MenuComponent> piatti0 = new ArrayList<>();
 		piatti0.add(model.piattoScelto(0));
 		piatti0.add(model.piattoScelto(0));
 		piatti0.add(model.piattoScelto(3));
@@ -153,14 +154,14 @@ public class MainXML {
 		model.addMenuTematico("Festa del pesce", piatti0, 20, elencoPeriodi);
 
 		// MENU TEMATICO 1
-		ArrayList<Piatto> piatti1 = new ArrayList<>();
+		ArrayList<MenuComponent> piatti1 = new ArrayList<>();
 		piatti1.add(model.piattoScelto(0));
 		piatti1.add(model.piattoScelto(1));
 		piatti1.add(model.piattoScelto(7));
 		model.addMenuTematico("Lunedi in Uni", piatti1, 15, elencoPeriodi);
 
 		// MENU TEMATICO 2
-		ArrayList<Piatto> piatti2 = new ArrayList<>();
+		ArrayList<MenuComponent> piatti2 = new ArrayList<>();
 		piatti2.add(model.piattoScelto(4));
 		piatti2.add(model.piattoScelto(5));
 		piatti2.add(model.piattoScelto(6));

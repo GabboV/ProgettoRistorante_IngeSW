@@ -28,7 +28,7 @@ public interface IGestore {
     public void addPiattoRicetta(List<Prodotto> elencoIngredienti, int porzioni, int caricoLavoro,
             String nomePiatto, List<Periodo> periodi);
 
-    public void addMenuTematico(String nomeMenuTematico, List<Piatto> piatti, int caricoLavoroMenuTematico,
+    public void addMenuTematico(String nomeMenuTematico, List<MenuComponent> piatti, int caricoLavoroMenuTematico,
             List<Periodo> periodi);
 
     public void addBevanda(String nomeBevanda, float consumoProCapiteBevanda);
