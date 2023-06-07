@@ -8,7 +8,6 @@ import java.util.List;
 
 import it.unibs.ing.progetto.ristorante.UI.view.PrenotazioneView;
 import it.unibs.ing.progetto.ristorante.controllerGRASP.PrenotazioneController;
-import it.unibs.ing.progetto.ristorante.interfacce.Controller;
 import it.unibs.ing.progetto.ristorante.model.MenuComponent;
 import it.unibs.ing.progetto.ristorante.model.MenuTematico;
 import it.unibs.ing.progetto.ristorante.model.Piatto;
@@ -17,7 +16,7 @@ import it.unibs.ing.progetto.ristorante.model.Prenotazione;
 /**
  * Controller MVC
  */
-public class AddettoPrenotazioniController implements Controller {
+public class AddettoPrenotazioniController {
 
 	private static final int VISUALIZZA_PRENOTAZIONI = 3;
 	private static final int RIMUOVI_PRENOTAZIONE = 2;

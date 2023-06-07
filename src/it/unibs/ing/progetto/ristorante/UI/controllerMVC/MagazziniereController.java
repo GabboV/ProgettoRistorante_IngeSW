@@ -4,14 +4,13 @@ import java.util.List;
 
 import it.unibs.ing.progetto.ristorante.UI.view.MagazzinoView;
 import it.unibs.ing.progetto.ristorante.controllerGRASP.MagazzinoController;
-import it.unibs.ing.progetto.ristorante.interfacce.Controller;
 import it.unibs.ing.progetto.ristorante.model.Prodotto;
 import it.unibs.ing.progetto.ristorante.model.UnitaMisura;
 
 /**
  * Controller MVC
  */
-public class MagazziniereController implements Controller {
+public class MagazziniereController {
 
 	static final int LOGOUT = 0;
 	private static final int VISUALIZZA_INVENTARIO = 1;

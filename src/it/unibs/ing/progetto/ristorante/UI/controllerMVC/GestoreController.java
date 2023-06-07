@@ -7,7 +7,6 @@ import java.util.function.Predicate;
 
 import it.unibs.ing.progetto.ristorante.UI.view.GestioneView;
 import it.unibs.ing.progetto.ristorante.controllerGRASP.GestioneController;
-import it.unibs.ing.progetto.ristorante.interfacce.Controller;
 import it.unibs.ing.progetto.ristorante.model.MenuComponent;
 import it.unibs.ing.progetto.ristorante.model.MenuTematico;
 import it.unibs.ing.progetto.ristorante.model.Periodo;
@@ -18,7 +17,7 @@ import it.unibs.ing.progetto.ristorante.model.UnitaMisura;
 /**
  * Controller MVC
  */
-public class GestoreController implements Controller {
+public class GestoreController {
 
 	private static final int ESCI = 0;
 	private static final int VISUALIZZA_GENERI_EXTRA = 9;
