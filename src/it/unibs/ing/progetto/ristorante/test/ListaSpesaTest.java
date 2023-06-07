@@ -3,6 +3,7 @@ package it.unibs.ing.progetto.ristorante.test;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -50,7 +51,7 @@ public class ListaSpesaTest {
     public void testGeneraListaSpesaNoPrenotazioniNoBevandeNoGeneri() {
         // Esecuzione del metodo da testare
         model.generaListaSpesa();
-        ArrayList<Prodotto> listaSpesa = model.getListaSpesa();
+        List<Prodotto> listaSpesa = model.getListaSpesa();
         
         // Assert di testing
         Assertions.assertTrue(listaSpesa.isEmpty());
@@ -66,7 +67,7 @@ public class ListaSpesaTest {
     	
         // Esecuzione del metodo da testare
         model.generaListaSpesa();
-        ArrayList<Prodotto> listaSpesa = model.getListaSpesa();
+        List<Prodotto> listaSpesa = model.getListaSpesa();
         
         // Assert di testing
         Assertions.assertTrue(listaSpesa.isEmpty());
@@ -89,7 +90,7 @@ public class ListaSpesaTest {
  		
         // Esecuzione del metodo da testare
         model.generaListaSpesa();
-        ArrayList<Prodotto> listaSpesa = model.getListaSpesa();
+        List<Prodotto> listaSpesa = model.getListaSpesa();
         
         // Assert di testing
         Assertions.assertFalse(listaSpesa.isEmpty());
@@ -125,7 +126,7 @@ public class ListaSpesaTest {
 		
         // Esecuzione del metodo da testare
         model.generaListaSpesa();
-        ArrayList<Prodotto> listaSpesa = model.getListaSpesa();
+        List<Prodotto> listaSpesa = model.getListaSpesa();
         
         // Assert di testing
         Assertions.assertFalse(listaSpesa.isEmpty());
@@ -174,7 +175,7 @@ public class ListaSpesaTest {
 		
         // Esecuzione del metodo da testare
         model.generaListaSpesa();
-        ArrayList<Prodotto> listaSpesa = model.getListaSpesa();
+        List<Prodotto> listaSpesa = model.getListaSpesa();
         
         // Assert di testing
         Assertions.assertFalse(listaSpesa.isEmpty());
@@ -211,7 +212,7 @@ public class ListaSpesaTest {
 		
         // Esecuzione del metodo da testare
         model.generaListaSpesa();
-        ArrayList<Prodotto> listaSpesa = model.getListaSpesa();
+        List<Prodotto> listaSpesa = model.getListaSpesa();
         
         // Assert di testing
         Assertions.assertFalse(listaSpesa.isEmpty());
@@ -247,7 +248,7 @@ public class ListaSpesaTest {
 		
         // Esecuzione del metodo da testare
         model.generaListaSpesa();
-        ArrayList<Prodotto> listaSpesa = model.getListaSpesa();
+        List<Prodotto> listaSpesa = model.getListaSpesa();
         
         // Assert di testing
         Assertions.assertFalse(listaSpesa.isEmpty());
@@ -291,7 +292,7 @@ public class ListaSpesaTest {
 		
         // Esecuzione del metodo da testare
         model.generaListaSpesa();
-        ArrayList<Prodotto> listaSpesa = model.getListaSpesa();
+        List<Prodotto> listaSpesa = model.getListaSpesa();
         
         // Assert di testing
         Assertions.assertFalse(listaSpesa.isEmpty());
@@ -331,7 +332,7 @@ public class ListaSpesaTest {
 		
         // Esecuzione del metodo da testare
         model.generaListaSpesa();
-        ArrayList<Prodotto> listaSpesa = model.getListaSpesa();
+        List<Prodotto> listaSpesa = model.getListaSpesa();
         
         // Assert di testing
         Assertions.assertFalse(listaSpesa.isEmpty());
@@ -370,7 +371,7 @@ public class ListaSpesaTest {
 		
         // Esecuzione del metodo da testare
         model.generaListaSpesa();
-        ArrayList<Prodotto> listaSpesa = model.getListaSpesa();
+        List<Prodotto> listaSpesa = model.getListaSpesa();
         
         // Assert di testing
         Assertions.assertFalse(listaSpesa.isEmpty());
@@ -416,7 +417,7 @@ public class ListaSpesaTest {
 		
         // Esecuzione del metodo da testare
         model.generaListaSpesa();
-        ArrayList<Prodotto> listaSpesa = model.getListaSpesa();
+        List<Prodotto> listaSpesa = model.getListaSpesa();
         
         // Assert di testing
         Assertions.assertFalse(listaSpesa.isEmpty());
@@ -478,7 +479,7 @@ public class ListaSpesaTest {
 		
         // Esecuzione del metodo da testare
         model.generaListaSpesa();
-        ArrayList<Prodotto> listaSpesa = model.getListaSpesa();
+        List<Prodotto> listaSpesa = model.getListaSpesa();
         
         // Assert di testing
         Assertions.assertFalse(listaSpesa.isEmpty());

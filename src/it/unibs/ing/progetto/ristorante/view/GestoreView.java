@@ -65,7 +65,7 @@ public class GestoreView extends View {
 
 	public void stampaPiattoRicetta(Piatto p, Ricetta r) {
 		System.out.println("PIATTO:");
-		System.out.println("Nome: " + p.getNomePiatto());
+		System.out.println("Nome: " + p.getNome());
 		System.out.println("Carico di lavoro: " + p.getCaricoLavoro());
 		System.out.println("Periodi di validita': ");
 		for (Periodo d : p.getPeriodiValidita()) {

@@ -131,7 +131,7 @@ public class DataManager {
 
         gestore.inizializzaRistorante();
         System.out.println("E' necessario inserire almeno una ricetta.");
-        gestore.aggiungiPiattoRicetta();
+        gestore.aggiungiPiattoRicetta(model.getElencoPiatti());
         System.out.println("Hai completato l'inizializzazione del programma.");
         return model;
     }

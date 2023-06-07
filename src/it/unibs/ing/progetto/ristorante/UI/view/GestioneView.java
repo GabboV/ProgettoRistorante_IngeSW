@@ -97,6 +97,26 @@ public class GestioneView {
 			contatore++;
 		}
 	}
+	
+	public String ottieniStringaData(LocalDate data) {
+		return data.getDayOfMonth() + "/" + data.getMonthValue() + "/" + data.getYear();
+	}
+	
+	public void stampaInsiemeProdotti(List<Prodotto> elencoProdotti, String nomeElencoProdotti) {
+		int contatore = 0;
+		if (elencoProdotti.isEmpty()) {
+			System.out.println("\nLa lista e' vuota.\n");
+		} else {
+			System.out.println(nomeElencoProdotti);
+			for (Prodotto p : elencoProdotti) {
+				System.out.println(" ----------- " + contatore + " ----------- ");
+				stampaProdotto(p);
+				contatore++;
+			}
+			System.out.println();
+		}
+	}
+
 
 	public LocalDate richiestaData(String messaggio) {
 		return InputDati.leggiData(messaggio);

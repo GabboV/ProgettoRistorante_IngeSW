@@ -111,12 +111,8 @@ public class GestioneController {
      * @param consumoProCapiteBevanda
      */
     public boolean aggiungiBevanda(String nomeBevanda, float consumoProCapiteBevanda) {
-        if (!model.esisteBevanda(nomeBevanda)) {
-            model.addBevanda(nomeBevanda, consumoProCapiteBevanda);
-            return true;
-        } else {
-            return false;
-        }
+        model.addBevanda(nomeBevanda, consumoProCapiteBevanda);
+        return true;
 
     }
 
@@ -127,12 +123,8 @@ public class GestioneController {
      * @param consumoProCapiteGenereExtra
      */
     public boolean aggiungiGenereExtra(String nomeGenereExtra, float consumoProCapiteGenereExtra) {
-        if (!model.esisteGenereExtra(nomeGenereExtra)) {
-            model.addGenereExtra(nomeGenereExtra, consumoProCapiteGenereExtra);
-            return true;
-        } else {
-            return false;
-        }
+        model.addGenereExtra(nomeGenereExtra, consumoProCapiteGenereExtra);
+        return true;
     }
 
     /**
@@ -162,38 +154,21 @@ public class GestioneController {
         return caricoLavoroMenuTematico;
     }
 
-    /**
-     * Return true se il nome è già presente nell'insieme bevande
-     * 
-     * @param nome
-     * @return
-     */
-    public boolean esisteBevanda(String nome) {
-        return model.esisteBevanda(nome);
-    }
     
- // dato un piatto, controlla se l'aggiunta di tale piatto al menu tematico
- 	// supererebbe il carico lavoro massimo di un menu tematico
- 	// se non lo supera ritorna true
- 	public boolean controllaCaricoLavoroPiattoPerMenuTematico(Piatto piatto, int caricoLavoroMenuTematico,
- 			int caricoLavoroMax) {
- 		boolean piattoValido = false;
- 		if (caricoLavoroMenuTematico + piatto.getCaricoLavoro() <= caricoLavoroMax) {
- 			return true;
- 		} 
- 		return piattoValido;
- 	}
 
-    /**
-     * Return true se il nome è gia presente nell'insieme genere extra
-     * 
-     * @param nome
-     * @return
-     */
-    public boolean esisteGenereExtra(String nome) {
-        return model.esisteGenereExtra(nome);
+    // dato un piatto, controlla se l'aggiunta di tale piatto al menu tematico
+    // supererebbe il carico lavoro massimo di un menu tematico
+    // se non lo supera ritorna true
+    public boolean controllaCaricoLavoroPiattoPerMenuTematico(Piatto piatto, int caricoLavoroMenuTematico,
+            int caricoLavoroMax) {
+        boolean piattoValido = false;
+        if (caricoLavoroMenuTematico + piatto.getCaricoLavoro() <= caricoLavoroMax) {
+            return true;
+        }
+        return piattoValido;
     }
 
+   
     /**
      * Aggiorna giorno corrente
      */
@@ -213,7 +188,7 @@ public class GestioneController {
         return model.getCaricoLavoroRistorante();
     }
 
-    public boolean piattoEsistente(String nome){
+    public boolean piattoEsistente(String nome) {
         List<Piatto> piatti = model.getElencoPiatti();
         for (Piatto p : piatti) {
             if (p.getNome().equalsIgnoreCase(nome)) {
