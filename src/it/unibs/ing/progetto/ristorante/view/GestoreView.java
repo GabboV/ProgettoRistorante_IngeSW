@@ -2,8 +2,10 @@ package it.unibs.ing.progetto.ristorante.view;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import it.unibs.fp.mylib.InputDati;
+import it.unibs.ing.progetto.ristorante.UI.view.View;
 import it.unibs.ing.progetto.ristorante.model.Periodo;
 import it.unibs.ing.progetto.ristorante.model.Piatto;
 import it.unibs.ing.progetto.ristorante.model.Prodotto;
@@ -85,7 +87,7 @@ public class GestoreView extends View {
 		System.out.println("Dose: " + p.getQuantita() + "  " + p.getUnitaMisura().getName());
 	}
 
-	public void stampaElencoPiattiRicette(ArrayList<Piatto> elencoPiatti) {
+	public void stampaElencoPiattiRicette(List<Piatto> elencoPiatti) {
 		System.out.println("\nELENCO PIATTI-RICETTE");
 		int contatore = 0;
 		for (Piatto p : elencoPiatti) {
@@ -98,3 +100,4 @@ public class GestoreView extends View {
 	}
 
 }
+

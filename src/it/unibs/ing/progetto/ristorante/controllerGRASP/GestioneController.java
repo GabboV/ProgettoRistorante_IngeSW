@@ -110,7 +110,7 @@ public class GestioneController {
      * @param consumoProCapiteBevanda
      */
     public boolean aggiungiBevanda(String nomeBevanda, float consumoProCapiteBevanda) {
-        if (model.esisteBevanda(nomeBevanda)) {
+        if (!model.esisteBevanda(nomeBevanda)) {
             model.addBevanda(nomeBevanda, consumoProCapiteBevanda);
             return true;
         } else {

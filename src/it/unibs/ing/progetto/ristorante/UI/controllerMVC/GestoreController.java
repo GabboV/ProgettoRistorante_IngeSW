@@ -8,11 +8,13 @@ import java.util.function.Predicate;
 import it.unibs.ing.progetto.ristorante.UI.view.GestioneView;
 import it.unibs.ing.progetto.ristorante.controllerGRASP.GestioneController;
 import it.unibs.ing.progetto.ristorante.interfacce.Controller;
+import it.unibs.ing.progetto.ristorante.interfacce.IGestore;
 import it.unibs.ing.progetto.ristorante.model.MenuTematico;
 import it.unibs.ing.progetto.ristorante.model.Periodo;
 import it.unibs.ing.progetto.ristorante.model.Piatto;
 import it.unibs.ing.progetto.ristorante.model.Prodotto;
 import it.unibs.ing.progetto.ristorante.model.UnitaMisura;
+import it.unibs.ing.progetto.ristorante.view.GestoreView;
 
 /**
  * Controller MVC
@@ -184,99 +186,7 @@ public class GestoreController implements Controller {
 	    return nomeOggetto;
 	}
 	
-	//QUESTI METODI SONO STATI SOSTITUITI DAL METODO richiestaNomeValido
-	
-	//1
-	/**
-	 * richiede un nome di piatto. Se gia' esiste in elencoPiatti, lo richiede.
-	 * Ritorna il nome valido
-	 * 
-	 * @param elencoPiatti
-	 * @return
-	 */
-	/*private String richiestaNomePiattoValido(ArrayList<Piatto> elencoPiatti) {
-		String nomePiatto;
-		boolean esiste = true;
-		do {
-			nomePiatto = view.richiestaNome("Inserisci il nome di un piatto: ");
-			esiste = controller.piattoEsistente(nomePiatto);
-			if(esiste){
-				view.stampaMsg("Nome non valido, riprovare");
-			}
-		} while (esiste);
-		return nomePiatto;
-	}*/
 
-	//2
-	// richiede un nome di ingrediente. Se gia' esiste in elencoIngredienti della
-		// ricetta in questione, chiede un altro nome
-		// Ritorna il nome valido
-		/*private String richiestaNomeIngredienteValido(List<Prodotto> elencoIngredienti) {
-			String nomeProdotto;
-			boolean nomeValido;
-			do {
-				nomeValido = true;
-				nomeProdotto = view.richiestaNome("Inserisci il nome di un ingrediente: ");
-				for (Prodotto p : elencoIngredienti) {
-					if (p.getNome().equalsIgnoreCase(nomeProdotto)) {
-						nomeValido = false;
-						view.stampaMsg("Prodotto gia presente, riprovare\n");
-						break;
-					}
-				}
-			} while (!nomeValido);
-			return nomeProdotto;
-		}*/
-	
-	//3
-	// richiede un nome di bevanda. Se gia' esiste in insiemeBavande del model,
-		// chiede un altro nome
-		// Ritorna il nome valido
-		/*private String richiestaNomeBevandaValido() {
-			String nomeProdotto;
-			boolean esiste = false;
-			do {
-				nomeProdotto = view.richiestaNome("Inserisci il nome di un prodotto: ");
-				esiste = model.esisteBevanda(nomeProdotto);
-			} while (esiste);
-			return nomeProdotto;
-		}*/
-	
-	//4
-	// richiede un nome di genere extra. Se gia' esiste in insimeGeneriExtra del
-		// model, chiede un altro nome
-		// Ritorna il nome valido
-		/*private String richiestaNomeGenereExtraValido() {
-			String nomeProdotto;
-			boolean esiste = false;
-			do {
-				nomeProdotto = view.richiestaNome("Inserisci il nome di un prodotto: ");
-				esiste = model.esisteGenereExtra(nomeProdotto);
-			} while (esiste);
-			return nomeProdotto;
-		}*/
-	
-	//5
-	// chiede un nome di menu tematico. Se gia' esiste in elencoMenuTematici, lo
-		// richiede. Ritorna il nome valido
-		/*private String richiestaNomeMenuTematicoValido(ArrayList<MenuTematico> elencoMenuTematici) {
-			String nomeMenuTematico;
-			boolean nomeValido = true;
-			do {
-				nomeValido = true;
-				nomeMenuTematico = view.richiestaNome("Inserisci il nome del menu tematico: ");
-
-				for (MenuTematico m : elencoMenuTematici) {
-					if (m.getNome().equalsIgnoreCase(nomeMenuTematico)) {
-						view.stampaMsg("Il nome del menu tematico e' gia' stato utilizzato.");
-						nomeValido = false;
-						break;
-					}
-				}
-			} while (!nomeValido);
-			return nomeMenuTematico;
-		}*/
-	
 	
 	/**
 	 * crea un elenco di ingredienti diversi (per nome), presi da input utente, con
@@ -330,7 +240,7 @@ public class GestoreController implements Controller {
 	 * Se non esiste la aggiunge a inisemeGeneriExtra e stampa a video un msg
 	 * @param elencoGeneriExtra elenco dei generi extra presenti nel model ristorante
 	 */
-	private void aggiungiGenereExtra(ArrayList<Prodotto> elencoGeneriExtra) {
+	private void aggiungiGenereExtra(List<Prodotto> elencoGeneriExtra) {
 		Predicate<String> condizioneValidita = nome -> elencoGeneriExtra.stream().anyMatch(p -> p.getNome().equalsIgnoreCase(nome));
 		String nomeGenereExtra = richiestaNomeValido(elencoGeneriExtra, condizioneValidita, "Inserisci il nome di un genere extra: ", "Genere extra gia' presente, riprovare\n");
 		Float consumoProCapiteGenereExtra = view
