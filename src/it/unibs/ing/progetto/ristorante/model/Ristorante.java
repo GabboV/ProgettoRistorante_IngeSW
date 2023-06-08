@@ -82,7 +82,7 @@ public class Ristorante implements Serializable, IGestore, IPrenotazioni, IMagaz
 		this.dataCorrente = dataCorrente;
 	}
 
-	public ArrayList<Prenotazione> getElencoPrenotazioni() {
+	public List<Prenotazione> getElencoPrenotazioni() {
 		return agenda.getElencoPrenotazioni();
 	}
 

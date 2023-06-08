@@ -46,7 +46,7 @@ public class MagazziniereController {
 					this.visualizzaListaSpesa();
 					break;
 				case REGISTRA_PRODOTTO:
-					this.addProdottoRegistroMagazzino();
+					this.enterProdotto();
 					break;
 				case AGGIUNGI_PRODOTTI:
 					this.aggiungiFlussoEntrante();
@@ -88,7 +88,7 @@ public class MagazziniereController {
 	 * Aggiunge un prodotto al registro del magazzino, dopo aver chiesto le
 	 * informazioni al riguardo, Non fa aggiungere prodotti gia esistenti
 	 */
-	public void addProdottoRegistroMagazzino() {
+	public void enterProdotto() {
 		String nome = window.richiediNomeProdotto();
 		if (!controller.nomeProdottoGiaPresente(nome)) {
 			float quantita = window.richiediQuantitaRegistrazione();

@@ -1,7 +1,6 @@
 package it.unibs.ing.progetto.ristorante.interfacce;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,7 +20,7 @@ public interface IPrenotazioni {
 
     public void removePrenotazioniScadute();
 
-    public ArrayList<Prenotazione> getElencoPrenotazioni();
+    public List<Prenotazione> getElencoPrenotazioni();
 
     public List<Piatto> getMenuCartaInData(LocalDate date);
 

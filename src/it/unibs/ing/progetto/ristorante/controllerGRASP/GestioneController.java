@@ -1,7 +1,6 @@
 package it.unibs.ing.progetto.ristorante.controllerGRASP;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import it.unibs.ing.progetto.ristorante.interfacce.IGestore;
@@ -65,7 +64,7 @@ public class GestioneController {
      * @param periodi
      */
     public void aggiungiPiattoRicetta(String nomePiatto, int porzioni, int caricoLavoro,
-            ArrayList<Prodotto> elencoIngredienti, ArrayList<Periodo> periodi) {
+            List<Prodotto> elencoIngredienti, List<Periodo> periodi) {
         model.addPiattoRicetta(elencoIngredienti, porzioni, caricoLavoro, nomePiatto, periodi);
     }
 
@@ -113,7 +112,6 @@ public class GestioneController {
     public boolean aggiungiBevanda(String nomeBevanda, float consumoProCapiteBevanda) {
         model.addBevanda(nomeBevanda, consumoProCapiteBevanda);
         return true;
-
     }
 
     /**
@@ -188,14 +186,5 @@ public class GestioneController {
         return model.getCaricoLavoroRistorante();
     }
 
-    public boolean piattoEsistente(String nome) {
-        List<Piatto> piatti = model.getElencoPiatti();
-        for (Piatto p : piatti) {
-            if (p.getNome().equalsIgnoreCase(nome)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
 }

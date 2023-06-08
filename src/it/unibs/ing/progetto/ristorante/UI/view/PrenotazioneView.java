@@ -25,7 +25,7 @@ public class PrenotazioneView {
 	private static String[] OPZIONI = new String[] { AGGIUNGI_PRENOTAZIONE, RIMUOVI_PRENOTAZIONE,
 			VISUALIZZA_PRENOTAZIONI };
 
-	public int gestioneMenu() {
+	public int scegliMenu() {
 		MyMenu menu = new MyMenu(ADDETTO_PRENOTAZIONI, OPZIONI);
 		return menu.scegli();
 	}

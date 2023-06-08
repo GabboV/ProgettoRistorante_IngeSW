@@ -35,7 +35,7 @@ public class AddettoPrenotazioniController {
 	public void avviaSessione() {
 		boolean sessioneON = true;
 		do {
-			int scelta = window.gestioneMenu();
+			int scelta = window.scegliMenu();
 			switch (scelta) {
 				case LOGOUT:
 					sessioneON = false;
@@ -126,7 +126,7 @@ public class AddettoPrenotazioniController {
 	 * @param piatti
 	 * @return
 	 */
-	public HashMap<Piatto, Integer> creaComandaConListaPiatti(ArrayList<Piatto> piatti) {
+	public HashMap<Piatto, Integer> creaComandaConListaPiatti(List<Piatto> piatti) {
 		HashMap<Piatto, Integer> comanda = new HashMap<>();
 		for (Piatto p : piatti) {
 			if (!comanda.containsKey(p)) {

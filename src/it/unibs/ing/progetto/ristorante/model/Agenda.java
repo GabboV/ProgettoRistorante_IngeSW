@@ -1,6 +1,5 @@
 package it.unibs.ing.progetto.ristorante.model;
 
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,10 +13,9 @@ public class Agenda implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private ArrayList<Prenotazione> elencoPrenotazioni;
+	private List<Prenotazione> elencoPrenotazioni;
 
-	
-	public Agenda(ArrayList<Prenotazione> elencoPrenotazioni) {
+	public Agenda(List<Prenotazione> elencoPrenotazioni) {
 		this.elencoPrenotazioni = elencoPrenotazioni;
 	}
 
@@ -26,7 +24,7 @@ public class Agenda implements Serializable {
 		this.elencoPrenotazioni = new ArrayList<>();
 	}
 
-	public ArrayList<Prenotazione> getElencoPrenotazioni() {
+	public List<Prenotazione> getElencoPrenotazioni() {
 		return elencoPrenotazioni;
 	}
 
@@ -47,13 +45,15 @@ public class Agenda implements Serializable {
 
 	/**
 	 * Restituisce il carico di lavoro da sostenere in una data
+	 * 
 	 * @param data
 	 * @return
 	 */
 	public float getCaricoLavoroDaSostenereInData(LocalDate data) {
 		float caricoDaSostenere = 0;
 		for (Prenotazione p : this.getPrenotazioniInData(data)) { // Recupera le prenotazioni per la data indicata
-			caricoDaSostenere += p.getCaricoLavoroTotalePrenotazione(); // somma i carichi di lavoro per ogni prenotazione
+			caricoDaSostenere += p.getCaricoLavoroTotalePrenotazione(); // somma i carichi di lavoro per ogni
+																		// prenotazione
 		}
 		return caricoDaSostenere;
 	}
@@ -65,19 +65,20 @@ public class Agenda implements Serializable {
 	 * @return
 	 */
 	public List<Prenotazione> getPrenotazioniInData(LocalDate date) {
-		return elencoPrenotazioni.stream().filter(p -> p.getDataPrenotazione().equals(date)).collect(Collectors.toList());
+		return elencoPrenotazioni.stream().filter(p -> p.getDataPrenotazione().equals(date))
+				.collect(Collectors.toList());
 	}
 
 	/**
 	 * Rimuove tutte le prenotazioni scadute
 	 */
 	public void removePrenotazioniScadute(LocalDate dataCorrente) {
-		elencoPrenotazioni = (ArrayList<Prenotazione>) this.elencoPrenotazioni.stream()
+		elencoPrenotazioni = this.elencoPrenotazioni.stream()
 				.filter(p -> !p.getDataPrenotazione().isBefore(dataCorrente)).collect(Collectors.toList());
 	}
 
-	public void removePrenotazione(int indice){
-		if(indice >= 0 && indice < elencoPrenotazioni.size()) {
+	public void removePrenotazione(int indice) {
+		if (indice >= 0 && indice < elencoPrenotazioni.size()) {
 			elencoPrenotazioni.remove(indice);
 		}
 	}

@@ -208,7 +208,7 @@ public class GestioneView {
 		}
 	}
 
-	public void stampaInsiemeProdottiMagazzino(ArrayList<Prodotto> elencoProdotti) {
+	public void stampaInsiemeProdottiMagazzino(List<Prodotto> elencoProdotti) {
 		int contatore = 0;
 		if (elencoProdotti.isEmpty()) {
 			System.out.println();

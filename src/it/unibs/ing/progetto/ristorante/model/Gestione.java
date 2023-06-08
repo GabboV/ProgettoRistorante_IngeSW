@@ -84,19 +84,19 @@ public class Gestione implements Serializable {
 		this.caricoLavoroRistorante = caricoLavoroRistorante;
 	}
 
-	public void setElencoPiatti(ArrayList<Piatto> elencoPiatti) {
+	public void setElencoPiatti(List<Piatto> elencoPiatti) {
 		this.elencoPiatti = elencoPiatti;
 	}
 
-	public void setElencoMenuTematici(ArrayList<MenuTematico> elencoMenuTematici) {
+	public void setElencoMenuTematici(List<MenuTematico> elencoMenuTematici) {
 		this.elencoMenuTematici = elencoMenuTematici;
 	}
 
-	public void setInsiemeBevande(ArrayList<Prodotto> insiemeBevande) {
+	public void setInsiemeBevande(List<Prodotto> insiemeBevande) {
 		this.insiemeBevande = insiemeBevande;
 	}
 
-	public void setInsiemeGeneriExtra(ArrayList<Prodotto> insiemeGeneriExtra) {
+	public void setInsiemeGeneriExtra(List<Prodotto> insiemeGeneriExtra) {
 		this.insiemeGeneriExtra = insiemeGeneriExtra;
 	}
 

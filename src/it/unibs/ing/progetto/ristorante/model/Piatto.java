@@ -50,10 +50,6 @@ public class Piatto implements Serializable, MenuComponent {
 		return caricoLavoro;
 	}
 
-	public void setCaricoLavoro(int caricoLavoro) {
-		this.caricoLavoro = caricoLavoro;
-	}
-
 	public Ricetta getRicetta() {
 		return ricetta;
 	}

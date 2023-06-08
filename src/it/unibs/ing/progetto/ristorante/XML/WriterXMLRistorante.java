@@ -260,7 +260,7 @@ public class WriterXMLRistorante {
         xmlw.writeCharacters("\n");
     }
 
-    public void stampaElencoPrenotazioni(ArrayList<Prenotazione> elencoPrenotazioni, XMLStreamWriter xmlw)
+    public void stampaElencoPrenotazioni(List<Prenotazione> elencoPrenotazioni, XMLStreamWriter xmlw)
             throws XMLStreamException {
         xmlw.writeCharacters("\t");
         xmlw.writeStartElement("ElencoPrenotazioni");
