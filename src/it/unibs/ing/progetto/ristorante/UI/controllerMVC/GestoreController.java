@@ -124,7 +124,7 @@ public class GestoreController {
 	public void aggiungiPiattoRicetta(List<Piatto> elencoPiatti) {
 		Predicate<String> condizioneValidita = nome -> elencoPiatti.stream()
 				.anyMatch(p -> p.getNome().equalsIgnoreCase(nome));
-		String nomePiatto = richiestaNomeValido(elencoPiatti, condizioneValidita, MSG_INSERISCI_NOME_PIATTO,
+		String nomePiatto = richiestaNomeValido(condizioneValidita, MSG_INSERISCI_NOME_PIATTO,
 				MSG_PIATTO_GIA_ESISTE);
 
 		int porzioni = window.richiestaInteroPositivo(MSG_INSERISCI_PORZIONI);
@@ -151,19 +151,16 @@ public class GestoreController {
 	 * @param messaggioErrore    messaggio di errore
 	 * @return nome valido
 	 */
-	private String richiestaNomeValido(List<?> elencoOggetti, Predicate<String> condizioneValidita,
+	private String richiestaNomeValido(Predicate<String> condizioneValidita,
 			String messaggioRichiesta, String messaggioErrore) {
 		String nomeOggetto;
 		boolean nomeValido;
 		do {
 			nomeValido = true;
 			nomeOggetto = window.richiestaNome(messaggioRichiesta);
-			for (Object o : elencoOggetti) {
-				if (condizioneValidita.test(nomeOggetto)) {
-					nomeValido = false;
-					window.stampaMsg(messaggioErrore);
-					break;
-				}
+			if (condizioneValidita.test(nomeOggetto)) {
+				nomeValido = false;
+				window.stampaMsg(messaggioErrore);
 			}
 		} while (!nomeValido);
 		return nomeOggetto;
@@ -181,7 +178,7 @@ public class GestoreController {
 		do {
 			Predicate<String> condizioneValidita = nome -> elencoIngredienti.stream()
 					.anyMatch(p -> p.getNome().equalsIgnoreCase(nome));
-			String nomeIngrediente = richiestaNomeValido(elencoIngredienti, condizioneValidita,
+			String nomeIngrediente = richiestaNomeValido(condizioneValidita,
 					"Inserisci il nome di un ingrediente: ", "Ingrediente gia' aggiunto, riprovare\n");
 			UnitaMisura unitaMisura = window.leggiUnitaMisura();
 			float dose = window.richiestaFloatPositivo("Inserisci dose: ");
@@ -208,7 +205,7 @@ public class GestoreController {
 	private void aggiungiBevanda(List<Prodotto> elencoBevande) {
 		Predicate<String> condizioneValidita = nome -> elencoBevande.stream()
 				.anyMatch(p -> p.getNome().equalsIgnoreCase(nome));
-		String nomeBevanda = richiestaNomeValido(elencoBevande, condizioneValidita,
+		String nomeBevanda = richiestaNomeValido(condizioneValidita,
 				"Inserisci il nome di una bevanda: ", "Bevanda gia' presente, riprovare\n");
 		Float consumoProCapiteBevanda = window
 				.richiestaFloatPositivo("Inserisci il consumo pro capite di " + nomeBevanda + " (litri) : ");
@@ -231,7 +228,7 @@ public class GestoreController {
 				.anyMatch(p -> p.getNome().equalsIgnoreCase(nome));
 
 				
-		String nomeGenereExtra = richiestaNomeValido(elencoGeneriExtra, condizioneValidita,
+		String nomeGenereExtra = richiestaNomeValido(condizioneValidita,
 				"Inserisci il nome di un genere extra: ", "Genere extra gia' presente, riprovare\n");
 		Float consumoProCapiteGenereExtra = window
 				.richiestaFloatPositivo("Inserisci il consumo pro capite di " + nomeGenereExtra + " (hg) : ");
@@ -247,7 +244,7 @@ public class GestoreController {
 	public void aggiungiMenuTematico(List<MenuTematico> elencoMenuTematici) {
 		Predicate<String> condizioneValidita = nome -> elencoMenuTematici.stream()
 				.anyMatch(m -> m.getNome().equalsIgnoreCase(nome));
-		String nomeMenuTematico = richiestaNomeValido(elencoMenuTematici, condizioneValidita,
+		String nomeMenuTematico = richiestaNomeValido(condizioneValidita,
 				"Inserisci il nome del menu tematico: ", "Il menu tematico gia' esiste, riprovare\n");
 		List<MenuComponent> elencoPiatti = richiediElencoPiattiDelMenuTematico();
 		ArrayList<Periodo> periodi = richiestaElencoPeriodiValidi();
