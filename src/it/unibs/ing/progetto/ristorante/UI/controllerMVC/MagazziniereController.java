@@ -91,8 +91,8 @@ public class MagazziniereController {
 	public void enterProdotto() {
 		String nome = window.richiediNomeProdotto();
 		if (!controller.nomeProdottoGiaPresente(nome)) {
-			float quantita = window.richiediQuantitaRegistrazione();
 			UnitaMisura unitaMisura = window.richiestaUnitaMisura();
+			float quantita = window.richiediQuantitaRegistrazione();
 			controller.addProdottoRegistroMagazzino(nome, quantita, unitaMisura);
 		} else {
 			window.printMsgProdottoGiaEsistente();

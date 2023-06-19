@@ -107,7 +107,7 @@ public class DataManager {
                     break;
             }
         } while (appAttiva);
-
+        System.out.println("Chiusura applicazione...");
     }
 
     /**

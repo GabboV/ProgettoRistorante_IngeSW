@@ -35,10 +35,10 @@ public class GestoreController {
 	private static final String MSG_COMPLETATA_INIZIALIZZAZIONE = "\nHai completato l'inizializzazione del programma.\n";
 	private static final String MSG_ELENCO_BEVANDE = "\nELENCO BEVANDE";
 	private static final String MSG_ELENCO_GENERI_EXTRA = "\nELENCO GENERI EXTRA";
-	private static final String MSG_GIORNO_CORRENTE = "Ora il giorno corrente �: ";
+	private static final String MSG_GIORNO_CORRENTE = "\nOra il giorno corrente e': ";
 	private static final String MSG_FINE_SESSIONE_GESTORE = "Fine sessione Gestore... ";
 	private static final String MSG_INSERISCI_NOME_PIATTO = "Inserisci il nome del piatto: ";
-	private static final String MSG_PIATTO_GIA_ESISTE = "Il piatto gi� esiste, riprovare.";
+	private static final String MSG_PIATTO_GIA_ESISTE = "Il piatto gia' esiste, riprovare.";
 	private static final String MSG_INSERISCI_PORZIONI = "Inserisci il numero di porzioni del piatto: ";
 	private static final String MSG_INSERISCI_CARICO_LAVORO = "Inserisci il carico di lavoro per porzione: ";
 	private static final String MSG_INSERISCI_INGREDIENTI = "\nOra bisogna inserire l'elenco di ingredienti della ricetta e le rispettive dosi.";

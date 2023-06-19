@@ -93,7 +93,7 @@ public class MagazzinoView {
 
 	public int scegliProdottoDaInventario(List<Prodotto> prodotti) {
 		this.printListaProdotto(prodotti);
-		return InputDati.leggiIntero("Indica il prodotto da aggiornare > ", 0, prodotti.size());
+		return InputDati.leggiIntero("Indica il prodotto da aggiornare > ", 0, prodotti.size() - 1);
 	}
 
 	public float richiediQuantita() {
